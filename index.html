@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Test Site - Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">Demo Test Site</h1>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <h1>Welcome to The Demo Test Site</h1>
+            <p>A simple demonstration website for testing and learning purposes</p>
+            <button class="cta-button" onclick="showMessage()">Get Started</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="features">
+            <h2>Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Fast & Lightweight</h3>
+                    <p>Simple HTML, CSS, and JavaScript for quick loading times</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Responsive Design</h3>
+                    <p>Works perfectly on all devices and screen sizes</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Clean Interface</h3>
+                    <p>Modern and intuitive user interface design</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="demo-section">
+            <h2>Interactive Demo</h2>
+            <div class="demo-box">
+                <p>Click the button below to see an interactive example:</p>
+                <button class="demo-button" onclick="toggleDemo()">Toggle Demo</button>
+                <div id="demo-content" class="demo-content hidden">
+                    <p>✨ This is a dynamic content area! ✨</p>
+                    <p>Current time: <span id="current-time"></span></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="links-section">
+            <h2>Featured Resources</h2>
+            <div class="links-container">
+                <div class="link-item">
+                    <h3><a href="https://www.theverge.com" target="_blank" rel="noopener noreferrer">The Verge</a></h3>
+                    <p>The Verge is a technology news and media network that covers the intersection of technology, science, art, and culture. From in-depth product reviews to breaking news about the latest innovations, The Verge provides comprehensive coverage of how technology shapes our world.</p>
+                </div>
+                <div class="link-item">
+                    <h3><a href="https://www.nytimes.com" target="_blank" rel="noopener noreferrer">The New York Times</a></h3>
+                    <p>The New York Times is a globally recognized newspaper delivering award-winning journalism since 1851. It offers comprehensive coverage of national and international news, politics, business, technology, and culture, maintaining the highest standards of investigative reporting and editorial excellence.</p>
+                </div>
+                <div class="link-item">
+                    <h3><a href="https://www.anthropic.com" target="_blank" rel="noopener noreferrer">Anthropic</a></h3>
+                    <p>Anthropic is an AI safety company focused on building reliable, interpretable, and steerable AI systems. Founded by former OpenAI researchers, Anthropic develops Claude, an AI assistant designed to be helpful, harmless, and honest, while advancing research in AI alignment and safety.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Demo Test Site. Created for demonstration purposes.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
