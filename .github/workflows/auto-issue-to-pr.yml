@@ -82,26 +82,15 @@ jobs:
           ISSUE_FILE=".github/issues/issue-${{ github.event.issue.number }}.md"
           
           # Write to file safely using cat with heredoc to avoid command injection
-          cat > "$ISSUE_FILE" << 'EOF'
+          # Use unquoted EOF to allow variable expansion
+          cat > "$ISSUE_FILE" << EOF
 # Working on Issue #${{ github.event.issue.number }}
 
 **Issue Title:** ${ISSUE_TITLE}
 
 **Issue Description:**
-${ISSUE_BODY}
+${ISSUE_BODY:-(No description provided)}
 EOF
-          
-          # Replace placeholders with actual values using envsubst or sed
-          sed -i "s/\${ISSUE_TITLE}/$ISSUE_TITLE/g" "$ISSUE_FILE"
-          if [ -n "$ISSUE_BODY" ]; then
-            # For body, we need to handle it more carefully
-            # Write body to temp file then append
-            echo "$ISSUE_BODY" > /tmp/issue_body.txt
-            sed -i '/\${ISSUE_BODY}/r /tmp/issue_body.txt' "$ISSUE_FILE"
-            sed -i '/\${ISSUE_BODY}/d' "$ISSUE_FILE"
-          else
-            sed -i "s/\${ISSUE_BODY}/(No description provided)/g" "$ISSUE_FILE"
-          fi
           
           git add .
           git commit -m "Initialize branch for issue #${{ github.event.issue.number }}"
@@ -115,13 +104,14 @@ EOF
           ISSUE_BODY: ${{ github.event.issue.body }}
         run: |
           # Create PR body file to avoid command injection
-          cat > /tmp/pr_body.md << 'EOF'
+          # Use unquoted EOF to allow variable expansion
+          cat > /tmp/pr_body.md << EOF
 ## Addresses Issue #${{ github.event.issue.number }}
 
 **Original Issue:** ${ISSUE_TITLE}
 
 ### Issue Description
-${ISSUE_BODY}
+${ISSUE_BODY:-(No description provided)}
 
 ---
 
@@ -137,30 +127,24 @@ ${ISSUE_BODY}
 Closes #${{ github.event.issue.number }}
 EOF
 
-          # Replace placeholders safely
-          sed -i "s/\${ISSUE_TITLE}/$ISSUE_TITLE/g" /tmp/pr_body.md
-          if [ -n "$ISSUE_BODY" ]; then
-            echo "$ISSUE_BODY" > /tmp/issue_body.txt
-            sed -i '/\${ISSUE_BODY}/r /tmp/issue_body.txt' /tmp/pr_body.md
-            sed -i '/\${ISSUE_BODY}/d' /tmp/pr_body.md
-          else
-            sed -i "s/\${ISSUE_BODY}/(No description provided)/g" /tmp/pr_body.md
-          fi
-
           # Get base branch (with fallback)
           BASE_BRANCH="${{ github.event.repository.default_branch }}"
           BASE_BRANCH=${BASE_BRANCH:-main}
 
           # Create the pull request
-          if gh pr create \
+          # Use --json for reliable output parsing (works on all systems)
+          if PR_URL=$(gh pr create \
             --title "Fix: $ISSUE_TITLE" \
             --body-file /tmp/pr_body.md \
             --base "$BASE_BRANCH" \
             --head ${{ steps.final-branch.outputs.branch_name }} \
-            --label "automated,needs-review" 2>&1 | tee /tmp/pr_output.txt; then
+            --json url --jq .url); then
             echo "pr_created=true" >> $GITHUB_OUTPUT
-            PR_URL=$(grep -oP 'https://github.com/[^\s]+' /tmp/pr_output.txt | head -1)
             echo "pr_url=$PR_URL" >> $GITHUB_OUTPUT
+            echo "Created PR: $PR_URL"
+
+            # Add labels if they exist (ignore errors if labels don't exist)
+            gh pr edit "$PR_URL" --add-label "automated,needs-review" 2>/dev/null || echo "Note: Could not add labels (they may not exist)"
           else
             echo "pr_created=false" >> $GITHUB_OUTPUT
             echo "Failed to create PR"
