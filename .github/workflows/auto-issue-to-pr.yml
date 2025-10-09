@@ -1,0 +1,94 @@
+name: Auto Create Branch and PR from Issue
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  create-branch-and-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up branch name
+        id: branch-name
+        run: |
+          # Create a branch name from the issue number and title
+          ISSUE_NUMBER=${{ github.event.issue.number }}
+          ISSUE_TITLE="${{ github.event.issue.title }}"
+          # Clean the title: lowercase, replace spaces with hyphens, remove special chars
+          CLEAN_TITLE=$(echo "$ISSUE_TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 -]//g' | sed 's/ /-/g' | cut -c1-50)
+          BRANCH_NAME="issue-${ISSUE_NUMBER}-${CLEAN_TITLE}"
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          echo "Created branch name: $BRANCH_NAME"
+
+      - name: Create and push new branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b ${{ steps.branch-name.outputs.branch_name }}
+          
+          # Create a placeholder file to make the branch valid
+          mkdir -p .github/issues
+          echo "# Working on Issue #${{ github.event.issue.number }}" > .github/issues/issue-${{ github.event.issue.number }}.md
+          echo "" >> .github/issues/issue-${{ github.event.issue.number }}.md
+          echo "**Issue Title:** ${{ github.event.issue.title }}" >> .github/issues/issue-${{ github.event.issue.number }}.md
+          echo "" >> .github/issues/issue-${{ github.event.issue.number }}.md
+          echo "**Issue Description:**" >> .github/issues/issue-${{ github.event.issue.number }}.md
+          echo "${{ github.event.issue.body }}" >> .github/issues/issue-${{ github.event.issue.number }}.md
+          
+          git add .
+          git commit -m "Initialize branch for issue #${{ github.event.issue.number }}"
+          git push origin ${{ steps.branch-name.outputs.branch_name }}
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Create PR body with issue reference
+          PR_BODY="## Addresses Issue #${{ github.event.issue.number }}
+
+          **Original Issue:** ${{ github.event.issue.title }}
+
+          ### Issue Description
+          ${{ github.event.issue.body }}
+
+          ---
+
+          ### Changes
+          <!-- Add your changes here -->
+
+          ### Checklist
+          - [ ] Code changes implemented
+          - [ ] Tests added/updated
+          - [ ] Documentation updated
+          - [ ] Ready for review
+
+          Closes #${{ github.event.issue.number }}"
+
+          # Create the pull request
+          gh pr create \
+            --title "Fix: ${{ github.event.issue.title }}" \
+            --body "$PR_BODY" \
+            --base main \
+            --head ${{ steps.branch-name.outputs.branch_name }} \
+            --label "automated,needs-review"
+
+      - name: Comment on issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '🤖 **Automated Response**\n\nA branch and pull request have been automatically created for this issue!\n\n- **Branch:** `${{ steps.branch-name.outputs.branch_name }}`\n- Pull request link will appear above once created\n\nYou can now start working on this issue by checking out the branch.'
+            })
