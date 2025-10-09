@@ -16,73 +16,182 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1  # Optimized: only need latest commit
+
+      - name: Validate issue data
+        id: validate
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          # Validate that title is not empty
+          if [ -z "$ISSUE_TITLE" ]; then
+            echo "Error: Issue title is empty"
+            exit 1
+          fi
+          echo "validated=true" >> $GITHUB_OUTPUT
 
       - name: Set up branch name
         id: branch-name
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
         run: |
           # Create a branch name from the issue number and title
           ISSUE_NUMBER=${{ github.event.issue.number }}
-          ISSUE_TITLE="${{ github.event.issue.title }}"
           # Clean the title: lowercase, replace spaces with hyphens, remove special chars
+          # Using env var prevents command injection
           CLEAN_TITLE=$(echo "$ISSUE_TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 -]//g' | sed 's/ /-/g' | cut -c1-50)
           BRANCH_NAME="issue-${ISSUE_NUMBER}-${CLEAN_TITLE}"
           echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
           echo "Created branch name: $BRANCH_NAME"
 
+      - name: Check if branch exists
+        id: check-branch
+        run: |
+          git fetch origin
+          if git show-ref --verify --quiet "refs/remotes/origin/${{ steps.branch-name.outputs.branch_name }}"; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Branch already exists, will use a unique name"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create unique branch name if needed
+        id: final-branch
+        run: |
+          if [ "${{ steps.check-branch.outputs.exists }}" = "true" ]; then
+            TIMESTAMP=$(date +%s)
+            BRANCH_NAME="${{ steps.branch-name.outputs.branch_name }}-${TIMESTAMP}"
+            echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+            echo "Using unique branch name: $BRANCH_NAME"
+          else
+            echo "branch_name=${{ steps.branch-name.outputs.branch_name }}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Create and push new branch
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -b ${{ steps.branch-name.outputs.branch_name }}
+          git checkout -b ${{ steps.final-branch.outputs.branch_name }}
           
           # Create a placeholder file to make the branch valid
           mkdir -p .github/issues
-          echo "# Working on Issue #${{ github.event.issue.number }}" > .github/issues/issue-${{ github.event.issue.number }}.md
-          echo "" >> .github/issues/issue-${{ github.event.issue.number }}.md
-          echo "**Issue Title:** ${{ github.event.issue.title }}" >> .github/issues/issue-${{ github.event.issue.number }}.md
-          echo "" >> .github/issues/issue-${{ github.event.issue.number }}.md
-          echo "**Issue Description:**" >> .github/issues/issue-${{ github.event.issue.number }}.md
-          echo "${{ github.event.issue.body }}" >> .github/issues/issue-${{ github.event.issue.number }}.md
+          ISSUE_FILE=".github/issues/issue-${{ github.event.issue.number }}.md"
+          
+          # Write to file safely using cat with heredoc to avoid command injection
+          cat > "$ISSUE_FILE" << 'EOF'
+# Working on Issue #${{ github.event.issue.number }}
+
+**Issue Title:** ${ISSUE_TITLE}
+
+**Issue Description:**
+${ISSUE_BODY}
+EOF
+          
+          # Replace placeholders with actual values using envsubst or sed
+          sed -i "s/\${ISSUE_TITLE}/$ISSUE_TITLE/g" "$ISSUE_FILE"
+          if [ -n "$ISSUE_BODY" ]; then
+            # For body, we need to handle it more carefully
+            # Write body to temp file then append
+            echo "$ISSUE_BODY" > /tmp/issue_body.txt
+            sed -i '/\${ISSUE_BODY}/r /tmp/issue_body.txt' "$ISSUE_FILE"
+            sed -i '/\${ISSUE_BODY}/d' "$ISSUE_FILE"
+          else
+            sed -i "s/\${ISSUE_BODY}/(No description provided)/g" "$ISSUE_FILE"
+          fi
           
           git add .
           git commit -m "Initialize branch for issue #${{ github.event.issue.number }}"
-          git push origin ${{ steps.branch-name.outputs.branch_name }}
+          git push origin ${{ steps.final-branch.outputs.branch_name }}
 
       - name: Create Pull Request
+        id: create-pr
         env:
           GH_TOKEN: ${{ github.token }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
         run: |
-          # Create PR body with issue reference
-          PR_BODY="## Addresses Issue #${{ github.event.issue.number }}
+          # Create PR body file to avoid command injection
+          cat > /tmp/pr_body.md << 'EOF'
+## Addresses Issue #${{ github.event.issue.number }}
 
-          **Original Issue:** ${{ github.event.issue.title }}
+**Original Issue:** ${ISSUE_TITLE}
 
-          ### Issue Description
-          ${{ github.event.issue.body }}
+### Issue Description
+${ISSUE_BODY}
 
-          ---
+---
 
-          ### Changes
-          <!-- Add your changes here -->
+### Changes
 
-          ### Checklist
-          - [ ] Code changes implemented
-          - [ ] Tests added/updated
-          - [ ] Documentation updated
-          - [ ] Ready for review
 
-          Closes #${{ github.event.issue.number }}"
+### Checklist
+- [ ] Code changes implemented
+- [ ] Tests added/updated
+- [ ] Documentation updated
+- [ ] Ready for review
+
+Closes #${{ github.event.issue.number }}
+EOF
+
+          # Replace placeholders safely
+          sed -i "s/\${ISSUE_TITLE}/$ISSUE_TITLE/g" /tmp/pr_body.md
+          if [ -n "$ISSUE_BODY" ]; then
+            echo "$ISSUE_BODY" > /tmp/issue_body.txt
+            sed -i '/\${ISSUE_BODY}/r /tmp/issue_body.txt' /tmp/pr_body.md
+            sed -i '/\${ISSUE_BODY}/d' /tmp/pr_body.md
+          else
+            sed -i "s/\${ISSUE_BODY}/(No description provided)/g" /tmp/pr_body.md
+          fi
+
+          # Get base branch (with fallback)
+          BASE_BRANCH="${{ github.event.repository.default_branch }}"
+          BASE_BRANCH=${BASE_BRANCH:-main}
 
           # Create the pull request
-          gh pr create \
-            --title "Fix: ${{ github.event.issue.title }}" \
-            --body "$PR_BODY" \
-            --base main \
-            --head ${{ steps.branch-name.outputs.branch_name }} \
-            --label "automated,needs-review"
+          if gh pr create \
+            --title "Fix: $ISSUE_TITLE" \
+            --body-file /tmp/pr_body.md \
+            --base "$BASE_BRANCH" \
+            --head ${{ steps.final-branch.outputs.branch_name }} \
+            --label "automated,needs-review" 2>&1 | tee /tmp/pr_output.txt; then
+            echo "pr_created=true" >> $GITHUB_OUTPUT
+            PR_URL=$(grep -oP 'https://github.com/[^\s]+' /tmp/pr_output.txt | head -1)
+            echo "pr_url=$PR_URL" >> $GITHUB_OUTPUT
+          else
+            echo "pr_created=false" >> $GITHUB_OUTPUT
+            echo "Failed to create PR"
+            exit 1
+          fi
 
       - name: Comment on issue
+        if: steps.create-pr.outputs.pr_created == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branchName = '${{ steps.final-branch.outputs.branch_name }}';
+            const prUrl = '${{ steps.create-pr.outputs.pr_url }}';
+            
+            let body = '🤖 **Automated Response**\n\n';
+            body += 'A branch and pull request have been automatically created for this issue!\n\n';
+            body += `- **Branch:** \`${branchName}\`\n`;
+            if (prUrl) {
+              body += `- **Pull Request:** ${prUrl}\n\n`;
+            }
+            body += 'You can now start working on this issue by checking out the branch.';
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+      - name: Comment on failure
+        if: failure()
         uses: actions/github-script@v7
         with:
           script: |
@@ -90,5 +199,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '🤖 **Automated Response**\n\nA branch and pull request have been automatically created for this issue!\n\n- **Branch:** `${{ steps.branch-name.outputs.branch_name }}`\n- Pull request link will appear above once created\n\nYou can now start working on this issue by checking out the branch.'
-            })
+              body: '❌ **Automated Response**\n\nFailed to automatically create branch and PR for this issue. Please check the workflow logs for details.'
+            });
