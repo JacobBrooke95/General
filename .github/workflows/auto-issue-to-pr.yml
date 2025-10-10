@@ -81,16 +81,18 @@ jobs:
           mkdir -p .github/issues
           ISSUE_FILE=".github/issues/issue-${{ github.event.issue.number }}.md"
           
-          # Write to file safely using cat with heredoc to avoid command injection
-          # Use unquoted EOF to allow variable expansion
-          cat > "$ISSUE_FILE" << EOF
+          # Write to file safely - using quoted EOF to prevent special character issues
+          cat > "$ISSUE_FILE" << 'EOF'
 # Working on Issue #${{ github.event.issue.number }}
 
-**Issue Title:** ${ISSUE_TITLE}
-
-**Issue Description:**
-${ISSUE_BODY:-(No description provided)}
+## Issue Title
 EOF
+          echo "${ISSUE_TITLE}" >> "$ISSUE_FILE"
+          cat >> "$ISSUE_FILE" << 'EOF'
+
+## Issue Description
+EOF
+          echo "${ISSUE_BODY:-(No description provided)}" >> "$ISSUE_FILE"
           
           git add .
           git commit -m "Initialize branch for issue #${{ github.event.issue.number }}"
@@ -104,14 +106,18 @@ EOF
           ISSUE_BODY: ${{ github.event.issue.body }}
         run: |
           # Create PR body file to avoid command injection
-          # Use unquoted EOF to allow variable expansion
-          cat > /tmp/pr_body.md << EOF
+          cat > /tmp/pr_body.md << 'EOF'
 ## Addresses Issue #${{ github.event.issue.number }}
 
-**Original Issue:** ${ISSUE_TITLE}
+### Original Issue
+EOF
+          echo "${ISSUE_TITLE}" >> /tmp/pr_body.md
+          cat >> /tmp/pr_body.md << 'EOF'
 
 ### Issue Description
-${ISSUE_BODY:-(No description provided)}
+EOF
+          echo "${ISSUE_BODY:-(No description provided)}" >> /tmp/pr_body.md
+          cat >> /tmp/pr_body.md << 'EOF'
 
 ---
 
