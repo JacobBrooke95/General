@@ -3,76 +3,628 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo Test Site - About</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Jacob Brooke - Personal Bio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .bio-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            overflow: hidden;
+            margin-top: 50px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            border: 4px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.2);
+        }
+
+        .profile-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .name {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .title {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .location {
+            font-size: 1em;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            font-size: 1.4em;
+            color: #667eea;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e8ecf7;
+            padding-bottom: 8px;
+        }
+
+        .bio-text {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #666;
+        }
+
+        .experience-item {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e3e8ff 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #d4e1ff;
+        }
+
+        .job-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2d3436;
+            margin-bottom: 5px;
+        }
+
+        .company-date {
+            color: #636e72;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .job-duties {
+            list-style: none;
+            padding: 0;
+        }
+
+        .job-duties li {
+            color: #2d3436;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .job-duties li:before {
+            content: '•';
+            color: #667eea;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .education-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .degree {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .school-date {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9em;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .skill {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .contact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #666;
+            font-size: 1em;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-btn, .resume-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1em;
+            transition: transform 0.2s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .contact-btn:hover, .resume-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .achievement-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8ecf7 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            border: 1px solid #d4e1ff;
+        }
+
+        .achievement-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .achievement-title {
+            font-size: 1.3em;
+            color: #2d3436;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .achievement-date {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .achievement-description {
+            color: #2d3436;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .achievement-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: color 0.2s ease;
+        }
+
+        .achievement-link:hover {
+            color: #5a68d8;
+            text-decoration: underline;
+        }
+
+        .section-subtitle {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 25px;
+            font-size: 1em;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .book-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8ecf7 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #d4e1ff;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .book-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+        }
+
+        .book-cover {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .book-cover img {
+            width: 120px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .book-info {
+            text-align: center;
+        }
+
+        .book-title {
+            font-size: 1.1em;
+            color: #2d3436;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .book-author {
+            color: #667eea;
+            font-size: 0.9em;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .book-review {
+            color: #666;
+            font-size: 0.85em;
+            line-height: 1.5;
+            text-align: left;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <h1 class="logo">Demo Test Site</h1>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html" class="active">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <main class="container">
-        <section class="page-header">
-            <h1>About This Demo</h1>
-            <p>Learn more about this demonstration website</p>
-        </section>
-
-        <section class="content-section">
-            <h2>Purpose</h2>
-            <p>This demo test site was created to demonstrate:</p>
-            <ul>
-                <li>Basic HTML5 structure and semantic markup</li>
-                <li>CSS styling with modern design principles</li>
-                <li>JavaScript interactivity and DOM manipulation</li>
-                <li>Responsive web design techniques</li>
-                <li>Multi-page website navigation</li>
-            </ul>
-        </section>
-
-        <section class="content-section">
-            <h2>Technologies Used</h2>
-            <div class="tech-list">
-                <div class="tech-item">
-                    <h3>HTML5</h3>
-                    <p>Semantic markup for structure and content</p>
+    <div class="container">
+        <div class="bio-card">
+            <div class="header">
+                <div class="profile-img">
+                    <img src="profile.jpg" alt="Jacob Brooke">
                 </div>
-                <div class="tech-item">
-                    <h3>CSS3</h3>
-                    <p>Styling with flexbox and modern CSS features</p>
+                <h1 class="name">Jacob Brooke</h1>
+                <p class="title">Legislative Coordinator & Policy Analyst</p>
+                <p class="location">Jefferson City, Missouri</p>
+            </div>
+
+            <div class="content">
+                <div class="section">
+                    <h2 class="section-title">About Me</h2>
+                    <p class="bio-text">
+                        Hey there! I'm Jacob, and I've spent the last six years diving deep into Missouri's legislative process as a
+                        Legislative Coordinator with the state's Budget & Planning division. What started as a Political Science degree from
+                        Truman State turned into a career I'm genuinely passionate about - helping make government work better for everyone.
+                        <br><br>
+                        My days involve coordinating a team of twelve analysts, managing the flow of legislative information between state
+                        agencies and the Governor's Office, and making sure complex policy proposals get the thorough review they deserve.
+                        I'm particularly proud of helping Missouri modernize our fiscal note review process - we shifted from outdated systems
+                        to a streamlined web-based platform that's made everyone's job easier.
+                        <br><br>
+                        I'm a problem-solver at heart who thrives on turning complicated policy challenges into clear, actionable insights.
+                        Whether I'm presenting to state leadership or breaking down legislation for my team, I believe good communication
+                        is the key to effective governance. I've even shared insights with NASBO (National Association of State Budget Officers)
+                        on "Smart Brevity" - a communication technique that helps state budget analysts engage audiences more effectively when
+                        messaging to government officials. When I'm not immersed in the world of bills and budget analysis, you'll find me
+                        exploring Missouri's beautiful trails with friends - there's nothing like a good hike to clear your head after a
+                        long session at the Capitol!
+                    </p>
                 </div>
-                <div class="tech-item">
-                    <h3>JavaScript</h3>
-                    <p>Client-side interactivity and dynamic content</p>
+
+                <div class="section">
+                    <h2 class="section-title">Professional Experience</h2>
+
+                    <div class="experience-item">
+                        <div class="job-title">Legislative Coordinator, Senior Analyst</div>
+                        <div class="company-date">Office of Administration, Budget & Planning | 2018 - Present</div>
+                        <ul class="job-duties">
+                            <li>Coordinates twelve analysts in tracking and reviewing legislation considered by the General Assembly</li>
+                            <li>Manages legislative information flow between division, state agencies, and executive branch</li>
+                            <li>Modernized Missouri's fiscal note review process by transitioning to web-based Missouri Legislative Information System</li>
+                            <li>Facilitates state policy review process for final legislation awaiting gubernatorial action</li>
+                            <li>Reviews, edits, and provides feedback on policy proposals by the legislature and state agencies</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="job-title">Policy Analyst</div>
+                        <div class="company-date">IBEW-NECA | 2017-2018</div>
+                        <ul class="job-duties">
+                            <li>Analyzed Missouri's annual wage-hour reports by occupation title with Microsoft Excel</li>
+                            <li>Applied sector and employment data to create infographics reflecting legislative proposals</li>
+                            <li>Researched prevailing wage, occupation titling, and labor law</li>
+                            <li>Presented data and policy proposals to labor leaders, legislators, and private contractors</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="job-title">Legislative Assistant</div>
+                        <div class="company-date">Missouri State Senate, Office of Sen. Gina Walsh | 2017</div>
+                        <ul class="job-duties">
+                            <li>Wrote bill briefings, speeches, and constituent correspondence for use by the senator</li>
+                            <li>Assisted in staffing the legislator's committee on Progress and Development</li>
+                            <li>Communicated regularly with state agencies to respond to constituent and legislative requests</li>
+                            <li>Presented policy analysis for senators and staff on pressing legislative issues</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">Education & Training</h2>
+
+                    <div class="education-item">
+                        <div class="degree">Bachelor of Science: Political Science & Public Administration, Magna Cum Laude</div>
+                        <div class="school-date">Truman State University, Kirksville, MO | 2014-2018</div>
+                    </div>
+
+                    <div class="education-item">
+                        <div class="degree">Missouri Leadership Academy (Class 9)</div>
+                        <div class="school-date">Six-month leadership training program | Fall 2022</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">Leadership & Recognition</h2>
+
+                    <div class="achievement-card">
+                        <div class="achievement-header">
+                            <h3 class="achievement-title">🎓 Missouri Leadership Academy (Class 9)</h3>
+                            <span class="achievement-date">Fall 2022</span>
+                        </div>
+                        <p class="achievement-description">
+                            Completed Missouri's prestigious six-month leadership training program for emerging state government leaders.
+                            Developed advanced skills in driving organizational change and motivating teams. Presented an innovative
+                            externship program proposal to the Governor's Office and Cabinet members.
+                        </p>
+                        <a href="https://leadershipacademy.mo.gov/bio/?smid=1761" class="achievement-link" target="_blank">
+                            View Leadership Academy Profile →
+                        </a>
+                    </div>
+
+                    <div class="achievement-card">
+                        <div class="achievement-header">
+                            <h3 class="achievement-title">📊 NASBO Smart Brevity Contributor</h3>
+                            <span class="achievement-date">2024</span>
+                        </div>
+                        <p class="achievement-description">
+                            Shared expertise with the National Association of State Budget Officers (NASBO) on "Smart Brevity"
+                            communication techniques. Contributed insights on helping state budget analysts engage audiences more
+                            effectively when communicating with government officials and stakeholders.
+                        </p>
+                        <a href="https://www.linkedin.com/posts/nasbo_nasbo-smartbrevity-effectivecommunication-activity-7232437420317642754-HUC-" class="achievement-link" target="_blank">
+                            View NASBO Post →
+                        </a>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">Recent Reads</h2>
+                    <p class="section-subtitle">Books that have shaped my thinking lately</p>
+
+                    <div class="books-grid">
+                        <div class="book-card">
+                            <div class="book-cover">
+                                <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1683139728i/148014534.jpg" alt="The Notebook" loading="lazy">
+                            </div>
+                            <div class="book-info">
+                                <h4 class="book-title">The Notebook: A History of Thinking on Paper</h4>
+                                <p class="book-author">Roland Allen</p>
+                                <p class="book-review">Fascinating exploration of how notebooks revolutionized creative thinking. As someone who reviews countless documents, I found the parallels between historical note-taking and modern policy analysis incredibly relevant.</p>
+                            </div>
+                        </div>
+
+                        <div class="book-card">
+                            <div class="book-cover">
+                                <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1709986452i/204927599.jpg" alt="Nexus" loading="lazy">
+                            </div>
+                            <div class="book-info">
+                                <h4 class="book-title">Nexus: A Brief History of Information Networks</h4>
+                                <p class="book-author">Yuval Noah Harari</p>
+                                <p class="book-review">Harari's latest masterpiece on information networks from ancient times to AI. Essential reading for understanding how information shapes power structures - directly applicable to legislative processes and government communications.</p>
+                            </div>
+                        </div>
+
+                        <div class="book-card">
+                            <div class="book-cover">
+                                <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1709537279i/198678736.jpg" alt="Co-Intelligence" loading="lazy">
+                            </div>
+                            <div class="book-info">
+                                <h4 class="book-title">Co-Intelligence: Living and Working with AI</h4>
+                                <p class="book-author">Ethan Mollick</p>
+                                <p class="book-review">Practical insights on working alongside AI tools. As government modernizes its processes, understanding how to leverage AI while maintaining human oversight is crucial for policy analysis and public service.</p>
+                            </div>
+                        </div>
+
+                        <div class="book-card">
+                            <div class="book-cover">
+                                <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1668935201i/50998056.jpg" alt="The Ministry for the Future" loading="lazy">
+                            </div>
+                            <div class="book-info">
+                                <h4 class="book-title">The Ministry for the Future</h4>
+                                <p class="book-author">Kim Stanley Robinson</p>
+                                <p class="book-review">Compelling climate fiction that explores future governance structures. Robinson's vision of institutional innovation offers thought-provoking perspectives on how government might adapt to address long-term challenges.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">Core Skills</h2>
+                    <div class="skills">
+                        <span class="skill">Legislative Analysis</span>
+                        <span class="skill">Policy Research</span>
+                        <span class="skill">Data Analysis</span>
+                        <span class="skill">Microsoft Excel</span>
+                        <span class="skill">Public Administration</span>
+                        <span class="skill">Government Relations</span>
+                        <span class="skill">Team Leadership</span>
+                        <span class="skill">Project Management</span>
+                        <span class="skill">Technical Writing</span>
+                        <span class="skill">Public Speaking</span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">Contact & Resources</h2>
+                    <div class="contact">
+                        <div class="contact-item">
+                            <span>📧</span>
+                            <span>Jacob.Brooke95@gmail.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <span>📱</span>
+                            <span>(555) 777-6666</span>
+                        </div>
+                        <div class="contact-item">
+                            <span>📍</span>
+                            <span>Jefferson City, Missouri</span>
+                        </div>
+                        <div class="contact-item">
+                            <span>💼</span>
+                            <span>linkedin.com/in/jacob-brooke-958b6b10a</span>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <a href="mailto:Jacob.Brooke95@gmail.com?subject=Hello%20Jacob&body=Hi%20Jacob,%0A%0AI%20came%20across%20your%20profile%20and%20would%20like%20to%20connect.%0A%0ABest%20regards" class="contact-btn">
+                            📧 Send Email
+                        </a>
+                        <a href="#" onclick="downloadResume()" class="resume-btn">
+                            📄 Download Resume
+                        </a>
+                    </div>
                 </div>
             </div>
-        </section>
-
-        <section class="content-section">
-            <h2>Key Features</h2>
-            <p>This website includes several demonstration features:</p>
-            <ul>
-                <li><strong>Navigation:</strong> Multi-page navigation system</li>
-                <li><strong>Responsive Design:</strong> Adapts to different screen sizes</li>
-                <li><strong>Interactive Elements:</strong> Buttons and dynamic content</li>
-                <li><strong>Forms:</strong> Contact form with validation</li>
-                <li><strong>Clean Code:</strong> Well-organized and commented</li>
-            </ul>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Demo Test Site. Created for demonstration purposes.</p>
         </div>
-    </footer>
 
-    <script src="script.js"></script>
+        <div class="footer">
+            <p>Built with Claude | Running on localhost:8080</p>
+        </div>
+    </div>
+
+    <script>
+        function downloadResume() {
+            // Create a text-based resume from the resume content
+            const resumeText = `JACOB BROOKE
+Jacob.Brooke95@gmail.com | (816) 244-3218 | Jefferson City, Missouri
+
+SUMMARY
+After studying political science and public administration, my seven years in state government coordinating multi-agency legislative analysis has provided significant research, policy, and communication experience. I'm a problem-solver with a passion for legislation and public service.
+PROFESSIONAL HISTORY
+
+Legislative Coordinator, Senior Analyst | Office of Administration, Budget & Planning | 2018 - Present
+• Coordinates twelve analysts in tracking and reviewing legislation considered by the General Assembly
+• Manages legislative information flow between division, state agencies, and executive branch
+• Modernized Missouri's fiscal note review process by transitioning to web-based Missouri Legislative Information System
+• Facilitates state policy review process for final legislation awaiting gubernatorial action
+• Reviews, edits, and provides feedback on policy proposals by the legislature and state agencies
+
+Policy Analyst | IBEW-NECA | 2017-2018
+• Analyzed Missouri's annual wage-hour reports by occupation title with Microsoft Excel
+• Applied sector and employment data to create infographics reflecting legislative proposals
+• Researched prevailing wage, occupation titling, and labor law
+• Presented data and policy proposals to labor leaders, legislators, and private contractors
+
+Legislative Assistant | Missouri State Senate, Office of Sen. Gina Walsh | 2017
+• Wrote bill briefings, speeches, and constituent correspondence for use by the senator
+• Assisted in staffing the legislator's committee on Progress and Development
+• Communicated regularly with state agencies to respond to constituent and legislative requests
+• Presented policy analysis for senators and staff on pressing legislative issues
+
+Research Assistant | Truman State University, History Dept. | 2015-2016
+• Enhanced data analysis skills by reviewing and summarizing federal immigration documents
+• Honed attention to detail by processing and reviewing specific, individual immigration data for 2000 people
+• Improved familiarity with government record-keeping through review of National Archive documents
+• Proved dedication to a long-term project by working independently over four semesters
+
+EDUCATIONAL HISTORY
+
+Truman State University | Kirksville, MO | Fall 2014 - Spring 2018
+• Bachelor of Science: Political Science & Public Administration, Magna Cum Laude
+• Relevant Coursework: public administration, public policy making, statistics, and mass communications
+
+Missouri Leadership Academy | Fall 2022 (Class 9)
+• Learned how to drive change and motivate teams during the state's six month training program for emerging leaders
+• Presented an innovative externship program for state employees to the Governor's Office and the Cabinet
+
+CORE SKILLS
+Legislative Analysis, Policy Research, Data Analysis, Microsoft Excel, Public Administration, Team Leadership, Project Management, Technical Writing, Public Speaking
+
+ADDITIONAL ACHIEVEMENTS
+• Contributed insights to NASBO on "Smart Brevity" communication techniques for state budget analysts
+• Recognized for modernizing Missouri's legislative review processes`;
+
+            const blob = new Blob([resumeText], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Jacob_Brooke_Resume.txt';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }
+    </script>
 </body>
 </html>
