@@ -397,6 +397,33 @@ main {
     margin-top: 3rem;
 }
 
+.footer-note {
+    margin-top: 0.5rem;
+}
+
+/* Now Page Styles */
+.now-intro {
+    text-align: center;
+    color: #7f8c8d;
+    font-style: italic;
+    margin-bottom: 2rem;
+}
+
+.now-intro a {
+    color: #667eea;
+}
+
+.now-highlight {
+    background: linear-gradient(135deg, #f8f9ff 0%, #e8ecf7 100%);
+    border-left: 4px solid #667eea;
+}
+
+.now-highlight p {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .navbar .container {
