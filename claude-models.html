@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Model Guide - When to Upgrade</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .guide-intro {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
+        .guide-intro p {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .model-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .model-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .model-header {
+            padding: 1.5rem;
+            color: white;
+            text-align: center;
+        }
+
+        .model-header.opus {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+        }
+
+        .model-header.sonnet {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .model-header.haiku {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .model-name {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .model-tier {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .model-body {
+            padding: 1.5rem;
+        }
+
+        .recommendation-badge {
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge-buy-now {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-neutral {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .badge-caution {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-wait {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-box {
+            background: #f9fafb;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .progress-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #4b5563;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 1s ease-out;
+        }
+
+        .progress-fill.green {
+            background: linear-gradient(90deg, #34d399 0%, #10b981 100%);
+        }
+
+        .progress-fill.gray {
+            background: linear-gradient(90deg, #9ca3af 0%, #6b7280 100%);
+        }
+
+        .progress-fill.yellow {
+            background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
+        }
+
+        .progress-fill.red {
+            background: linear-gradient(90deg, #f87171 0%, #ef4444 100%);
+        }
+
+        .latest-release {
+            background: #f3f4f6;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .latest-release h4 {
+            font-size: 0.85rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .latest-release .version {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .latest-release .date {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .release-history {
+            border-top: 1px solid #e5e7eb;
+            padding-top: 1rem;
+        }
+
+        .release-history h4 {
+            font-size: 0.85rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+
+        .release-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .release-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 0.9rem;
+        }
+
+        .release-list li:last-child {
+            border-bottom: none;
+        }
+
+        .release-version {
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .release-date {
+            color: #9ca3af;
+        }
+
+        .legend-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .legend-section h3 {
+            color: #5c4a3d;
+            margin-bottom: 1rem;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .legend-color.green { background: #10b981; }
+        .legend-color.gray { background: #6b7280; }
+        .legend-color.yellow { background: #f59e0b; }
+        .legend-color.red { background: #ef4444; }
+
+        .legend-text {
+            font-size: 0.9rem;
+            color: #4b5563;
+        }
+
+        .legend-text strong {
+            color: #1f2937;
+        }
+
+        .disclaimer {
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.85rem;
+            font-style: italic;
+            margin-top: 2rem;
+        }
+
+        .last-updated {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">Jacob Brooke</h1>
+            <ul class="nav-links">
+                <li><a href="about.html">About</a></li>
+                <li><a href="now.html">Now</a></li>
+                <li><a href="reads.html">Reads</a></li>
+                <li><a href="claude-models.html" class="active">Claude Guide</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="page-header">
+                <h1>Claude Model Guide</h1>
+                <p>Know when to expect the next Claude update</p>
+            </div>
+
+            <div class="guide-intro">
+                <p>
+                    This guide tracks Anthropic's Claude model releases to help you understand
+                    where each model family is in its update cycle. Based on historical release
+                    patterns, it provides recommendations on whether a new version might be coming soon.
+                </p>
+            </div>
+
+            <p class="last-updated">Last updated: <strong id="last-updated"></strong></p>
+
+            <div class="model-grid" id="model-grid">
+                <!-- Cards will be populated by JavaScript -->
+            </div>
+
+            <div class="legend-section">
+                <h3>How to Read This Guide</h3>
+                <div class="legend-grid">
+                    <div class="legend-item">
+                        <div class="legend-color green"></div>
+                        <div class="legend-text"><strong>Buy Now</strong> — Recently released (&lt;25% of cycle)</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color gray"></div>
+                        <div class="legend-text"><strong>Neutral</strong> — Mid-cycle (25-50%)</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color yellow"></div>
+                        <div class="legend-text"><strong>Caution</strong> — Late cycle (50-75%)</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color red"></div>
+                        <div class="legend-text"><strong>Wait</strong> — Update likely soon (&gt;75%)</div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="disclaimer">
+                This guide is based on historical release patterns and is for informational purposes only.
+                Anthropic does not publish a release schedule, and actual release timing may vary.
+            </p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Built with Claude</p>
+        </div>
+    </footer>
+
+    <script>
+        // Claude model release data
+        const modelData = {
+            opus: {
+                name: "Opus",
+                tier: "Most Powerful",
+                headerClass: "opus",
+                releases: [
+                    { version: "Claude 3 Opus", date: "2024-03-04" },
+                    { version: "Claude 4 Opus", date: "2025-05-22" },
+                    { version: "Claude Opus 4.1", date: "2025-08-05" },
+                    { version: "Claude Opus 4.5", date: "2025-11-24" }
+                ]
+            },
+            sonnet: {
+                name: "Sonnet",
+                tier: "Balanced Performance",
+                headerClass: "sonnet",
+                releases: [
+                    { version: "Claude 3 Sonnet", date: "2024-03-04" },
+                    { version: "Claude 3.5 Sonnet", date: "2024-06-20" },
+                    { version: "Claude 3.5 Sonnet (New)", date: "2024-10-22" },
+                    { version: "Claude 3.7 Sonnet", date: "2025-02-24" },
+                    { version: "Claude 4 Sonnet", date: "2025-05-22" },
+                    { version: "Claude Sonnet 4.5", date: "2025-09-29" }
+                ]
+            },
+            haiku: {
+                name: "Haiku",
+                tier: "Fast & Efficient",
+                headerClass: "haiku",
+                releases: [
+                    { version: "Claude 3 Haiku", date: "2024-03-13" },
+                    { version: "Claude 3.5 Haiku", date: "2024-11-04" },
+                    { version: "Claude Haiku 4.5", date: "2025-10-15" }
+                ]
+            }
+        };
+
+        function parseDate(dateStr) {
+            return new Date(dateStr + 'T00:00:00');
+        }
+
+        function daysBetween(date1, date2) {
+            const oneDay = 24 * 60 * 60 * 1000;
+            return Math.round(Math.abs((date2 - date1) / oneDay));
+        }
+
+        function formatDate(dateStr) {
+            const date = parseDate(dateStr);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        function calculateModelStats(model) {
+            const releases = model.releases;
+            const today = new Date();
+
+            // Calculate days since last release
+            const lastRelease = parseDate(releases[releases.length - 1].date);
+            const daysSinceRelease = daysBetween(lastRelease, today);
+
+            // Calculate average days between releases
+            let totalDays = 0;
+            for (let i = 1; i < releases.length; i++) {
+                const prevDate = parseDate(releases[i - 1].date);
+                const currDate = parseDate(releases[i].date);
+                totalDays += daysBetween(prevDate, currDate);
+            }
+            const avgDays = Math.round(totalDays / (releases.length - 1));
+
+            // Calculate cycle percentage
+            const cyclePercent = Math.min(Math.round((daysSinceRelease / avgDays) * 100), 100);
+
+            // Determine recommendation
+            let recommendation, badgeClass, progressClass;
+            if (cyclePercent < 25) {
+                recommendation = "Buy Now";
+                badgeClass = "badge-buy-now";
+                progressClass = "green";
+            } else if (cyclePercent < 50) {
+                recommendation = "Neutral";
+                badgeClass = "badge-neutral";
+                progressClass = "gray";
+            } else if (cyclePercent < 75) {
+                recommendation = "Caution";
+                badgeClass = "badge-caution";
+                progressClass = "yellow";
+            } else {
+                recommendation = "Wait";
+                badgeClass = "badge-wait";
+                progressClass = "red";
+            }
+
+            return {
+                daysSinceRelease,
+                avgDays,
+                cyclePercent,
+                recommendation,
+                badgeClass,
+                progressClass,
+                latestVersion: releases[releases.length - 1].version,
+                latestDate: releases[releases.length - 1].date
+            };
+        }
+
+        function createModelCard(key, model) {
+            const stats = calculateModelStats(model);
+
+            const releaseListHTML = model.releases
+                .slice()
+                .reverse()
+                .map(r => `
+                    <li>
+                        <span class="release-version">${r.version}</span>
+                        <span class="release-date">${formatDate(r.date)}</span>
+                    </li>
+                `).join('');
+
+            return `
+                <div class="model-card">
+                    <div class="model-header ${model.headerClass}">
+                        <div class="model-name">${model.name}</div>
+                        <div class="model-tier">${model.tier}</div>
+                    </div>
+                    <div class="model-body">
+                        <span class="recommendation-badge ${stats.badgeClass}">${stats.recommendation}</span>
+
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <div class="stat-value">${stats.daysSinceRelease}</div>
+                                <div class="stat-label">Days Since Release</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">${stats.avgDays}</div>
+                                <div class="stat-label">Avg Days Between</div>
+                            </div>
+                        </div>
+
+                        <div class="progress-section">
+                            <div class="progress-label">
+                                <span>Cycle Progress</span>
+                                <span>${stats.cyclePercent}%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill ${stats.progressClass}" style="width: ${stats.cyclePercent}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="latest-release">
+                            <h4>Latest Version</h4>
+                            <div class="version">${stats.latestVersion}</div>
+                            <div class="date">${formatDate(stats.latestDate)}</div>
+                        </div>
+
+                        <div class="release-history">
+                            <h4>Release History</h4>
+                            <ul class="release-list">
+                                ${releaseListHTML}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render the page
+        function render() {
+            const grid = document.getElementById('model-grid');
+            const lastUpdated = document.getElementById('last-updated');
+
+            // Set last updated date
+            lastUpdated.textContent = new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // Create cards for each model
+            let html = '';
+            for (const [key, model] of Object.entries(modelData)) {
+                html += createModelCard(key, model);
+            }
+            grid.innerHTML = html;
+        }
+
+        // Initialize
+        render();
+    </script>
+</body>
+</html>
