@@ -58,7 +58,8 @@
             transition: color 0.3s;
         }
 
-        .navbar .nav-links a:hover {
+        .navbar .nav-links a:hover,
+        .navbar .nav-links a.active {
             color: #e07a5f;
         }
 
@@ -84,17 +85,17 @@
         }
 
         .section-nav .run-link {
-            background: #E74C3C;
+            background: linear-gradient(135deg, #c4756a 0%, #b5635a 100%);
             color: white;
         }
 
         .section-nav .walk-link {
-            background: #3498DB;
+            background: linear-gradient(135deg, #7a9bb5 0%, #6889a3 100%);
             color: white;
         }
 
         .section-nav .hike-link {
-            background: #27AE60;
+            background: linear-gradient(135deg, #8fa882 0%, #6d8a60 100%);
             color: white;
         }
         
@@ -218,9 +219,9 @@
             margin-top: 5px;
         }
         
-        .run-color { color: #E74C3C; }
-        .walk-color { color: #3498DB; }
-        .hike-color { color: #27AE60; }
+        .run-color { color: #c4756a; }
+        .walk-color { color: #7a9bb5; }
+        .hike-color { color: #8fa882; }
         
         /* Monthly Chart */
         .monthly-chart {
@@ -234,7 +235,7 @@
         .monthly-chart h2 {
             font-size: 1.5rem;
             margin-bottom: 30px;
-            color: #E74C3C;
+            color: #c4756a;
         }
         
         .chart-container {
@@ -397,7 +398,8 @@
         }
         
         .fact-text {
-            color: #ccc;
+            color: #555;
+            font-size: 1.05rem;
             line-height: 1.5;
         }
         
@@ -418,6 +420,7 @@
                 <li><a href="about.html">About</a></li>
                 <li><a href="now.html">Now</a></li>
                 <li><a href="reads.html">Reads</a></li>
+                <li><a href="year_in_review_2025.html" class="active">2025 Running</a></li>
                 <li><a href="claude-models.html">Claude Guide</a></li>
             </ul>
         </div>
@@ -446,23 +449,23 @@
         <!-- Total Stats -->
         <div class="total-stats">
             <div class="total-stat">
-                <div class="value">635</div>
+                <div class="value">662</div>
                 <div class="label">Total Activities</div>
             </div>
             <div class="total-stat">
-                <div class="value">1300</div>
+                <div class="value">1355</div>
                 <div class="label">Miles Covered</div>
             </div>
             <div class="total-stat">
-                <div class="value">344</div>
+                <div class="value">358</div>
                 <div class="label">Hours Moving</div>
             </div>
             <div class="total-stat">
-                <div class="value">82.6k</div>
+                <div class="value">85.1k</div>
                 <div class="label">Feet Climbed</div>
             </div>
             <div class="total-stat">
-                <div class="value">135k</div>
+                <div class="value">141k</div>
                 <div class="label">Calories Burned</div>
             </div>
         </div>
@@ -475,23 +478,23 @@
             </div>
             <div class="category-stats">
                 <div class="cat-stat">
-                    <div class="value run-color">111</div>
+                    <div class="value run-color">117</div>
                     <div class="label">Runs</div>
                 </div>
                 <div class="cat-stat">
-                    <div class="value run-color">190.2</div>
+                    <div class="value run-color">209.1</div>
                     <div class="label">Miles</div>
                 </div>
                 <div class="cat-stat">
-                    <div class="value run-color">28.3</div>
+                    <div class="value run-color">31.4</div>
                     <div class="label">Hours</div>
                 </div>
                 <div class="cat-stat">
-                    <div class="value run-color">8:45</div>
+                    <div class="value run-color">9:01</div>
                     <div class="label">Avg Pace</div>
                 </div>
                 <div class="cat-stat">
-                    <div class="value run-color">7474</div>
+                    <div class="value run-color">8370</div>
                     <div class="label">Ft Elevation</div>
                 </div>
             </div>
@@ -503,75 +506,75 @@
             <div class="chart-container">
                 
         <div class="month-bar-container">
-            <div class="month-bar" style="height: 32.937685459940646%; background: linear-gradient(to top, #E74C3C, #FF6B6B);"></div>
+            <div class="month-bar" style="height: 32.937685459940646%; background: linear-gradient(to top, #c4756a, #d8918a);"></div>
             <span class="month-label">Jan</span>
             <span class="month-value">11</span>
         </div>
     
         <div class="month-bar-container">
-            <div class="month-bar" style="height: 9.198813056379821%; background: linear-gradient(to top, #E74C3C, #FF6B6B);"></div>
+            <div class="month-bar" style="height: 9.198813056379821%; background: linear-gradient(to top, #c4756a, #d8918a);"></div>
             <span class="month-label">Feb</span>
             <span class="month-value">3</span>
         </div>
     
         <div class="month-bar-container">
-            <div class="month-bar" style="height: 9.495548961424333%; background: linear-gradient(to top, #E74C3C, #FF6B6B);"></div>
+            <div class="month-bar" style="height: 9.495548961424333%; background: linear-gradient(to top, #c4756a, #d8918a);"></div>
             <span class="month-label">Mar</span>
             <span class="month-value">3</span>
         </div>
     
         <div class="month-bar-container">
-            <div class="month-bar" style="height: 53.70919881305638%; background: linear-gradient(to top, #E74C3C, #FF6B6B);"></div>
+            <div class="month-bar" style="height: 53.70919881305638%; background: linear-gradient(to top, #c4756a, #d8918a);"></div>
             <span class="month-label">Apr</span>
             <span class="month-value">18</span>
         </div>
     
         <div class="month-bar-container">
-            <div class="month-bar" style="height: 61.12759643916914%; background: linear-gradient(to top, #E74C3C, #FF6B6B);"></div>
+            <div class="month-bar" style="height: 61.12759643916914%; background: linear-gradient(to top, #c4756a, #d8918a);"></div>
             <span class="month-label">May</span>
             <span class="month-value">21</span>
         </div>
     
         <div class="month-bar-container">
-            <div class="month-bar" style="height: 37.0919881305638%; background: linear-gradient(to top, #E74C3C, #FF6B6B);"></div>
+            <div class="month-bar" style="height: 37.0919881305638%; background: linear-gradient(to top, #c4756a, #d8918a);"></div>
             <span class="month-label">Jun</span>
             <span class="month-value">12</span>
         </div>
     
         <div class="month-bar-container">
-            <div class="month-bar" style="height: 70.32640949554896%; background: linear-gradient(to top, #E74C3C, #FF6B6B);"></div>
+            <div class="month-bar" style="height: 70.32640949554896%; background: linear-gradient(to top, #c4756a, #d8918a);"></div>
             <span class="month-label">Jul</span>
             <span class="month-value">24</span>
         </div>
     
         <div class="month-bar-container">
-            <div class="month-bar" style="height: 40.059347181008896%; background: linear-gradient(to top, #E74C3C, #FF6B6B);"></div>
+            <div class="month-bar" style="height: 40.059347181008896%; background: linear-gradient(to top, #c4756a, #d8918a);"></div>
             <span class="month-label">Aug</span>
             <span class="month-value">14</span>
         </div>
     
         <div class="month-bar-container">
-            <div class="month-bar" style="height: 30.267062314540055%; background: linear-gradient(to top, #E74C3C, #FF6B6B);"></div>
+            <div class="month-bar" style="height: 30.267062314540055%; background: linear-gradient(to top, #c4756a, #d8918a);"></div>
             <span class="month-label">Sep</span>
             <span class="month-value">10</span>
         </div>
     
         <div class="month-bar-container">
-            <div class="month-bar" style="height: 100.0%; background: linear-gradient(to top, #E74C3C, #FF6B6B);"></div>
+            <div class="month-bar" style="height: 100.0%; background: linear-gradient(to top, #c4756a, #d8918a);"></div>
             <span class="month-label">Oct</span>
             <span class="month-value">34</span>
         </div>
     
         <div class="month-bar-container">
-            <div class="month-bar" style="height: 86.05341246290801%; background: linear-gradient(to top, #E74C3C, #FF6B6B);"></div>
+            <div class="month-bar" style="height: 86.05341246290801%; background: linear-gradient(to top, #c4756a, #d8918a);"></div>
             <span class="month-label">Nov</span>
             <span class="month-value">29</span>
         </div>
     
         <div class="month-bar-container">
-            <div class="month-bar" style="height: 34.12462908011869%; background: linear-gradient(to top, #E74C3C, #FF6B6B);"></div>
+            <div class="month-bar" style="height: 90.1%; background: linear-gradient(to top, #c4756a, #d8918a);"></div>
             <span class="month-label">Dec</span>
-            <span class="month-value">12</span>
+            <span class="month-value">30</span>
         </div>
     
             </div>
@@ -585,23 +588,23 @@
             </div>
             <div class="category-stats">
                 <div class="cat-stat">
-                    <div class="value walk-color">504</div>
+                    <div class="value walk-color">524</div>
                     <div class="label">Walks</div>
                 </div>
                 <div class="cat-stat">
-                    <div class="value walk-color">1009</div>
+                    <div class="value walk-color">1042</div>
                     <div class="label">Miles</div>
                 </div>
                 <div class="cat-stat">
-                    <div class="value walk-color">280</div>
+                    <div class="value walk-color">290</div>
                     <div class="label">Hours</div>
                 </div>
                 <div class="cat-stat">
-                    <div class="value walk-color">2.00</div>
+                    <div class="value walk-color">1.99</div>
                     <div class="label">Avg Miles</div>
                 </div>
                 <div class="cat-stat">
-                    <div class="value walk-color">57.3k</div>
+                    <div class="value walk-color">58.7k</div>
                     <div class="label">Ft Elevation</div>
                 </div>
             </div>
@@ -615,23 +618,23 @@
             </div>
             <div class="category-stats">
                 <div class="cat-stat">
-                    <div class="value hike-color">20</div>
+                    <div class="value hike-color">21</div>
                     <div class="label">Hikes</div>
                 </div>
                 <div class="cat-stat">
-                    <div class="value hike-color">101.3</div>
+                    <div class="value hike-color">104.0</div>
                     <div class="label">Miles</div>
                 </div>
                 <div class="cat-stat">
-                    <div class="value hike-color">35.7</div>
+                    <div class="value hike-color">36.7</div>
                     <div class="label">Hours</div>
                 </div>
                 <div class="cat-stat">
-                    <div class="value hike-color">5.1</div>
+                    <div class="value hike-color">5.0</div>
                     <div class="label">Avg Miles</div>
                 </div>
                 <div class="cat-stat">
-                    <div class="value hike-color">17.8k</div>
+                    <div class="value hike-color">18.1k</div>
                     <div class="label">Ft Elevation</div>
                 </div>
             </div>
@@ -641,9 +644,152 @@
         <section class="highlights-section">
             <h2>⭐ Highlight Activities</h2>
             <div class="highlights-grid">
-                
+
     <div class="highlight-card">
-        <div class="highlight-badge" style="background: #E74C3C;">🏃 Longest Run</div>
+        <div class="highlight-badge" style="background: linear-gradient(135deg, #c4756a 0%, #b5635a 100%);">🏃 Longest Run</div>
+        <div class="highlight-map">
+            <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><iframe srcdoc="&lt;div style=&quot;width:100%;&quot;&gt;&lt;div style=&quot;position:relative;width:100%;height:0;padding-bottom:60%;&quot;&gt;&lt;span style=&quot;color:#565656&quot;&gt;Make this Notebook Trusted to load map: File -&gt; Trust Notebook&lt;/span&gt;&lt;iframe srcdoc=&quot;&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+
+    &amp;lt;meta http-equiv=&amp;quot;content-type&amp;quot; content=&amp;quot;text/html; charset=UTF-8&amp;quot; /&amp;gt;
+    &amp;lt;script src=&amp;quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;script src=&amp;quot;https://code.jquery.com/jquery-3.7.1.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;script src=&amp;quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;script src=&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&amp;quot;/&amp;gt;
+    &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&amp;quot;/&amp;gt;
+    &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css&amp;quot;/&amp;gt;
+    &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&amp;quot;/&amp;gt;
+    &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&amp;quot;/&amp;gt;
+    &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&amp;quot;/&amp;gt;
+
+            &amp;lt;meta name=&amp;quot;viewport&amp;quot; content=&amp;quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&amp;quot; /&amp;gt;
+            &amp;lt;style&amp;gt;
+                #map_06a34578364c940a35a5faa0dc82d7ef {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            &amp;lt;/style&amp;gt;
+
+            &amp;lt;style&amp;gt;html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            &amp;lt;/style&amp;gt;
+
+            &amp;lt;style&amp;gt;#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            &amp;lt;/style&amp;gt;
+
+            &amp;lt;script&amp;gt;
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            &amp;lt;/script&amp;gt;
+
+
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+
+
+            &amp;lt;div class=&amp;quot;folium-map&amp;quot; id=&amp;quot;map_06a34578364c940a35a5faa0dc82d7ef&amp;quot; &amp;gt;&amp;lt;/div&amp;gt;
+
+&amp;lt;/body&amp;gt;
+&amp;lt;script&amp;gt;
+
+
+            var map_06a34578364c940a35a5faa0dc82d7ef = L.map(
+                &amp;quot;map_06a34578364c940a35a5faa0dc82d7ef&amp;quot;,
+                {
+                    center: [38.569736354779906, -92.16384782383173],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  &amp;quot;zoom&amp;quot;: 13,
+  &amp;quot;zoomControl&amp;quot;: false,
+  &amp;quot;preferCanvas&amp;quot;: false,
+  &amp;quot;scrollWheelZoom&amp;quot;: false,
+  &amp;quot;dragging&amp;quot;: false,
+}
+
+                }
+            );
+
+
+
+
+
+            var tile_layer_2037a521522cf1b881170601f7f16eba = L.tileLayer(
+                &amp;quot;https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png&amp;quot;,
+                {
+  &amp;quot;minZoom&amp;quot;: 0,
+  &amp;quot;maxZoom&amp;quot;: 20,
+  &amp;quot;maxNativeZoom&amp;quot;: 20,
+  &amp;quot;noWrap&amp;quot;: false,
+  &amp;quot;attribution&amp;quot;: &amp;quot;\u0026copy; \u003ca href=\&amp;quot;https://www.openstreetmap.org/copyright\&amp;quot;\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\&amp;quot;https://carto.com/attributions\&amp;quot;\u003eCARTO\u003c/a\u003e&amp;quot;,
+  &amp;quot;subdomains&amp;quot;: &amp;quot;abcd&amp;quot;,
+  &amp;quot;detectRetina&amp;quot;: false,
+  &amp;quot;tms&amp;quot;: false,
+  &amp;quot;opacity&amp;quot;: 1,
+}
+
+            );
+
+
+            tile_layer_2037a521522cf1b881170601f7f16eba.addTo(map_06a34578364c940a35a5faa0dc82d7ef);
+
+
+            var poly_line_0325fd2544154553d3b6fe9b3c45bed5 = L.polyline(
+                [[38.5611638892442, -92.18268957920372], [38.56067832559347, -92.18341318890452], [38.560425443574786, -92.18423360958695], [38.560340870171785, -92.18393471091986], [38.56043441221118, -92.18318260274827], [38.56033776886761, -92.18218901194632], [38.56008463539183, -92.1812250930816], [38.56021556071937, -92.18031372874975], [38.56026543304324, -92.17956572771072], [38.5607426147908, -92.17893599532545], [38.560654604807496, -92.17815681360662], [38.560368195176125, -92.17726279981434], [38.56031069532037, -92.17637876048684], [38.56048436835408, -92.17551693320274], [38.56105417013168, -92.17487378977239], [38.56162581592798, -92.17421723529696], [38.56220777146518, -92.17356596142054], [38.56276080943644, -92.17291435226798], [38.563221311196685, -92.17213919386268], [38.56380511075258, -92.17161742039025], [38.564514219760895, -92.17139320448041], [38.56515124440193, -92.1718789357692], [38.56579916551709, -92.17229727655649], [38.56646670028567, -92.17186124995351], [38.5670577082783, -92.1712850779295], [38.56751427054405, -92.17051201499999], [38.568010898306966, -92.16987691819668], [38.56852906756103, -92.1692043542862], [38.568979343399405, -92.16850848868489], [38.569538835436106, -92.16784497722983], [38.570204777643085, -92.16741347685456], [38.57094808481634, -92.16725782491267], [38.57154537923634, -92.16758237220347], [38.57204921543598, -92.16826583258808], [38.57254416681826, -92.16897192411125], [38.573013469576836, -92.16962671838701], [38.57355846092105, -92.16952353715897], [38.574023908004165, -92.16902338899672], [38.57440050691366, -92.16899421997368], [38.5748319234699, -92.16961716301739], [38.57530835084617, -92.17027304694057], [38.57577036134899, -92.17091484926641], [38.57626413926482, -92.17162596993148], [38.57673260383308, -92.17228445224464], [38.577270805835724, -92.17230171896517], [38.57784270308912, -92.17228294350207], [38.57841451652348, -92.17188203707337], [38.57905120588839, -92.17155388556421], [38.57965654693544, -92.17125842347741], [38.5799503326416, -92.17044194228947], [38.57998788356781, -92.16954566538334], [38.57958706095815, -92.16872298158705], [38.579103173688054, -92.16808528639376], [38.57852599583566, -92.16751581989229], [38.57809625566006, -92.16675038449466], [38.5777173936367, -92.16594982892275], [38.5774015635252, -92.16513494029641], [38.577109621837735, -92.16431661508977], [38.576756324619055, -92.16350918635726], [38.57636111788452, -92.16277291998267], [38.57591218315065, -92.1620845142752], [38.57564119622111, -92.16125914826989], [38.5753689520061, -92.1604504622519], [38.57508690096438, -92.15960573405027], [38.57473251409829, -92.15882445685565], [38.57441894710064, -92.1580052934587], [38.57410688884556, -92.15714924968779], [38.57385073788464, -92.1562816388905], [38.57366390526295, -92.15539508499205], [38.573489394038916, -92.15451632626355], [38.57330507598817, -92.15359716676176], [38.5730361007154, -92.15274229645729], [38.573114555329084, -92.15302803553641], [38.57332879677415, -92.15390008874238], [38.57349903322756, -92.15477708727121], [38.57365342788398, -92.15563480742276], [38.57386783696711, -92.15646352618933], [38.57410077005625, -92.15728411450982], [38.574376702308655, -92.15808399952948], [38.57468758709729, -92.15887483209372], [38.575043231248856, -92.15967203490436], [38.57532888650894, -92.16054157353938], [38.575625689700246, -92.16134774498641], [38.57590505853295, -92.16220462694764], [38.57640126720071, -92.16285523027182], [38.576771914958954, -92.1635933406651], [38.577111549675465, -92.1643534116447], [38.577382201328874, -92.16516016982496], [38.5776914935559, -92.16596206650138], [38.57804101891816, -92.16668031178415], [38.57844075188041, -92.1674133092165], [38.57889287173748, -92.16804572381079], [38.57946569100022, -92.16845056973398], [38.57981488108635, -92.1691486146301], [38.58005099929869, -92.16985780745745], [38.5798779129982, -92.1706116758287], [38.57959225773811, -92.17134710401297], [38.57905154116452, -92.1715023368597], [38.578421138226986, -92.17159613035619], [38.57792618684471, -92.1709465328604], [38.57749527320266, -92.17030514962971], [38.5770371183753, -92.16969570145011], [38.576572090387344, -92.16906295157969], [38.57611561194062, -92.16842944733799], [38.575680842623115, -92.16778571717441], [38.57521413825452, -92.16716512106359], [38.574748607352376, -92.16649448499084], [38.574274526908994, -92.16587053611875], [38.57378175482154, -92.16518271714449], [38.57329183258116, -92.16449489817023], [38.57282328419387, -92.16384798288345], [38.57235683128238, -92.16322235763073], [38.57189825735986, -92.16254409402609], [38.571419566869736, -92.1618717815727], [38.570925956591964, -92.16117021627724], [38.5704355314374, -92.16051483526826], [38.56997377239168, -92.15996095910668], [38.56945929117501, -92.15926794335246], [38.568971464410424, -92.158587500453], [38.568645576015115, -92.15780572034419], [38.56862428598106, -92.15698555111885], [38.56876267120242, -92.15621332637966], [38.56929768808186, -92.15573094785213], [38.5694975964725, -92.15499962680042], [38.56921395286918, -92.15420041233301], [38.56908109970391, -92.15332131832838], [38.569179587066174, -92.15247835032642], [38.569102473556995, -92.15168106369674], [38.56937983073294, -92.15088712982833], [38.569484017789364, -92.14996512047946], [38.569561215117574, -92.14916087687016], [38.56957663781941, -92.14836509898305], [38.568900218233466, -92.14809201657772], [38.568488247692585, -92.14764090254903], [38.5686653573066, -92.14689482934773], [38.568652952089906, -92.14608027599752], [38.568605091422796, -92.1451864298433], [38.56898135505617, -92.14444505050778], [38.56889166869223, -92.14368254877627], [38.56839311309159, -92.14324283413589], [38.568085581064224, -92.14238444343209], [38.56738359667361, -92.14261033572257], [38.566751182079315, -92.14306555688381], [38.56698696501553, -92.14367793872952], [38.56679979711771, -92.14449140243232], [38.566741878166795, -92.14535063132644], [38.566098399460316, -92.14564559049904], [38.56556807644665, -92.14613090269268], [38.5649093426764, -92.14649124071002], [38.564431658014655, -92.14723605662584], [38.563839476555586, -92.1477769408375], [38.56333069503307, -92.14838152751327], [38.562835827469826, -92.14896038174629], [38.56230743229389, -92.14957720600069], [38.56181281618774, -92.15019050985575], [38.56190074235201, -92.1510376688093], [38.56194868683815, -92.15191366150975], [38.56210861355066, -92.15273248963058], [38.562325704842806, -92.15352558530867], [38.5625730548054, -92.15429227799177], [38.562868516892195, -92.15504698455334], [38.56325282715261, -92.15573530644178], [38.563688434660435, -92.15641248039901], [38.564156061038375, -92.15702922083437], [38.564622178673744, -92.15764663182199], [38.565045883879066, -92.15828876942396], [38.56550303287804, -92.15891699306667], [38.56589639559388, -92.15955376625061], [38.56626042164862, -92.16021375730634], [38.56671245768666, -92.16088841669261], [38.56718586757779, -92.16149224899709], [38.5676618758589, -92.16211108490825], [38.56812246143818, -92.16275908984244], [38.56853828765452, -92.16342327184975], [38.569020414724946, -92.16409239917994], [38.5695219039917, -92.16478021815419], [38.57001551426947, -92.16549284756184], [38.57049956917763, -92.16618745587766], [38.57099334709346, -92.1668554097414], [38.570906510576606, -92.1672661229968], [38.570241490378976, -92.1674098726362], [38.569613015279174, -92.16776845045388], [38.569077495485544, -92.16827932745218], [38.56866158545017, -92.16892909258604], [38.56825841590762, -92.16968120075762], [38.567767487838864, -92.17021806165576], [38.567270524799824, -92.1708289347589], [38.566868025809526, -92.17149253003299], [38.56632445938885, -92.17199510894716], [38.565677208825946, -92.17228788882494], [38.56510137207806, -92.17181674204767], [38.56448077596724, -92.17137292027473], [38.56385875493288, -92.17162370681763], [38.563277050852776, -92.17206912115216], [38.56285544112325, -92.17280178330839], [38.562366273254156, -92.17342363670468], [38.56183100491762, -92.17401380650699], [38.56130453757942, -92.17461495660245], [38.56079743243754, -92.17518735677004], [38.56029963120818, -92.17579680494964], [38.56025118380785, -92.17669836245477], [38.56036635115743, -92.17759782448411], [38.56082048267126, -92.17839452438056], [38.56063289567828, -92.1792768035084], [38.560428796336055, -92.17938987538218]],
+                {&amp;quot;bubblingMouseEvents&amp;quot;: true, &amp;quot;color&amp;quot;: &amp;quot;#E74C3C&amp;quot;, &amp;quot;dashArray&amp;quot;: null, &amp;quot;dashOffset&amp;quot;: null, &amp;quot;fill&amp;quot;: false, &amp;quot;fillColor&amp;quot;: &amp;quot;#E74C3C&amp;quot;, &amp;quot;fillOpacity&amp;quot;: 0.2, &amp;quot;fillRule&amp;quot;: &amp;quot;evenodd&amp;quot;, &amp;quot;lineCap&amp;quot;: &amp;quot;round&amp;quot;, &amp;quot;lineJoin&amp;quot;: &amp;quot;round&amp;quot;, &amp;quot;noClip&amp;quot;: false, &amp;quot;opacity&amp;quot;: 0.8, &amp;quot;smoothFactor&amp;quot;: 1.0, &amp;quot;stroke&amp;quot;: true, &amp;quot;weight&amp;quot;: 3}
+            ).addTo(map_06a34578364c940a35a5faa0dc82d7ef);
+
+
+            map_06a34578364c940a35a5faa0dc82d7ef.fitBounds(
+                [[38.5611638892442, -92.18268957920372], [38.56067832559347, -92.18341318890452], [38.560425443574786, -92.18423360958695], [38.560340870171785, -92.18393471091986], [38.56043441221118, -92.18318260274827], [38.56033776886761, -92.18218901194632], [38.56008463539183, -92.1812250930816], [38.56021556071937, -92.18031372874975], [38.56026543304324, -92.17956572771072], [38.5607426147908, -92.17893599532545], [38.560654604807496, -92.17815681360662], [38.560368195176125, -92.17726279981434], [38.56031069532037, -92.17637876048684], [38.56048436835408, -92.17551693320274], [38.56105417013168, -92.17487378977239], [38.56162581592798, -92.17421723529696], [38.56220777146518, -92.17356596142054], [38.56276080943644, -92.17291435226798], [38.563221311196685, -92.17213919386268], [38.56380511075258, -92.17161742039025], [38.564514219760895, -92.17139320448041], [38.56515124440193, -92.1718789357692], [38.56579916551709, -92.17229727655649], [38.56646670028567, -92.17186124995351], [38.5670577082783, -92.1712850779295], [38.56751427054405, -92.17051201499999], [38.568010898306966, -92.16987691819668], [38.56852906756103, -92.1692043542862], [38.568979343399405, -92.16850848868489], [38.569538835436106, -92.16784497722983], [38.570204777643085, -92.16741347685456], [38.57094808481634, -92.16725782491267], [38.57154537923634, -92.16758237220347], [38.57204921543598, -92.16826583258808], [38.57254416681826, -92.16897192411125], [38.573013469576836, -92.16962671838701], [38.57355846092105, -92.16952353715897], [38.574023908004165, -92.16902338899672], [38.57440050691366, -92.16899421997368], [38.5748319234699, -92.16961716301739], [38.57530835084617, -92.17027304694057], [38.57577036134899, -92.17091484926641], [38.57626413926482, -92.17162596993148], [38.57673260383308, -92.17228445224464], [38.577270805835724, -92.17230171896517], [38.57784270308912, -92.17228294350207], [38.57841451652348, -92.17188203707337], [38.57905120588839, -92.17155388556421], [38.57965654693544, -92.17125842347741], [38.5799503326416, -92.17044194228947], [38.57998788356781, -92.16954566538334], [38.57958706095815, -92.16872298158705], [38.579103173688054, -92.16808528639376], [38.57852599583566, -92.16751581989229], [38.57809625566006, -92.16675038449466], [38.5777173936367, -92.16594982892275], [38.5774015635252, -92.16513494029641], [38.577109621837735, -92.16431661508977], [38.576756324619055, -92.16350918635726], [38.57636111788452, -92.16277291998267], [38.57591218315065, -92.1620845142752], [38.57564119622111, -92.16125914826989], [38.5753689520061, -92.1604504622519], [38.57508690096438, -92.15960573405027], [38.57473251409829, -92.15882445685565], [38.57441894710064, -92.1580052934587], [38.57410688884556, -92.15714924968779], [38.57385073788464, -92.1562816388905], [38.57366390526295, -92.15539508499205], [38.573489394038916, -92.15451632626355], [38.57330507598817, -92.15359716676176], [38.5730361007154, -92.15274229645729], [38.573114555329084, -92.15302803553641], [38.57332879677415, -92.15390008874238], [38.57349903322756, -92.15477708727121], [38.57365342788398, -92.15563480742276], [38.57386783696711, -92.15646352618933], [38.57410077005625, -92.15728411450982], [38.574376702308655, -92.15808399952948], [38.57468758709729, -92.15887483209372], [38.575043231248856, -92.15967203490436], [38.57532888650894, -92.16054157353938], [38.575625689700246, -92.16134774498641], [38.57590505853295, -92.16220462694764], [38.57640126720071, -92.16285523027182], [38.576771914958954, -92.1635933406651], [38.577111549675465, -92.1643534116447], [38.577382201328874, -92.16516016982496], [38.5776914935559, -92.16596206650138], [38.57804101891816, -92.16668031178415], [38.57844075188041, -92.1674133092165], [38.57889287173748, -92.16804572381079], [38.57946569100022, -92.16845056973398], [38.57981488108635, -92.1691486146301], [38.58005099929869, -92.16985780745745], [38.5798779129982, -92.1706116758287], [38.57959225773811, -92.17134710401297], [38.57905154116452, -92.1715023368597], [38.578421138226986, -92.17159613035619], [38.57792618684471, -92.1709465328604], [38.57749527320266, -92.17030514962971], [38.5770371183753, -92.16969570145011], [38.576572090387344, -92.16906295157969], [38.57611561194062, -92.16842944733799], [38.575680842623115, -92.16778571717441], [38.57521413825452, -92.16716512106359], [38.574748607352376, -92.16649448499084], [38.574274526908994, -92.16587053611875], [38.57378175482154, -92.16518271714449], [38.57329183258116, -92.16449489817023], [38.57282328419387, -92.16384798288345], [38.57235683128238, -92.16322235763073], [38.57189825735986, -92.16254409402609], [38.571419566869736, -92.1618717815727], [38.570925956591964, -92.16117021627724], [38.5704355314374, -92.16051483526826], [38.56997377239168, -92.15996095910668], [38.56945929117501, -92.15926794335246], [38.568971464410424, -92.158587500453], [38.568645576015115, -92.15780572034419], [38.56862428598106, -92.15698555111885], [38.56876267120242, -92.15621332637966], [38.56929768808186, -92.15573094785213], [38.5694975964725, -92.15499962680042], [38.56921395286918, -92.15420041233301], [38.56908109970391, -92.15332131832838], [38.569179587066174, -92.15247835032642], [38.569102473556995, -92.15168106369674], [38.56937983073294, -92.15088712982833], [38.569484017789364, -92.14996512047946], [38.569561215117574, -92.14916087687016], [38.56957663781941, -92.14836509898305], [38.568900218233466, -92.14809201657772], [38.568488247692585, -92.14764090254903], [38.5686653573066, -92.14689482934773], [38.568652952089906, -92.14608027599752], [38.568605091422796, -92.1451864298433], [38.56898135505617, -92.14444505050778], [38.56889166869223, -92.14368254877627], [38.56839311309159, -92.14324283413589], [38.568085581064224, -92.14238444343209], [38.56738359667361, -92.14261033572257], [38.566751182079315, -92.14306555688381], [38.56698696501553, -92.14367793872952], [38.56679979711771, -92.14449140243232], [38.566741878166795, -92.14535063132644], [38.566098399460316, -92.14564559049904], [38.56556807644665, -92.14613090269268], [38.5649093426764, -92.14649124071002], [38.564431658014655, -92.14723605662584], [38.563839476555586, -92.1477769408375], [38.56333069503307, -92.14838152751327], [38.562835827469826, -92.14896038174629], [38.56230743229389, -92.14957720600069], [38.56181281618774, -92.15019050985575], [38.56190074235201, -92.1510376688093], [38.56194868683815, -92.15191366150975], [38.56210861355066, -92.15273248963058], [38.562325704842806, -92.15352558530867], [38.5625730548054, -92.15429227799177], [38.562868516892195, -92.15504698455334], [38.56325282715261, -92.15573530644178], [38.563688434660435, -92.15641248039901], [38.564156061038375, -92.15702922083437], [38.564622178673744, -92.15764663182199], [38.565045883879066, -92.15828876942396], [38.56550303287804, -92.15891699306667], [38.56589639559388, -92.15955376625061], [38.56626042164862, -92.16021375730634], [38.56671245768666, -92.16088841669261], [38.56718586757779, -92.16149224899709], [38.5676618758589, -92.16211108490825], [38.56812246143818, -92.16275908984244], [38.56853828765452, -92.16342327184975], [38.569020414724946, -92.16409239917994], [38.5695219039917, -92.16478021815419], [38.57001551426947, -92.16549284756184], [38.57049956917763, -92.16618745587766], [38.57099334709346, -92.1668554097414], [38.570906510576606, -92.1672661229968], [38.570241490378976, -92.1674098726362], [38.569613015279174, -92.16776845045388], [38.569077495485544, -92.16827932745218], [38.56866158545017, -92.16892909258604], [38.56825841590762, -92.16968120075762], [38.567767487838864, -92.17021806165576], [38.567270524799824, -92.1708289347589], [38.566868025809526, -92.17149253003299], [38.56632445938885, -92.17199510894716], [38.565677208825946, -92.17228788882494], [38.56510137207806, -92.17181674204767], [38.56448077596724, -92.17137292027473], [38.56385875493288, -92.17162370681763], [38.563277050852776, -92.17206912115216], [38.56285544112325, -92.17280178330839], [38.562366273254156, -92.17342363670468], [38.56183100491762, -92.17401380650699], [38.56130453757942, -92.17461495660245], [38.56079743243754, -92.17518735677004], [38.56029963120818, -92.17579680494964], [38.56025118380785, -92.17669836245477], [38.56036635115743, -92.17759782448411], [38.56082048267126, -92.17839452438056], [38.56063289567828, -92.1792768035084], [38.560428796336055, -92.17938987538218]],
+                {}
+            );
+
+&amp;lt;/script&amp;gt;
+&amp;lt;/html&amp;gt;&quot; style=&quot;position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;&quot; allowfullscreen webkitallowfullscreen mozallowfullscreen&gt;&lt;/iframe&gt;&lt;/div&gt;&lt;/div&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div>
+        </div>
+        <div class="highlight-info">
+            <h3 class="highlight-title">Downtown Long Run for Distance</h3>
+            <p class="highlight-date">December 20, 2025</p>
+            <div class="highlight-stats">
+                <div class="stat">
+                    <span class="stat-value">10.03</span>
+                    <span class="stat-label">Miles</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">1:38:13</span>
+                    <span class="stat-label">Time</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">9:47/mi</span>
+                    <span class="stat-label">Pace</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">526</span>
+                    <span class="stat-label">Ft Elev</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="highlight-card">
+        <div class="highlight-badge" style="background: linear-gradient(135deg, #c4756a 0%, #b5635a 100%);">🏃 2nd Longest Run</div>
         <div class="highlight-map">
             <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -775,7 +921,7 @@
     </div>
     
     <div class="highlight-card">
-        <div class="highlight-badge" style="background: #E74C3C;">🏃 Fastest Run</div>
+        <div class="highlight-badge" style="background: linear-gradient(135deg, #c4756a 0%, #b5635a 100%);">🏃 Fastest Run</div>
         <div class="highlight-map">
             <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -907,7 +1053,7 @@
     </div>
     
     <div class="highlight-card">
-        <div class="highlight-badge" style="background: #E74C3C;">🏃 Hilliest Run</div>
+        <div class="highlight-badge" style="background: linear-gradient(135deg, #c4756a 0%, #b5635a 100%);">🏃 Hilliest Run</div>
         <div class="highlight-map">
             <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -1033,13 +1179,156 @@
             <div class="stat"><span class="stat-value">3.21</span><span class="stat-label">miles</span></div>
             <div class="stat"><span class="stat-value">14:25</span><span class="stat-label">pace</span></div>
             <div class="stat"><span class="stat-value">466</span><span class="stat-label">ft elev</span></div>
-        
+
             </div>
         </div>
     </div>
-    
+
     <div class="highlight-card">
-        <div class="highlight-badge" style="background: #3498DB;">🚶 Longest Walk</div>
+        <div class="highlight-badge" style="background: linear-gradient(135deg, #c4756a 0%, #b5635a 100%);">🏃 10k Race</div>
+        <div class="highlight-map">
+            <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><iframe srcdoc="&lt;div style=&quot;width:100%;&quot;&gt;&lt;div style=&quot;position:relative;width:100%;height:0;padding-bottom:60%;&quot;&gt;&lt;span style=&quot;color:#565656&quot;&gt;Make this Notebook Trusted to load map: File -&gt; Trust Notebook&lt;/span&gt;&lt;iframe srcdoc=&quot;&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+
+    &amp;lt;meta http-equiv=&amp;quot;content-type&amp;quot; content=&amp;quot;text/html; charset=UTF-8&amp;quot; /&amp;gt;
+    &amp;lt;script src=&amp;quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;script src=&amp;quot;https://code.jquery.com/jquery-3.7.1.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;script src=&amp;quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;script src=&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&amp;quot;/&amp;gt;
+    &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&amp;quot;/&amp;gt;
+    &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css&amp;quot;/&amp;gt;
+    &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&amp;quot;/&amp;gt;
+    &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&amp;quot;/&amp;gt;
+    &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&amp;quot;/&amp;gt;
+
+            &amp;lt;meta name=&amp;quot;viewport&amp;quot; content=&amp;quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&amp;quot; /&amp;gt;
+            &amp;lt;style&amp;gt;
+                #map_4628e5b891b3682ab9f3b705b94a78aa {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            &amp;lt;/style&amp;gt;
+
+            &amp;lt;style&amp;gt;html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            &amp;lt;/style&amp;gt;
+
+            &amp;lt;style&amp;gt;#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            &amp;lt;/style&amp;gt;
+
+            &amp;lt;script&amp;gt;
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            &amp;lt;/script&amp;gt;
+
+
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+
+
+            &amp;lt;div class=&amp;quot;folium-map&amp;quot; id=&amp;quot;map_4628e5b891b3682ab9f3b705b94a78aa&amp;quot; &amp;gt;&amp;lt;/div&amp;gt;
+
+&amp;lt;/body&amp;gt;
+&amp;lt;script&amp;gt;
+
+
+            var map_4628e5b891b3682ab9f3b705b94a78aa = L.map(
+                &amp;quot;map_4628e5b891b3682ab9f3b705b94a78aa&amp;quot;,
+                {
+                    center: [38.632537189995844, -90.77658899003667],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  &amp;quot;zoom&amp;quot;: 13,
+  &amp;quot;zoomControl&amp;quot;: false,
+  &amp;quot;preferCanvas&amp;quot;: false,
+  &amp;quot;scrollWheelZoom&amp;quot;: false,
+  &amp;quot;dragging&amp;quot;: false,
+}
+
+                }
+            );
+
+
+
+
+
+            var tile_layer_a3a95894fa8af794cfb1475e7a4ae502 = L.tileLayer(
+                &amp;quot;https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png&amp;quot;,
+                {
+  &amp;quot;minZoom&amp;quot;: 0,
+  &amp;quot;maxZoom&amp;quot;: 20,
+  &amp;quot;maxNativeZoom&amp;quot;: 20,
+  &amp;quot;noWrap&amp;quot;: false,
+  &amp;quot;attribution&amp;quot;: &amp;quot;\u0026copy; \u003ca href=\&amp;quot;https://www.openstreetmap.org/copyright\&amp;quot;\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\&amp;quot;https://carto.com/attributions\&amp;quot;\u003eCARTO\u003c/a\u003e&amp;quot;,
+  &amp;quot;subdomains&amp;quot;: &amp;quot;abcd&amp;quot;,
+  &amp;quot;detectRetina&amp;quot;: false,
+  &amp;quot;tms&amp;quot;: false,
+  &amp;quot;opacity&amp;quot;: 1,
+}
+
+            );
+
+
+            tile_layer_a3a95894fa8af794cfb1475e7a4ae502.addTo(map_4628e5b891b3682ab9f3b705b94a78aa);
+
+
+            var poly_line_88e9a514f7fcc951f088e3febed4afd3 = L.polyline(
+                [[38.634878201410174, -90.77552125789225], [38.63512714393437, -90.77562108635902], [38.63545127213001, -90.77601352706552], [38.63577900454402, -90.77627906575799], [38.63598234951496, -90.7768066227436], [38.63610673695803, -90.77729788608849], [38.63600171171129, -90.77777112834156], [38.63612400367856, -90.77825652435422], [38.63633162342012, -90.77874024398625], [38.63651719875634, -90.77923796139657], [38.63668198697269, -90.77973643317819], [38.636853815987706, -90.78022526577115], [38.63704165443778, -90.7807198818773], [38.637197725474834, -90.7812154199928], [38.637280790135264, -90.78148414380848], [38.63746711984277, -90.78208319842815], [38.63762696273625, -90.78262626193464], [38.63757901825011, -90.7831774558872], [38.637373661622405, -90.78372328542173], [38.6371751781553, -90.7841960247606], [38.637171406298876, -90.78473397530615], [38.637405848130584, -90.78517033718526], [38.63771120086312, -90.78548591583967], [38.638020660728216, -90.78580970875919], [38.63822903484106, -90.78620508313179], [38.63828821107745, -90.78662845306098], [38.638211684301496, -90.78703941777349], [38.63804278895259, -90.78747787512839], [38.637884287163615, -90.7880162447691], [38.63759268075228, -90.78848026692867], [38.637113152071834, -90.78872870653868], [38.63663513213396, -90.78899256885052], [38.63619047217071, -90.78925651498139], [38.6357263661921, -90.78952666372061], [38.63528463989496, -90.78975942917168], [38.63486395217478, -90.79000057652593], [38.63439565524459, -90.79027927480638], [38.63397756591439, -90.79026552848518], [38.63379215821624, -90.78970729373395], [38.63360130228102, -90.78916892409325], [38.63339561037719, -90.78860306181014], [38.633181285113096, -90.78799587674439], [38.63297777250409, -90.78742833808064], [38.63277995958924, -90.78685593791306], [38.63258541561663, -90.78628035262227], [38.63234795629978, -90.7856469321996], [38.63211133517325, -90.78494385816157], [38.63188904710114, -90.78433348797262], [38.63169374875724, -90.78376477584243], [38.63146433606744, -90.7831772044301], [38.631257470697165, -90.7826055586338], [38.63107357174158, -90.7820547837764], [38.63088137470186, -90.78154172748327], [38.630688171833754, -90.78098810277879], [38.63050687126815, -90.7804212346673], [38.63029514439404, -90.77988537959754], [38.6300328746438, -90.77941532246768], [38.629612773656845, -90.77974992804229], [38.62923575565219, -90.78004446811974], [38.628873405978084, -90.78035334125161], [38.62847099080682, -90.78065634705126], [38.628083327785134, -90.7809793855995], [38.62768619321287, -90.78130326233804], [38.62728310748935, -90.78163686208427], [38.62689879722893, -90.78195654787123], [38.62651959992945, -90.78224957920611], [38.62616806291044, -90.78255736269057], [38.625795571133494, -90.78284486196935], [38.62540262751281, -90.78311224468052], [38.62503164447844, -90.78337518498302], [38.624645406380296, -90.78366209752858], [38.624260341748595, -90.78393417410553], [38.62395415082574, -90.78415168449283], [38.62435379996896, -90.78389813192189], [38.62473400309682, -90.78361373394728], [38.625136418268085, -90.7833310123533], [38.62552969716489, -90.78306614421308], [38.625912414863706, -90.78277738764882], [38.62628633156419, -90.78249097801745], [38.626675670966506, -90.78217539936304], [38.62704430706799, -90.78186954371631], [38.627437418326735, -90.7815507799387], [38.6278123408556, -90.78123981133103], [38.628188855946064, -90.78093479387462], [38.62856361083686, -90.78062902204692], [38.62892705015838, -90.78035275451839], [38.62928965128958, -90.78004379756749], [38.62965879030526, -90.77974875457585], [38.63001074641943, -90.7794753368944], [38.629894154146314, -90.77891433611512], [38.62969592213631, -90.77841703779995], [38.629516549408436, -90.77789484523237], [38.62932066433132, -90.77738002873957], [38.62913953140378, -90.77688415534794], [38.62895496189594, -90.77638350427151], [38.62878338433802, -90.77590506523848], [38.628610130399466, -90.77542126178741], [38.62843109294772, -90.77493544667959], [38.62824861891568, -90.77445625327528], [38.62807008437812, -90.77394621446729], [38.627896662801504, -90.77343039214611], [38.627715446054935, -90.77295815572143], [38.62753330729902, -90.77246186323464], [38.627527272328734, -90.77199247665703], [38.62791007384658, -90.77175887301564], [38.628316428512335, -90.77153189107776], [38.62871297635138, -90.77130733989179], [38.62909795716405, -90.77108463272452], [38.629495007917285, -90.77084742486477], [38.629882922396064, -90.77062589116395], [38.630276368930936, -90.77039245516062], [38.63067199476063, -90.77016463503242], [38.631057646125555, -90.76994184404612], [38.631454948335886, -90.76971041969955], [38.631846718490124, -90.76948067173362], [38.632234297692776, -90.76925218105316], [38.63261718302965, -90.76902503147721], [38.63299269229174, -90.76880307868123], [38.63341564312577, -90.7687387894839], [38.633684953674674, -90.76916609890759], [38.63411511294544, -90.769027126953], [38.634504871442914, -90.76878514140844], [38.634899239987135, -90.76856888830662], [38.63528556190431, -90.76835456304252], [38.63568311557174, -90.76814929023385], [38.63607672974467, -90.76795399188995], [38.6364568490535, -90.76774645596743], [38.636842081323266, -90.76753908768296], [38.637240808457136, -90.76732954010367], [38.63761095330119, -90.76710741966963], [38.63801931962371, -90.76688504777849], [38.63840790465474, -90.7666615024209], [38.638662127777934, -90.76697557233274], [38.63882574252784, -90.76747027225792], [38.63900260068476, -90.76796262525022], [38.63917836919427, -90.7684610132128], [38.63935153931379, -90.76896652579308], [38.639516830444336, -90.76946348883212], [38.639700477942824, -90.76998358592391], [38.63987314514816, -90.77048616483808], [38.640041872859, -90.77099008485675], [38.63991379737854, -90.77059580013156], [38.63973534666002, -90.77009657397866], [38.639565613120794, -90.7695852778852], [38.63939110189676, -90.76910625211895], [38.63922731950879, -90.76862496323884], [38.63905197009444, -90.76812967658043], [38.63888240419328, -90.76765291392803], [38.6387207172811, -90.76718235388398], [38.6385758779943, -90.76670433394611], [38.63817807286978, -90.7668086886406], [38.63779610954225, -90.76702242717147], [38.63740811124444, -90.76724278740585], [38.637018855661154, -90.76745384372771], [38.63664988428354, -90.76765777543187], [38.63627043552697, -90.76786179095507], [38.63587950356305, -90.76806329190731], [38.63548521883786, -90.76826931908727], [38.63509889692068, -90.7684784475714], [38.63471366465092, -90.76869025826454], [38.6343396641314, -90.76890600845218], [38.633973291143775, -90.7691341638565], [38.633616641163826, -90.76908244751394], [38.63333500921726, -90.76871096156538], [38.63294944167137, -90.76885169371963], [38.632567981258035, -90.76907339505851], [38.63219456747174, -90.76928939670324], [38.631810173392296, -90.76952492818236], [38.63140490837395, -90.76974897645414], [38.6310416366905, -90.76996439136565], [38.63066855818033, -90.77018911018968], [38.63028667867184, -90.7704000826925], [38.62993061542511, -90.77061683870852], [38.62956457771361, -90.7708234526217], [38.62920440733433, -90.77103526331484], [38.62884113565087, -90.77125780284405], [38.62845749594271, -90.77147212810814], [38.62805726006627, -90.77170497737825], [38.62767864950001, -90.77191620133817], [38.627476980909705, -90.7722931355238], [38.62765300087631, -90.7727678027004], [38.62782130949199, -90.77323618344963], [38.62797947600484, -90.77370456419885], [38.62815625034273, -90.77416950836778], [38.628334449604154, -90.77465012669563], [38.62850250676274, -90.77510576695204], [38.62866687588394, -90.7755615748465], [38.628834849223495, -90.77601495198905], [38.629000559449196, -90.77648366801441], [38.62917071208358, -90.77694064937532], [38.629339691251516, -90.77738774009049], [38.629492996260524, -90.77783483080566], [38.62965250387788, -90.77829130925238], [38.629816956818104, -90.77874502167106], [38.62997705116868, -90.77921180985868], [38.63026731647551, -90.7792589161545], [38.630611058324575, -90.7789761107415], [38.630973072722554, -90.77870621345937], [38.63132477737963, -90.77840689569712], [38.63169400021434, -90.77811470255256], [38.632066659629345, -90.77781295403838], [38.63243630155921, -90.77752327546477], [38.63278876058757, -90.77721582725644], [38.63315907306969, -90.77693067491055], [38.6335988715291, -90.7765547465533], [38.63402400165796, -90.77619776129723], [38.634437061846256, -90.77586080878973], [38.6348510440439, -90.77553005889058], [38.635017927736044, -90.77543056569993]],
+                {&amp;quot;bubblingMouseEvents&amp;quot;: true, &amp;quot;color&amp;quot;: &amp;quot;#E74C3C&amp;quot;, &amp;quot;dashArray&amp;quot;: null, &amp;quot;dashOffset&amp;quot;: null, &amp;quot;fill&amp;quot;: false, &amp;quot;fillColor&amp;quot;: &amp;quot;#E74C3C&amp;quot;, &amp;quot;fillOpacity&amp;quot;: 0.2, &amp;quot;fillRule&amp;quot;: &amp;quot;evenodd&amp;quot;, &amp;quot;lineCap&amp;quot;: &amp;quot;round&amp;quot;, &amp;quot;lineJoin&amp;quot;: &amp;quot;round&amp;quot;, &amp;quot;noClip&amp;quot;: false, &amp;quot;opacity&amp;quot;: 0.8, &amp;quot;smoothFactor&amp;quot;: 1.0, &amp;quot;stroke&amp;quot;: true, &amp;quot;weight&amp;quot;: 3}
+            ).addTo(map_4628e5b891b3682ab9f3b705b94a78aa);
+
+
+            map_4628e5b891b3682ab9f3b705b94a78aa.fitBounds(
+                [[38.634878201410174, -90.77552125789225], [38.63512714393437, -90.77562108635902], [38.63545127213001, -90.77601352706552], [38.63577900454402, -90.77627906575799], [38.63598234951496, -90.7768066227436], [38.63610673695803, -90.77729788608849], [38.63600171171129, -90.77777112834156], [38.63612400367856, -90.77825652435422], [38.63633162342012, -90.77874024398625], [38.63651719875634, -90.77923796139657], [38.63668198697269, -90.77973643317819], [38.636853815987706, -90.78022526577115], [38.63704165443778, -90.7807198818773], [38.637197725474834, -90.7812154199928], [38.637280790135264, -90.78148414380848], [38.63746711984277, -90.78208319842815], [38.63762696273625, -90.78262626193464], [38.63757901825011, -90.7831774558872], [38.637373661622405, -90.78372328542173], [38.6371751781553, -90.7841960247606], [38.637171406298876, -90.78473397530615], [38.637405848130584, -90.78517033718526], [38.63771120086312, -90.78548591583967], [38.638020660728216, -90.78580970875919], [38.63822903484106, -90.78620508313179], [38.63828821107745, -90.78662845306098], [38.638211684301496, -90.78703941777349], [38.63804278895259, -90.78747787512839], [38.637884287163615, -90.7880162447691], [38.63759268075228, -90.78848026692867], [38.637113152071834, -90.78872870653868], [38.63663513213396, -90.78899256885052], [38.63619047217071, -90.78925651498139], [38.6357263661921, -90.78952666372061], [38.63528463989496, -90.78975942917168], [38.63486395217478, -90.79000057652593], [38.63439565524459, -90.79027927480638], [38.63397756591439, -90.79026552848518], [38.63379215821624, -90.78970729373395], [38.63360130228102, -90.78916892409325], [38.63339561037719, -90.78860306181014], [38.633181285113096, -90.78799587674439], [38.63297777250409, -90.78742833808064], [38.63277995958924, -90.78685593791306], [38.63258541561663, -90.78628035262227], [38.63234795629978, -90.7856469321996], [38.63211133517325, -90.78494385816157], [38.63188904710114, -90.78433348797262], [38.63169374875724, -90.78376477584243], [38.63146433606744, -90.7831772044301], [38.631257470697165, -90.7826055586338], [38.63107357174158, -90.7820547837764], [38.63088137470186, -90.78154172748327], [38.630688171833754, -90.78098810277879], [38.63050687126815, -90.7804212346673], [38.63029514439404, -90.77988537959754], [38.6300328746438, -90.77941532246768], [38.629612773656845, -90.77974992804229], [38.62923575565219, -90.78004446811974], [38.628873405978084, -90.78035334125161], [38.62847099080682, -90.78065634705126], [38.628083327785134, -90.7809793855995], [38.62768619321287, -90.78130326233804], [38.62728310748935, -90.78163686208427], [38.62689879722893, -90.78195654787123], [38.62651959992945, -90.78224957920611], [38.62616806291044, -90.78255736269057], [38.625795571133494, -90.78284486196935], [38.62540262751281, -90.78311224468052], [38.62503164447844, -90.78337518498302], [38.624645406380296, -90.78366209752858], [38.624260341748595, -90.78393417410553], [38.62395415082574, -90.78415168449283], [38.62435379996896, -90.78389813192189], [38.62473400309682, -90.78361373394728], [38.625136418268085, -90.7833310123533], [38.62552969716489, -90.78306614421308], [38.625912414863706, -90.78277738764882], [38.62628633156419, -90.78249097801745], [38.626675670966506, -90.78217539936304], [38.62704430706799, -90.78186954371631], [38.627437418326735, -90.7815507799387], [38.6278123408556, -90.78123981133103], [38.628188855946064, -90.78093479387462], [38.62856361083686, -90.78062902204692], [38.62892705015838, -90.78035275451839], [38.62928965128958, -90.78004379756749], [38.62965879030526, -90.77974875457585], [38.63001074641943, -90.7794753368944], [38.629894154146314, -90.77891433611512], [38.62969592213631, -90.77841703779995], [38.629516549408436, -90.77789484523237], [38.62932066433132, -90.77738002873957], [38.62913953140378, -90.77688415534794], [38.62895496189594, -90.77638350427151], [38.62878338433802, -90.77590506523848], [38.628610130399466, -90.77542126178741], [38.62843109294772, -90.77493544667959], [38.62824861891568, -90.77445625327528], [38.62807008437812, -90.77394621446729], [38.627896662801504, -90.77343039214611], [38.627715446054935, -90.77295815572143], [38.62753330729902, -90.77246186323464], [38.627527272328734, -90.77199247665703], [38.62791007384658, -90.77175887301564], [38.628316428512335, -90.77153189107776], [38.62871297635138, -90.77130733989179], [38.62909795716405, -90.77108463272452], [38.629495007917285, -90.77084742486477], [38.629882922396064, -90.77062589116395], [38.630276368930936, -90.77039245516062], [38.63067199476063, -90.77016463503242], [38.631057646125555, -90.76994184404612], [38.631454948335886, -90.76971041969955], [38.631846718490124, -90.76948067173362], [38.632234297692776, -90.76925218105316], [38.63261718302965, -90.76902503147721], [38.63299269229174, -90.76880307868123], [38.63341564312577, -90.7687387894839], [38.633684953674674, -90.76916609890759], [38.63411511294544, -90.769027126953], [38.634504871442914, -90.76878514140844], [38.634899239987135, -90.76856888830662], [38.63528556190431, -90.76835456304252], [38.63568311557174, -90.76814929023385], [38.63607672974467, -90.76795399188995], [38.6364568490535, -90.76774645596743], [38.636842081323266, -90.76753908768296], [38.637240808457136, -90.76732954010367], [38.63761095330119, -90.76710741966963], [38.63801931962371, -90.76688504777849], [38.63840790465474, -90.7666615024209], [38.638662127777934, -90.76697557233274], [38.63882574252784, -90.76747027225792], [38.63900260068476, -90.76796262525022], [38.63917836919427, -90.7684610132128], [38.63935153931379, -90.76896652579308], [38.639516830444336, -90.76946348883212], [38.639700477942824, -90.76998358592391], [38.63987314514816, -90.77048616483808], [38.640041872859, -90.77099008485675], [38.63991379737854, -90.77059580013156], [38.63973534666002, -90.77009657397866], [38.639565613120794, -90.7695852778852], [38.63939110189676, -90.76910625211895], [38.63922731950879, -90.76862496323884], [38.63905197009444, -90.76812967658043], [38.63888240419328, -90.76765291392803], [38.6387207172811, -90.76718235388398], [38.6385758779943, -90.76670433394611], [38.63817807286978, -90.7668086886406], [38.63779610954225, -90.76702242717147], [38.63740811124444, -90.76724278740585], [38.637018855661154, -90.76745384372771], [38.63664988428354, -90.76765777543187], [38.63627043552697, -90.76786179095507], [38.63587950356305, -90.76806329190731], [38.63548521883786, -90.76826931908727], [38.63509889692068, -90.7684784475714], [38.63471366465092, -90.76869025826454], [38.6343396641314, -90.76890600845218], [38.633973291143775, -90.7691341638565], [38.633616641163826, -90.76908244751394], [38.63333500921726, -90.76871096156538], [38.63294944167137, -90.76885169371963], [38.632567981258035, -90.76907339505851], [38.63219456747174, -90.76928939670324], [38.631810173392296, -90.76952492818236], [38.63140490837395, -90.76974897645414], [38.6310416366905, -90.76996439136565], [38.63066855818033, -90.77018911018968], [38.63028667867184, -90.7704000826925], [38.62993061542511, -90.77061683870852], [38.62956457771361, -90.7708234526217], [38.62920440733433, -90.77103526331484], [38.62884113565087, -90.77125780284405], [38.62845749594271, -90.77147212810814], [38.62805726006627, -90.77170497737825], [38.62767864950001, -90.77191620133817], [38.627476980909705, -90.7722931355238], [38.62765300087631, -90.7727678027004], [38.62782130949199, -90.77323618344963], [38.62797947600484, -90.77370456419885], [38.62815625034273, -90.77416950836778], [38.628334449604154, -90.77465012669563], [38.62850250676274, -90.77510576695204], [38.62866687588394, -90.7755615748465], [38.628834849223495, -90.77601495198905], [38.629000559449196, -90.77648366801441], [38.62917071208358, -90.77694064937532], [38.629339691251516, -90.77738774009049], [38.629492996260524, -90.77783483080566], [38.62965250387788, -90.77829130925238], [38.629816956818104, -90.77874502167106], [38.62997705116868, -90.77921180985868], [38.63026731647551, -90.7792589161545], [38.630611058324575, -90.7789761107415], [38.630973072722554, -90.77870621345937], [38.63132477737963, -90.77840689569712], [38.63169400021434, -90.77811470255256], [38.632066659629345, -90.77781295403838], [38.63243630155921, -90.77752327546477], [38.63278876058757, -90.77721582725644], [38.63315907306969, -90.77693067491055], [38.6335988715291, -90.7765547465533], [38.63402400165796, -90.77619776129723], [38.634437061846256, -90.77586080878973], [38.6348510440439, -90.77553005889058], [38.635017927736044, -90.77543056569993]],
+                {}
+            );
+
+&amp;lt;/script&amp;gt;
+&amp;lt;/html&amp;gt;&quot; style=&quot;position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;&quot; allowfullscreen webkitallowfullscreen mozallowfullscreen&gt;&lt;/iframe&gt;&lt;/div&gt;&lt;/div&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div>
+        </div>
+        <div class="highlight-info">
+            <h3 class="highlight-title">Dashing Through Defiance 10k!</h3>
+            <p class="highlight-date">December 6, 2025</p>
+            <div class="highlight-stats">
+                <div class="stat">
+                    <span class="stat-value">6.27</span>
+                    <span class="stat-label">Miles</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">55:19</span>
+                    <span class="stat-label">Time</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">8:49/mi</span>
+                    <span class="stat-label">Pace</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">238</span>
+                    <span class="stat-label">Ft Elev</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="highlight-card">
+        <div class="highlight-badge" style="background: linear-gradient(135deg, #7a9bb5 0%, #6889a3 100%);">🚶 Longest Walk</div>
         <div class="highlight-map">
             <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -1171,7 +1460,7 @@
     </div>
     
     <div class="highlight-card">
-        <div class="highlight-badge" style="background: #3498DB;">🚶 Hilliest Walk</div>
+        <div class="highlight-badge" style="background: linear-gradient(135deg, #7a9bb5 0%, #6889a3 100%);">🚶 Hilliest Walk</div>
         <div class="highlight-map">
             <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -1303,7 +1592,7 @@
     </div>
     
     <div class="highlight-card">
-        <div class="highlight-badge" style="background: #27AE60;">🥾 Longest Hike</div>
+        <div class="highlight-badge" style="background: linear-gradient(135deg, #8fa882 0%, #6d8a60 100%);">🥾 Longest Hike</div>
         <div class="highlight-map">
             <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -1435,7 +1724,7 @@
     </div>
     
     <div class="highlight-card">
-        <div class="highlight-badge" style="background: #27AE60;">🥾 Most Elevation Hike</div>
+        <div class="highlight-badge" style="background: linear-gradient(135deg, #8fa882 0%, #6d8a60 100%);">🥾 Most Elevation Hike</div>
         <div class="highlight-map">
             <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -1593,6 +1882,7 @@
         </div>
         
         <footer class="footer">
+            <p>Built with Claude 🦀 Wed 01•01•26</p>
             <p>Generated from Strava data • 635 activities analyzed</p>
         </footer>
     </div>
