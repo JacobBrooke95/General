@@ -3,8 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Now</title>
+    <title>Jacob Brooke - Now</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .page-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            overflow: hidden;
+            margin-top: 50px;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #e07a5f 0%, #bc6c5c 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .page-header p {
+            color: white;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .page-header p a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .page-header p a:hover {
+            opacity: 0.8;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            font-size: 1.4em;
+            color: #c9705e;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f5e6d3;
+            padding-bottom: 8px;
+        }
+
+        .section-content {
+            background: linear-gradient(135deg, #fdf8f5 0%, #f9ebe4 100%);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #f0d9cc;
+        }
+
+        .section-content p {
+            color: #666;
+            font-size: 1.05em;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .styled-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .styled-list li {
+            padding-left: 20px;
+            position: relative;
+            margin-bottom: 12px;
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #2d3436;
+        }
+
+        .styled-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .styled-list li::before {
+            content: '•';
+            color: #e07a5f;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .styled-list a {
+            color: #c9705e;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .styled-list a:hover {
+            color: #a85a4a;
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -14,64 +126,63 @@
                 <li><a href="about.html">About</a></li>
                 <li><a href="now.html" class="active">Now</a></li>
                 <li><a href="reads.html">Reads</a></li>
+                <li><a href="year_in_review_2025.html">2025 Running</a></li>
                 <li><a href="claude-models.html">Claude Guide</a></li>
             </ul>
         </div>
     </nav>
 
-    <header class="hero">
-        <div class="container">
-            <h1>Now</h1>
-            <p>My current projects, learning, and focus areas</p>
+    <div class="container">
+        <div class="page-card">
+            <div class="page-header">
+                <h1>Now</h1>
+                <p>A <a href="https://nownownow.com/about" target="_blank" rel="noopener noreferrer">now page</a> of my current projects, learning, and focus areas</p>
+            </div>
+
+            <div class="content">
+
+                <div class="section">
+                    <h2 class="section-title">Work</h2>
+                    <div class="section-content">
+                        <p>Currently serving as Assistant Director for Planning at the Division of Budget & Planning. Key priorities include:</p>
+                        <ul class="styled-list">
+                            <li>Leading strategic planning initiatives for the division</li>
+                            <li>Overseeing legislative coordination and policy analysis across state agencies</li>
+                            <li>Managing a team of analysts tracking legislation considered by the General Assembly</li>
+                            <li>Improving communication workflows between state agencies and the executive branch</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">Learning</h2>
+                    <div class="section-content">
+                        <p>Expanding my technical and professional skillset in these areas:</p>
+                        <ul class="styled-list">
+                            <li><strong>Web Development:</strong> Exploring using AI to write HTML, CSS, and JavaScript to build interesting things</li>
+                            <li><strong>AI & Automation:</strong> Learning how to leverage AI tools like <a href="claude-models.html">Claude</a> to enhance policy analysis and communication</li>
+                            <li><strong>Data Visualization:</strong> Improving my ability to present complex legislative data in accessible formats</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">Fitness</h2>
+                    <div class="section-content">
+                        <p>Staying active through running, walking, and hiking Missouri's trails:</p>
+                        <ul class="styled-list">
+                            <li>Training for longer distance runs</li>
+                            <li>Exploring Missouri's state parks and trail systems</li>
+                            <li>Tracking progress with Strava - check out my <a href="year_in_review_2025.html">2025 Year in Review</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-    </header>
 
-    <main class="container">
-        <div class="content-section">
-            <p class="now-intro">
-                This is a <a href="https://nownownow.com/about" target="_blank" rel="noopener noreferrer">now page</a>,
-                inspired by Derek Sivers. Last updated: December 2025
-            </p>
+        <div class="footer">
+            <p>Built with Claude 🦀 Wed 01•01•26</p>
         </div>
-
-        <section class="content-section">
-            <h2>Work</h2>
-            <p>Currently serving as Assistant Director for Planning at the Division of Budget & Planning. Key priorities include:</p>
-            <ul>
-                <li>Leading strategic planning initiatives for the division</li>
-                <li>Overseeing legislative coordination and policy analysis across state agencies</li>
-                <li>Managing a team of analysts tracking legislation considered by the General Assembly</li>
-                <li>Improving communication workflows between state agencies and the executive branch</li>
-            </ul>
-        </section>
-
-        <section class="content-section">
-            <h2>Learning</h2>
-            <p>Expanding my technical and professional skillset in these areas:</p>
-            <ul>
-                <li><strong>Web Development:</strong> Exploring using AI to write HTML, CSS, and JavaScript to build interesting things</li>
-                <li><strong>AI & Automation:</strong> Learning how to leverage AI tools like <a href="claude-models.html">Claude</a> to enhance policy analysis and communication</li>
-                <li><strong>Data Visualization:</strong> Improving my ability to present complex legislative data in accessible formats</li>
-            </ul>
-        </section>
-
-        <section class="content-section">
-            <h2>Fitness</h2>
-            <p>Staying active through running, walking, and hiking Missouri's trails:</p>
-            <ul>
-                <li>Training for longer distance runs</li>
-                <li>Exploring Missouri's state parks and trail systems</li>
-                <li>Tracking progress with Strava - check out my <a href="year_in_review_2025.html">2025 Year in Review</a></li>
-            </ul>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <p>Built with Claude 🦀 Sun 12•21•25</p>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+    </div>
 </body>
 </html>

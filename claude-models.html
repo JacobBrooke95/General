@@ -6,10 +6,37 @@
     <title>Claude Model Guide - Release Cycle Tracker</title>
     <link rel="stylesheet" href="styles.css">
     <style>
+        .page-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            overflow: hidden;
+            margin-top: 50px;
+            padding: 40px 30px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: 2.5em;
+            color: #c9705e;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .page-header p {
+            color: #666;
+            font-style: italic;
+            font-size: 1.1em;
+        }
+
         .guide-intro {
             text-align: center;
             max-width: 700px;
-            margin: 0 auto 3rem;
+            margin: 0 auto 2rem;
         }
 
         .guide-intro p {
@@ -18,202 +45,173 @@
             line-height: 1.7;
         }
 
+        .last-updated {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
         .model-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
         }
 
         .model-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
+            background: linear-gradient(135deg, #fdf8f5 0%, #f9ebe4 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #f0d9cc;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .model-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(224, 122, 95, 0.15);
         }
 
         .model-header {
-            padding: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
             color: white;
             text-align: center;
+            margin-bottom: 1rem;
         }
 
+        /* Warmer, muted accent colors */
         .model-header.opus {
-            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+            background: linear-gradient(135deg, #9d7bb0 0%, #7a5a8c 100%);
         }
 
         .model-header.sonnet {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            background: linear-gradient(135deg, #d4836a 0%, #c9705e 100%);
         }
 
         .model-header.haiku {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(135deg, #8fa882 0%, #6d8a60 100%);
         }
 
         .model-name {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             font-weight: 600;
             margin-bottom: 0.25rem;
         }
 
         .model-tier {
             opacity: 0.9;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
         .model-body {
-            padding: 1.5rem;
+            padding-top: 0.5rem;
         }
 
         .status-badge {
             display: inline-block;
-            padding: 0.5rem 1.25rem;
-            border-radius: 25px;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .badge-fresh {
-            background: #d1fae5;
-            color: #065f46;
+            background: rgba(141, 168, 130, 0.2);
+            color: #5a7550;
         }
 
         .badge-current {
-            background: #e5e7eb;
-            color: #374151;
+            background: rgba(102, 102, 102, 0.15);
+            color: #555;
         }
 
         .badge-aging {
-            background: #fef3c7;
-            color: #92400e;
+            background: rgba(212, 131, 106, 0.2);
+            color: #a86a52;
         }
 
         .badge-dated {
-            background: #fee2e2;
-            color: #991b1b;
+            background: rgba(201, 112, 94, 0.2);
+            color: #a85a4a;
         }
 
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
         }
 
         .stat-box {
-            background: #f9fafb;
-            padding: 1rem;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 0.75rem;
+            border-radius: 8px;
             text-align: center;
+            border: 1px solid #f0d9cc;
         }
 
         .stat-value {
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            color: #1f2937;
+            color: #2d3436;
         }
 
         .stat-label {
-            font-size: 0.8rem;
-            color: #6b7280;
+            font-size: 0.75rem;
+            color: #666;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .progress-section {
-            margin-bottom: 1.5rem;
-        }
-
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            color: #4b5563;
-        }
-
-        .progress-bar {
-            height: 12px;
-            background: #e5e7eb;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            border-radius: 6px;
-            transition: width 1s ease-out;
-        }
-
-        .progress-fill.green {
-            background: linear-gradient(90deg, #34d399 0%, #10b981 100%);
-        }
-
-        .progress-fill.gray {
-            background: linear-gradient(90deg, #9ca3af 0%, #6b7280 100%);
-        }
-
-        .progress-fill.yellow {
-            background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
-        }
-
-        .progress-fill.red {
-            background: linear-gradient(90deg, #f87171 0%, #ef4444 100%);
-        }
-
         .latest-release {
-            background: #f3f4f6;
+            background: rgba(255, 255, 255, 0.7);
             padding: 1rem;
-            border-radius: 10px;
-            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #f0d9cc;
         }
 
         .latest-release h4 {
-            font-size: 0.85rem;
-            color: #6b7280;
+            font-size: 0.8rem;
+            color: #666;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 0.5rem;
         }
 
         .latest-release .version {
-            font-size: 1.1rem;
+            font-size: 1.1em;
             font-weight: 600;
-            color: #1f2937;
+            color: #2d3436;
         }
 
         .latest-release .version a {
-            color: #1f2937;
+            color: #2d3436;
             text-decoration: none;
         }
 
         .latest-release .version a:hover {
-            color: #e07a5f;
+            color: #c9705e;
             text-decoration: underline;
         }
 
         .latest-release .date {
             font-size: 0.9rem;
-            color: #6b7280;
+            color: #666;
         }
 
         .release-history {
-            border-top: 1px solid #e5e7eb;
+            border-top: 1px solid #f0d9cc;
             padding-top: 1rem;
         }
 
         .release-history h4 {
-            font-size: 0.85rem;
-            color: #6b7280;
+            font-size: 0.8rem;
+            color: #666;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 0.75rem;
@@ -223,7 +221,7 @@
             list-style: none;
             padding: 0;
             margin: 0;
-            max-height: 220px;
+            max-height: 180px;
             overflow-y: auto;
         }
 
@@ -231,9 +229,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #f3f4f6;
-            font-size: 0.9rem;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid rgba(240, 217, 204, 0.5);
+            font-size: 0.85rem;
             gap: 0.5rem;
         }
 
@@ -242,64 +240,75 @@
         }
 
         .release-version {
-            color: #374151;
+            color: #2d3436;
             font-weight: 500;
             flex-shrink: 0;
         }
 
         .release-version a {
-            color: #374151;
+            color: #2d3436;
             text-decoration: none;
         }
 
         .release-version a:hover {
-            color: #e07a5f;
+            color: #c9705e;
             text-decoration: underline;
         }
 
         .release-meta {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
             flex-shrink: 0;
         }
 
         .release-days {
-            font-size: 0.75rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 10px;
-            background: #f3f4f6;
-            color: #6b7280;
+            font-size: 0.7rem;
+            padding: 0.15rem 0.4rem;
+            border-radius: 8px;
+            background: rgba(240, 217, 204, 0.5);
+            color: #666;
             white-space: nowrap;
         }
 
         .release-days.counting {
-            background: #dbeafe;
-            color: #1e40af;
+            background: rgba(201, 112, 94, 0.15);
+            color: #c9705e;
         }
 
         .release-date {
-            color: #9ca3af;
-            font-size: 0.85rem;
+            color: #888;
+            font-size: 0.8rem;
             white-space: nowrap;
         }
 
+        .section-title {
+            font-size: 1.4em;
+            color: #c9705e;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f5e6d3;
+            padding-bottom: 8px;
+            margin-top: 2rem;
+        }
+
         .legend-section {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #fdf8f5 0%, #f9ebe4 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            border: 1px solid #f0d9cc;
         }
 
         .legend-section h3 {
-            color: #5c4a3d;
+            color: #c9705e;
             margin-bottom: 1rem;
+            font-weight: 600;
+            font-size: 1.1em;
         }
 
         .legend-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1rem;
         }
 
@@ -310,39 +319,44 @@
         }
 
         .legend-color {
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             border-radius: 4px;
             flex-shrink: 0;
         }
 
-        .legend-color.green { background: #10b981; }
-        .legend-color.gray { background: #6b7280; }
-        .legend-color.yellow { background: #f59e0b; }
-        .legend-color.red { background: #ef4444; }
+        /* Warmer legend colors */
+        .legend-color.green { background: #8da87f; }
+        .legend-color.gray { background: #888; }
+        .legend-color.yellow { background: #d4836a; }
+        .legend-color.red { background: #c9705e; }
 
         .legend-text {
-            font-size: 0.9rem;
-            color: #4b5563;
+            font-size: 0.85rem;
+            color: #666;
         }
 
         .legend-text strong {
-            color: #1f2937;
+            color: #2d3436;
         }
 
         .disclaimer {
             text-align: center;
-            color: #9ca3af;
+            color: #888;
             font-size: 0.85rem;
             font-style: italic;
             margin-top: 2rem;
         }
 
-        .last-updated {
+        .footer {
             text-align: center;
-            color: #6b7280;
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
+            padding: 20px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9em;
+        }
+
+        .footer a {
+            color: #e07a5f;
         }
 
         @media (max-width: 768px) {
@@ -370,13 +384,14 @@
                 <li><a href="about.html">About</a></li>
                 <li><a href="now.html">Now</a></li>
                 <li><a href="reads.html">Reads</a></li>
+                <li><a href="year_in_review_2025.html">2025 Running</a></li>
                 <li><a href="claude-models.html" class="active">Claude Guide</a></li>
             </ul>
         </div>
     </nav>
 
-    <main>
-        <div class="container">
+    <div class="container">
+        <div class="page-card">
             <div class="page-header">
                 <h1>Claude Model Guide</h1>
                 <p>Track the age of Anthropic's Claude models</p>
@@ -401,19 +416,19 @@
                 <div class="legend-grid">
                     <div class="legend-item">
                         <div class="legend-color green"></div>
-                        <div class="legend-text"><strong>Fresh</strong> — Recently released (&lt;25% of typical cycle)</div>
+                        <div class="legend-text"><strong>Fresh</strong> - Recently released (&lt;25% of typical cycle)</div>
                     </div>
                     <div class="legend-item">
                         <div class="legend-color gray"></div>
-                        <div class="legend-text"><strong>Current</strong> — Mid-cycle (25-50%)</div>
+                        <div class="legend-text"><strong>Current</strong> - Mid-cycle (25-50%)</div>
                     </div>
                     <div class="legend-item">
                         <div class="legend-color yellow"></div>
-                        <div class="legend-text"><strong>Aging</strong> — Later in cycle (50-75%)</div>
+                        <div class="legend-text"><strong>Aging</strong> - Later in cycle (50-75%)</div>
                     </div>
                     <div class="legend-item">
                         <div class="legend-color red"></div>
-                        <div class="legend-text"><strong>Dated</strong> — Update may be coming (&gt;75%)</div>
+                        <div class="legend-text"><strong>Dated</strong> - Update may be coming (&gt;75%)</div>
                     </div>
                 </div>
             </div>
@@ -423,14 +438,12 @@
                 Anthropic does not publish a release schedule, and actual release timing may vary.
             </p>
         </div>
-    </main>
 
-    <footer class="footer">
-        <div class="container">
-            <p>Built with Claude</p>
-            <p class="footer-note">Data sourced from <a href="https://www.anthropic.com/news" target="_blank" rel="noopener" style="color: #e07a5f;">Anthropic News</a></p>
+        <div class="footer">
+            <p>Built with Claude 🦀 Wed 01•01•26</p>
+            <p>Data sourced from <a href="https://www.anthropic.com/news" target="_blank" rel="noopener">Anthropic News</a></p>
         </div>
-    </footer>
+    </div>
 
     <script>
         // Claude model release data with announcement links
@@ -510,23 +523,19 @@
             const cyclePercent = Math.min(Math.round((daysSinceRelease / avgDays) * 100), 100);
 
             // Determine status
-            let status, badgeClass, progressClass;
+            let status, badgeClass;
             if (cyclePercent < 25) {
                 status = "Fresh";
                 badgeClass = "badge-fresh";
-                progressClass = "green";
             } else if (cyclePercent < 50) {
                 status = "Current";
                 badgeClass = "badge-current";
-                progressClass = "gray";
             } else if (cyclePercent < 75) {
                 status = "Aging";
                 badgeClass = "badge-aging";
-                progressClass = "yellow";
             } else {
                 status = "Dated";
                 badgeClass = "badge-dated";
-                progressClass = "red";
             }
 
             return {
@@ -535,7 +544,6 @@
                 cyclePercent,
                 status,
                 badgeClass,
-                progressClass,
                 latestVersion: releases[releases.length - 1].version,
                 latestDate: releases[releases.length - 1].date,
                 latestUrl: releases[releases.length - 1].url
@@ -595,17 +603,7 @@
                             </div>
                             <div class="stat-box">
                                 <div class="stat-value">${stats.avgDays}</div>
-                                <div class="stat-label">Avg Cycle (Days)</div>
-                            </div>
-                        </div>
-
-                        <div class="progress-section">
-                            <div class="progress-label">
-                                <span>Cycle Progress</span>
-                                <span>${stats.cyclePercent}%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill ${stats.progressClass}" style="width: ${stats.cyclePercent}%"></div>
+                                <div class="stat-label">Avg Cycle</div>
                             </div>
                         </div>
 
