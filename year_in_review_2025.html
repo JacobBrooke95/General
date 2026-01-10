@@ -410,6 +410,21 @@
             color: #555;
             font-size: 0.9rem;
         }
+
+        /* Clawd Easter Egg */
+        .clawd-link {
+            text-decoration: none;
+            cursor: default;
+            position: relative;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .clawd-link:hover {
+            text-decoration: none;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -1882,7 +1897,7 @@
         </div>
         
         <footer class="footer">
-            <p>Built with Claude 🦀 Wed 01•01•26</p>
+            <p>Built with Claude <a href="forest.html" class="clawd-link" title="Clawd">🦀</a> Wed 01•01•26</p>
             <p>Generated from Strava data • 635 activities analyzed</p>
         </footer>
     </div>

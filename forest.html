@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forest Clearing</title>
+    <style>
+        /* ==========================================================================
+           Pixel Art Forest - Hidden Easter Egg
+           A peaceful midday forest clearing with animated woodland creatures
+           ========================================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            font-family: monospace;
+        }
+
+        /* Main Scene Container */
+        .forest-scene {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg,
+                #87CEEB 0%,      /* Light sky blue */
+                #98D4E8 30%,     /* Softer blue */
+                #B8E6C1 60%,     /* Green tint near trees */
+                #8FBC8F 100%    /* Forest green horizon */
+            );
+        }
+
+        /* ==========================================================================
+           Sky Elements
+           ========================================================================== */
+
+        /* Sun */
+        .sun {
+            position: absolute;
+            top: 60px;
+            right: 15%;
+            width: 80px;
+            height: 80px;
+            background: #FFE066;
+            border-radius: 50%;
+            box-shadow:
+                0 0 60px 30px rgba(255, 224, 102, 0.4),
+                0 0 100px 60px rgba(255, 200, 50, 0.2);
+            animation: sun-glow 4s ease-in-out infinite;
+        }
+
+        @keyframes sun-glow {
+            0%, 100% { box-shadow: 0 0 60px 30px rgba(255, 224, 102, 0.4), 0 0 100px 60px rgba(255, 200, 50, 0.2); }
+            50% { box-shadow: 0 0 80px 40px rgba(255, 224, 102, 0.5), 0 0 120px 70px rgba(255, 200, 50, 0.25); }
+        }
+
+        /* Clouds */
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            animation: float-cloud 60s linear infinite;
+        }
+
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+        }
+
+        .cloud-1 {
+            width: 100px;
+            height: 40px;
+            top: 80px;
+            left: -150px;
+            animation-duration: 80s;
+        }
+        .cloud-1::before { width: 50px; height: 50px; top: -25px; left: 15px; }
+        .cloud-1::after { width: 35px; height: 35px; top: -15px; left: 50px; }
+
+        .cloud-2 {
+            width: 120px;
+            height: 45px;
+            top: 40px;
+            left: -200px;
+            animation-duration: 100s;
+            animation-delay: -30s;
+        }
+        .cloud-2::before { width: 60px; height: 60px; top: -30px; left: 20px; }
+        .cloud-2::after { width: 45px; height: 45px; top: -20px; left: 60px; }
+
+        .cloud-3 {
+            width: 80px;
+            height: 30px;
+            top: 120px;
+            left: -100px;
+            animation-duration: 70s;
+            animation-delay: -50s;
+        }
+        .cloud-3::before { width: 40px; height: 40px; top: -20px; left: 10px; }
+        .cloud-3::after { width: 30px; height: 30px; top: -12px; left: 40px; }
+
+        @keyframes float-cloud {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(100vw + 300px)); }
+        }
+
+        /* ==========================================================================
+           Background Trees (Far)
+           ========================================================================== */
+
+        .tree-layer-far {
+            position: absolute;
+            bottom: 25%;
+            left: 0;
+            width: 100%;
+            height: 35%;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            opacity: 0.5;
+            filter: blur(1px);
+        }
+
+        .tree-far {
+            position: relative;
+        }
+
+        .tree-far .trunk {
+            background: #5D4037;
+            margin: 0 auto;
+        }
+
+        .tree-far .foliage {
+            background: #4A7C59;
+            clip-path: polygon(50% 0%, 15% 100%, 85% 100%);
+        }
+
+        .tree-far-1 .trunk { width: 12px; height: 40px; }
+        .tree-far-1 .foliage { width: 60px; height: 80px; }
+
+        .tree-far-2 .trunk { width: 10px; height: 35px; }
+        .tree-far-2 .foliage { width: 50px; height: 70px; }
+
+        .tree-far-3 .trunk { width: 14px; height: 45px; }
+        .tree-far-3 .foliage { width: 70px; height: 90px; }
+
+        .tree-far-4 .trunk { width: 11px; height: 38px; }
+        .tree-far-4 .foliage { width: 55px; height: 75px; }
+
+        .tree-far-5 .trunk { width: 13px; height: 42px; }
+        .tree-far-5 .foliage { width: 65px; height: 85px; }
+
+        /* ==========================================================================
+           Middle Trees
+           ========================================================================== */
+
+        .tree-layer-mid {
+            position: absolute;
+            bottom: 18%;
+            left: 0;
+            width: 100%;
+            height: 45%;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            opacity: 0.75;
+        }
+
+        .tree-mid {
+            position: relative;
+        }
+
+        .tree-mid .trunk {
+            background: linear-gradient(90deg, #4E342E 0%, #6D4C41 50%, #4E342E 100%);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        .tree-mid .foliage {
+            position: relative;
+        }
+
+        .tree-mid .foliage-layer {
+            background: #558B2F;
+            clip-path: polygon(50% 0%, 10% 100%, 90% 100%);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .tree-mid-1 .trunk { width: 18px; height: 60px; }
+        .tree-mid-1 .foliage { width: 100px; height: 140px; }
+        .tree-mid-1 .foliage-layer:nth-child(1) { width: 60px; height: 50px; top: 0; background: #6B8E23; }
+        .tree-mid-1 .foliage-layer:nth-child(2) { width: 80px; height: 55px; top: 35px; background: #558B2F; }
+        .tree-mid-1 .foliage-layer:nth-child(3) { width: 100px; height: 60px; top: 75px; background: #4A7C23; }
+
+        .tree-mid-2 .trunk { width: 20px; height: 70px; }
+        .tree-mid-2 .foliage { width: 110px; height: 150px; }
+        .tree-mid-2 .foliage-layer:nth-child(1) { width: 65px; height: 55px; top: 0; background: #7CB342; }
+        .tree-mid-2 .foliage-layer:nth-child(2) { width: 85px; height: 60px; top: 40px; background: #689F38; }
+        .tree-mid-2 .foliage-layer:nth-child(3) { width: 110px; height: 65px; top: 85px; background: #558B2F; }
+
+        .tree-mid-3 .trunk { width: 16px; height: 55px; }
+        .tree-mid-3 .foliage { width: 90px; height: 130px; }
+        .tree-mid-3 .foliage-layer:nth-child(1) { width: 55px; height: 45px; top: 0; background: #8BC34A; }
+        .tree-mid-3 .foliage-layer:nth-child(2) { width: 75px; height: 50px; top: 32px; background: #7CB342; }
+        .tree-mid-3 .foliage-layer:nth-child(3) { width: 90px; height: 55px; top: 70px; background: #689F38; }
+
+        /* ==========================================================================
+           Foreground Trees (Near)
+           ========================================================================== */
+
+        .tree-layer-near {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60%;
+            pointer-events: none;
+        }
+
+        .tree-near {
+            position: absolute;
+            bottom: 15%;
+        }
+
+        .tree-near .trunk {
+            background: linear-gradient(90deg, #3E2723 0%, #5D4037 40%, #4E342E 60%, #3E2723 100%);
+            margin: 0 auto;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .tree-near .trunk::before {
+            content: '';
+            position: absolute;
+            width: 40%;
+            height: 15px;
+            background: #5D4037;
+            top: 30%;
+            left: -30%;
+            transform: rotate(-30deg);
+            border-radius: 3px;
+        }
+
+        .tree-near .foliage-layer {
+            background: #33691E;
+            clip-path: polygon(50% 0%, 5% 100%, 95% 100%);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .tree-near-left {
+            left: -5%;
+        }
+        .tree-near-left .trunk { width: 35px; height: 120px; }
+        .tree-near-left .foliage { width: 180px; height: 220px; position: relative; }
+        .tree-near-left .foliage-layer:nth-child(1) { width: 100px; height: 70px; top: 0; background: #558B2F; }
+        .tree-near-left .foliage-layer:nth-child(2) { width: 140px; height: 80px; top: 50px; background: #33691E; }
+        .tree-near-left .foliage-layer:nth-child(3) { width: 180px; height: 90px; top: 110px; background: #2E5D16; }
+
+        .tree-near-right {
+            right: -8%;
+        }
+        .tree-near-right .trunk { width: 40px; height: 140px; }
+        .tree-near-right .foliage { width: 200px; height: 250px; position: relative; }
+        .tree-near-right .foliage-layer:nth-child(1) { width: 110px; height: 80px; top: 0; background: #689F38; }
+        .tree-near-right .foliage-layer:nth-child(2) { width: 155px; height: 90px; top: 60px; background: #558B2F; }
+        .tree-near-right .foliage-layer:nth-child(3) { width: 200px; height: 100px; top: 130px; background: #33691E; }
+
+        /* ==========================================================================
+           Forest Floor / Ground
+           ========================================================================== */
+
+        .ground {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 25%;
+            background: linear-gradient(180deg,
+                #7CB342 0%,
+                #689F38 20%,
+                #558B2F 50%,
+                #4A7C23 80%,
+                #3E6B1F 100%
+            );
+        }
+
+        .ground::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse 80px 20px at 10% 20%, #6B8E23 0%, transparent 70%),
+                radial-gradient(ellipse 60px 15px at 25% 40%, #8BC34A 0%, transparent 70%),
+                radial-gradient(ellipse 70px 18px at 40% 15%, #7CB342 0%, transparent 70%),
+                radial-gradient(ellipse 90px 22px at 55% 35%, #689F38 0%, transparent 70%),
+                radial-gradient(ellipse 65px 16px at 70% 25%, #9CCC65 0%, transparent 70%),
+                radial-gradient(ellipse 75px 19px at 85% 45%, #7CB342 0%, transparent 70%),
+                radial-gradient(ellipse 55px 14px at 95% 20%, #8BC34A 0%, transparent 70%);
+        }
+
+        /* Grass tufts */
+        .grass-tuft {
+            position: absolute;
+            bottom: 22%;
+        }
+
+        .grass-tuft::before,
+        .grass-tuft::after,
+        .grass-tuft span {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to top, #558B2F, #8BC34A);
+            border-radius: 2px 2px 0 0;
+        }
+
+        .grass-tuft::before { height: 20px; left: 0; transform: rotate(-10deg); }
+        .grass-tuft span { height: 25px; left: 6px; display: block; }
+        .grass-tuft::after { height: 18px; left: 12px; transform: rotate(10deg); }
+
+        .grass-1 { left: 15%; }
+        .grass-2 { left: 30%; }
+        .grass-3 { left: 50%; }
+        .grass-4 { left: 65%; }
+        .grass-5 { left: 80%; }
+
+        /* Flowers */
+        .flower {
+            position: absolute;
+            bottom: 23%;
+        }
+
+        .flower .stem {
+            width: 3px;
+            height: 30px;
+            background: #558B2F;
+            margin: 0 auto;
+        }
+
+        .flower .petals {
+            width: 16px;
+            height: 16px;
+            position: relative;
+        }
+
+        .flower .petal {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .flower .petal:nth-child(1) { top: 0; left: 4px; }
+        .flower .petal:nth-child(2) { top: 4px; left: 8px; }
+        .flower .petal:nth-child(3) { top: 8px; left: 4px; }
+        .flower .petal:nth-child(4) { top: 4px; left: 0; }
+        .flower .center {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #FFD54F;
+            border-radius: 50%;
+            top: 5px;
+            left: 5px;
+        }
+
+        .flower-1 { left: 20%; }
+        .flower-1 .petal { background: #E57373; }
+
+        .flower-2 { left: 45%; }
+        .flower-2 .petal { background: #BA68C8; }
+
+        .flower-3 { left: 75%; }
+        .flower-3 .petal { background: #64B5F6; }
+
+        /* Mushrooms */
+        .mushroom {
+            position: absolute;
+            bottom: 22%;
+        }
+
+        .mushroom .cap {
+            width: 24px;
+            height: 14px;
+            background: linear-gradient(180deg, #D84315 0%, #BF360C 100%);
+            border-radius: 12px 12px 4px 4px;
+            position: relative;
+        }
+
+        .mushroom .cap::before,
+        .mushroom .cap::after {
+            content: '';
+            position: absolute;
+            background: #FFECB3;
+            border-radius: 50%;
+        }
+
+        .mushroom .cap::before { width: 5px; height: 5px; top: 3px; left: 5px; }
+        .mushroom .cap::after { width: 4px; height: 4px; top: 6px; left: 14px; }
+
+        .mushroom .stem-m {
+            width: 10px;
+            height: 12px;
+            background: linear-gradient(90deg, #EFEBE9 0%, #D7CCC8 100%);
+            margin: 0 auto;
+            border-radius: 0 0 3px 3px;
+        }
+
+        .mushroom-1 { left: 25%; }
+        .mushroom-2 { left: 60%; transform: scale(0.8); }
+
+        /* Rocks */
+        .rock {
+            position: absolute;
+            bottom: 20%;
+            background: linear-gradient(135deg, #78909C 0%, #546E7A 50%, #455A64 100%);
+            border-radius: 40% 50% 45% 55%;
+        }
+
+        .rock-1 { left: 35%; width: 40px; height: 25px; }
+        .rock-2 { left: 70%; width: 30px; height: 20px; transform: rotate(10deg); }
+        .rock-3 { left: 12%; width: 25px; height: 18px; }
+
+        /* ==========================================================================
+           Tree Stump (Center of clearing)
+           ========================================================================== */
+
+        .stump {
+            position: absolute;
+            bottom: 18%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .stump-body {
+            width: 80px;
+            height: 50px;
+            background: linear-gradient(90deg, #4E342E 0%, #6D4C41 30%, #5D4037 70%, #4E342E 100%);
+            border-radius: 5px 5px 10px 10px;
+            position: relative;
+        }
+
+        .stump-top {
+            width: 90px;
+            height: 20px;
+            background: linear-gradient(180deg, #8D6E63 0%, #6D4C41 100%);
+            border-radius: 50%;
+            position: absolute;
+            top: -10px;
+            left: -5px;
+        }
+
+        .stump-top::before {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 14px;
+            background: #A1887F;
+            border-radius: 50%;
+            top: 3px;
+            left: 10px;
+        }
+
+        .stump-rings {
+            position: absolute;
+            top: -5px;
+            left: 5px;
+            width: 70px;
+            height: 10px;
+        }
+
+        .stump-rings::before {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 8px;
+            border: 2px solid rgba(78, 52, 46, 0.3);
+            border-radius: 50%;
+            top: 1px;
+            left: 10px;
+        }
+
+        /* ==========================================================================
+           ANIMALS
+           ========================================================================== */
+
+        /* --- DEER --- */
+        .deer {
+            position: absolute;
+            bottom: 28%;
+            left: 60%;
+            transform: scaleX(-1);
+            animation: deer-idle 3s ease-in-out infinite;
+        }
+
+        @keyframes deer-idle {
+            0%, 100% { transform: scaleX(-1) translateY(0); }
+            50% { transform: scaleX(-1) translateY(-3px); }
+        }
+
+        .deer-body {
+            width: 70px;
+            height: 45px;
+            background: linear-gradient(180deg, #A1887F 0%, #8D6E63 100%);
+            border-radius: 35px 25px 20px 30px;
+            position: relative;
+        }
+
+        .deer-head {
+            width: 30px;
+            height: 35px;
+            background: linear-gradient(180deg, #A1887F 0%, #8D6E63 100%);
+            border-radius: 15px 15px 10px 10px;
+            position: absolute;
+            top: -20px;
+            left: -15px;
+            transform: rotate(-10deg);
+        }
+
+        .deer-ear {
+            width: 10px;
+            height: 18px;
+            background: #8D6E63;
+            border-radius: 50% 50% 30% 30%;
+            position: absolute;
+        }
+
+        .deer-ear.left { top: -12px; left: 2px; transform: rotate(-20deg); }
+        .deer-ear.right { top: -12px; left: 16px; transform: rotate(20deg); }
+
+        .deer-ear::after {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 10px;
+            background: #BCAAA4;
+            border-radius: 50%;
+            top: 3px;
+            left: 2.5px;
+        }
+
+        .deer-antler {
+            position: absolute;
+            width: 4px;
+            height: 25px;
+            background: #5D4037;
+            border-radius: 2px;
+        }
+
+        .deer-antler.left {
+            top: -30px;
+            left: 5px;
+            transform: rotate(-15deg);
+        }
+
+        .deer-antler.right {
+            top: -30px;
+            left: 20px;
+            transform: rotate(15deg);
+        }
+
+        .deer-antler::before,
+        .deer-antler::after {
+            content: '';
+            position: absolute;
+            width: 3px;
+            background: #5D4037;
+            border-radius: 2px;
+        }
+
+        .deer-antler.left::before { height: 12px; top: 3px; left: -8px; transform: rotate(-40deg); }
+        .deer-antler.left::after { height: 10px; top: -5px; left: -5px; transform: rotate(-30deg); }
+        .deer-antler.right::before { height: 12px; top: 3px; left: 8px; transform: rotate(40deg); }
+        .deer-antler.right::after { height: 10px; top: -5px; left: 5px; transform: rotate(30deg); }
+
+        .deer-eye {
+            width: 6px;
+            height: 6px;
+            background: #3E2723;
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            left: 5px;
+        }
+
+        .deer-eye::after {
+            content: '';
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 1px;
+            left: 1px;
+        }
+
+        .deer-nose {
+            width: 8px;
+            height: 5px;
+            background: #3E2723;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 5px;
+            left: 3px;
+        }
+
+        .deer-neck {
+            width: 20px;
+            height: 25px;
+            background: linear-gradient(180deg, #A1887F 0%, #8D6E63 100%);
+            position: absolute;
+            top: -10px;
+            left: -5px;
+            border-radius: 10px;
+            transform: rotate(-20deg);
+        }
+
+        .deer-leg {
+            width: 8px;
+            height: 35px;
+            background: linear-gradient(180deg, #8D6E63 0%, #6D4C41 100%);
+            position: absolute;
+            bottom: -30px;
+            border-radius: 0 0 3px 3px;
+        }
+
+        .deer-leg.front-left { left: 8px; }
+        .deer-leg.front-right { left: 18px; }
+        .deer-leg.back-left { right: 18px; }
+        .deer-leg.back-right { right: 8px; }
+
+        .deer-leg::after {
+            content: '';
+            width: 10px;
+            height: 6px;
+            background: #3E2723;
+            position: absolute;
+            bottom: 0;
+            left: -1px;
+            border-radius: 2px;
+        }
+
+        .deer-tail {
+            width: 12px;
+            height: 15px;
+            background: #EFEBE9;
+            border-radius: 50%;
+            position: absolute;
+            right: -5px;
+            top: 10px;
+            animation: deer-tail-wag 2s ease-in-out infinite;
+        }
+
+        @keyframes deer-tail-wag {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        /* --- RABBIT --- */
+        .rabbit {
+            position: absolute;
+            bottom: 24%;
+            left: 25%;
+            animation: rabbit-hop 2s ease-in-out infinite;
+        }
+
+        @keyframes rabbit-hop {
+            0%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-8px); }
+            60% { transform: translateY(0); }
+        }
+
+        .rabbit-body {
+            width: 35px;
+            height: 28px;
+            background: linear-gradient(180deg, #D7CCC8 0%, #BCAAA4 100%);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .rabbit-head {
+            width: 22px;
+            height: 20px;
+            background: linear-gradient(180deg, #D7CCC8 0%, #BCAAA4 100%);
+            border-radius: 50%;
+            position: absolute;
+            top: -8px;
+            left: -8px;
+        }
+
+        .rabbit-ear {
+            width: 8px;
+            height: 22px;
+            background: linear-gradient(90deg, #D7CCC8 0%, #BCAAA4 100%);
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .rabbit-ear.left { top: -20px; left: 2px; transform: rotate(-10deg); }
+        .rabbit-ear.right { top: -20px; left: 10px; transform: rotate(10deg); }
+
+        .rabbit-ear::after {
+            content: '';
+            width: 4px;
+            height: 15px;
+            background: #FFCDD2;
+            border-radius: 50%;
+            position: absolute;
+            top: 4px;
+            left: 2px;
+        }
+
+        .rabbit-eye {
+            width: 5px;
+            height: 5px;
+            background: #3E2723;
+            border-radius: 50%;
+            position: absolute;
+            top: 6px;
+            left: 3px;
+        }
+
+        .rabbit-nose {
+            width: 4px;
+            height: 3px;
+            background: #FFCDD2;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 4px;
+            left: 5px;
+        }
+
+        .rabbit-tail {
+            width: 12px;
+            height: 12px;
+            background: #EFEBE9;
+            border-radius: 50%;
+            position: absolute;
+            right: -4px;
+            top: 8px;
+        }
+
+        .rabbit-leg {
+            width: 10px;
+            height: 12px;
+            background: #BCAAA4;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -6px;
+        }
+
+        .rabbit-leg.left { left: 5px; }
+        .rabbit-leg.right { right: 5px; }
+
+        /* --- SQUIRREL --- */
+        .squirrel {
+            position: absolute;
+            bottom: 31%;
+            left: 42%;
+            animation: squirrel-nibble 1.5s ease-in-out infinite;
+        }
+
+        @keyframes squirrel-nibble {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-2deg); }
+            75% { transform: rotate(2deg); }
+        }
+
+        .squirrel-body {
+            width: 25px;
+            height: 30px;
+            background: linear-gradient(180deg, #A1887F 0%, #8D6E63 100%);
+            border-radius: 12px 12px 15px 15px;
+            position: relative;
+        }
+
+        .squirrel-head {
+            width: 18px;
+            height: 16px;
+            background: #A1887F;
+            border-radius: 50%;
+            position: absolute;
+            top: -10px;
+            left: 3px;
+        }
+
+        .squirrel-ear {
+            width: 6px;
+            height: 8px;
+            background: #8D6E63;
+            border-radius: 50% 50% 30% 30%;
+            position: absolute;
+            top: -6px;
+        }
+
+        .squirrel-ear.left { left: 1px; transform: rotate(-15deg); }
+        .squirrel-ear.right { right: 1px; transform: rotate(15deg); }
+
+        .squirrel-eye {
+            width: 4px;
+            height: 4px;
+            background: #3E2723;
+            border-radius: 50%;
+            position: absolute;
+            top: 5px;
+            left: 3px;
+        }
+
+        .squirrel-nose {
+            width: 4px;
+            height: 3px;
+            background: #5D4037;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 2px;
+            left: 7px;
+        }
+
+        .squirrel-tail {
+            width: 20px;
+            height: 40px;
+            background: linear-gradient(180deg, #8D6E63 0%, #6D4C41 100%);
+            border-radius: 50% 50% 30% 30%;
+            position: absolute;
+            bottom: 5px;
+            right: -15px;
+            transform: rotate(-30deg);
+            animation: squirrel-tail-flick 2s ease-in-out infinite;
+        }
+
+        @keyframes squirrel-tail-flick {
+            0%, 100% { transform: rotate(-30deg); }
+            50% { transform: rotate(-20deg); }
+        }
+
+        .squirrel-arm {
+            width: 6px;
+            height: 12px;
+            background: #8D6E63;
+            border-radius: 3px;
+            position: absolute;
+            top: 8px;
+        }
+
+        .squirrel-arm.left { left: -2px; transform: rotate(30deg); }
+        .squirrel-arm.right { right: -2px; transform: rotate(-30deg); }
+
+        .squirrel-acorn {
+            width: 10px;
+            height: 12px;
+            background: linear-gradient(180deg, #8D6E63 30%, #A1887F 100%);
+            border-radius: 0 0 50% 50%;
+            position: absolute;
+            top: 0px;
+            left: 7px;
+        }
+
+        .squirrel-acorn::before {
+            content: '';
+            width: 12px;
+            height: 6px;
+            background: #6D4C41;
+            border-radius: 3px 3px 0 0;
+            position: absolute;
+            top: -4px;
+            left: -1px;
+        }
+
+        /* --- FOX --- */
+        .fox {
+            position: absolute;
+            bottom: 26%;
+            right: 20%;
+            animation: fox-breathe 3s ease-in-out infinite;
+        }
+
+        @keyframes fox-breathe {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.02); }
+        }
+
+        .fox-body {
+            width: 55px;
+            height: 35px;
+            background: linear-gradient(180deg, #E64A19 0%, #D84315 100%);
+            border-radius: 30px 20px 15px 25px;
+            position: relative;
+        }
+
+        .fox-head {
+            width: 28px;
+            height: 24px;
+            background: linear-gradient(180deg, #E64A19 0%, #D84315 100%);
+            border-radius: 50% 50% 40% 40%;
+            position: absolute;
+            top: -12px;
+            left: -12px;
+            transform: rotate(-5deg);
+        }
+
+        .fox-snout {
+            width: 16px;
+            height: 12px;
+            background: #EFEBE9;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -2px;
+            left: 2px;
+        }
+
+        .fox-nose {
+            width: 6px;
+            height: 4px;
+            background: #3E2723;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 6px;
+            left: 7px;
+        }
+
+        .fox-ear {
+            width: 12px;
+            height: 18px;
+            background: #E64A19;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            position: absolute;
+        }
+
+        .fox-ear.left { top: -16px; left: 2px; transform: rotate(-10deg); }
+        .fox-ear.right { top: -16px; right: 2px; transform: rotate(10deg); }
+
+        .fox-ear::after {
+            content: '';
+            width: 6px;
+            height: 10px;
+            background: #3E2723;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            position: absolute;
+            bottom: 0;
+            left: 3px;
+        }
+
+        .fox-eye {
+            width: 5px;
+            height: 5px;
+            background: #3E2723;
+            border-radius: 50%;
+            position: absolute;
+            top: 7px;
+            left: 5px;
+        }
+
+        .fox-chest {
+            width: 20px;
+            height: 25px;
+            background: #EFEBE9;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+        }
+
+        .fox-leg {
+            width: 8px;
+            height: 20px;
+            background: #D84315;
+            position: absolute;
+            bottom: -15px;
+            border-radius: 0 0 3px 3px;
+        }
+
+        .fox-leg.front { left: 8px; }
+        .fox-leg.back { right: 12px; }
+
+        .fox-leg::after {
+            content: '';
+            width: 10px;
+            height: 6px;
+            background: #3E2723;
+            position: absolute;
+            bottom: 0;
+            left: -1px;
+            border-radius: 2px;
+        }
+
+        .fox-tail {
+            width: 45px;
+            height: 20px;
+            background: linear-gradient(90deg, #E64A19 0%, #D84315 70%, #EFEBE9 100%);
+            border-radius: 10px 50% 50% 10px;
+            position: absolute;
+            right: -35px;
+            top: 5px;
+            transform: rotate(-10deg);
+            animation: fox-tail-sway 2.5s ease-in-out infinite;
+        }
+
+        @keyframes fox-tail-sway {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        /* --- BIRDS --- */
+        .bird {
+            position: absolute;
+            animation: bird-fly 8s ease-in-out infinite;
+        }
+
+        .bird-1 {
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .bird-2 {
+            top: 20%;
+            left: 20%;
+            animation-delay: -2s;
+            transform: scale(0.8);
+        }
+
+        .bird-3 {
+            top: 12%;
+            left: 30%;
+            animation-delay: -4s;
+            transform: scale(0.6);
+        }
+
+        @keyframes bird-fly {
+            0% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(50px) translateY(-20px); }
+            50% { transform: translateX(100px) translateY(0); }
+            75% { transform: translateX(50px) translateY(20px); }
+            100% { transform: translateX(0) translateY(0); }
+        }
+
+        .bird-body {
+            width: 20px;
+            height: 12px;
+            background: #37474F;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .bird-wing {
+            width: 15px;
+            height: 8px;
+            background: #455A64;
+            border-radius: 50% 50% 0 0;
+            position: absolute;
+            top: -5px;
+            left: 3px;
+            transform-origin: bottom center;
+            animation: wing-flap 0.3s ease-in-out infinite;
+        }
+
+        @keyframes wing-flap {
+            0%, 100% { transform: rotate(-30deg); }
+            50% { transform: rotate(30deg); }
+        }
+
+        .bird-head {
+            width: 10px;
+            height: 10px;
+            background: #37474F;
+            border-radius: 50%;
+            position: absolute;
+            left: -6px;
+            top: 0;
+        }
+
+        .bird-beak {
+            width: 6px;
+            height: 4px;
+            background: #FF8F00;
+            clip-path: polygon(0 50%, 100% 0, 100% 100%);
+            position: absolute;
+            left: -10px;
+            top: 3px;
+        }
+
+        /* --- BUTTERFLIES --- */
+        .butterfly {
+            position: absolute;
+            animation: butterfly-flutter 6s ease-in-out infinite;
+        }
+
+        .butterfly-1 {
+            bottom: 45%;
+            left: 35%;
+        }
+
+        .butterfly-2 {
+            bottom: 55%;
+            right: 30%;
+            animation-delay: -3s;
+        }
+
+        @keyframes butterfly-flutter {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(30px, -20px) rotate(10deg); }
+            50% { transform: translate(60px, 0) rotate(0deg); }
+            75% { transform: translate(30px, 20px) rotate(-10deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        .butterfly-body {
+            width: 4px;
+            height: 14px;
+            background: #3E2723;
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .butterfly-wing {
+            position: absolute;
+            width: 12px;
+            height: 16px;
+            border-radius: 50% 50% 40% 40%;
+            animation: wing-flutter 0.2s ease-in-out infinite;
+        }
+
+        .butterfly-wing.left {
+            left: -10px;
+            top: 0;
+            transform-origin: right center;
+        }
+
+        .butterfly-wing.right {
+            right: -10px;
+            top: 0;
+            transform-origin: left center;
+        }
+
+        @keyframes wing-flutter {
+            0%, 100% { transform: rotateY(0deg); }
+            50% { transform: rotateY(60deg); }
+        }
+
+        .butterfly-1 .butterfly-wing { background: linear-gradient(135deg, #FF8A65 0%, #E64A19 100%); }
+        .butterfly-2 .butterfly-wing { background: linear-gradient(135deg, #CE93D8 0%, #8E24AA 100%); }
+
+        .butterfly-wing::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 8px;
+            border-radius: 50%;
+            bottom: -6px;
+        }
+
+        .butterfly-wing.left::after { right: 0; }
+        .butterfly-wing.right::after { left: 0; }
+
+        .butterfly-1 .butterfly-wing::after { background: #FFAB91; }
+        .butterfly-2 .butterfly-wing::after { background: #E1BEE7; }
+
+        /* ==========================================================================
+           Light Rays
+           ========================================================================== */
+
+        .light-rays {
+            position: absolute;
+            top: 0;
+            right: 10%;
+            width: 300px;
+            height: 100%;
+            background: linear-gradient(
+                180deg,
+                rgba(255, 255, 200, 0.15) 0%,
+                rgba(255, 255, 200, 0.05) 50%,
+                transparent 100%
+            );
+            clip-path: polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%);
+            pointer-events: none;
+            animation: light-shimmer 5s ease-in-out infinite;
+        }
+
+        @keyframes light-shimmer {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.9; }
+        }
+
+        .light-rays-2 {
+            right: 25%;
+            width: 200px;
+            animation-delay: -2s;
+        }
+
+        /* ==========================================================================
+           Back Button
+           ========================================================================== */
+
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #5D4037;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-link:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ==========================================================================
+           Hidden Message
+           ========================================================================== */
+
+        .hidden-message {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ==========================================================================
+           Responsive
+           ========================================================================== */
+
+        @media (max-width: 768px) {
+            .deer { left: 55%; transform: scaleX(-1) scale(0.8); }
+            .fox { right: 10%; transform: scale(0.8); }
+            .rabbit { left: 15%; transform: scale(0.9); }
+            .squirrel { left: 35%; transform: scale(0.9); }
+            .tree-near-left { left: -15%; }
+            .tree-near-right { right: -15%; }
+        }
+
+        @media (max-width: 480px) {
+            .deer { transform: scaleX(-1) scale(0.6); }
+            .fox { transform: scale(0.6); }
+            .rabbit { transform: scale(0.7); }
+            .squirrel { transform: scale(0.7); }
+            .bird { transform: scale(0.7); }
+            .butterfly { transform: scale(0.8); }
+        }
+    </style>
+</head>
+<body>
+    <a href="about.html" class="back-link">Back to Site</a>
+
+    <div class="forest-scene">
+        <!-- Light Rays -->
+        <div class="light-rays"></div>
+        <div class="light-rays light-rays-2"></div>
+
+        <!-- Sun -->
+        <div class="sun"></div>
+
+        <!-- Clouds -->
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
+
+        <!-- Background Trees -->
+        <div class="tree-layer-far">
+            <div class="tree-far tree-far-1">
+                <div class="foliage"></div>
+                <div class="trunk"></div>
+            </div>
+            <div class="tree-far tree-far-2">
+                <div class="foliage"></div>
+                <div class="trunk"></div>
+            </div>
+            <div class="tree-far tree-far-3">
+                <div class="foliage"></div>
+                <div class="trunk"></div>
+            </div>
+            <div class="tree-far tree-far-4">
+                <div class="foliage"></div>
+                <div class="trunk"></div>
+            </div>
+            <div class="tree-far tree-far-5">
+                <div class="foliage"></div>
+                <div class="trunk"></div>
+            </div>
+        </div>
+
+        <!-- Middle Trees -->
+        <div class="tree-layer-mid">
+            <div class="tree-mid tree-mid-1">
+                <div class="foliage">
+                    <div class="foliage-layer"></div>
+                    <div class="foliage-layer"></div>
+                    <div class="foliage-layer"></div>
+                </div>
+                <div class="trunk"></div>
+            </div>
+            <div class="tree-mid tree-mid-2">
+                <div class="foliage">
+                    <div class="foliage-layer"></div>
+                    <div class="foliage-layer"></div>
+                    <div class="foliage-layer"></div>
+                </div>
+                <div class="trunk"></div>
+            </div>
+            <div class="tree-mid tree-mid-3">
+                <div class="foliage">
+                    <div class="foliage-layer"></div>
+                    <div class="foliage-layer"></div>
+                    <div class="foliage-layer"></div>
+                </div>
+                <div class="trunk"></div>
+            </div>
+        </div>
+
+        <!-- Birds -->
+        <div class="bird bird-1">
+            <div class="bird-body">
+                <div class="bird-wing"></div>
+                <div class="bird-head">
+                    <div class="bird-beak"></div>
+                </div>
+            </div>
+        </div>
+        <div class="bird bird-2">
+            <div class="bird-body">
+                <div class="bird-wing"></div>
+                <div class="bird-head">
+                    <div class="bird-beak"></div>
+                </div>
+            </div>
+        </div>
+        <div class="bird bird-3">
+            <div class="bird-body">
+                <div class="bird-wing"></div>
+                <div class="bird-head">
+                    <div class="bird-beak"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Butterflies -->
+        <div class="butterfly butterfly-1">
+            <div class="butterfly-body">
+                <div class="butterfly-wing left"></div>
+                <div class="butterfly-wing right"></div>
+            </div>
+        </div>
+        <div class="butterfly butterfly-2">
+            <div class="butterfly-body">
+                <div class="butterfly-wing left"></div>
+                <div class="butterfly-wing right"></div>
+            </div>
+        </div>
+
+        <!-- Ground -->
+        <div class="ground"></div>
+
+        <!-- Grass Tufts -->
+        <div class="grass-tuft grass-1"><span></span></div>
+        <div class="grass-tuft grass-2"><span></span></div>
+        <div class="grass-tuft grass-3"><span></span></div>
+        <div class="grass-tuft grass-4"><span></span></div>
+        <div class="grass-tuft grass-5"><span></span></div>
+
+        <!-- Flowers -->
+        <div class="flower flower-1">
+            <div class="petals">
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="center"></div>
+            </div>
+            <div class="stem"></div>
+        </div>
+        <div class="flower flower-2">
+            <div class="petals">
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="center"></div>
+            </div>
+            <div class="stem"></div>
+        </div>
+        <div class="flower flower-3">
+            <div class="petals">
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="center"></div>
+            </div>
+            <div class="stem"></div>
+        </div>
+
+        <!-- Mushrooms -->
+        <div class="mushroom mushroom-1">
+            <div class="cap"></div>
+            <div class="stem-m"></div>
+        </div>
+        <div class="mushroom mushroom-2">
+            <div class="cap"></div>
+            <div class="stem-m"></div>
+        </div>
+
+        <!-- Rocks -->
+        <div class="rock rock-1"></div>
+        <div class="rock rock-2"></div>
+        <div class="rock rock-3"></div>
+
+        <!-- Tree Stump -->
+        <div class="stump">
+            <div class="stump-top">
+                <div class="stump-rings"></div>
+            </div>
+            <div class="stump-body"></div>
+        </div>
+
+        <!-- Animals -->
+        <div class="deer">
+            <div class="deer-body">
+                <div class="deer-neck"></div>
+                <div class="deer-head">
+                    <div class="deer-ear left"></div>
+                    <div class="deer-ear right"></div>
+                    <div class="deer-antler left"></div>
+                    <div class="deer-antler right"></div>
+                    <div class="deer-eye"></div>
+                    <div class="deer-nose"></div>
+                </div>
+                <div class="deer-leg front-left"></div>
+                <div class="deer-leg front-right"></div>
+                <div class="deer-leg back-left"></div>
+                <div class="deer-leg back-right"></div>
+                <div class="deer-tail"></div>
+            </div>
+        </div>
+
+        <div class="rabbit">
+            <div class="rabbit-body">
+                <div class="rabbit-head">
+                    <div class="rabbit-ear left"></div>
+                    <div class="rabbit-ear right"></div>
+                    <div class="rabbit-eye"></div>
+                    <div class="rabbit-nose"></div>
+                </div>
+                <div class="rabbit-leg left"></div>
+                <div class="rabbit-leg right"></div>
+                <div class="rabbit-tail"></div>
+            </div>
+        </div>
+
+        <div class="squirrel">
+            <div class="squirrel-body">
+                <div class="squirrel-head">
+                    <div class="squirrel-ear left"></div>
+                    <div class="squirrel-ear right"></div>
+                    <div class="squirrel-eye"></div>
+                    <div class="squirrel-nose"></div>
+                </div>
+                <div class="squirrel-arm left"></div>
+                <div class="squirrel-arm right"></div>
+                <div class="squirrel-acorn"></div>
+                <div class="squirrel-tail"></div>
+            </div>
+        </div>
+
+        <div class="fox">
+            <div class="fox-body">
+                <div class="fox-head">
+                    <div class="fox-ear left"></div>
+                    <div class="fox-ear right"></div>
+                    <div class="fox-eye"></div>
+                    <div class="fox-snout">
+                        <div class="fox-nose"></div>
+                    </div>
+                </div>
+                <div class="fox-chest"></div>
+                <div class="fox-leg front"></div>
+                <div class="fox-leg back"></div>
+                <div class="fox-tail"></div>
+            </div>
+        </div>
+
+        <!-- Foreground Trees -->
+        <div class="tree-layer-near">
+            <div class="tree-near tree-near-left">
+                <div class="foliage">
+                    <div class="foliage-layer"></div>
+                    <div class="foliage-layer"></div>
+                    <div class="foliage-layer"></div>
+                </div>
+                <div class="trunk"></div>
+            </div>
+            <div class="tree-near tree-near-right">
+                <div class="foliage">
+                    <div class="foliage-layer"></div>
+                    <div class="foliage-layer"></div>
+                    <div class="foliage-layer"></div>
+                </div>
+                <div class="trunk"></div>
+            </div>
+        </div>
+
+        <div class="hidden-message">You found Clawd's forest</div>
+    </div>
+</body>
+</html>
