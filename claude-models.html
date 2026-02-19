@@ -340,6 +340,61 @@
             color: #2d3436;
         }
 
+        /* Benchmark Chart Styles */
+        .benchmark-section {
+            margin-top: 2.5rem;
+        }
+
+        .benchmark-chart-container {
+            background: linear-gradient(135deg, #fdf8f5 0%, #f9ebe4 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid #f0d9cc;
+            margin-top: 1rem;
+        }
+
+        .benchmark-chart-container svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .benchmark-chart-container svg text {
+            font-family: Arial, sans-serif;
+        }
+
+        .benchmark-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .benchmark-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .benchmark-legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .benchmark-note {
+            text-align: center;
+            color: #999;
+            font-size: 0.75rem;
+            font-style: italic;
+            margin-top: 0.75rem;
+            line-height: 1.4;
+        }
+
         .disclaimer {
             text-align: center;
             color: #888;
@@ -430,6 +485,31 @@
                         <div class="legend-color red"></div>
                         <div class="legend-text"><strong>Dated</strong> - Update may be coming (&gt;75%)</div>
                     </div>
+                </div>
+            </div>
+
+            <div class="benchmark-section">
+                <h2 class="section-title">OSWorld Benchmark Progress</h2>
+                <div class="benchmark-chart-container">
+                    <div id="benchmark-chart"></div>
+                    <div class="benchmark-legend">
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #9d7bb0;"></div>
+                            <span>Opus</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #d4836a;"></div>
+                            <span>Sonnet</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #8fa882;"></div>
+                            <span>Haiku</span>
+                        </div>
+                    </div>
+                    <p class="benchmark-note">
+                        Scores prior to Sonnet 4.5 measured on original OSWorld; scores from Sonnet 4.5 onward use OSWorld-Verified.<br>
+                        OSWorld measures an AI model's ability to interact with real computer interfaces.
+                    </p>
                 </div>
             </div>
 
@@ -646,8 +726,131 @@
             grid.innerHTML = html;
         }
 
+        // OSWorld Benchmark Chart
+        function renderBenchmarkChart() {
+            const benchmarkData = {
+                sonnet: [
+                    { model: '3.5 Sonnet (Oct)', date: '2024-10-22', score: 14.9 },
+                    { model: '3.7 Sonnet', date: '2025-02-24', score: 28.0 },
+                    { model: '4 Sonnet', date: '2025-05-22', score: 42.2 },
+                    { model: 'Sonnet 4.5', date: '2025-09-29', score: 61.4 },
+                    { model: 'Sonnet 4.6', date: '2026-02-17', score: 72.5 }
+                ],
+                opus: [
+                    { model: 'Opus 4.5', date: '2025-11-24', score: 66.3 },
+                    { model: 'Opus 4.6', date: '2026-02-05', score: 72.7 }
+                ],
+                haiku: [
+                    { model: 'Haiku 4.5', date: '2025-10-15', score: 50.7 }
+                ]
+            };
+
+            const colors = {
+                sonnet: '#d4836a',
+                opus: '#9d7bb0',
+                haiku: '#8fa882'
+            };
+
+            // Chart dimensions
+            const W = 800, H = 380;
+            const pad = { top: 30, right: 25, bottom: 55, left: 55 };
+            const cw = W - pad.left - pad.right;
+            const ch = H - pad.top - pad.bottom;
+
+            // Date range: Sep 2024 to Mar 2026
+            const minDate = new Date('2024-09-01T00:00:00');
+            const maxDate = new Date('2026-03-15T00:00:00');
+            const dateRange = maxDate - minDate;
+
+            // Score range: 0 to 80
+            const maxScore = 80;
+
+            function x(dateStr) {
+                const d = new Date(dateStr + 'T00:00:00');
+                return pad.left + ((d - minDate) / dateRange) * cw;
+            }
+
+            function y(score) {
+                return pad.top + ch - (score / maxScore) * ch;
+            }
+
+            // Build SVG
+            let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+            // Grid lines and Y-axis labels
+            for (let s = 0; s <= maxScore; s += 20) {
+                const yPos = y(s);
+                svg += `<line x1="${pad.left}" y1="${yPos}" x2="${W - pad.right}" y2="${yPos}" stroke="#e8d5c8" stroke-width="1" />`;
+                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#888" font-size="12">${s}%</text>`;
+            }
+
+            // X-axis date labels
+            const dateLabels = [
+                { label: 'Oct \'24', date: '2024-10-01' },
+                { label: 'Feb \'25', date: '2025-02-01' },
+                { label: 'Jun \'25', date: '2025-06-01' },
+                { label: 'Oct \'25', date: '2025-10-01' },
+                { label: 'Feb \'26', date: '2026-02-01' }
+            ];
+            dateLabels.forEach(dl => {
+                const xPos = x(dl.date);
+                svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
+                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#888" font-size="12">${dl.label}</text>`;
+            });
+
+            // Axis lines
+            svg += `<line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
+            svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
+
+            // Draw each series
+            Object.entries(benchmarkData).forEach(([series, points]) => {
+                const color = colors[series];
+
+                // Line connecting points
+                if (points.length > 1) {
+                    let pathD = points.map((p, i) => {
+                        const px = x(p.date);
+                        const py = y(p.score);
+                        return (i === 0 ? 'M' : 'L') + `${px},${py}`;
+                    }).join(' ');
+                    svg += `<path d="${pathD}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />`;
+                }
+
+                // Points and labels
+                points.forEach((p, i) => {
+                    const px = x(p.date);
+                    const py = y(p.score);
+
+                    // Dot
+                    svg += `<circle cx="${px}" cy="${py}" r="5" fill="${color}" stroke="white" stroke-width="2" />`;
+
+                    // Score label - position above by default, adjust for overlaps
+                    let labelY = py - 12;
+                    let labelAnchor = 'middle';
+
+                    // Special positioning for close/overlapping points
+                    if (series === 'opus' && p.model === 'Opus 4.6') {
+                        labelY = py - 14;
+                        labelAnchor = 'end';
+                    } else if (series === 'sonnet' && p.model === 'Sonnet 4.6') {
+                        labelY = py + 20;
+                        labelAnchor = 'start';
+                    } else if (series === 'opus' && p.model === 'Opus 4.5') {
+                        labelY = py + 20;
+                    }
+
+                    svg += `<text x="${px}" y="${labelY}" text-anchor="${labelAnchor}" fill="${color}" font-size="11" font-weight="600">${p.score}%</text>`;
+                });
+            });
+
+            svg += '</svg>';
+
+            document.getElementById('benchmark-chart').innerHTML = svg;
+        }
+
         // Initialize
         render();
+        renderBenchmarkChart();
     </script>
 </body>
 </html>
