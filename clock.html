@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clock</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@300;400;500&family=DM+Serif+Display&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.6s ease, color 0.6s ease;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+
+  /* ===== THEME VARIABLES ===== */
+  :root {
+    /* Main Dark (default) */
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface2: #1a1a25;
+    --border: rgba(255,255,255,0.03);
+    --text: #eeeef2;
+    --text2: #8888a0;
+    --text3: #55556a;
+    --accent: #ff4f4f;
+    --accent-glow: rgba(255,79,79,0.3);
+    --hand-h: #c0c0cc;
+    --hand-m: #dddde8;
+    --hand-s: #ff4f4f;
+    --tick-major: #666680;
+    --tick-minor: #2a2a38;
+    --num-fill: #77778a;
+    --num-fill-bright: #9999aa;
+    --center-outer: #2a2a38;
+    --ambient-color: rgba(255,79,79,0.06);
+    --font: 'Inter', -apple-system, system-ui, sans-serif;
+    --font-time: 'Inter', sans-serif;
+    --time-weight: 200;
+    --num-size: 18px;
+    --num-24-size: 12.5px;
+    --num-24-q-size: 15px;
+  }
+
+  .ambient {
+    position: fixed;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 500px;
+    background: radial-gradient(ellipse, var(--ambient-color) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    transition: background 0.8s ease;
+  }
+
+  .app {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    font-family: var(--font);
+    max-width: 480px;
+    width: 100%;
+    padding: 20px;
+  }
+
+  /* ===== CONTROLS BAR ===== */
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .pill-group {
+    display: flex;
+    gap: 2px;
+    padding: 3px;
+    background: var(--surface);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    transition: background 0.4s, border-color 0.4s;
+  }
+
+  .pill-btn {
+    padding: 7px 14px;
+    background: none;
+    border: none;
+    color: var(--text3);
+    font-family: var(--font);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+  }
+
+  .pill-btn:hover { color: var(--text2); }
+
+  .pill-btn.active {
+    background: var(--surface2);
+    color: var(--text);
+    box-shadow: 0 1px 6px rgba(0,0,0,0.25);
+  }
+
+  /* Light/dark icon toggle */
+  .mode-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .mode-btn:hover { color: var(--text2); border-color: rgba(255,255,255,0.08); }
+
+  /* ===== NAV ===== */
+  .nav-link {
+    margin-bottom: 24px;
+    display: flex; gap: 6px; align-items: center;
+  }
+  .nav-link a {
+    font-family: var(--font);
+    font-size: 11px;
+    color: var(--text3);
+    text-decoration: none;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-link a:hover { color: var(--text2); }
+  .nav-link .sep { color: var(--text3); opacity: 0.4; font-size: 10px; }
+  .nav-link .current {
+    font-family: var(--font);
+    font-size: 11px;
+    color: var(--text);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* ===== ANALOG CLOCK ===== */
+  .analog-clock {
+    width: 380px;
+    height: 380px;
+    margin-bottom: 44px;
+    transition: filter 0.4s;
+  }
+
+  .analog-clock svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .clock-face {
+    fill: var(--surface);
+    stroke: var(--border);
+    stroke-width: 1;
+    transition: fill 0.4s, stroke 0.4s;
+  }
+
+  .clock-face-inner {
+    fill: none;
+    stroke: var(--border);
+    stroke-width: 0.5;
+    transition: stroke 0.4s;
+  }
+
+  .tick-major { stroke: var(--tick-major); stroke-width: 2; stroke-linecap: round; transition: stroke 0.4s; }
+  .tick-minor { stroke: var(--tick-minor); stroke-width: 1; stroke-linecap: round; transition: stroke 0.4s; }
+
+  .hour-num {
+    fill: var(--num-fill);
+    font-size: var(--num-size);
+    font-weight: 400;
+    text-anchor: middle;
+    dominant-baseline: central;
+    font-family: var(--font);
+    transition: fill 0.4s;
+  }
+
+  .hour-num-24 {
+    fill: var(--num-fill);
+    font-size: var(--num-24-size);
+    font-weight: 400;
+    text-anchor: middle;
+    dominant-baseline: central;
+    font-family: var(--font);
+    transition: fill 0.4s;
+  }
+
+  .hour-num-24.quarter { font-size: var(--num-24-q-size); fill: var(--num-fill-bright); }
+
+  .hand-hour { stroke: var(--hand-h); stroke-width: 4.5; stroke-linecap: round; transition: stroke 0.4s; }
+  .hand-minute { stroke: var(--hand-m); stroke-width: 2.5; stroke-linecap: round; transition: stroke 0.4s; }
+  .hand-second { stroke: var(--hand-s); stroke-width: 1.5; stroke-linecap: round; filter: drop-shadow(0 0 6px var(--accent-glow)); transition: stroke 0.4s, filter 0.4s; }
+
+  .center-outer { fill: var(--center-outer); transition: fill 0.4s; }
+  .center-inner { fill: var(--accent); transition: fill 0.4s; }
+
+  /* ===== DIGITAL READOUT ===== */
+  .main-time {
+    font-family: var(--font-time);
+    font-size: 76px;
+    font-weight: var(--time-weight);
+    letter-spacing: 2px;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    margin-bottom: 6px;
+    transition: color 0.4s, font-family 0.3s;
+  }
+
+  .main-time .period {
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text3);
+    margin-left: 6px;
+    letter-spacing: 1px;
+  }
+
+  .main-time .sec {
+    font-size: 28px;
+    color: var(--accent);
+    font-weight: 300;
+    vertical-align: super;
+    margin-left: 2px;
+    transition: color 0.4s;
+  }
+
+  .main-time .colon { transition: opacity 0.15s; }
+  .main-time .colon.dim { opacity: 0.2; }
+
+  .main-date {
+    font-size: 15px;
+    color: var(--text3);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-bottom: 4px;
+    transition: color 0.4s;
+  }
+
+  .main-tz {
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 1.5px;
+    opacity: 0.5;
+    transition: color 0.4s;
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient" id="ambient"></div>
+
+<div class="app">
+  <!-- Navigation -->
+  <div class="nav-link">
+    <span class="current">Clock</span>
+    <span class="sep">/</span>
+    <a href="year.html">Year</a>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="pill-group" id="format-group">
+      <button class="pill-btn" data-fmt="12">12H</button>
+      <button class="pill-btn active" data-fmt="24">24H</button>
+    </div>
+    <div class="pill-group" id="style-group">
+      <button class="pill-btn" data-style="main">Main</button>
+      <button class="pill-btn" data-style="retro">Retro</button>
+      <button class="pill-btn active" data-style="warm">Warm</button>
+      <button class="pill-btn" data-style="classic">Classic</button>
+    </div>
+    <button class="mode-btn" id="mode-toggle" title="Toggle light/dark">&#9790;</button>
+  </div>
+
+  <!-- Clock -->
+  <div class="analog-clock">
+    <svg viewBox="0 0 300 300">
+      <circle cx="150" cy="150" r="146" class="clock-face"/>
+      <circle cx="150" cy="150" r="128" class="clock-face-inner"/>
+      <g id="ticks"></g>
+      <g id="numbers"></g>
+      <line id="hand-h" class="hand-hour" x1="150" y1="150" x2="150" y2="78"/>
+      <line id="hand-m" class="hand-minute" x1="150" y1="150" x2="150" y2="48"/>
+      <line id="hand-s" class="hand-second" x1="150" y1="168" x2="150" y2="40"/>
+      <circle cx="150" cy="150" r="5.5" class="center-outer"/>
+      <circle cx="150" cy="150" r="2.8" class="center-inner"/>
+    </svg>
+  </div>
+
+  <div class="main-time" id="main-time"></div>
+  <div class="main-date" id="main-date"></div>
+  <div class="main-tz" id="main-tz"></div>
+</div>
+
+<script>
+const CX = 150, CY = 150;
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+
+// ===== STATE =====
+let is24h = true;
+let currentStyle = 'warm';
+let isDark = true;
+
+// ===== THEMES =====
+const themes = {
+  main: {
+    dark: {
+      bg:'#0a0a0f', surface:'#12121a', surface2:'#1a1a25', border:'rgba(255,255,255,0.03)',
+      text:'#eeeef2', text2:'#8888a0', text3:'#55556a',
+      accent:'#ff4f4f', accentGlow:'rgba(255,79,79,0.3)',
+      handH:'#c0c0cc', handM:'#dddde8', handS:'#ff4f4f',
+      tickMajor:'#666680', tickMinor:'#2a2a38',
+      numFill:'#77778a', numBright:'#9999aa', centerOuter:'#2a2a38',
+      ambient:'rgba(255,79,79,0.06)',
+      font:"'Inter', -apple-system, system-ui, sans-serif",
+      fontTime:"'Inter', sans-serif", timeWeight:'200',
+    },
+    light: {
+      bg:'#f4f4f8', surface:'#ffffff', surface2:'#eeeef3', border:'rgba(0,0,0,0.06)',
+      text:'#1a1a2e', text2:'#666688', text3:'#999aaf',
+      accent:'#e03030', accentGlow:'rgba(224,48,48,0.2)',
+      handH:'#333348', handM:'#222238', handS:'#e03030',
+      tickMajor:'#888898', tickMinor:'#ccccda',
+      numFill:'#777790', numBright:'#555568', centerOuter:'#ccccda',
+      ambient:'rgba(224,48,48,0.05)',
+      font:"'Inter', -apple-system, system-ui, sans-serif",
+      fontTime:"'Inter', sans-serif", timeWeight:'200',
+    }
+  },
+  retro: {
+    dark: {
+      bg:'#080c08', surface:'#0e140e', surface2:'#141e14', border:'rgba(50,255,50,0.06)',
+      text:'#33ff66', text2:'#22aa44', text3:'#116622',
+      accent:'#33ff66', accentGlow:'rgba(50,255,100,0.3)',
+      handH:'#22cc44', handM:'#28ee55', handS:'#33ff66',
+      tickMajor:'#22aa44', tickMinor:'#0e4418',
+      numFill:'#22aa44', numBright:'#33ff66', centerOuter:'#0e4418',
+      ambient:'rgba(50,255,100,0.05)',
+      font:"'Space Mono', monospace",
+      fontTime:"'Space Mono', monospace", timeWeight:'400',
+    },
+    light: {
+      bg:'#eaf5ea', surface:'#f8fdf8', surface2:'#e0efe0', border:'rgba(0,80,0,0.08)',
+      text:'#0a3a0a', text2:'#336633', text3:'#88aa88',
+      accent:'#007722', accentGlow:'rgba(0,120,34,0.15)',
+      handH:'#225522', handM:'#1a441a', handS:'#007722',
+      tickMajor:'#558855', tickMinor:'#bbddbb',
+      numFill:'#447744', numBright:'#225522', centerOuter:'#bbddbb',
+      ambient:'rgba(0,120,34,0.04)',
+      font:"'Space Mono', monospace",
+      fontTime:"'Space Mono', monospace", timeWeight:'400',
+    }
+  },
+  warm: {
+    dark: {
+      bg:'#110c06', surface:'#1a1208', surface2:'#231a0e', border:'rgba(255,180,80,0.06)',
+      text:'#f0dcc0', text2:'#aa8855', text3:'#665533',
+      accent:'#e8942a', accentGlow:'rgba(232,148,42,0.3)',
+      handH:'#ccaa77', handM:'#e0c898', handS:'#e8942a',
+      tickMajor:'#8a7050', tickMinor:'#3a2e1e',
+      numFill:'#8a7050', numBright:'#bba070', centerOuter:'#3a2e1e',
+      ambient:'rgba(232,148,42,0.06)',
+      font:"'Playfair Display', Georgia, serif",
+      fontTime:"'Playfair Display', serif", timeWeight:'300',
+    },
+    light: {
+      bg:'#faf5ec', surface:'#fff9f0', surface2:'#f0e8d8', border:'rgba(120,80,20,0.08)',
+      text:'#3a2810', text2:'#886640', text3:'#bbaa88',
+      accent:'#c07020', accentGlow:'rgba(192,112,32,0.18)',
+      handH:'#6a5030', handM:'#4a3820', handS:'#c07020',
+      tickMajor:'#9a8868', tickMinor:'#ddd0bb',
+      numFill:'#7a6848', numBright:'#5a4828', centerOuter:'#ddd0bb',
+      ambient:'rgba(192,112,32,0.04)',
+      font:"'Playfair Display', Georgia, serif",
+      fontTime:"'Playfair Display', serif", timeWeight:'300',
+    }
+  },
+  classic: {
+    dark: {
+      bg:'#080a14', surface:'#101420', surface2:'#181e2e', border:'rgba(200,180,100,0.06)',
+      text:'#d8d0c0', text2:'#8888a0', text3:'#555570',
+      accent:'#c8a050', accentGlow:'rgba(200,160,80,0.25)',
+      handH:'#9898b0', handM:'#b0b0c8', handS:'#c8a050',
+      tickMajor:'#6a6a88', tickMinor:'#2a2a40',
+      numFill:'#707088', numBright:'#9898b0', centerOuter:'#2a2a40',
+      ambient:'rgba(200,160,80,0.05)',
+      font:"'DM Serif Display', Georgia, serif",
+      fontTime:"'DM Serif Display', serif", timeWeight:'400',
+    },
+    light: {
+      bg:'#f0f0f8', surface:'#fafafe', surface2:'#e8e8f2', border:'rgba(40,40,80,0.07)',
+      text:'#1a1a30', text2:'#6a6a88', text3:'#9898b0',
+      accent:'#8a6820', accentGlow:'rgba(138,104,32,0.15)',
+      handH:'#3a3a58', handM:'#282840', handS:'#8a6820',
+      tickMajor:'#787899', tickMinor:'#ccccdd',
+      numFill:'#606078', numBright:'#3a3a58', centerOuter:'#ccccdd',
+      ambient:'rgba(138,104,32,0.04)',
+      font:"'DM Serif Display', Georgia, serif",
+      fontTime:"'DM Serif Display', serif", timeWeight:'400',
+    }
+  }
+};
+
+function applyTheme() {
+  const t = themes[currentStyle][isDark ? 'dark' : 'light'];
+  const r = document.documentElement.style;
+  r.setProperty('--bg', t.bg);
+  r.setProperty('--surface', t.surface);
+  r.setProperty('--surface2', t.surface2);
+  r.setProperty('--border', t.border);
+  r.setProperty('--text', t.text);
+  r.setProperty('--text2', t.text2);
+  r.setProperty('--text3', t.text3);
+  r.setProperty('--accent', t.accent);
+  r.setProperty('--accent-glow', t.accentGlow);
+  r.setProperty('--hand-h', t.handH);
+  r.setProperty('--hand-m', t.handM);
+  r.setProperty('--hand-s', t.handS);
+  r.setProperty('--tick-major', t.tickMajor);
+  r.setProperty('--tick-minor', t.tickMinor);
+  r.setProperty('--num-fill', t.numFill);
+  r.setProperty('--num-fill-bright', t.numBright);
+  r.setProperty('--center-outer', t.centerOuter);
+  r.setProperty('--ambient-color', t.ambient);
+  r.setProperty('--font', t.font);
+  r.setProperty('--font-time', t.fontTime);
+  r.setProperty('--time-weight', t.timeWeight);
+
+  // Update mode button icon
+  $('#mode-toggle').innerHTML = isDark ? '&#9790;' : '&#9728;';
+}
+
+// ===== FORMAT TOGGLE =====
+$$('#format-group .pill-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    $$('#format-group .pill-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    is24h = btn.dataset.fmt === '24';
+    buildFace(is24h);
+  });
+});
+
+// ===== STYLE TOGGLE =====
+$$('#style-group .pill-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    $$('#style-group .pill-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentStyle = btn.dataset.style;
+    applyTheme();
+    buildFace(is24h); // rebuild to pick up font changes
+  });
+});
+
+// ===== LIGHT/DARK TOGGLE =====
+$('#mode-toggle').addEventListener('click', () => {
+  isDark = !isDark;
+  applyTheme();
+});
+
+// ===== BUILD CLOCK FACE =====
+function buildFace(mode24) {
+  const tG = document.getElementById('ticks');
+  const nG = document.getElementById('numbers');
+  tG.innerHTML = '';
+  nG.innerHTML = '';
+
+  const fontFamily = themes[currentStyle][isDark ? 'dark' : 'light'].font;
+
+  if (!mode24) {
+    for (let i = 0; i < 60; i++) {
+      const a = (i * 6 - 90) * Math.PI / 180;
+      const major = i % 5 === 0;
+      const r1 = 140, r2 = major ? 125 : 132;
+      const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      l.setAttribute('x1', CX + r1 * Math.cos(a));
+      l.setAttribute('y1', CY + r1 * Math.sin(a));
+      l.setAttribute('x2', CX + r2 * Math.cos(a));
+      l.setAttribute('y2', CY + r2 * Math.sin(a));
+      l.setAttribute('class', major ? 'tick-major' : 'tick-minor');
+      tG.appendChild(l);
+      if (major) {
+        const num = i / 5 || 12;
+        const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        t.setAttribute('x', CX + 111 * Math.cos(a));
+        t.setAttribute('y', CY + 111 * Math.sin(a));
+        t.setAttribute('class', 'hour-num');
+        t.style.fontFamily = fontFamily;
+        t.textContent = num;
+        nG.appendChild(t);
+      }
+    }
+  } else {
+    for (let i = 0; i < 48; i++) {
+      const a = (i * 7.5 - 90) * Math.PI / 180;
+      const isHour = i % 2 === 0;
+      const hourNum = i / 2;
+      const isQuarter = hourNum % 6 === 0;
+      const r1 = 140;
+      const r2 = isHour ? (isQuarter ? 121 : 127) : 134;
+      const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      l.setAttribute('x1', CX + r1 * Math.cos(a));
+      l.setAttribute('y1', CY + r1 * Math.sin(a));
+      l.setAttribute('x2', CX + r2 * Math.cos(a));
+      l.setAttribute('y2', CY + r2 * Math.sin(a));
+      l.setAttribute('class', isHour ? 'tick-major' : 'tick-minor');
+      tG.appendChild(l);
+
+      if (isHour && hourNum % 2 === 0) {
+        const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        t.setAttribute('x', CX + 107 * Math.cos(a));
+        t.setAttribute('y', CY + 107 * Math.sin(a));
+        const isQ = hourNum % 6 === 0;
+        t.setAttribute('class', 'hour-num-24' + (isQ ? ' quarter' : ''));
+        t.style.fontFamily = fontFamily;
+        t.textContent = hourNum;
+        nG.appendChild(t);
+      }
+    }
+  }
+}
+
+// ===== HAND ROTATION =====
+function setHand(el, deg) {
+  const rad = (deg - 90) * Math.PI / 180;
+  if (!el._len) {
+    el._len = Math.hypot(+el.getAttribute('x2') - CX, +el.getAttribute('y2') - CY);
+    el._back = Math.hypot(+el.getAttribute('x1') - CX, +el.getAttribute('y1') - CY);
+  }
+  el.setAttribute('x2', CX + el._len * Math.cos(rad));
+  el.setAttribute('y2', CY + el._len * Math.sin(rad));
+  el.setAttribute('x1', CX - el._back * Math.cos(rad));
+  el.setAttribute('y1', CY - el._back * Math.sin(rad));
+}
+
+// ===== CLOCK TICK =====
+const hH = $('#hand-h'), mH = $('#hand-m'), sH = $('#hand-s');
+const mainTime = $('#main-time'), mainDate = $('#main-date'), mainTz = $('#main-tz');
+const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+let lastSec = -1;
+
+function tick() {
+  const n = new Date();
+  const h = n.getHours(), m = n.getMinutes(), s = n.getSeconds(), ms = n.getMilliseconds();
+
+  setHand(sH, (s + ms / 1000) * 6);
+  setHand(mH, m * 6 + s * 0.1);
+  setHand(hH, is24h ? (h * 15 + m * 0.25) : ((h % 12) * 30 + m * 0.5));
+
+  const blink = ms < 500 ? '' : ' dim';
+  if (is24h) {
+    mainTime.innerHTML = `${String(h).padStart(2,'0')}<span class="colon${blink}">:</span>${String(m).padStart(2,'0')}<span class="sec">${String(s).padStart(2,'0')}</span>`;
+  } else {
+    const h12 = h % 12 || 12;
+    mainTime.innerHTML = `${h12}<span class="colon${blink}">:</span>${String(m).padStart(2,'0')}<span class="sec">${String(s).padStart(2,'0')}</span><span class="period">${h<12?'AM':'PM'}</span>`;
+  }
+
+  if (s !== lastSec) {
+    lastSec = s;
+    mainDate.textContent = `${dayNames[n.getDay()]}  \u00B7  ${monthNames[n.getMonth()]} ${n.getDate()}, ${n.getFullYear()}`;
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    const abbr = n.toLocaleTimeString('en-US', { timeZoneName: 'short' }).split(' ').pop();
+    mainTz.textContent = `${tz} (${abbr})`;
+  }
+
+  requestAnimationFrame(tick);
+}
+
+// ===== INIT =====
+applyTheme();
+buildFace(true);
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>
