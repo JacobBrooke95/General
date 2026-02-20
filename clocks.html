@@ -3,46 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Year Clock</title>
+<title>Jacob Brooke - Clocks</title>
+<link rel="stylesheet" href="styles.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@300;400;500&family=DM+Serif+Display&display=swap');
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg);
+    background: var(--bg) !important;
     color: var(--text);
     transition: background 0.6s ease, color 0.6s ease;
     -webkit-font-smoothing: antialiased;
-    overflow: hidden;
+    min-height: 100vh;
+    overflow-x: hidden;
   }
 
+  /* Keep navbar above ambient glow */
+  .navbar { position: relative; z-index: 10; }
+
+  /* ===== THEME VARIABLES (Site light = default) ===== */
   :root {
-    --bg: #110c06;
-    --surface: #1a1208;
-    --surface2: #231a0e;
-    --border: rgba(255,180,80,0.06);
-    --text: #f0dcc0;
-    --text2: #aa8855;
-    --text3: #665533;
-    --accent: #e8942a;
-    --accent-glow: rgba(232,148,42,0.3);
-    --hand-h: #ccaa77;
-    --hand-m: #e0c898;
-    --hand-s: #e8942a;
-    --tick-major: #8a7050;
-    --tick-minor: #3a2e1e;
-    --num-fill: #8a7050;
-    --num-fill-bright: #bba070;
-    --center-outer: #3a2e1e;
-    --ambient-color: rgba(232,148,42,0.06);
-    --font: 'Playfair Display', Georgia, serif;
-    --font-time: 'Playfair Display', serif;
+    --bg: #fdf6e3;
+    --surface: #ffffff;
+    --surface2: #f5e6d3;
+    --border: rgba(92, 74, 61, 0.1);
+    --text: #2d3436;
+    --text2: #636e72;
+    --text3: #a09890;
+    --accent: #e07a5f;
+    --accent-glow: rgba(224, 122, 95, 0.2);
+    --hand-h: #5c4a3d;
+    --hand-m: #3a302a;
+    --hand-s: #e07a5f;
+    --tick-major: #8a7a6a;
+    --tick-minor: #e0d4c8;
+    --num-fill: #7a6a5a;
+    --num-fill-bright: #5c4a3d;
+    --center-outer: #e0d4c8;
+    --ambient-color: rgba(224, 122, 95, 0.06);
+    --font: Arial, -apple-system, system-ui, sans-serif;
+    --font-time: Arial, sans-serif;
     --time-weight: 300;
+    --num-size: 18px;
+    --num-24-size: 12.5px;
+    --num-24-q-size: 15px;
   }
 
   .ambient {
@@ -58,6 +63,14 @@
     transition: background 0.8s ease;
   }
 
+  .clock-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 56px);
+    position: relative;
+  }
+
   .app {
     position: relative;
     z-index: 1;
@@ -71,32 +84,7 @@
     padding: 20px;
   }
 
-  /* ===== NAV ===== */
-  .nav-link {
-    margin-bottom: 24px;
-    display: flex; gap: 6px; align-items: center;
-  }
-  .nav-link a {
-    font-family: var(--font);
-    font-size: 11px;
-    color: var(--text3);
-    text-decoration: none;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    transition: color 0.3s;
-  }
-  .nav-link a:hover { color: var(--text2); }
-  .nav-link .sep { color: var(--text3); opacity: 0.4; font-size: 10px; }
-  .nav-link .current {
-    font-family: var(--font);
-    font-size: 11px;
-    color: var(--text);
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-
-  /* ===== CONTROLS ===== */
+  /* ===== CONTROLS BAR ===== */
   .controls {
     display: flex;
     align-items: center;
@@ -156,33 +144,126 @@
     flex-shrink: 0;
   }
 
-  .mode-btn:hover { color: var(--text2); border-color: rgba(255,255,255,0.08); }
+  .mode-btn:hover { color: var(--text2); border-color: rgba(0,0,0,0.08); }
 
-  /* ===== ORBITAL RING ===== */
+  /* ===== ANALOG CLOCK ===== */
+  .analog-clock {
+    width: 380px;
+    height: 380px;
+    max-width: 100%;
+    margin-bottom: 44px;
+    transition: filter 0.4s;
+  }
+
+  .analog-clock svg { width: 100%; height: 100%; }
+
+  .clock-face { fill: var(--surface); stroke: var(--border); stroke-width: 1; transition: fill 0.4s, stroke 0.4s; }
+  .clock-face-inner { fill: none; stroke: var(--border); stroke-width: 0.5; transition: stroke 0.4s; }
+
+  .tick-major { stroke: var(--tick-major); stroke-width: 2; stroke-linecap: round; transition: stroke 0.4s; }
+  .tick-minor { stroke: var(--tick-minor); stroke-width: 1; stroke-linecap: round; transition: stroke 0.4s; }
+
+  .hour-num {
+    fill: var(--num-fill);
+    font-size: var(--num-size);
+    font-weight: 400;
+    text-anchor: middle;
+    dominant-baseline: central;
+    font-family: var(--font);
+    transition: fill 0.4s;
+  }
+
+  .hour-num-24 {
+    fill: var(--num-fill);
+    font-size: var(--num-24-size);
+    font-weight: 400;
+    text-anchor: middle;
+    dominant-baseline: central;
+    font-family: var(--font);
+    transition: fill 0.4s;
+  }
+
+  .hour-num-24.quarter { font-size: var(--num-24-q-size); fill: var(--num-fill-bright); }
+
+  .hand-hour { stroke: var(--hand-h); stroke-width: 4.5; stroke-linecap: round; transition: stroke 0.4s; }
+  .hand-minute { stroke: var(--hand-m); stroke-width: 2.5; stroke-linecap: round; transition: stroke 0.4s; }
+  .hand-second { stroke: var(--hand-s); stroke-width: 1.5; stroke-linecap: round; filter: drop-shadow(0 0 6px var(--accent-glow)); transition: stroke 0.4s, filter 0.4s; }
+
+  .center-outer { fill: var(--center-outer); transition: fill 0.4s; }
+  .center-inner { fill: var(--accent); transition: fill 0.4s; }
+
+  /* ===== DIGITAL READOUT ===== */
+  .main-time {
+    font-family: var(--font-time);
+    font-size: 76px;
+    font-weight: var(--time-weight);
+    letter-spacing: 2px;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    margin-bottom: 6px;
+    transition: color 0.4s, font-family 0.3s;
+  }
+
+  .main-time .period {
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text3);
+    margin-left: 6px;
+    letter-spacing: 1px;
+  }
+
+  .main-time .sec {
+    font-size: 28px;
+    color: var(--accent);
+    font-weight: 300;
+    vertical-align: super;
+    margin-left: 2px;
+    transition: color 0.4s;
+  }
+
+  .main-time .colon { transition: opacity 0.15s; }
+  .main-time .colon.dim { opacity: 0.2; }
+
+  .main-date {
+    font-size: 15px;
+    color: var(--text3);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-bottom: 4px;
+    transition: color 0.4s;
+  }
+
+  .main-tz {
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 1.5px;
+    opacity: 0.5;
+    transition: color 0.4s;
+  }
+
+  /* ===== ORBITAL RING (Year view) ===== */
   .orbital-clock {
     width: 420px;
     height: 420px;
+    max-width: 100%;
     margin-bottom: 36px;
     transition: filter 0.4s;
   }
   .orbital-clock svg { width: 100%; height: 100%; }
 
-  /* Season arcs */
   .season-arc { fill: none; stroke-width: 18; opacity: 0.12; transition: stroke 0.4s, opacity 0.4s; }
   .season-spring { stroke: #44cc66; }
   .season-summer { stroke: #ffaa22; }
   .season-autumn { stroke: #dd5533; }
   .season-winter { stroke: #4488dd; }
 
-  /* Ring background */
   .ring-bg { fill: none; stroke: var(--surface2); stroke-width: 22; transition: stroke 0.4s; }
   .ring-border-outer, .ring-border-inner { fill: none; stroke: var(--border); stroke-width: 0.8; transition: stroke 0.4s; }
 
-  /* Month ticks */
   .month-tick { stroke: var(--tick-major); stroke-width: 2; stroke-linecap: round; transition: stroke 0.4s; }
   .week-tick { stroke: var(--tick-minor); stroke-width: 0.8; stroke-linecap: round; transition: stroke 0.4s; }
 
-  /* Month labels */
   .month-label {
     fill: var(--num-fill);
     font-size: 11px;
@@ -195,7 +276,6 @@
   }
   .month-label.current-month { fill: var(--text); font-weight: 500; }
 
-  /* Solstice / equinox markers */
   .marker-dot { fill: var(--text3); transition: fill 0.4s; }
   .marker-label {
     fill: var(--text3);
@@ -208,22 +288,16 @@
     transition: fill 0.4s;
   }
 
-  /* Hand / indicator */
   .year-hand { stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; filter: drop-shadow(0 0 6px var(--accent-glow)); transition: stroke 0.4s, filter 0.4s; }
   .year-dot { fill: var(--accent); filter: drop-shadow(0 0 8px var(--accent-glow)); transition: fill 0.4s, filter 0.4s; }
   .year-dot-halo { fill: var(--accent); opacity: 0.15; transition: fill 0.4s; }
 
-  .center-outer { fill: var(--center-outer); transition: fill 0.4s; }
-  .center-inner { fill: var(--accent); transition: fill 0.4s; }
-
-  /* Daylight bars */
   .daylight-bar { stroke-linecap: butt; opacity: 0.55; transition: stroke 0.4s, opacity 0.4s; }
   .daylight-bar.past { opacity: 0.25; }
 
-  /* Trail arc showing elapsed year */
   .trail-arc { fill: none; stroke: var(--accent); stroke-width: 4; opacity: 0.25; stroke-linecap: round; transition: stroke 0.4s; }
 
-  /* ===== STATS ===== */
+  /* ===== YEAR STATS ===== */
   .stats {
     display: flex;
     gap: 40px;
@@ -283,115 +357,176 @@
     opacity: 0.5;
     transition: color 0.4s;
   }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .analog-clock { width: 300px; height: 300px; }
+    .orbital-clock { width: 340px; height: 340px; }
+    .main-time { font-size: 56px; }
+    .stat-value { font-size: 28px; }
+    .stats { gap: 24px; }
+    .controls { gap: 8px; }
+  }
+
+  @media (max-width: 480px) {
+    .analog-clock { width: 260px; height: 260px; }
+    .orbital-clock { width: 280px; height: 280px; }
+    .main-time { font-size: 44px; }
+    .clock-wrapper { min-height: auto; padding: 20px 0; }
+  }
 </style>
 </head>
 <body>
 
+<nav class="navbar">
+    <div class="container">
+        <h1 class="logo">Jacob Brooke</h1>
+        <ul class="nav-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="now.html">Now</a></li>
+            <li><a href="reads.html">Reads</a></li>
+            <li><a href="year_in_review_2025.html">2025 Running</a></li>
+            <li><a href="clocks.html" class="active">Clocks</a></li>
+            <li><a href="claude-models.html">Claude Guide</a></li>
+        </ul>
+    </div>
+</nav>
+
 <div class="ambient" id="ambient"></div>
 
-<div class="app">
-  <!-- Navigation -->
-  <div class="nav-link">
-    <a href="clock.html">Clock</a>
-    <span class="sep">/</span>
-    <span class="current">Year</span>
+<div class="clock-wrapper">
+  <div class="app">
+    <!-- Controls -->
+    <div class="controls">
+      <div class="pill-group" id="view-group">
+        <button class="pill-btn active" data-view="clock">Clock</button>
+        <button class="pill-btn" data-view="year">Year</button>
+      </div>
+      <div class="pill-group" id="format-group">
+        <button class="pill-btn" data-fmt="12">12H</button>
+        <button class="pill-btn active" data-fmt="24">24H</button>
+      </div>
+      <div class="pill-group" id="style-group">
+        <button class="pill-btn active" data-style="site">Site</button>
+        <button class="pill-btn" data-style="main">Main</button>
+        <button class="pill-btn" data-style="retro">Retro</button>
+        <button class="pill-btn" data-style="warm">Warm</button>
+        <button class="pill-btn" data-style="classic">Classic</button>
+      </div>
+      <button class="mode-btn" id="mode-toggle" title="Toggle light/dark">&#9728;</button>
+    </div>
+
+    <!-- ===== CLOCK VIEW ===== -->
+    <div id="clock-view">
+      <div class="analog-clock">
+        <svg viewBox="0 0 300 300">
+          <circle cx="150" cy="150" r="146" class="clock-face"/>
+          <circle cx="150" cy="150" r="128" class="clock-face-inner"/>
+          <g id="ticks"></g>
+          <g id="numbers"></g>
+          <line id="hand-h" class="hand-hour" x1="150" y1="150" x2="150" y2="78"/>
+          <line id="hand-m" class="hand-minute" x1="150" y1="150" x2="150" y2="48"/>
+          <line id="hand-s" class="hand-second" x1="150" y1="168" x2="150" y2="40"/>
+          <circle cx="150" cy="150" r="5.5" class="center-outer"/>
+          <circle cx="150" cy="150" r="2.8" class="center-inner"/>
+        </svg>
+      </div>
+      <div class="main-time" id="main-time"></div>
+      <div class="main-date" id="main-date"></div>
+      <div class="main-tz" id="main-tz"></div>
+    </div>
+
+    <!-- ===== YEAR VIEW ===== -->
+    <div id="year-view" style="display:none">
+      <div class="orbital-clock">
+        <svg viewBox="0 0 400 400" id="orbit-svg">
+          <defs>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <g id="seasons"></g>
+          <circle cx="200" cy="200" r="155" class="ring-bg"/>
+          <circle cx="200" cy="200" r="166" class="ring-border-outer"/>
+          <circle cx="200" cy="200" r="144" class="ring-border-inner"/>
+          <g id="daylight-bars"></g>
+          <g id="year-ticks"></g>
+          <g id="labels"></g>
+          <g id="markers"></g>
+          <path id="trail-arc" class="trail-arc" d=""/>
+          <line id="year-hand" class="year-hand" x1="200" y1="200" x2="200" y2="200"/>
+          <circle id="dot-halo" class="year-dot-halo" cx="200" cy="40" r="10"/>
+          <circle id="dot-main" class="year-dot" cx="200" cy="40" r="5"/>
+          <circle cx="200" cy="200" r="30" class="center-outer"/>
+          <circle cx="200" cy="200" r="26" class="center-inner" style="fill: var(--surface); transition: fill 0.4s;"/>
+          <text id="center-year" x="200" y="200" text-anchor="middle" dominant-baseline="central"
+                style="fill: var(--text); font-size: 14px; font-weight: 500; font-family: var(--font); letter-spacing: 1px; transition: fill 0.4s;"></text>
+        </svg>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value" id="stat-pct">0<span class="unit">%</span></div>
+          <div class="stat-label">Year Complete</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="stat-day">0</div>
+          <div class="stat-label">Day of Year</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="stat-remain">0</div>
+          <div class="stat-label">Days Remaining</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="stat-light">0<span class="unit">h</span></div>
+          <div class="stat-label">Daylight Today</div>
+        </div>
+      </div>
+
+      <div class="date-line" id="date-line"></div>
+      <div class="sub-line" id="season-line"></div>
+    </div>
   </div>
-
-  <!-- Controls -->
-  <div class="controls">
-    <div class="pill-group" id="style-group">
-      <button class="pill-btn" data-style="main">Main</button>
-      <button class="pill-btn" data-style="retro">Retro</button>
-      <button class="pill-btn active" data-style="warm">Warm</button>
-      <button class="pill-btn" data-style="classic">Classic</button>
-    </div>
-    <button class="mode-btn" id="mode-toggle" title="Toggle light/dark">&#9790;</button>
-  </div>
-
-  <!-- Orbital Ring -->
-  <div class="orbital-clock">
-    <svg viewBox="-10 -10 420 420" id="orbit-svg">
-      <defs>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="3" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
-
-      <!-- Season arcs (drawn by JS) -->
-      <g id="seasons"></g>
-
-      <!-- Ring background -->
-      <circle cx="200" cy="200" r="155" class="ring-bg"/>
-      <circle cx="200" cy="200" r="166" class="ring-border-outer"/>
-      <circle cx="200" cy="200" r="144" class="ring-border-inner"/>
-
-      <!-- Daylight radial bars -->
-      <g id="daylight-bars"></g>
-
-      <!-- Month ticks and week ticks -->
-      <g id="ticks"></g>
-
-      <!-- Month labels -->
-      <g id="labels"></g>
-
-      <!-- Solstice/equinox markers -->
-      <g id="markers"></g>
-
-      <!-- Trail arc -->
-      <path id="trail-arc" class="trail-arc" d=""/>
-
-      <!-- Year hand -->
-      <line id="year-hand" class="year-hand" x1="200" y1="200" x2="200" y2="200"/>
-
-      <!-- Indicator dot -->
-      <circle id="dot-halo" class="year-dot-halo" cx="200" cy="40" r="10"/>
-      <circle id="dot-main" class="year-dot" cx="200" cy="40" r="5"/>
-
-      <!-- Center -->
-      <circle cx="200" cy="200" r="30" class="center-outer"/>
-      <circle cx="200" cy="200" r="26" class="center-inner" style="fill: var(--surface); transition: fill 0.4s;"/>
-
-      <!-- Center text (year) -->
-      <text id="center-year" x="200" y="200" text-anchor="middle" dominant-baseline="central"
-            style="fill: var(--text); font-size: 14px; font-weight: 500; font-family: var(--font); letter-spacing: 1px; transition: fill 0.4s;"></text>
-    </svg>
-  </div>
-
-  <!-- Stats readout -->
-  <div class="stats">
-    <div class="stat">
-      <div class="stat-value" id="stat-pct">0<span class="unit">%</span></div>
-      <div class="stat-label">Year Complete</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value" id="stat-day">0</div>
-      <div class="stat-label">Day of Year</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value" id="stat-remain">0</div>
-      <div class="stat-label">Days Remaining</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value" id="stat-light">0<span class="unit">h</span></div>
-      <div class="stat-label">Daylight Today</div>
-    </div>
-  </div>
-
-  <div class="date-line" id="date-line"></div>
-  <div class="sub-line" id="season-line"></div>
 </div>
 
 <script>
-const CX = 200, CY = 200, R = 155;
+// ===== SELECTORS =====
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 
-let currentStyle = 'warm';
-let isDark = true;
+// ===== STATE =====
+let currentView = 'clock';
+let is24h = true;
+let currentStyle = 'site';
+let isDark = false; // Site theme starts light
 
-// ===== THEMES (shared with clock.html) =====
+// ===== THEMES =====
 const themes = {
+  site: {
+    dark: {
+      bg:'#1a1410', surface:'#261e16', surface2:'#332a20', border:'rgba(224,122,95,0.08)',
+      text:'#f0e6d8', text2:'#a89080', text3:'#6a5a48',
+      accent:'#e07a5f', accentGlow:'rgba(224,122,95,0.3)',
+      handH:'#c0b0a0', handM:'#d8c8b8', handS:'#e07a5f',
+      tickMajor:'#7a6a58', tickMinor:'#332a20',
+      numFill:'#8a7a68', numBright:'#b0a090', centerOuter:'#332a20',
+      ambient:'rgba(224,122,95,0.06)',
+      font:"Arial, -apple-system, system-ui, sans-serif",
+      fontTime:"Arial, sans-serif", timeWeight:'300',
+    },
+    light: {
+      bg:'#fdf6e3', surface:'#ffffff', surface2:'#f5e6d3', border:'rgba(92,74,61,0.1)',
+      text:'#2d3436', text2:'#636e72', text3:'#a09890',
+      accent:'#e07a5f', accentGlow:'rgba(224,122,95,0.2)',
+      handH:'#5c4a3d', handM:'#3a302a', handS:'#e07a5f',
+      tickMajor:'#8a7a6a', tickMinor:'#e0d4c8',
+      numFill:'#7a6a5a', numBright:'#5c4a3d', centerOuter:'#e0d4c8',
+      ambient:'rgba(224,122,95,0.06)',
+      font:"Arial, -apple-system, system-ui, sans-serif",
+      fontTime:"Arial, sans-serif", timeWeight:'300',
+    }
+  },
   main: {
     dark: {
       bg:'#0a0a0f', surface:'#12121a', surface2:'#1a1a25', border:'rgba(255,255,255,0.03)',
@@ -490,6 +625,7 @@ const themes = {
   }
 };
 
+// ===== APPLY THEME =====
 function applyTheme() {
   const t = themes[currentStyle][isDark ? 'dark' : 'light'];
   const r = document.documentElement.style;
@@ -514,9 +650,36 @@ function applyTheme() {
   r.setProperty('--font', t.font);
   r.setProperty('--font-time', t.fontTime);
   r.setProperty('--time-weight', t.timeWeight);
+
   $('#mode-toggle').innerHTML = isDark ? '&#9790;' : '&#9728;';
-  buildRing(); // rebuild labels with correct font
+
+  // Rebuild visuals with new font/colors
+  buildClockFace(is24h);
+  if (currentView === 'year') buildRing();
 }
+
+// ===== VIEW TOGGLE =====
+$$('#view-group .pill-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    $$('#view-group .pill-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentView = btn.dataset.view;
+    $('#clock-view').style.display = currentView === 'clock' ? '' : 'none';
+    $('#year-view').style.display = currentView === 'year' ? '' : 'none';
+    $('#format-group').style.display = currentView === 'clock' ? 'flex' : 'none';
+    if (currentView === 'year') buildRing();
+  });
+});
+
+// ===== FORMAT TOGGLE =====
+$$('#format-group .pill-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    $$('#format-group .pill-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    is24h = btn.dataset.fmt === '24';
+    buildClockFace(is24h);
+  });
+});
 
 // ===== STYLE TOGGLE =====
 $$('#style-group .pill-btn').forEach(btn => {
@@ -528,23 +691,135 @@ $$('#style-group .pill-btn').forEach(btn => {
   });
 });
 
+// ===== LIGHT/DARK TOGGLE =====
 $('#mode-toggle').addEventListener('click', () => {
   isDark = !isDark;
   applyTheme();
 });
 
-// ===== YEAR CALCULATIONS =====
+// =====================================================================
+//  CLOCK VIEW
+// =====================================================================
+const CLOCK_CX = 150, CLOCK_CY = 150;
+
+function buildClockFace(mode24) {
+  const tG = document.getElementById('ticks');
+  const nG = document.getElementById('numbers');
+  tG.innerHTML = '';
+  nG.innerHTML = '';
+
+  const fontFamily = themes[currentStyle][isDark ? 'dark' : 'light'].font;
+
+  if (!mode24) {
+    for (let i = 0; i < 60; i++) {
+      const a = (i * 6 - 90) * Math.PI / 180;
+      const major = i % 5 === 0;
+      const r1 = 140, r2 = major ? 125 : 132;
+      const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      l.setAttribute('x1', CLOCK_CX + r1 * Math.cos(a));
+      l.setAttribute('y1', CLOCK_CY + r1 * Math.sin(a));
+      l.setAttribute('x2', CLOCK_CX + r2 * Math.cos(a));
+      l.setAttribute('y2', CLOCK_CY + r2 * Math.sin(a));
+      l.setAttribute('class', major ? 'tick-major' : 'tick-minor');
+      tG.appendChild(l);
+      if (major) {
+        const num = i / 5 || 12;
+        const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        t.setAttribute('x', CLOCK_CX + 111 * Math.cos(a));
+        t.setAttribute('y', CLOCK_CY + 111 * Math.sin(a));
+        t.setAttribute('class', 'hour-num');
+        t.style.fontFamily = fontFamily;
+        t.textContent = num;
+        nG.appendChild(t);
+      }
+    }
+  } else {
+    for (let i = 0; i < 48; i++) {
+      const a = (i * 7.5 - 90) * Math.PI / 180;
+      const isHour = i % 2 === 0;
+      const hourNum = i / 2;
+      const isQuarter = hourNum % 6 === 0;
+      const r1 = 140;
+      const r2 = isHour ? (isQuarter ? 121 : 127) : 134;
+      const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      l.setAttribute('x1', CLOCK_CX + r1 * Math.cos(a));
+      l.setAttribute('y1', CLOCK_CY + r1 * Math.sin(a));
+      l.setAttribute('x2', CLOCK_CX + r2 * Math.cos(a));
+      l.setAttribute('y2', CLOCK_CY + r2 * Math.sin(a));
+      l.setAttribute('class', isHour ? 'tick-major' : 'tick-minor');
+      tG.appendChild(l);
+
+      if (isHour && hourNum % 2 === 0) {
+        const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        t.setAttribute('x', CLOCK_CX + 107 * Math.cos(a));
+        t.setAttribute('y', CLOCK_CY + 107 * Math.sin(a));
+        const isQ = hourNum % 6 === 0;
+        t.setAttribute('class', 'hour-num-24' + (isQ ? ' quarter' : ''));
+        t.style.fontFamily = fontFamily;
+        t.textContent = hourNum;
+        nG.appendChild(t);
+      }
+    }
+  }
+}
+
+function setHand(el, deg) {
+  const rad = (deg - 90) * Math.PI / 180;
+  if (!el._len) {
+    el._len = Math.hypot(+el.getAttribute('x2') - CLOCK_CX, +el.getAttribute('y2') - CLOCK_CY);
+    el._back = Math.hypot(+el.getAttribute('x1') - CLOCK_CX, +el.getAttribute('y1') - CLOCK_CY);
+  }
+  el.setAttribute('x2', CLOCK_CX + el._len * Math.cos(rad));
+  el.setAttribute('y2', CLOCK_CY + el._len * Math.sin(rad));
+  el.setAttribute('x1', CLOCK_CX - el._back * Math.cos(rad));
+  el.setAttribute('y1', CLOCK_CY - el._back * Math.sin(rad));
+}
+
+const hH = $('#hand-h'), mH = $('#hand-m'), sH = $('#hand-s');
+const mainTime = $('#main-time'), mainDate = $('#main-date'), mainTz = $('#main-tz');
+const dayNamesShort = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const monthNamesShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+let lastClockSec = -1;
+
+function clockTick() {
+  const n = new Date();
+  const h = n.getHours(), m = n.getMinutes(), s = n.getSeconds(), ms = n.getMilliseconds();
+
+  setHand(sH, (s + ms / 1000) * 6);
+  setHand(mH, m * 6 + s * 0.1);
+  setHand(hH, is24h ? (h * 15 + m * 0.25) : ((h % 12) * 30 + m * 0.5));
+
+  const blink = ms < 500 ? '' : ' dim';
+  if (is24h) {
+    mainTime.innerHTML = `${String(h).padStart(2,'0')}<span class="colon${blink}">:</span>${String(m).padStart(2,'0')}<span class="sec">${String(s).padStart(2,'0')}</span>`;
+  } else {
+    const h12 = h % 12 || 12;
+    mainTime.innerHTML = `${h12}<span class="colon${blink}">:</span>${String(m).padStart(2,'0')}<span class="sec">${String(s).padStart(2,'0')}</span><span class="period">${h<12?'AM':'PM'}</span>`;
+  }
+
+  if (s !== lastClockSec) {
+    lastClockSec = s;
+    mainDate.textContent = `${dayNamesShort[n.getDay()]}  \u00B7  ${monthNamesShort[n.getMonth()]} ${n.getDate()}, ${n.getFullYear()}`;
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    const abbr = n.toLocaleTimeString('en-US', { timeZoneName: 'short' }).split(' ').pop();
+    mainTz.textContent = `${tz} (${abbr})`;
+  }
+}
+
+// =====================================================================
+//  YEAR VIEW
+// =====================================================================
+const YEAR_CX = 200, YEAR_CY = 200, YEAR_R = 155;
+
 const monthNamesFull = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const dayNamesFull = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
 function isLeapYear(y) { return (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0; }
 function daysInYear(y) { return isLeapYear(y) ? 366 : 365; }
 
 function dayOfYear(d) {
   const start = new Date(d.getFullYear(), 0, 0);
-  const diff = d - start;
-  return Math.floor(diff / 86400000);
+  return Math.floor((d - start) / 86400000);
 }
 
 function yearProgress(d) {
@@ -554,33 +829,30 @@ function yearProgress(d) {
   return (doy - 1 + (h * 3600 + m * 60 + s) / 86400) / total;
 }
 
-// Month start angles (proportional to actual days)
 function getMonthAngles(year) {
   const total = daysInYear(year);
   const daysInMonth = [31, isLeapYear(year) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   const angles = [];
   let cumDays = 0;
   for (let i = 0; i < 12; i++) {
-    angles.push((cumDays / total) * 360 - 90); // -90 so Jan starts at top
+    angles.push((cumDays / total) * 360 - 90);
     cumDays += daysInMonth[i];
   }
   return { angles, daysInMonth, total };
 }
 
-// Approximate solstice/equinox day-of-year positions (Northern Hemisphere)
 function getSeasonMarkers(year) {
-  // Approximate dates — good enough for display
   return [
-    { name: 'V.EQ', label: 'Vernal Equinox', doy: 80, season: 'spring' },   // ~Mar 20
-    { name: 'S.SOL', label: 'Summer Solstice', doy: 172, season: 'summer' },  // ~Jun 21
-    { name: 'A.EQ', label: 'Autumnal Equinox', doy: 266, season: 'autumn' }, // ~Sep 22
-    { name: 'W.SOL', label: 'Winter Solstice', doy: 355, season: 'winter' },  // ~Dec 21
+    { name: 'V.EQ', doy: 80 },
+    { name: 'S.SOL', doy: 172 },
+    { name: 'A.EQ', doy: 266 },
+    { name: 'W.SOL', doy: 355 },
   ];
 }
 
 function polarToXY(angle, radius) {
   const rad = angle * Math.PI / 180;
-  return { x: CX + radius * Math.cos(rad), y: CY + radius * Math.sin(rad) };
+  return { x: YEAR_CX + radius * Math.cos(rad), y: YEAR_CY + radius * Math.sin(rad) };
 }
 
 function describeArc(cx, cy, r, startAngle, endAngle) {
@@ -590,28 +862,23 @@ function describeArc(cx, cy, r, startAngle, endAngle) {
   return `M ${start.x} ${start.y} A ${r} ${r} 0 ${largeArc} 1 ${end.x} ${end.y}`;
 }
 
-// ===== DAYLIGHT MODEL =====
-// Default latitude ~40°N (NYC / Madrid / Beijing). Updated via geolocation if available.
+// Daylight model
 let userLat = 40;
 
-// Solar declination for a given day-of-year (1-indexed)
 function solarDeclination(doy) {
   return 23.45 * Math.sin((2 * Math.PI / 365) * (doy - 81));
 }
 
-// Daylight hours for a given day-of-year at a given latitude
 function daylightHours(doy, lat) {
   const decl = solarDeclination(doy);
   const latRad = lat * Math.PI / 180;
   const declRad = decl * Math.PI / 180;
   const cosHA = -Math.tan(latRad) * Math.tan(declRad);
-  // Clamp for polar extremes
-  if (cosHA < -1) return 24; // midnight sun
-  if (cosHA > 1) return 0;   // polar night
+  if (cosHA < -1) return 24;
+  if (cosHA > 1) return 0;
   return (2 / 15) * (Math.acos(cosHA) * 180 / Math.PI);
 }
 
-// Pre-compute daylight hours for all 366 days
 function computeDaylightData(year) {
   const total = daysInYear(year);
   const data = [];
@@ -625,10 +892,7 @@ function computeDaylightData(year) {
   return { data, min, max };
 }
 
-// Color interpolation: cool blue → warm amber based on normalized daylight
 function daylightColor(normalized, isDarkMode) {
-  // Dark mode: deep blue (short) → warm gold (long)
-  // Light mode: steel blue (short) → amber (long)
   const r1 = isDarkMode ? 60 : 80,  g1 = isDarkMode ? 100 : 120, b1 = isDarkMode ? 180 : 180;
   const r2 = isDarkMode ? 240 : 200, g2 = isDarkMode ? 180 : 140, b2 = isDarkMode ? 50 : 30;
   const t = normalized;
@@ -644,20 +908,16 @@ function buildDaylightBars(year, total) {
   const { data, min, max } = computeDaylightData(year);
   const range = max - min || 1;
   const todayDoy = dayOfYear(new Date());
-
-  // Bar dimensions: extend inward from just inside the inner ring border
-  const outerR = R - 12;   // just inside the ring
-  const maxBarLen = 38;     // max bar length inward
-  const minBarLen = 6;      // min bar length
+  const outerR = YEAR_R - 12;
+  const maxBarLen = 38;
+  const minBarLen = 6;
 
   for (let d = 0; d < total; d++) {
     const angle = ((d / total) * 360 - 90);
     const norm = (data[d] - min) / range;
     const barLen = minBarLen + (maxBarLen - minBarLen) * norm;
-
     const p1 = polarToXY(angle, outerR);
     const p2 = polarToXY(angle, outerR - barLen);
-
     const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     line.setAttribute('x1', p1.x);
     line.setAttribute('y1', p1.y);
@@ -670,15 +930,13 @@ function buildDaylightBars(year, total) {
   }
 }
 
-// Try geolocation for accurate latitude
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(
-    pos => { userLat = pos.coords.latitude; buildRing(); },
-    () => {} // silently use default
+    pos => { userLat = pos.coords.latitude; if (currentView === 'year') buildRing(); },
+    () => {}
   );
 }
 
-// ===== BUILD RING =====
 function buildRing() {
   const now = new Date();
   const year = now.getFullYear();
@@ -702,7 +960,7 @@ function buildRing() {
     const a2 = (sr.end / total) * 360 - 90;
     if (a2 > a1) {
       const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      path.setAttribute('d', describeArc(CX, CY, R, a1, a2));
+      path.setAttribute('d', describeArc(YEAR_CX, YEAR_CY, YEAR_R, a1, a2));
       path.setAttribute('class', 'season-arc');
       path.style.stroke = seasonColors[sr.season];
       seasonG.appendChild(path);
@@ -713,13 +971,11 @@ function buildRing() {
   buildDaylightBars(year, total);
 
   // Ticks
-  const tickG = document.getElementById('ticks');
+  const tickG = document.getElementById('year-ticks');
   tickG.innerHTML = '';
-
-  // Month boundary ticks
-  angles.forEach((a, i) => {
-    const p1 = polarToXY(a, R + 14);
-    const p2 = polarToXY(a, R - 11);
+  angles.forEach(a => {
+    const p1 = polarToXY(a, YEAR_R + 11);
+    const p2 = polarToXY(a, YEAR_R - 11);
     const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     l.setAttribute('x1', p1.x); l.setAttribute('y1', p1.y);
     l.setAttribute('x2', p2.x); l.setAttribute('y2', p2.y);
@@ -727,14 +983,12 @@ function buildRing() {
     tickG.appendChild(l);
   });
 
-  // Week ticks (every ~7 days)
   for (let d = 7; d < total; d += 7) {
     const a = (d / total) * 360 - 90;
-    // Skip if too close to a month boundary
     const closeToMonth = angles.some(ma => Math.abs(a - ma) < 2 || Math.abs(a - ma) > 358);
     if (closeToMonth) continue;
-    const p1 = polarToXY(a, R + 6);
-    const p2 = polarToXY(a, R - 6);
+    const p1 = polarToXY(a, YEAR_R + 6);
+    const p2 = polarToXY(a, YEAR_R - 6);
     const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     l.setAttribute('x1', p1.x); l.setAttribute('y1', p1.y);
     l.setAttribute('x2', p2.x); l.setAttribute('y2', p2.y);
@@ -747,19 +1001,13 @@ function buildRing() {
   labelG.innerHTML = '';
   const currentMonth = now.getMonth();
   angles.forEach((a, i) => {
-    const nextA = i < 11 ? angles[i + 1] : (total / total) * 360 - 90 + 270;
-    const midA = i < 11 ? (a + angles[i + 1]) / 2 : (a + ((total / total) * 360 - 90 + 270)) / 2;
-
-    // Correct mid-angle for December wrapping
     let midAngle;
     if (i < 11) {
       midAngle = (a + angles[i + 1]) / 2;
     } else {
-      // Dec: from angles[11] to (360-90) = 270
       midAngle = (a + 270) / 2;
     }
-
-    const p = polarToXY(midAngle, R + 24);
+    const p = polarToXY(midAngle, YEAR_R - 26);
     const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     t.setAttribute('x', p.x);
     t.setAttribute('y', p.y);
@@ -774,16 +1022,14 @@ function buildRing() {
   markerG.innerHTML = '';
   markers.forEach(mk => {
     const a = (mk.doy / total) * 360 - 90;
-    const pDot = polarToXY(a, R + 15);
-    const pLabel = polarToXY(a, R + 48);
-
+    const pDot = polarToXY(a, YEAR_R + 18);
+    const pLabel = polarToXY(a, YEAR_R + 28);
     const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     dot.setAttribute('cx', pDot.x);
     dot.setAttribute('cy', pDot.y);
     dot.setAttribute('r', 2);
     dot.setAttribute('class', 'marker-dot');
     markerG.appendChild(dot);
-
     const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     txt.setAttribute('x', pLabel.x);
     txt.setAttribute('y', pLabel.y);
@@ -793,12 +1039,11 @@ function buildRing() {
     markerG.appendChild(txt);
   });
 
-  // Center year
   document.getElementById('center-year').textContent = year;
   document.getElementById('center-year').style.fontFamily = fontFamily;
 }
 
-// ===== ANIMATION TICK =====
+// Year animation
 const handEl = document.getElementById('year-hand');
 const dotHalo = document.getElementById('dot-halo');
 const dotMain = document.getElementById('dot-main');
@@ -813,44 +1058,38 @@ function getCurrentSeason(doy) {
   return 'Winter';
 }
 
-let lastUpdateSec = -1;
+let lastYearSec = -1;
 
-function tick() {
+function yearTick() {
   const now = new Date();
   const pct = yearProgress(now);
   const angle = pct * 360 - 90;
 
-  // Move hand
-  const tip = polarToXY(angle, R);
-  const tail = polarToXY(angle, 30); // from center area
+  const tip = polarToXY(angle, YEAR_R);
+  const tail = polarToXY(angle, 30);
   handEl.setAttribute('x1', tail.x);
   handEl.setAttribute('y1', tail.y);
   handEl.setAttribute('x2', tip.x);
   handEl.setAttribute('y2', tip.y);
 
-  // Move dot
-  const dp = polarToXY(angle, R);
+  const dp = polarToXY(angle, YEAR_R);
   dotHalo.setAttribute('cx', dp.x);
   dotHalo.setAttribute('cy', dp.y);
   dotMain.setAttribute('cx', dp.x);
   dotMain.setAttribute('cy', dp.y);
 
-  // Trail arc from Jan 1 to now
   const startAngle = -90;
-  const endAngle = angle;
-  if (endAngle > startAngle) {
-    trailArc.setAttribute('d', describeArc(CX, CY, R, startAngle, endAngle));
+  if (angle > startAngle) {
+    trailArc.setAttribute('d', describeArc(YEAR_CX, YEAR_CY, YEAR_R, startAngle, angle));
   }
 
-  // Pulse the halo
   const pulseScale = 1 + 0.3 * Math.sin(Date.now() / 800);
   dotHalo.setAttribute('r', 10 * pulseScale);
   dotHalo.setAttribute('opacity', 0.15 * (1.1 - 0.3 * Math.sin(Date.now() / 800)));
 
-  // Update stats (once per second)
   const sec = now.getSeconds();
-  if (sec !== lastUpdateSec) {
-    lastUpdateSec = sec;
+  if (sec !== lastYearSec) {
+    lastYearSec = sec;
     const doy = dayOfYear(now);
     const total = daysInYear(now.getFullYear());
     const remain = total - doy;
@@ -858,27 +1097,35 @@ function tick() {
     $('#stat-pct').innerHTML = `${(pct * 100).toFixed(1)}<span class="unit">%</span>`;
     $('#stat-day').textContent = doy;
     $('#stat-remain').textContent = remain;
+    $('#date-line').textContent = `${dayNamesFull[now.getDay()]}  \u00B7  ${monthNamesFull[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
 
-    $('#date-line').textContent = `${dayNames[now.getDay()]}  \u00B7  ${monthNamesFull[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
-
-    // Daylight stat
     const todayLight = daylightHours(doy, userLat);
     const lightH = Math.floor(todayLight);
     const lightM = Math.round((todayLight - lightH) * 60);
     $('#stat-light').innerHTML = `${lightH}<span class="unit">h</span>${String(lightM).padStart(2,'0')}<span class="unit">m</span>`;
 
     const season = getCurrentSeason(doy);
-    const nextSeason = { Winter: 'Spring', Spring: 'Summer', Summer: 'Autumn', Autumn: 'Winter' }[season];
-    const gaining = (doy > 355 || doy < 172); // between winter solstice and summer solstice
+    const gaining = (doy > 355 || doy < 172);
     const lightTrend = gaining ? 'gaining light' : 'losing light';
     $('#season-line').textContent = `${season}  \u2014  ${lightTrend}`;
   }
+}
 
+// =====================================================================
+//  ANIMATION LOOP
+// =====================================================================
+function tick() {
+  if (currentView === 'clock') {
+    clockTick();
+  } else {
+    yearTick();
+  }
   requestAnimationFrame(tick);
 }
 
 // ===== INIT =====
 applyTheme();
+buildClockFace(true);
 requestAnimationFrame(tick);
 </script>
 </body>
