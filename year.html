@@ -310,7 +310,7 @@
 
   <!-- Orbital Ring -->
   <div class="orbital-clock">
-    <svg viewBox="0 0 400 400" id="orbit-svg">
+    <svg viewBox="-10 -10 420 420" id="orbit-svg">
       <defs>
         <filter id="glow">
           <feGaussianBlur stdDeviation="3" result="blur"/>
@@ -718,7 +718,7 @@ function buildRing() {
 
   // Month boundary ticks
   angles.forEach((a, i) => {
-    const p1 = polarToXY(a, R + 11);
+    const p1 = polarToXY(a, R + 14);
     const p2 = polarToXY(a, R - 11);
     const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     l.setAttribute('x1', p1.x); l.setAttribute('y1', p1.y);
@@ -759,7 +759,7 @@ function buildRing() {
       midAngle = (a + 270) / 2;
     }
 
-    const p = polarToXY(midAngle, R - 26);
+    const p = polarToXY(midAngle, R + 24);
     const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     t.setAttribute('x', p.x);
     t.setAttribute('y', p.y);
@@ -774,8 +774,8 @@ function buildRing() {
   markerG.innerHTML = '';
   markers.forEach(mk => {
     const a = (mk.doy / total) * 360 - 90;
-    const pDot = polarToXY(a, R + 18);
-    const pLabel = polarToXY(a, R + 28);
+    const pDot = polarToXY(a, R + 15);
+    const pLabel = polarToXY(a, R + 48);
 
     const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     dot.setAttribute('cx', pDot.x);
