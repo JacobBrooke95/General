@@ -674,7 +674,7 @@ $$('#view-group .pill-btn').forEach(btn => {
     currentView = btn.dataset.view;
     $('#clock-view').style.display = currentView === 'clock' ? '' : 'none';
     $('#year-view').style.display = currentView === 'year' ? '' : 'none';
-    $('#format-group').style.display = currentView === 'clock' ? 'flex' : 'none';
+    $('#format-group').style.visibility = currentView === 'clock' ? 'visible' : 'hidden';
     if (currentView === 'year') buildRing();
   });
 });
