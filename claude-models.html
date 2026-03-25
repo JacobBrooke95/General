@@ -65,6 +65,22 @@
             </div>
 
             <div class="benchmark-section">
+                <h2 class="section-title">Release Timeline</h2>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Every Claude model release plotted chronologically. Hover over a point to see details.</p>
+                <div class="benchmark-chart-container">
+                    <div id="timeline-chart"></div>
+                </div>
+            </div>
+
+            <div class="benchmark-section">
+                <h2 class="section-title">Days Between Releases</h2>
+                <p class="benchmark-note" style="margin-bottom: 18px;">The gap (in days) between consecutive releases within each model family.</p>
+                <div class="benchmark-chart-container">
+                    <div id="gap-chart"></div>
+                </div>
+            </div>
+
+            <div class="benchmark-section">
                 <h2 class="section-title">OSWorld Benchmark Progress</h2>
                 <div class="benchmark-chart-container">
                     <div id="benchmark-chart"></div>
@@ -424,8 +440,163 @@
             document.getElementById('benchmark-chart').innerHTML = svg;
         }
 
+        // Release Timeline Chart
+        function renderTimelineChart() {
+            // Gather all releases into a flat list
+            const allReleases = [];
+            const colors = { opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
+            const familyLabels = { opus: 'Opus', sonnet: 'Sonnet', haiku: 'Haiku' };
+            const laneY = { opus: 0, sonnet: 1, haiku: 2 };
+
+            Object.entries(modelData).forEach(([key, model]) => {
+                model.releases.forEach(r => {
+                    allReleases.push({ ...r, family: key });
+                });
+            });
+
+            const W = 800, H = 260;
+            const pad = { top: 30, right: 30, bottom: 50, left: 80 };
+            const cw = W - pad.left - pad.right;
+            const ch = H - pad.top - pad.bottom;
+
+            const minDate = new Date('2024-02-01T00:00:00');
+            const maxDate = new Date('2026-04-01T00:00:00');
+            const dateRange = maxDate - minDate;
+
+            function x(dateStr) {
+                const d = new Date(dateStr + 'T00:00:00');
+                return pad.left + ((d - minDate) / dateRange) * cw;
+            }
+
+            const laneHeight = ch / 3;
+            function yLane(family) {
+                return pad.top + laneY[family] * laneHeight + laneHeight / 2;
+            }
+
+            let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+            // Swim lane backgrounds
+            ['opus', 'sonnet', 'haiku'].forEach((fam, i) => {
+                const yTop = pad.top + i * laneHeight;
+                const bgColor = i % 2 === 0 ? 'rgba(0,0,0,0.02)' : 'rgba(0,0,0,0)';
+                svg += `<rect x="${pad.left}" y="${yTop}" width="${cw}" height="${laneHeight}" fill="${bgColor}" />`;
+                svg += `<text x="${pad.left - 10}" y="${yTop + laneHeight / 2 + 5}" text-anchor="end" fill="${colors[fam]}" font-size="13" font-weight="700">${familyLabels[fam]}</text>`;
+            });
+
+            // X-axis date markers
+            const dateMarkers = [
+                { label: "Mar '24", date: '2024-03-01' },
+                { label: "Jul '24", date: '2024-07-01' },
+                { label: "Nov '24", date: '2024-11-01' },
+                { label: "Mar '25", date: '2025-03-01' },
+                { label: "Jul '25", date: '2025-07-01' },
+                { label: "Nov '25", date: '2025-11-01' },
+                { label: "Mar '26", date: '2026-03-01' }
+            ];
+            dateMarkers.forEach(dm => {
+                const xPos = x(dm.date);
+                svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="3,3" />`;
+                svg += `<text x="${xPos}" y="${H - pad.bottom + 18}" text-anchor="middle" fill="#888" font-size="11">${dm.label}</text>`;
+            });
+
+            // Draw connecting lines per family
+            Object.entries(modelData).forEach(([key, model]) => {
+                const color = colors[key];
+                if (model.releases.length > 1) {
+                    let pathD = model.releases.map((r, i) => {
+                        return (i === 0 ? 'M' : 'L') + `${x(r.date)},${yLane(key)}`;
+                    }).join(' ');
+                    svg += `<path d="${pathD}" fill="none" stroke="${color}" stroke-width="2" stroke-opacity="0.4" />`;
+                }
+
+                // Draw dots and labels
+                model.releases.forEach((r, i) => {
+                    const cx = x(r.date);
+                    const cy = yLane(key);
+                    svg += `<circle cx="${cx}" cy="${cy}" r="6" fill="${color}" stroke="white" stroke-width="2" />`;
+
+                    // Short version label
+                    const shortName = r.version.replace('Claude ', '').replace('(Oct)', '(v2)');
+                    // Alternate labels above/below to avoid overlap
+                    const labelOffset = i % 2 === 0 ? -14 : 18;
+                    svg += `<text x="${cx}" y="${cy + labelOffset}" text-anchor="middle" fill="#555" font-size="9.5" font-weight="500">${shortName}</text>`;
+                });
+            });
+
+            // Bottom axis line
+            svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
+
+            svg += '</svg>';
+            document.getElementById('timeline-chart').innerHTML = svg;
+        }
+
+        // Days Between Releases - Grouped Bar Chart
+        function renderGapChart() {
+            const colors = { opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
+            const families = ['opus', 'sonnet', 'haiku'];
+
+            // Build gap data per family
+            const gapData = {};
+            families.forEach(fam => {
+                const releases = modelData[fam].releases;
+                gapData[fam] = [];
+                for (let i = 1; i < releases.length; i++) {
+                    const d1 = new Date(releases[i - 1].date + 'T00:00:00');
+                    const d2 = new Date(releases[i].date + 'T00:00:00');
+                    const days = Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
+                    const fromShort = releases[i - 1].version.replace('Claude ', '');
+                    const toShort = releases[i].version.replace('Claude ', '');
+                    gapData[fam].push({ from: fromShort, to: toShort, days, label: `→ ${toShort}` });
+                }
+            });
+
+            // Find max gaps to determine number of bars per row
+            const maxGaps = Math.max(...families.map(f => gapData[f].length));
+            const maxDays = Math.max(...families.flatMap(f => gapData[f].map(g => g.days)));
+
+            const W = 800, barH = 22, rowGap = 8, familyGap = 28;
+            const pad = { top: 10, right: 60, bottom: 20, left: 150 };
+            const cw = W - pad.left - pad.right;
+
+            // Calculate total height
+            let totalRows = 0;
+            families.forEach(f => { totalRows += gapData[f].length; });
+            const H = pad.top + pad.bottom + totalRows * (barH + rowGap) + (families.length - 1) * familyGap;
+
+            let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+            let currentY = pad.top;
+
+            families.forEach((fam, fi) => {
+                const color = colors[fam];
+                const gaps = gapData[fam];
+
+                gaps.forEach((g, gi) => {
+                    const barW = (g.days / maxDays) * cw;
+                    // Label on the left
+                    svg += `<text x="${pad.left - 8}" y="${currentY + barH / 2 + 4}" text-anchor="end" fill="#555" font-size="11">${g.label}</text>`;
+                    // Bar
+                    svg += `<rect x="${pad.left}" y="${currentY}" width="${barW}" height="${barH}" rx="4" fill="${color}" opacity="0.8" />`;
+                    // Days number at end of bar
+                    svg += `<text x="${pad.left + barW + 6}" y="${currentY + barH / 2 + 4}" text-anchor="start" fill="${color}" font-size="12" font-weight="700">${g.days}d</text>`;
+
+                    currentY += barH + rowGap;
+                });
+
+                // Family separator
+                if (fi < families.length - 1) {
+                    currentY += familyGap;
+                }
+            });
+
+            svg += '</svg>';
+            document.getElementById('gap-chart').innerHTML = svg;
+        }
+
         // Initialize
         render();
+        renderTimelineChart();
+        renderGapChart();
         renderBenchmarkChart();
     </script>
 </body>
