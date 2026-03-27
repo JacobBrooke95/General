@@ -550,7 +550,7 @@
                     const days = Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
                     const fromShort = releases[i - 1].version.replace('Claude ', '');
                     const toShort = releases[i].version.replace('Claude ', '');
-                    gapData[fam].push({ from: fromShort, to: toShort, days, label: `→ ${toShort}` });
+                    gapData[fam].push({ from: fromShort, to: toShort, days, label: `${fromShort} → ${toShort}` });
                 }
             });
 
@@ -559,7 +559,7 @@
             const maxDays = Math.max(...families.flatMap(f => gapData[f].map(g => g.days)));
 
             const W = 800, barH = 22, rowGap = 8, familyGap = 28;
-            const pad = { top: 10, right: 60, bottom: 20, left: 150 };
+            const pad = { top: 10, right: 60, bottom: 20, left: 280 };
             const cw = W - pad.left - pad.right;
 
             // Calculate total height
