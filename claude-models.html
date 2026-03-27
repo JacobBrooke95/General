@@ -242,6 +242,10 @@
                         const days = daysBetween(parseDate(r.date), today);
                         daysText = `${days}d ago`;
                         daysClass = 'counting';
+                    } else if (index === arr.length - 1) {
+                        // First release in the family — no prior release to measure from
+                        daysText = '';
+                        daysClass = '';
                     } else {
                         // For older releases, show days until next release
                         const nextRelease = arr[index - 1];
@@ -254,7 +258,7 @@
                         <li>
                             <span class="release-version"><a href="${r.url}" target="_blank" rel="noopener">${r.version}</a></span>
                             <span class="release-meta">
-                                <span class="release-days ${daysClass}">${daysText}</span>
+                                ${daysText ? `<span class="release-days ${daysClass}">${daysText}</span>` : ''}
                                 <span class="release-date">${formatDate(r.date)}</span>
                             </span>
                         </li>
