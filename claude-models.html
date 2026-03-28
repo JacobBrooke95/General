@@ -121,12 +121,13 @@
         // Claude model release data with announcement links
         const modelData = {
             mythos: {
-                name: "Mythos",
-                tier: "Most Capable",
-                headerClass: "mythos",
-                releases: [
-                    { version: "Mythos 1", date: "TBD", url: "https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/" }
-                ]
+                name: 'Mythos 1',
+                tier: 'Capybara',
+                headerClass: 'mythos',
+                status: 'In Testing',
+                upcoming: true,
+                description: 'Anthropic\'s most capable model, currently in early access testing. Described as "a step change" with dramatically higher scores on coding, reasoning, and cybersecurity benchmarks.',
+                link: 'https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/'
             },
             opus: {
                 name: "Opus",
@@ -251,6 +252,25 @@
         }
 
         function createModelCard(key, model) {
+            if (model.upcoming) {
+                return `
+                    <div class="model-card">
+                        <div class="model-header ${model.headerClass}">
+                            <div class="model-name">${model.name}</div>
+                            <div class="model-tier">${model.tier}</div>
+                        </div>
+                        <div class="model-body">
+                            <span class="status-badge badge-mythos">${model.status}</span>
+                            <p style="margin: 12px 0; font-size: 0.9rem; color: #555; line-height: 1.5;">${model.description}</p>
+                            <div class="latest-release">
+                                <h4>Source</h4>
+                                <div class="version"><a href="${model.link}" target="_blank" rel="noopener">Fortune — Mar 26, 2026</a></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
             const stats = calculateModelStats(model);
             const today = new Date();
             const releases = model.releases;
