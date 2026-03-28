@@ -121,13 +121,11 @@
         // Claude model release data with announcement links
         const modelData = {
             mythos: {
-                name: "Mythos 1",
-                tier: "Capybara",
+                name: "Mythos",
+                tier: "Most Capable",
                 headerClass: "mythos",
-                upcoming: true,
-                description: "Anthropic's most capable model — a step change in reasoning, coding, and cybersecurity. Currently in early access testing.",
                 releases: [
-                    { version: "Claude Mythos 1", date: "2026-03-26", url: "https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/" }
+                    { version: "Mythos 1", date: "TBD", url: "https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/" }
                 ]
             },
             opus: {
@@ -169,6 +167,7 @@
         };
 
         function parseDate(dateStr) {
+            if (dateStr === 'TBD') return null;
             return new Date(dateStr + 'T00:00:00');
         }
 
@@ -178,6 +177,7 @@
         }
 
         function formatDate(dateStr) {
+            if (dateStr === 'TBD') return 'TBD';
             const date = parseDate(dateStr);
             return date.toLocaleDateString('en-US', {
                 year: 'numeric',
@@ -189,22 +189,38 @@
         function calculateModelStats(model) {
             const releases = model.releases;
             const today = new Date();
+            const lastReleaseDate = releases[releases.length - 1].date;
+
+            // Handle TBD / unreleased models
+            if (lastReleaseDate === 'TBD') {
+                return {
+                    daysSinceRelease: '—',
+                    avgDays: '—',
+                    cyclePercent: 0,
+                    status: "Upcoming",
+                    badgeClass: "badge-fresh",
+                    latestVersion: releases[releases.length - 1].version,
+                    latestDate: 'TBD',
+                    latestUrl: releases[releases.length - 1].url
+                };
+            }
 
             // Calculate days since last release
-            const lastRelease = parseDate(releases[releases.length - 1].date);
+            const lastRelease = parseDate(lastReleaseDate);
             const daysSinceRelease = daysBetween(lastRelease, today);
 
             // Calculate average days between releases
             let totalDays = 0;
-            for (let i = 1; i < releases.length; i++) {
-                const prevDate = parseDate(releases[i - 1].date);
-                const currDate = parseDate(releases[i].date);
+            const datedReleases = releases.filter(r => r.date !== 'TBD');
+            for (let i = 1; i < datedReleases.length; i++) {
+                const prevDate = parseDate(datedReleases[i - 1].date);
+                const currDate = parseDate(datedReleases[i].date);
                 totalDays += daysBetween(prevDate, currDate);
             }
-            const avgDays = Math.round(totalDays / (releases.length - 1));
+            const avgDays = datedReleases.length > 1 ? Math.round(totalDays / (datedReleases.length - 1)) : 0;
 
             // Calculate cycle percentage
-            const cyclePercent = Math.min(Math.round((daysSinceRelease / avgDays) * 100), 100);
+            const cyclePercent = avgDays > 0 ? Math.min(Math.round((daysSinceRelease / avgDays) * 100), 100) : 0;
 
             // Determine status
             let status, badgeClass;
@@ -235,30 +251,6 @@
         }
 
         function createModelCard(key, model) {
-            // Handle upcoming/placeholder models
-            if (model.upcoming) {
-                return `
-                    <div class="model-card">
-                        <div class="model-header ${model.headerClass}">
-                            <div class="model-name">${model.name}</div>
-                            <div class="model-tier">${model.tier}</div>
-                        </div>
-                        <div class="model-body">
-                            <span class="status-badge badge-mythos">In Testing</span>
-                            <p style="margin: 15px 0; color: #888; font-size: 0.95em;">${model.description}</p>
-                            <ul class="release-list">
-                                <li>
-                                    <span class="release-version"><a href="${model.releases[0].url}" target="_blank" rel="noopener">Fortune: Model Leak Details →</a></span>
-                                    <span class="release-meta">
-                                        <span class="release-date">${formatDate(model.releases[0].date)}</span>
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                `;
-            }
-
             const stats = calculateModelStats(model);
             const today = new Date();
             const releases = model.releases;
@@ -271,7 +263,10 @@
                     const isLatest = index === 0;
                     let daysText, daysClass;
 
-                    if (isLatest) {
+                    if (r.date === 'TBD') {
+                        daysText = '';
+                        daysClass = '';
+                    } else if (isLatest) {
                         // For the latest release, count days since release (counting up)
                         const days = daysBetween(parseDate(r.date), today);
                         daysText = `${days}d ago`;
@@ -279,9 +274,14 @@
                     } else {
                         // For older releases, show days until next release
                         const nextRelease = arr[index - 1];
-                        const days = daysBetween(parseDate(r.date), parseDate(nextRelease.date));
-                        daysText = `${days}d`;
-                        daysClass = '';
+                        if (nextRelease.date === 'TBD') {
+                            daysText = '';
+                            daysClass = '';
+                        } else {
+                            const days = daysBetween(parseDate(r.date), parseDate(nextRelease.date));
+                            daysText = `${days}d`;
+                            daysClass = '';
+                        }
                     }
 
                     return `
