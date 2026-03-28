@@ -239,12 +239,12 @@
             if (model.upcoming) {
                 return `
                     <div class="model-card">
-                        <div class="model-header" style="background: linear-gradient(135deg, #b8860b 0%, #8b6914 100%);">
+                        <div class="model-header ${model.headerClass}">
                             <div class="model-name">${model.name}</div>
                             <div class="model-tier">${model.tier}</div>
                         </div>
                         <div class="model-body">
-                            <span class="status-badge badge-fresh" style="background: rgba(184,134,11,0.15); color: #b8860b;">In Testing</span>
+                            <span class="status-badge badge-mythos">In Testing</span>
                             <p style="margin: 15px 0; color: #888; font-size: 0.95em;">${model.description}</p>
                             <ul class="release-list">
                                 <li>
