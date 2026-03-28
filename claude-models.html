@@ -120,6 +120,16 @@
     <script>
         // Claude model release data with announcement links
         const modelData = {
+            mythos: {
+                name: "Mythos 1",
+                tier: "Capybara",
+                headerClass: "mythos",
+                upcoming: true,
+                description: "Anthropic's most capable model — a step change in reasoning, coding, and cybersecurity. Currently in early access testing.",
+                releases: [
+                    { version: "Claude Mythos 1", date: "2026-03-26", url: "https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/" }
+                ]
+            },
             opus: {
                 name: "Opus",
                 tier: "Most Powerful",
@@ -225,6 +235,30 @@
         }
 
         function createModelCard(key, model) {
+            // Handle upcoming/placeholder models
+            if (model.upcoming) {
+                return `
+                    <div class="model-card">
+                        <div class="model-header" style="background: linear-gradient(135deg, #b8860b 0%, #8b6914 100%);">
+                            <div class="model-name">${model.name}</div>
+                            <div class="model-tier">${model.tier}</div>
+                        </div>
+                        <div class="model-body">
+                            <span class="status-badge badge-fresh" style="background: rgba(184,134,11,0.15); color: #b8860b;">In Testing</span>
+                            <p style="margin: 15px 0; color: #888; font-size: 0.95em;">${model.description}</p>
+                            <ul class="release-list">
+                                <li>
+                                    <span class="release-version"><a href="${model.releases[0].url}" target="_blank" rel="noopener">Fortune: Model Leak Details →</a></span>
+                                    <span class="release-meta">
+                                        <span class="release-date">${formatDate(model.releases[0].date)}</span>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            }
+
             const stats = calculateModelStats(model);
             const today = new Date();
             const releases = model.releases;
