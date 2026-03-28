@@ -962,12 +962,12 @@ a:hover {
 }
 
 .model-header.mythos {
-  background: linear-gradient(135deg, #b8860b 0%, #8b6914 100%);
+  background: linear-gradient(135deg, #5b8a9a 0%, #3d6b7a 100%);
 }
 
 .badge-mythos {
-  background: rgba(184, 134, 11, 0.15);
-  color: #b8860b;
+  background: rgba(91, 138, 154, 0.15);
+  color: #5b8a9a;
 }
 
 .model-name {
