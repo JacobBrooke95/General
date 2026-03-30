@@ -125,7 +125,7 @@
                 tier: "Step Change",
                 headerClass: "mythos",
                 releases: [
-                    { version: "Mythos 1", date: "TBD", url: "https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/" }
+                    { version: "Mythos 1", date: "2026-05-06", predicted: true, url: "https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/" }
                 ]
             },
             opus: {
@@ -205,6 +205,25 @@
                 };
             }
 
+            // Handle predicted future releases
+            const lastReleasePredicted = releases[releases.length - 1].predicted;
+            if (lastReleasePredicted) {
+                const releaseDate = parseDate(lastReleaseDate);
+                const daysUntil = daysBetween(today, releaseDate);
+                return {
+                    daysSinceRelease: daysUntil,
+                    daysLabel: 'Days Away',
+                    avgDays: '—',
+                    cyclePercent: 0,
+                    status: "Upcoming",
+                    badgeClass: "badge-fresh",
+                    predicted: true,
+                    latestVersion: releases[releases.length - 1].version,
+                    latestDate: lastReleaseDate,
+                    latestUrl: releases[releases.length - 1].url
+                };
+            }
+
             // Calculate days since last release
             const lastRelease = parseDate(lastReleaseDate);
             const daysSinceRelease = daysBetween(lastRelease, today);
@@ -266,6 +285,10 @@
                     if (r.date === 'TBD') {
                         daysText = '';
                         daysClass = '';
+                    } else if (isLatest && r.predicted) {
+                        const days = daysBetween(today, parseDate(r.date));
+                        daysText = `in ${days}d`;
+                        daysClass = 'counting';
                     } else if (isLatest) {
                         // For the latest release, count days since release (counting up)
                         const days = daysBetween(parseDate(r.date), today);
@@ -307,7 +330,7 @@
                         <div class="stats-grid">
                             <div class="stat-box">
                                 <div class="stat-value">${stats.daysSinceRelease}</div>
-                                <div class="stat-label">Days Old</div>
+                                <div class="stat-label">${stats.daysLabel || 'Days Old'}</div>
                             </div>
                             <div class="stat-box">
                                 <div class="stat-value">${stats.avgDays}</div>
@@ -318,7 +341,7 @@
                         <div class="latest-release">
                             <h4>Latest Version</h4>
                             <div class="version"><a href="${stats.latestUrl}" target="_blank" rel="noopener">${stats.latestVersion}</a></div>
-                            <div class="date">${formatDate(stats.latestDate)}</div>
+                            <div class="date">${formatDate(stats.latestDate)}${stats.predicted ? ' <span style="font-size:0.8em;color:#b8860b;">(predicted)</span>' : ''}</div>
                         </div>
 
                         <div class="release-history">
