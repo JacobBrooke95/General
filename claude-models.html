@@ -125,7 +125,8 @@
                 tier: "Step Change",
                 headerClass: "mythos",
                 releases: [
-                    { version: "Mythos 1", date: "2026-05-06", predicted: true, url: "https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/" }
+                    { version: "Mythos Preview", date: "2026-04-07", notReleased: true, url: "https://www.anthropic.com/glasswing" },
+                    { version: "Mythos 1", date: "TBD", url: "https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/" }
                 ]
             },
             opus: {
@@ -194,7 +195,8 @@
             // Handle TBD / unreleased models
             if (lastReleaseDate === 'TBD') {
                 return {
-                    daysSinceRelease: '—',
+                    daysSinceRelease: 'TBD',
+                    daysLabel: 'Days Away',
                     avgDays: '—',
                     cyclePercent: 0,
                     status: "Upcoming",
@@ -307,9 +309,11 @@
                         }
                     }
 
+                    const notReleasedTag = r.notReleased ? ' <span style="font-size:0.8em;color:#b8860b;">(not released)</span>' : '';
+
                     return `
                         <li>
-                            <span class="release-version"><a href="${r.url}" target="_blank" rel="noopener">${r.version}</a></span>
+                            <span class="release-version"><a href="${r.url}" target="_blank" rel="noopener">${r.version}</a>${notReleasedTag}</span>
                             <span class="release-meta">
                                 <span class="release-days ${daysClass}">${daysText}</span>
                                 <span class="release-date">${formatDate(r.date)}</span>
