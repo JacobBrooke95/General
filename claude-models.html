@@ -392,7 +392,8 @@
                 ],
                 opus: [
                     { model: 'Opus 4.5', date: '2025-11-24', score: 66.3 },
-                    { model: 'Opus 4.6', date: '2026-02-05', score: 72.7 }
+                    { model: 'Opus 4.6', date: '2026-02-05', score: 72.7 },
+                    { model: 'Opus 4.7', date: '2026-04-16', score: 78.0 }
                 ],
                 haiku: [
                     { model: 'Haiku 4.5', date: '2025-10-15', score: 50.7 }
@@ -413,7 +414,7 @@
 
             // Date range: Sep 2024 to Mar 2026
             const minDate = new Date('2024-09-01T00:00:00');
-            const maxDate = new Date('2026-03-15T00:00:00');
+            const maxDate = new Date('2026-05-15T00:00:00');
             const dateRange = maxDate - minDate;
 
             // Score range: 0 to 80
@@ -444,7 +445,8 @@
                 { label: 'Feb \'25', date: '2025-02-01' },
                 { label: 'Jun \'25', date: '2025-06-01' },
                 { label: 'Oct \'25', date: '2025-10-01' },
-                { label: 'Feb \'26', date: '2026-02-01' }
+                { label: 'Feb \'26', date: '2026-02-01' },
+                { label: 'May \'26', date: '2026-05-01' }
             ];
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
