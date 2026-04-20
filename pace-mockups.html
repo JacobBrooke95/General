@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Claude Pace — Mockups</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  body { background: #faf6f1; }
+  .mock-wrap { max-width: 960px; margin: 0 auto; padding: 40px 20px 80px; }
+  .mock-section { background: #fff; border: 1px solid #e8d5c8; border-radius: 14px; padding: 28px 32px; margin-bottom: 28px; box-shadow: 0 2px 10px rgba(120,80,40,0.05); }
+  .mock-section h2 { margin: 0 0 4px; font-size: 22px; color: #5b4636; }
+  .mock-tag { display: inline-block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #a88a6e; margin-bottom: 14px; }
+  .mock-desc { color: #7a6957; font-size: 14px; line-height: 1.55; margin: 0 0 20px; max-width: 640px; }
+  .mock-chart { width: 100%; }
+  .mock-chart svg { width: 100%; height: auto; display: block; }
+  .legend { display: flex; gap: 18px; font-size: 12px; color: #6b5a48; margin-top: 14px; flex-wrap: wrap; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .swatch { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .pick-row { display: flex; gap: 12px; margin-top: 10px; }
+  .pick-btn { padding: 8px 14px; border: 1px solid #d4c0b3; background: #fff; border-radius: 8px; color: #5b4636; font-weight: 600; font-size: 13px; }
+  h1.page-h1 { font-size: 30px; color: #3d2e22; margin: 0 0 6px; }
+  .page-sub { color: #7a6957; margin: 0 0 30px; }
+</style>
+</head>
+<body>
+<div class="mock-wrap">
+  <h1 class="page-h1">Pace visualization — three mockups</h1>
+  <p class="page-sub">Each option replaces the per-family "Days Between Releases" chart with a single unified pace visual.</p>
+
+  <div class="mock-section">
+    <span class="mock-tag">Option 1</span>
+    <h2>Sawtooth — "days since last release"</h2>
+    <p class="mock-desc">The y-axis is days since <em>any</em> Claude release. It resets to zero on each ship, then climbs one unit per day. Every valley is a release (dot colored by family). Lower peaks over time mean Anthropic is shipping faster.</p>
+    <div class="mock-chart" id="chart-sawtooth"></div>
+    <div class="legend">
+      <span><i class="swatch" style="background:#9d7bb0"></i>Opus</span>
+      <span><i class="swatch" style="background:#d4836a"></i>Sonnet</span>
+      <span><i class="swatch" style="background:#8fa882"></i>Haiku</span>
+    </div>
+  </div>
+
+  <div class="mock-section">
+    <span class="mock-tag">Option 3</span>
+    <h2>Cumulative staircase</h2>
+    <p class="mock-desc">Total Claude releases shipped over time. Every step up is a ship; the steeper the slope, the faster the pace. Three stacked bands show the contribution of each family. Dashed reference lines mark "1 release / month" and "1 / quarter" for orientation.</p>
+    <div class="mock-chart" id="chart-cumulative"></div>
+    <div class="legend">
+      <span><i class="swatch" style="background:#9d7bb0"></i>Opus</span>
+      <span><i class="swatch" style="background:#d4836a"></i>Sonnet</span>
+      <span><i class="swatch" style="background:#8fa882"></i>Haiku</span>
+    </div>
+  </div>
+
+  <div class="mock-section">
+    <span class="mock-tag">Option 4</span>
+    <h2>Beeswarm timeline</h2>
+    <p class="mock-desc">Each release is a dot on a single time axis. Dots nudge upward when releases cluster in time — so the densest columns are the busiest weeks. Colored by family.</p>
+    <div class="mock-chart" id="chart-beeswarm"></div>
+    <div class="legend">
+      <span><i class="swatch" style="background:#9d7bb0"></i>Opus</span>
+      <span><i class="swatch" style="background:#d4836a"></i>Sonnet</span>
+      <span><i class="swatch" style="background:#8fa882"></i>Haiku</span>
+    </div>
+  </div>
+
+  <div class="mock-section">
+    <span class="mock-tag">Option A · days between releases</span>
+    <h2>Gap scatter with trend</h2>
+    <p class="mock-desc">Each dot is a release, positioned at its date (x) and the days since the <em>previous</em> ship from any family (y). The fitted trend line shows the gap shrinking over time. If Anthropic keeps accelerating, the line slopes down and to the right — which it does.</p>
+    <div class="mock-chart" id="chart-gap-scatter"></div>
+    <div class="legend">
+      <span><i class="swatch" style="background:#9d7bb0"></i>Opus</span>
+      <span><i class="swatch" style="background:#d4836a"></i>Sonnet</span>
+      <span><i class="swatch" style="background:#8fa882"></i>Haiku</span>
+      <span style="color:#8a6f5a"><i class="swatch" style="background:#8a6f5a;border-radius:2px;width:16px;height:2px"></i>linear fit</span>
+    </div>
+  </div>
+
+  <div class="mock-section">
+    <span class="mock-tag">Option B · by quarter</span>
+    <h2>Releases per quarter</h2>
+    <p class="mock-desc">One bar per calendar quarter, height = number of ships, stacked by family. The 2024 bars are lonely; 2025 starts filling in; 2026 is the loudest year yet — and Q2 isn't done.</p>
+    <div class="mock-chart" id="chart-quarterly"></div>
+    <div class="legend">
+      <span><i class="swatch" style="background:#9d7bb0"></i>Opus</span>
+      <span><i class="swatch" style="background:#d4836a"></i>Sonnet</span>
+      <span><i class="swatch" style="background:#8fa882"></i>Haiku</span>
+    </div>
+  </div>
+
+  <div class="mock-section">
+    <span class="mock-tag">Option C · hybrid</span>
+    <h2>Staircase with quarter bands</h2>
+    <p class="mock-desc">Your favored staircase, now with alternating Q1/Q2/Q3/Q4 background bands so you can read "steps per quarter" at a glance. Cheapest way to answer "how many releases in Q1 2026?" without leaving the chart.</p>
+    <div class="mock-chart" id="chart-staircase-q"></div>
+    <div class="legend">
+      <span><i class="swatch" style="background:#9d7bb0"></i>Opus</span>
+      <span><i class="swatch" style="background:#d4836a"></i>Sonnet</span>
+      <span><i class="swatch" style="background:#8fa882"></i>Haiku</span>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- shared data ---------- */
+const COLORS = { opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
+const RELEASES = [
+  { family: 'sonnet', v: '3 Sonnet',         date: '2024-03-04' },
+  { family: 'opus',   v: '3 Opus',           date: '2024-03-04' },
+  { family: 'haiku',  v: '3 Haiku',          date: '2024-03-13' },
+  { family: 'sonnet', v: '3.5 Sonnet',       date: '2024-06-20' },
+  { family: 'sonnet', v: '3.5 Sonnet (Oct)', date: '2024-10-22' },
+  { family: 'haiku',  v: '3.5 Haiku',        date: '2024-11-04' },
+  { family: 'sonnet', v: '3.7 Sonnet',       date: '2025-02-24' },
+  { family: 'opus',   v: '4 Opus',           date: '2025-05-22' },
+  { family: 'sonnet', v: '4 Sonnet',         date: '2025-05-22' },
+  { family: 'opus',   v: 'Opus 4.1',         date: '2025-08-05' },
+  { family: 'sonnet', v: 'Sonnet 4.5',       date: '2025-09-29' },
+  { family: 'haiku',  v: 'Haiku 4.5',        date: '2025-10-15' },
+  { family: 'opus',   v: 'Opus 4.5',         date: '2025-11-24' },
+  { family: 'opus',   v: 'Opus 4.6',         date: '2026-02-05' },
+  { family: 'sonnet', v: 'Sonnet 4.6',       date: '2026-02-17' },
+  { family: 'opus',   v: 'Opus 4.7',         date: '2026-04-16' }
+].sort((a, b) => a.date.localeCompare(b.date));
+
+const parse = s => new Date(s + 'T00:00:00');
+const TODAY = parse('2026-04-19');
+const MIN = parse('2024-03-01');
+const MAX = TODAY;
+const RANGE = MAX - MIN;
+const daysBetween = (a, b) => Math.round((b - a) / 86400000);
+
+const MARKERS = [
+  { label: "Mar '24", date: '2024-03-01' },
+  { label: "Sep '24", date: '2024-09-01' },
+  { label: "Mar '25", date: '2025-03-01' },
+  { label: "Sep '25", date: '2025-09-01' },
+  { label: "Mar '26", date: '2026-03-01' }
+];
+
+/* ---------- Option 1: Sawtooth ---------- */
+function renderSawtooth() {
+  const W = 900, H = 340;
+  const pad = { top: 24, right: 24, bottom: 42, left: 52 };
+  const cw = W - pad.left - pad.right;
+  const ch = H - pad.top - pad.bottom;
+  const x = d => pad.left + ((parse(d) - MIN) / RANGE) * cw;
+  const xRaw = d => pad.left + ((d - MIN) / RANGE) * cw;
+
+  // peak values are the gaps between releases; find max for y scale
+  const gaps = [];
+  for (let i = 1; i < RELEASES.length; i++) {
+    gaps.push(daysBetween(parse(RELEASES[i - 1].date), parse(RELEASES[i].date)));
+  }
+  gaps.push(daysBetween(parse(RELEASES[RELEASES.length - 1].date), TODAY));
+  const yMax = Math.ceil(Math.max(...gaps) / 20) * 20; // round up to 20
+  const y = v => pad.top + ch - (v / yMax) * ch;
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+  // y gridlines
+  const ySteps = [0, Math.round(yMax / 4), Math.round(yMax / 2), Math.round((3 * yMax) / 4), yMax];
+  ySteps.forEach(v => {
+    svg += `<line x1="${pad.left}" y1="${y(v)}" x2="${W - pad.right}" y2="${y(v)}" stroke="#efe3d6" stroke-width="1"/>`;
+    svg += `<text x="${pad.left - 8}" y="${y(v) + 4}" text-anchor="end" fill="#a88a6e" font-size="11">${v}d</text>`;
+  });
+
+  // x markers
+  MARKERS.forEach(m => {
+    svg += `<line x1="${x(m.date)}" y1="${pad.top}" x2="${x(m.date)}" y2="${pad.top + ch}" stroke="#f0e3d4" stroke-width="1" stroke-dasharray="3,3"/>`;
+    svg += `<text x="${x(m.date)}" y="${H - pad.bottom + 18}" text-anchor="middle" fill="#888" font-size="11">${m.label}</text>`;
+  });
+
+  // sawtooth path
+  let d = '';
+  let prev = null;
+  RELEASES.forEach((r, i) => {
+    if (prev) {
+      const gap = daysBetween(parse(prev.date), parse(r.date));
+      d += ` L ${x(r.date)} ${y(gap)}`;
+    }
+    d += (i === 0 ? ' M ' : ' L ') + `${x(r.date)} ${y(0)}`;
+    prev = r;
+  });
+  // tail to today
+  const tail = daysBetween(parse(prev.date), TODAY);
+  d += ` L ${xRaw(TODAY)} ${y(tail)}`;
+
+  // fill under path
+  const fillD = d + ` L ${xRaw(TODAY)} ${y(0)} L ${x(RELEASES[0].date)} ${y(0)} Z`;
+  svg += `<path d="${fillD}" fill="#d4836a" fill-opacity="0.08"/>`;
+  svg += `<path d="${d}" fill="none" stroke="#8a6f5a" stroke-width="1.8" stroke-linejoin="round"/>`;
+
+  // reset dots (colored by family)
+  RELEASES.forEach(r => {
+    svg += `<circle cx="${x(r.date)}" cy="${y(0)}" r="5.5" fill="${COLORS[r.family]}" stroke="white" stroke-width="2"/>`;
+  });
+
+  // current tail dot
+  svg += `<circle cx="${xRaw(TODAY)}" cy="${y(tail)}" r="3.5" fill="#8a6f5a"/>`;
+  svg += `<text x="${xRaw(TODAY) - 6}" y="${y(tail) - 8}" text-anchor="end" fill="#5b4636" font-size="11" font-weight="600">${tail}d since last ship</text>`;
+
+  // axis line
+  svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.2"/>`;
+  svg += `<text x="${pad.left}" y="${pad.top - 8}" fill="#7a6957" font-size="11" font-style="italic">days since last release (any family)</text>`;
+
+  svg += '</svg>';
+  document.getElementById('chart-sawtooth').innerHTML = svg;
+}
+
+/* ---------- Option 3: Cumulative staircase ---------- */
+function renderCumulative() {
+  const W = 900, H = 340;
+  const pad = { top: 24, right: 90, bottom: 42, left: 48 };
+  const cw = W - pad.left - pad.right;
+  const ch = H - pad.top - pad.bottom;
+  const x = d => pad.left + ((parse(d) - MIN) / RANGE) * cw;
+  const xRaw = d => pad.left + ((d - MIN) / RANGE) * cw;
+
+  // build per-family step counts
+  const families = ['haiku', 'sonnet', 'opus']; // drawing order bottom-to-top for stack
+  const counts = { opus: 0, sonnet: 0, haiku: 0 };
+  // series of { date, opus, sonnet, haiku, total }
+  const series = [{ date: MIN, opus: 0, sonnet: 0, haiku: 0 }];
+  RELEASES.forEach(r => {
+    counts[r.family] += 1;
+    series.push({ date: parse(r.date), ...counts });
+  });
+  series.push({ date: TODAY, ...counts });
+  const total = RELEASES.length;
+  const yMax = total + 1;
+  const y = v => pad.top + ch - (v / yMax) * ch;
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+  // y gridlines
+  for (let v = 0; v <= yMax; v += 4) {
+    svg += `<line x1="${pad.left}" y1="${y(v)}" x2="${W - pad.right}" y2="${y(v)}" stroke="#efe3d6" stroke-width="1"/>`;
+    svg += `<text x="${pad.left - 6}" y="${y(v) + 4}" text-anchor="end" fill="#a88a6e" font-size="11">${v}</text>`;
+  }
+
+  // x markers
+  MARKERS.forEach(m => {
+    svg += `<line x1="${x(m.date)}" y1="${pad.top}" x2="${x(m.date)}" y2="${pad.top + ch}" stroke="#f0e3d4" stroke-width="1" stroke-dasharray="3,3"/>`;
+    svg += `<text x="${x(m.date)}" y="${H - pad.bottom + 18}" text-anchor="middle" fill="#888" font-size="11">${m.label}</text>`;
+  });
+
+  // pace reference lines from first release point
+  const t0 = parse(RELEASES[0].date);
+  function refLine(perMonth, label) {
+    const endDaysFromStart = daysBetween(t0, TODAY);
+    const endVal = (endDaysFromStart / 30) * perMonth;
+    svg += `<line x1="${xRaw(t0)}" y1="${y(0)}" x2="${xRaw(TODAY)}" y2="${y(endVal)}" stroke="#c0a890" stroke-width="1" stroke-dasharray="4,4"/>`;
+    svg += `<text x="${xRaw(TODAY) + 6}" y="${y(endVal) + 4}" fill="#a88a6e" font-size="10.5">${label}</text>`;
+  }
+  refLine(1, '1 / month');
+  refLine(1 / 3, '1 / quarter');
+
+  // stacked step areas: bottom = haiku, middle = sonnet, top = opus
+  // for each family, build a stepped polygon of cumulative(haiku..family)
+  function stackUpTo(upToFam) {
+    // pairs [date, sum]
+    return series.map(s => {
+      let sum = 0;
+      for (const f of families) {
+        sum += s[f];
+        if (f === upToFam) break;
+      }
+      return [s.date, sum];
+    });
+  }
+  function expandSteps(points) {
+    // produce explicit vertex list representing the step shape
+    const out = [];
+    points.forEach((p, i) => {
+      const [d, v] = p;
+      if (i > 0) out.push([d, points[i - 1][1]]); // horizontal corner
+      out.push([d, v]);
+    });
+    return out;
+  }
+  function stepPath(points) {
+    return expandSteps(points).map((p, i) =>
+      (i === 0 ? 'M' : 'L') + ` ${xRaw(p[0])} ${y(p[1])}`
+    ).join(' ');
+  }
+  function areaPath(upper, lower) {
+    const u = expandSteps(upper);
+    const l = expandSteps(lower).reverse();
+    const pts = [...u, ...l];
+    return pts.map((p, i) =>
+      (i === 0 ? 'M' : 'L') + ` ${xRaw(p[0])} ${y(p[1])}`
+    ).join(' ') + ' Z';
+  }
+
+  // draw from bottom
+  let lower = series.map(s => [s.date, 0]);
+  families.forEach(fam => {
+    const upper = stackUpTo(fam);
+    svg += `<path d="${areaPath(upper, lower)}" fill="${COLORS[fam]}" fill-opacity="0.55"/>`;
+    lower = upper;
+  });
+
+  // top border line (total)
+  const topLine = stepPath(series.map(s => [s.date, s.opus + s.sonnet + s.haiku]));
+  svg += `<path d="${topLine}" fill="none" stroke="#5b4636" stroke-width="1.8"/>`;
+
+  // release tick dots on top line
+  RELEASES.forEach((r, i) => {
+    const val = i + 1; // cumulative
+    svg += `<circle cx="${x(r.date)}" cy="${y(val)}" r="3.5" fill="${COLORS[r.family]}" stroke="white" stroke-width="1.5"/>`;
+  });
+
+  // endpoint label
+  svg += `<text x="${xRaw(TODAY) + 6}" y="${y(total) + 4}" fill="#5b4636" font-size="12" font-weight="700">${total} total</text>`;
+
+  // axis
+  svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.2"/>`;
+  svg += `<text x="${pad.left}" y="${pad.top - 8}" fill="#7a6957" font-size="11" font-style="italic">cumulative Claude releases</text>`;
+
+  svg += '</svg>';
+  document.getElementById('chart-cumulative').innerHTML = svg;
+}
+
+/* ---------- Option 4: Beeswarm ---------- */
+function renderBeeswarm() {
+  const W = 900, H = 300;
+  const pad = { top: 30, right: 24, bottom: 42, left: 24 };
+  const cw = W - pad.left - pad.right;
+  const ch = H - pad.top - pad.bottom;
+  const baseline = pad.top + ch - 20;
+  const x = d => pad.left + ((parse(d) - MIN) / RANGE) * cw;
+
+  const R = 12; // dot radius
+  const pad2 = 3; // extra spacing
+  const minDist = 2 * R + pad2;
+
+  // place dots greedily with vertical offset
+  const placed = [];
+  RELEASES.forEach(r => {
+    const cx = x(r.date);
+    // try candidate y positions: baseline, baseline - step, baseline - 2*step, ...
+    let yFound = baseline;
+    let step = 0;
+    while (true) {
+      const cy = baseline - step * (2 * R + pad2);
+      const collision = placed.some(p => {
+        const dx = p.cx - cx;
+        const dy = p.cy - cy;
+        return Math.sqrt(dx * dx + dy * dy) < minDist;
+      });
+      if (!collision) { yFound = cy; break; }
+      step += 1;
+    }
+    placed.push({ ...r, cx, cy: yFound });
+  });
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+  // baseline
+  svg += `<line x1="${pad.left}" y1="${baseline}" x2="${W - pad.right}" y2="${baseline}" stroke="#d4c0b3" stroke-width="1.2"/>`;
+
+  // x markers
+  MARKERS.forEach(m => {
+    svg += `<line x1="${x(m.date)}" y1="${pad.top}" x2="${x(m.date)}" y2="${baseline}" stroke="#f0e3d4" stroke-width="1" stroke-dasharray="3,3"/>`;
+    svg += `<text x="${x(m.date)}" y="${H - pad.bottom + 18}" text-anchor="middle" fill="#888" font-size="11">${m.label}</text>`;
+  });
+
+  // rolling-density band (releases per 90 days), drawn as a subtle area behind the dots
+  const WINDOW = 90;
+  const samples = 200;
+  const densityPts = [];
+  for (let i = 0; i <= samples; i++) {
+    const t = new Date(MIN.getTime() + (i / samples) * RANGE);
+    const count = RELEASES.filter(r => {
+      const d = parse(r.date);
+      return d <= t && (t - d) <= WINDOW * 86400000;
+    }).length;
+    densityPts.push({ t, count });
+  }
+  const densityMax = Math.max(...densityPts.map(p => p.count), 1);
+  const densityH = 36;
+  const densityTop = pad.top;
+  let densityPath = '';
+  densityPts.forEach((p, i) => {
+    const px = pad.left + ((p.t - MIN) / RANGE) * cw;
+    const py = densityTop + densityH - (p.count / densityMax) * densityH;
+    densityPath += (i === 0 ? 'M ' : 'L ') + `${px} ${py} `;
+  });
+  densityPath += `L ${pad.left + cw} ${densityTop + densityH} L ${pad.left} ${densityTop + densityH} Z`;
+  svg += `<path d="${densityPath}" fill="#8a6f5a" fill-opacity="0.08" stroke="#8a6f5a" stroke-opacity="0.35" stroke-width="1"/>`;
+  svg += `<text x="${pad.left + 4}" y="${densityTop - 4}" fill="#a88a6e" font-size="10.5" font-style="italic">releases per rolling 90 days (peak: ${densityMax})</text>`;
+
+  // dots
+  placed.forEach(p => {
+    svg += `<circle cx="${p.cx}" cy="${p.cy}" r="${R}" fill="${COLORS[p.family]}" stroke="white" stroke-width="2"/>`;
+  });
+
+  svg += '</svg>';
+  document.getElementById('chart-beeswarm').innerHTML = svg;
+}
+
+/* ---------- Option A: Gap scatter with trend ---------- */
+function renderGapScatter() {
+  const W = 900, H = 340;
+  const pad = { top: 30, right: 24, bottom: 42, left: 52 };
+  const cw = W - pad.left - pad.right;
+  const ch = H - pad.top - pad.bottom;
+  const x = d => pad.left + ((parse(d) - MIN) / RANGE) * cw;
+
+  // compute gap for each release (skip the very first)
+  const gapPoints = [];
+  for (let i = 1; i < RELEASES.length; i++) {
+    const gap = daysBetween(parse(RELEASES[i - 1].date), parse(RELEASES[i].date));
+    gapPoints.push({ ...RELEASES[i], gap });
+  }
+  const yMax = Math.ceil(Math.max(...gapPoints.map(p => p.gap)) / 20) * 20;
+  const y = v => pad.top + ch - (v / yMax) * ch;
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+  // y gridlines
+  [0, Math.round(yMax / 4), Math.round(yMax / 2), Math.round((3 * yMax) / 4), yMax].forEach(v => {
+    svg += `<line x1="${pad.left}" y1="${y(v)}" x2="${W - pad.right}" y2="${y(v)}" stroke="#efe3d6" stroke-width="1"/>`;
+    svg += `<text x="${pad.left - 8}" y="${y(v) + 4}" text-anchor="end" fill="#a88a6e" font-size="11">${v}d</text>`;
+  });
+
+  // x markers
+  MARKERS.forEach(m => {
+    svg += `<line x1="${x(m.date)}" y1="${pad.top}" x2="${x(m.date)}" y2="${pad.top + ch}" stroke="#f0e3d4" stroke-width="1" stroke-dasharray="3,3"/>`;
+    svg += `<text x="${x(m.date)}" y="${H - pad.bottom + 18}" text-anchor="middle" fill="#888" font-size="11">${m.label}</text>`;
+  });
+
+  // linear regression on (xNumeric, gap)
+  const xs = gapPoints.map(p => parse(p.date).getTime());
+  const ys = gapPoints.map(p => p.gap);
+  const n = xs.length;
+  const meanX = xs.reduce((a, b) => a + b, 0) / n;
+  const meanY = ys.reduce((a, b) => a + b, 0) / n;
+  let num = 0, den = 0;
+  for (let i = 0; i < n; i++) {
+    num += (xs[i] - meanX) * (ys[i] - meanY);
+    den += (xs[i] - meanX) ** 2;
+  }
+  const slope = num / den;
+  const intercept = meanY - slope * meanX;
+  const trendX1 = MIN.getTime();
+  const trendX2 = TODAY.getTime();
+  const trendY1 = Math.max(0, intercept + slope * trendX1);
+  const trendY2 = Math.max(0, intercept + slope * trendX2);
+  const tx1 = pad.left + ((trendX1 - MIN) / RANGE) * cw;
+  const tx2 = pad.left + ((trendX2 - MIN) / RANGE) * cw;
+  svg += `<line x1="${tx1}" y1="${y(trendY1)}" x2="${tx2}" y2="${y(trendY2)}" stroke="#8a6f5a" stroke-width="2" stroke-dasharray="6,4"/>`;
+
+  // connecting thin line between dots (chronological)
+  const pathD = gapPoints.map((p, i) =>
+    (i === 0 ? 'M' : 'L') + ` ${x(p.date)} ${y(p.gap)}`
+  ).join(' ');
+  svg += `<path d="${pathD}" fill="none" stroke="#b8a088" stroke-width="1" stroke-opacity="0.5"/>`;
+
+  // dots
+  gapPoints.forEach(p => {
+    svg += `<circle cx="${x(p.date)}" cy="${y(p.gap)}" r="6" fill="${COLORS[p.family]}" stroke="white" stroke-width="2"/>`;
+    svg += `<text x="${x(p.date)}" y="${y(p.gap) - 10}" text-anchor="middle" fill="#8a6f5a" font-size="9.5" font-weight="600">${p.gap}d</text>`;
+  });
+
+  // axis
+  svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.2"/>`;
+  svg += `<text x="${pad.left}" y="${pad.top - 10}" fill="#7a6957" font-size="11" font-style="italic">days since previous release (any family)</text>`;
+
+  // trend annotation
+  const avgEarly = ys.slice(0, Math.ceil(n / 2)).reduce((a, b) => a + b, 0) / Math.ceil(n / 2);
+  const avgLate = ys.slice(Math.ceil(n / 2)).reduce((a, b) => a + b, 0) / Math.floor(n / 2);
+  svg += `<text x="${tx2 - 4}" y="${y(trendY2) - 6}" text-anchor="end" fill="#8a6f5a" font-size="10.5" font-weight="600">trend: ${avgEarly.toFixed(0)}d → ${avgLate.toFixed(0)}d</text>`;
+
+  svg += '</svg>';
+  document.getElementById('chart-gap-scatter').innerHTML = svg;
+}
+
+/* ---------- Option B: Releases per quarter ---------- */
+function quarterKey(dateStr) {
+  const d = parse(dateStr);
+  const q = Math.floor(d.getMonth() / 3) + 1;
+  return `${d.getFullYear()}-Q${q}`;
+}
+function quarterLabel(key) {
+  const [yr, q] = key.split('-');
+  return `${q} '${yr.slice(2)}`;
+}
+
+function renderQuarterly() {
+  const W = 900, H = 320;
+  const pad = { top: 30, right: 24, bottom: 48, left: 44 };
+  const cw = W - pad.left - pad.right;
+  const ch = H - pad.top - pad.bottom;
+
+  // build list of quarters from first release to current
+  const quarters = [];
+  let cur = new Date(2024, 0, 1);
+  while (cur <= TODAY) {
+    const q = Math.floor(cur.getMonth() / 3) + 1;
+    quarters.push(`${cur.getFullYear()}-Q${q}`);
+    cur.setMonth(cur.getMonth() + 3);
+  }
+
+  // count releases by quarter by family
+  const counts = {};
+  quarters.forEach(q => counts[q] = { opus: 0, sonnet: 0, haiku: 0 });
+  RELEASES.forEach(r => {
+    const qk = quarterKey(r.date);
+    if (counts[qk]) counts[qk][r.family] += 1;
+  });
+  const maxCount = Math.max(...quarters.map(q => counts[q].opus + counts[q].sonnet + counts[q].haiku));
+  const yMax = Math.max(maxCount, 4);
+  const y = v => pad.top + ch - (v / yMax) * ch;
+
+  const barW = (cw / quarters.length) * 0.7;
+  const barGap = (cw / quarters.length);
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+  // y gridlines
+  for (let v = 0; v <= yMax; v++) {
+    svg += `<line x1="${pad.left}" y1="${y(v)}" x2="${W - pad.right}" y2="${y(v)}" stroke="#efe3d6" stroke-width="1"/>`;
+    svg += `<text x="${pad.left - 8}" y="${y(v) + 4}" text-anchor="end" fill="#a88a6e" font-size="11">${v}</text>`;
+  }
+
+  // bars
+  const families = ['haiku', 'sonnet', 'opus'];
+  quarters.forEach((q, i) => {
+    const xCenter = pad.left + (i + 0.5) * barGap;
+    const xLeft = xCenter - barW / 2;
+    let yCursor = pad.top + ch;
+    families.forEach(fam => {
+      const c = counts[q][fam];
+      if (c > 0) {
+        const h = (c / yMax) * ch;
+        svg += `<rect x="${xLeft}" y="${yCursor - h}" width="${barW}" height="${h}" fill="${COLORS[fam]}" fill-opacity="0.85" rx="2"/>`;
+        yCursor -= h;
+      }
+    });
+    // quarter label
+    const isQ1 = q.endsWith('Q1');
+    svg += `<text x="${xCenter}" y="${H - pad.bottom + 16}" text-anchor="middle" fill="#888" font-size="10.5" font-weight="${isQ1 ? '700' : '400'}">${q.split('-')[1]}</text>`;
+    if (isQ1) {
+      svg += `<text x="${xCenter}" y="${H - pad.bottom + 30}" text-anchor="middle" fill="#5b4636" font-size="11" font-weight="700">${q.split('-')[0]}</text>`;
+    }
+    // total label on top of bar
+    const total = counts[q].opus + counts[q].sonnet + counts[q].haiku;
+    if (total > 0) {
+      svg += `<text x="${xCenter}" y="${y(total) - 6}" text-anchor="middle" fill="#5b4636" font-size="11" font-weight="700">${total}</text>`;
+    }
+  });
+
+  // in-progress marker for current quarter
+  const curQ = quarterKey('2026-04-19');
+  const curIdx = quarters.indexOf(curQ);
+  if (curIdx >= 0) {
+    const xCenter = pad.left + (curIdx + 0.5) * barGap;
+    svg += `<text x="${xCenter}" y="${pad.top - 8}" text-anchor="middle" fill="#a88a6e" font-size="9.5" font-style="italic">in progress</text>`;
+  }
+
+  // axis
+  svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.2"/>`;
+  svg += `<text x="${pad.left}" y="${pad.top - 10}" fill="#7a6957" font-size="11" font-style="italic">releases per calendar quarter</text>`;
+
+  svg += '</svg>';
+  document.getElementById('chart-quarterly').innerHTML = svg;
+}
+
+/* ---------- Option C: Staircase with quarter bands ---------- */
+function renderStaircaseQuarters() {
+  const W = 900, H = 340;
+  const pad = { top: 30, right: 90, bottom: 48, left: 48 };
+  const cw = W - pad.left - pad.right;
+  const ch = H - pad.top - pad.bottom;
+  const xRaw = d => pad.left + ((d - MIN) / RANGE) * cw;
+  const x = d => xRaw(parse(d));
+
+  // build step series per family
+  const families = ['haiku', 'sonnet', 'opus'];
+  const counts = { opus: 0, sonnet: 0, haiku: 0 };
+  const series = [{ date: MIN, opus: 0, sonnet: 0, haiku: 0 }];
+  RELEASES.forEach(r => {
+    counts[r.family] += 1;
+    series.push({ date: parse(r.date), ...counts });
+  });
+  series.push({ date: TODAY, ...counts });
+  const total = RELEASES.length;
+  const yMax = total + 1;
+  const y = v => pad.top + ch - (v / yMax) * ch;
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+  // quarter bands
+  let cur = new Date(2024, 0, 1);
+  let qIdx = 0;
+  while (cur <= TODAY) {
+    const qStart = new Date(cur);
+    const qEnd = new Date(cur);
+    qEnd.setMonth(qEnd.getMonth() + 3);
+    const startClamped = qStart < MIN ? MIN : qStart;
+    const endClamped = qEnd > TODAY ? TODAY : qEnd;
+    if (endClamped > startClamped) {
+      const bandX = xRaw(startClamped);
+      const bandW = xRaw(endClamped) - bandX;
+      const fill = qIdx % 2 === 0 ? 'rgba(200,170,140,0.05)' : 'rgba(200,170,140,0.12)';
+      svg += `<rect x="${bandX}" y="${pad.top}" width="${bandW}" height="${ch}" fill="${fill}"/>`;
+      // label at top inside the band
+      const q = Math.floor(qStart.getMonth() / 3) + 1;
+      if (bandW > 28) {
+        svg += `<text x="${bandX + bandW / 2}" y="${pad.top + 12}" text-anchor="middle" fill="#b8a088" font-size="9.5" font-weight="600">Q${q}</text>`;
+      }
+      // count releases in this quarter
+      const qReleases = RELEASES.filter(r => {
+        const d = parse(r.date);
+        return d >= qStart && d < qEnd;
+      });
+      if (qReleases.length > 0 && bandW > 28) {
+        svg += `<text x="${bandX + bandW / 2}" y="${pad.top + ch - 4}" text-anchor="middle" fill="#5b4636" font-size="11" font-weight="700">${qReleases.length}</text>`;
+      }
+    }
+    qIdx += 1;
+    cur = qEnd;
+  }
+
+  // year labels at bottom
+  [2024, 2025, 2026].forEach(yr => {
+    const yrStart = new Date(yr, 0, 1);
+    const yrStartClamped = yrStart < MIN ? MIN : yrStart;
+    const yrEnd = new Date(yr + 1, 0, 1);
+    const yrEndClamped = yrEnd > TODAY ? TODAY : yrEnd;
+    if (yrEndClamped > yrStartClamped) {
+      const cx = xRaw(yrStartClamped) + (xRaw(yrEndClamped) - xRaw(yrStartClamped)) / 2;
+      svg += `<text x="${cx}" y="${H - pad.bottom + 32}" text-anchor="middle" fill="#5b4636" font-size="12" font-weight="700">${yr}</text>`;
+    }
+  });
+  // quarter ticks at bottom
+  cur = new Date(2024, 0, 1);
+  while (cur <= TODAY) {
+    const q = Math.floor(cur.getMonth() / 3) + 1;
+    const startClamped = cur < MIN ? MIN : cur;
+    if (startClamped <= TODAY) {
+      const tickX = xRaw(startClamped);
+      svg += `<text x="${tickX + 4}" y="${H - pad.bottom + 14}" fill="#888" font-size="10">Q${q}</text>`;
+    }
+    cur = new Date(cur.getFullYear(), cur.getMonth() + 3, 1);
+  }
+
+  // y gridlines
+  for (let v = 0; v <= yMax; v += 4) {
+    svg += `<line x1="${pad.left}" y1="${y(v)}" x2="${W - pad.right}" y2="${y(v)}" stroke="#efe3d6" stroke-width="1"/>`;
+    svg += `<text x="${pad.left - 6}" y="${y(v) + 4}" text-anchor="end" fill="#a88a6e" font-size="11">${v}</text>`;
+  }
+
+  function stackUpTo(upToFam) {
+    return series.map(s => {
+      let sum = 0;
+      for (const f of families) {
+        sum += s[f];
+        if (f === upToFam) break;
+      }
+      return [s.date, sum];
+    });
+  }
+  function expandSteps(points) {
+    const out = [];
+    points.forEach((p, i) => {
+      const [d, v] = p;
+      if (i > 0) out.push([d, points[i - 1][1]]);
+      out.push([d, v]);
+    });
+    return out;
+  }
+  function stepPath(points) {
+    return expandSteps(points).map((p, i) =>
+      (i === 0 ? 'M' : 'L') + ` ${xRaw(p[0])} ${y(p[1])}`
+    ).join(' ');
+  }
+  function areaPath(upper, lower) {
+    const u = expandSteps(upper);
+    const l = expandSteps(lower).reverse();
+    return [...u, ...l].map((p, i) =>
+      (i === 0 ? 'M' : 'L') + ` ${xRaw(p[0])} ${y(p[1])}`
+    ).join(' ') + ' Z';
+  }
+
+  let lower = series.map(s => [s.date, 0]);
+  families.forEach(fam => {
+    const upper = stackUpTo(fam);
+    svg += `<path d="${areaPath(upper, lower)}" fill="${COLORS[fam]}" fill-opacity="0.55"/>`;
+    lower = upper;
+  });
+
+  const topLine = stepPath(series.map(s => [s.date, s.opus + s.sonnet + s.haiku]));
+  svg += `<path d="${topLine}" fill="none" stroke="#5b4636" stroke-width="1.8"/>`;
+
+  RELEASES.forEach((r, i) => {
+    svg += `<circle cx="${x(r.date)}" cy="${y(i + 1)}" r="3.5" fill="${COLORS[r.family]}" stroke="white" stroke-width="1.5"/>`;
+  });
+
+  svg += `<text x="${xRaw(TODAY) + 6}" y="${y(total) + 4}" fill="#5b4636" font-size="12" font-weight="700">${total} total</text>`;
+  svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.2"/>`;
+  svg += `<text x="${pad.left}" y="${pad.top - 10}" fill="#7a6957" font-size="11" font-style="italic">cumulative Claude releases · numbers inside bands = releases that quarter</text>`;
+
+  svg += '</svg>';
+  document.getElementById('chart-staircase-q').innerHTML = svg;
+}
+
+renderSawtooth();
+renderCumulative();
+renderBeeswarm();
+renderGapScatter();
+renderQuarterly();
+renderStaircaseQuarters();
+</script>
+</body>
+</html>

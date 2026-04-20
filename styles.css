@@ -1016,6 +1016,93 @@ a:hover {
   color: var(--color-primary-hover);
 }
 
+/* Cycle progress rail — replaces the static status badge */
+.status-rail {
+  margin: 0.25rem 0 1.25rem;
+}
+
+.status-rail-labels {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.status-rail-labels > span {
+  text-align: center;
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+}
+
+.status-rail-labels .zone-fresh { color: #5a7550; }
+.status-rail-labels .zone-current { color: #6b6b6b; }
+.status-rail-labels .zone-aging { color: #a86a52; }
+.status-rail-labels .zone-dated { color: var(--color-primary-hover, #c9705e); }
+
+/* Active zone highlight */
+.status-rail[data-zone="fresh"] .zone-fresh,
+.status-rail[data-zone="current"] .zone-current,
+.status-rail[data-zone="aging"] .zone-aging,
+.status-rail[data-zone="dated"] .zone-dated {
+  opacity: 1;
+}
+
+.status-rail-track {
+  position: relative;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(to right,
+    rgba(141, 168, 130, 0.55) 0%,
+    rgba(141, 168, 130, 0.55) 25%,
+    rgba(120, 120, 120, 0.28) 25%,
+    rgba(120, 120, 120, 0.28) 50%,
+    rgba(212, 131, 106, 0.55) 50%,
+    rgba(212, 131, 106, 0.55) 75%,
+    rgba(201, 112, 94, 0.72) 75%,
+    rgba(201, 112, 94, 0.72) 100%);
+  margin: 0 2px; /* breathing room so end markers don't clip the card */
+  overflow: visible;
+}
+
+/* Zone divider ticks (rendered inline in HTML at 25/50/75%) */
+.rail-tick {
+  position: absolute;
+  top: -3px;
+  width: 1px;
+  height: 12px;
+  background: rgba(93, 70, 54, 0.35);
+  transform: translateX(-50%);
+}
+
+/* Circular dot marker — matches the filled-with-white-stroke style of timeline dots */
+.status-rail-marker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(93, 70, 54, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.2px;
+  z-index: 2;
+}
+
+/* Saturated zone colors for the dot (not the faded badge bg) */
+.status-rail-marker.badge-fresh   { background: #8fa882; }
+.status-rail-marker.badge-current { background: #8a8a8a; }
+.status-rail-marker.badge-aging   { background: #d4836a; }
+.status-rail-marker.badge-dated   { background: #c9705e; }
+
 .stats-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
