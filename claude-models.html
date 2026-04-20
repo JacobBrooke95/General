@@ -73,8 +73,8 @@
             </div>
 
             <div class="benchmark-section">
-                <h2 class="section-title">Days Between Releases</h2>
-                <p class="benchmark-note" style="margin-bottom: 18px;">The gap (in days) between consecutive releases within each model family.</p>
+                <h2 class="section-title">Shipping Pace</h2>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Cumulative Claude releases over time, stacked by family. Each step up is a ship — the steeper the slope, the faster the pace. Numbers inside the quarter bands show releases shipped that quarter.</p>
                 <div class="benchmark-chart-container">
                     <div id="gap-chart"></div>
                 </div>
@@ -85,6 +85,10 @@
                 <div class="benchmark-chart-container">
                     <div id="benchmark-chart"></div>
                     <div class="benchmark-legend">
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #5b8a9a;"></div>
+                            <span>Mythos</span>
+                        </div>
                         <div class="benchmark-legend-item">
                             <div class="benchmark-legend-dot" style="background: #9d7bb0;"></div>
                             <span>Opus</span>
@@ -323,6 +327,14 @@
                     `;
                 }).join('');
 
+            // Compute rail zone + clamped marker position
+            const zone = stats.badgeClass.replace('badge-', ''); // fresh|current|aging|dated
+            const rawPct = typeof stats.cyclePercent === 'number' ? stats.cyclePercent : 0;
+            const markerPct = Math.max(3, Math.min(97, rawPct));
+            // Show "—" for Upcoming/TBD models that have no real cycle to measure against
+            const hasCycle = stats.avgDays && stats.avgDays !== '—' && rawPct > 0;
+            const dotLabel = hasCycle ? `${rawPct}%` : '—';
+
             return `
                 <div class="model-card">
                     <div class="model-header ${model.headerClass}">
@@ -330,7 +342,22 @@
                         <div class="model-tier">${model.tier}</div>
                     </div>
                     <div class="model-body">
-                        <span class="status-badge ${stats.badgeClass}">${stats.status}</span>
+                        <div class="status-rail" data-zone="${zone}">
+                            <div class="status-rail-labels">
+                                <span class="zone-fresh">Fresh</span>
+                                <span class="zone-current">Current</span>
+                                <span class="zone-aging">Aging</span>
+                                <span class="zone-dated">Dated</span>
+                            </div>
+                            <div class="status-rail-track">
+                                <span class="rail-tick" style="left: 25%"></span>
+                                <span class="rail-tick" style="left: 50%"></span>
+                                <span class="rail-tick" style="left: 75%"></span>
+                                <div class="status-rail-marker ${stats.badgeClass}" style="left: ${markerPct}%" title="${stats.status}">
+                                    ${dotLabel}
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="stats-grid">
                             <div class="stat-box">
@@ -397,13 +424,17 @@
                 ],
                 haiku: [
                     { model: 'Haiku 4.5', date: '2025-10-15', score: 50.7 }
+                ],
+                mythos: [
+                    { model: 'Mythos Preview', date: '2026-04-07', score: 79.6, preview: true }
                 ]
             };
 
             const colors = {
                 sonnet: '#d4836a',
                 opus: '#9d7bb0',
-                haiku: '#8fa882'
+                haiku: '#8fa882',
+                mythos: '#5b8a9a'
             };
 
             // Chart dimensions
@@ -417,8 +448,9 @@
             const maxDate = new Date('2026-05-15T00:00:00');
             const dateRange = maxDate - minDate;
 
-            // Score range: 0 to 80
-            const maxScore = 80;
+            // Score range: 10 to 90
+            const minScore = 10;
+            const maxScore = 90;
 
             function x(dateStr) {
                 const d = new Date(dateStr + 'T00:00:00');
@@ -426,14 +458,14 @@
             }
 
             function y(score) {
-                return pad.top + ch - (score / maxScore) * ch;
+                return pad.top + ch - ((score - minScore) / (maxScore - minScore)) * ch;
             }
 
             // Build SVG
             let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
 
             // Grid lines and Y-axis labels
-            for (let s = 0; s <= maxScore; s += 20) {
+            for (let s = minScore; s <= maxScore; s += 20) {
                 const yPos = y(s);
                 svg += `<line x1="${pad.left}" y1="${yPos}" x2="${W - pad.right}" y2="${yPos}" stroke="#e8d5c8" stroke-width="1" />`;
                 svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#888" font-size="12">${s}%</text>`;
@@ -477,8 +509,11 @@
                     const px = x(p.date);
                     const py = y(p.score);
 
-                    // Dot
+                    // Dot — preview-only drops get a diagonal white slash through the middle
                     svg += `<circle cx="${px}" cy="${py}" r="5" fill="${color}" stroke="white" stroke-width="2" />`;
+                    if (p.preview) {
+                        svg += `<line x1="${px - 3}" y1="${py + 3}" x2="${px + 3}" y2="${py - 3}" stroke="white" stroke-width="1.5" stroke-linecap="round" />`;
+                    }
 
                     // Score label - position above by default, adjust for overlaps
                     let labelY = py - 12;
@@ -493,9 +528,13 @@
                         labelAnchor = 'start';
                     } else if (series === 'opus' && p.model === 'Opus 4.5') {
                         labelY = py + 20;
+                    } else if (series === 'mythos') {
+                        // Mythos Preview sits near Opus 4.7 (Apr 16) — nudge its label up-left
+                        labelY = py - 14;
+                        labelAnchor = 'end';
                     }
 
-                    svg += `<text x="${px}" y="${labelY}" text-anchor="${labelAnchor}" fill="${color}" font-size="11" font-weight="600">${p.score}%</text>`;
+                    svg += `<text x="${px}" y="${labelY}" text-anchor="${labelAnchor}" fill="${color}" font-size="11" font-weight="600">${p.score}%${p.preview ? ' (preview)' : ''}</text>`;
                 });
             });
 
@@ -508,9 +547,10 @@
         function renderTimelineChart() {
             // Gather all releases into a flat list
             const allReleases = [];
-            const colors = { opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
-            const familyLabels = { opus: 'Opus', sonnet: 'Sonnet', haiku: 'Haiku' };
-            const laneY = { opus: 0, sonnet: 1, haiku: 2 };
+            const colors = { mythos: '#5b8a9a', opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
+            const familyLabels = { mythos: 'Mythos', opus: 'Opus', sonnet: 'Sonnet', haiku: 'Haiku' };
+            const laneY = { mythos: 0, opus: 1, sonnet: 2, haiku: 3 };
+            const laneOrder = ['mythos', 'opus', 'sonnet', 'haiku'];
 
             Object.entries(modelData).forEach(([key, model]) => {
                 model.releases.forEach(r => {
@@ -518,13 +558,13 @@
                 });
             });
 
-            const W = 800, H = 260;
+            const W = 800, H = 320;
             const pad = { top: 30, right: 30, bottom: 50, left: 80 };
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
 
             const minDate = new Date('2024-02-01T00:00:00');
-            const maxDate = new Date('2026-04-01T00:00:00');
+            const maxDate = new Date('2026-05-01T00:00:00');
             const dateRange = maxDate - minDate;
 
             function x(dateStr) {
@@ -532,7 +572,7 @@
                 return pad.left + ((d - minDate) / dateRange) * cw;
             }
 
-            const laneHeight = ch / 3;
+            const laneHeight = ch / laneOrder.length;
             function yLane(family) {
                 return pad.top + laneY[family] * laneHeight + laneHeight / 2;
             }
@@ -540,7 +580,7 @@
             let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
 
             // Swim lane backgrounds
-            ['opus', 'sonnet', 'haiku'].forEach((fam, i) => {
+            laneOrder.forEach((fam, i) => {
                 const yTop = pad.top + i * laneHeight;
                 const bgColor = i % 2 === 0 ? 'rgba(0,0,0,0.02)' : 'rgba(0,0,0,0)';
                 svg += `<rect x="${pad.left}" y="${yTop}" width="${cw}" height="${laneHeight}" fill="${bgColor}" />`;
@@ -563,21 +603,29 @@
                 svg += `<text x="${xPos}" y="${H - pad.bottom + 18}" text-anchor="middle" fill="#888" font-size="11">${dm.label}</text>`;
             });
 
-            // Draw connecting lines per family
+            // Draw connecting lines per family (only families with a defined lane)
             Object.entries(modelData).forEach(([key, model]) => {
+                if (!(key in laneY)) return;
                 const color = colors[key];
-                if (model.releases.length > 1) {
-                    let pathD = model.releases.map((r, i) => {
+                // Plot releases with a real date (including Mythos Preview, which has a date
+                // even though notReleased in the API sense — it shipped as a preview via Glasswing)
+                const plotted = model.releases.filter(r => r.date !== 'TBD');
+                if (plotted.length > 1) {
+                    let pathD = plotted.map((r, i) => {
                         return (i === 0 ? 'M' : 'L') + `${x(r.date)},${yLane(key)}`;
                     }).join(' ');
                     svg += `<path d="${pathD}" fill="none" stroke="${color}" stroke-width="2" stroke-opacity="0.4" />`;
                 }
 
                 // Draw dots and labels
-                model.releases.forEach((r, i) => {
+                plotted.forEach((r, i) => {
                     const cx = x(r.date);
                     const cy = yLane(key);
                     svg += `<circle cx="${cx}" cy="${cy}" r="6" fill="${color}" stroke="white" stroke-width="2" />`;
+                    if (r.notReleased) {
+                        // Preview-only drops (e.g. Mythos Preview via Glasswing): diagonal white slash
+                        svg += `<line x1="${cx - 3.5}" y1="${cy + 3.5}" x2="${cx + 3.5}" y2="${cy - 3.5}" stroke="white" stroke-width="1.5" stroke-linecap="round" />`;
+                    }
 
                     // Short version label
                     const shortName = r.version.replace('Claude ', '').replace('(Oct)', '(v2)');
@@ -594,64 +642,169 @@
             document.getElementById('timeline-chart').innerHTML = svg;
         }
 
-        // Days Between Releases - Grouped Bar Chart
+        // Shipping Pace - Cumulative Staircase with Quarter Bands
         function renderGapChart() {
             const colors = { opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
-            const families = ['opus', 'sonnet', 'haiku'];
+            const families = ['haiku', 'sonnet', 'opus']; // stack order, bottom-to-top
 
-            // Build gap data per family
-            const gapData = {};
+            // Collect and sort released, dated releases only
+            const allReleases = [];
             families.forEach(fam => {
-                const releases = modelData[fam].releases;
-                gapData[fam] = [];
-                for (let i = 1; i < releases.length; i++) {
-                    const d1 = new Date(releases[i - 1].date + 'T00:00:00');
-                    const d2 = new Date(releases[i].date + 'T00:00:00');
-                    const days = Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
-                    const fromShort = releases[i - 1].version.replace('Claude ', '');
-                    const toShort = releases[i].version.replace('Claude ', '');
-                    gapData[fam].push({ from: fromShort, to: toShort, days, label: `→ ${toShort}` });
-                }
+                modelData[fam].releases.forEach(r => {
+                    if (r.date !== 'TBD' && !r.notReleased) {
+                        allReleases.push({ family: fam, date: r.date, version: r.version });
+                    }
+                });
             });
+            allReleases.sort((a, b) => a.date.localeCompare(b.date));
 
-            // Find max gaps to determine number of bars per row
-            const maxGaps = Math.max(...families.map(f => gapData[f].length));
-            const maxDays = Math.max(...families.flatMap(f => gapData[f].map(g => g.days)));
+            const parse = s => new Date(s + 'T00:00:00');
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const MIN = parse('2024-03-01');
+            const MAX = today > parse('2026-04-01') ? today : parse('2026-06-30');
+            const RANGE = MAX - MIN;
 
-            const W = 800, barH = 22, rowGap = 8, familyGap = 28;
-            const pad = { top: 10, right: 60, bottom: 20, left: 150 };
+            const W = 900, H = 360;
+            const pad = { top: 32, right: 90, bottom: 54, left: 48 };
             const cw = W - pad.left - pad.right;
+            const ch = H - pad.top - pad.bottom;
+            const xRaw = d => pad.left + ((d - MIN) / RANGE) * cw;
+            const x = d => xRaw(parse(d));
 
-            // Calculate total height
-            let totalRows = 0;
-            families.forEach(f => { totalRows += gapData[f].length; });
-            const H = pad.top + pad.bottom + totalRows * (barH + rowGap) + (families.length - 1) * familyGap;
+            // Build cumulative series
+            const counts = { opus: 0, sonnet: 0, haiku: 0 };
+            const series = [{ date: MIN, opus: 0, sonnet: 0, haiku: 0 }];
+            allReleases.forEach(r => {
+                counts[r.family] += 1;
+                series.push({ date: parse(r.date), ...counts });
+            });
+            series.push({ date: MAX, ...counts });
+            const total = allReleases.length;
+            const yMax = total + 1;
+            const y = v => pad.top + ch - (v / yMax) * ch;
 
             let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
 
-            let currentY = pad.top;
+            // Quarter bands (alternating) — drawn first so everything else sits on top
+            let cur = new Date(2024, 0, 1);
+            let qIdx = 0;
+            const quarterRanges = [];
+            while (cur <= MAX) {
+                const qStart = new Date(cur);
+                const qEnd = new Date(cur);
+                qEnd.setMonth(qEnd.getMonth() + 3);
+                const startClamped = qStart < MIN ? MIN : qStart;
+                const endClamped = qEnd > MAX ? MAX : qEnd;
+                if (endClamped > startClamped) {
+                    const bandX = xRaw(startClamped);
+                    const bandW = xRaw(endClamped) - bandX;
+                    const fill = qIdx % 2 === 0 ? 'rgba(200,170,140,0.05)' : 'rgba(200,170,140,0.14)';
+                    svg += `<rect x="${bandX}" y="${pad.top}" width="${bandW}" height="${ch}" fill="${fill}" />`;
+                    quarterRanges.push({ qStart, qEnd, bandX, bandW });
+                    // Quarter label at top of band
+                    const q = Math.floor(qStart.getMonth() / 3) + 1;
+                    if (bandW > 26) {
+                        svg += `<text x="${bandX + bandW / 2}" y="${pad.top + 13}" text-anchor="middle" fill="#b8a088" font-size="10" font-weight="600">Q${q}</text>`;
+                    }
+                    // Releases in this quarter
+                    const qReleases = allReleases.filter(r => {
+                        const d = parse(r.date);
+                        return d >= qStart && d < qEnd;
+                    });
+                    if (qReleases.length > 0 && bandW > 26) {
+                        svg += `<text x="${bandX + bandW / 2}" y="${pad.top + ch - 6}" text-anchor="middle" fill="#5b4636" font-size="12" font-weight="700">${qReleases.length}</text>`;
+                    }
+                }
+                qIdx += 1;
+                cur = qEnd;
+            }
 
-            families.forEach((fam, fi) => {
-                const color = colors[fam];
-                const gaps = gapData[fam];
-
-                gaps.forEach((g, gi) => {
-                    const barW = (g.days / maxDays) * cw;
-                    // Label on the left
-                    svg += `<text x="${pad.left - 8}" y="${currentY + barH / 2 + 4}" text-anchor="end" fill="#555" font-size="11">${g.label}</text>`;
-                    // Bar
-                    svg += `<rect x="${pad.left}" y="${currentY}" width="${barW}" height="${barH}" rx="4" fill="${color}" opacity="0.8" />`;
-                    // Days number at end of bar
-                    svg += `<text x="${pad.left + barW + 6}" y="${currentY + barH / 2 + 4}" text-anchor="start" fill="${color}" font-size="12" font-weight="700">${g.days}d</text>`;
-
-                    currentY += barH + rowGap;
-                });
-
-                // Family separator
-                if (fi < families.length - 1) {
-                    currentY += familyGap;
+            // Darker year divider lines
+            [2024, 2025, 2026, 2027].forEach(yr => {
+                const yrStart = new Date(yr, 0, 1);
+                if (yrStart > MIN && yrStart < MAX) {
+                    const xPos = xRaw(yrStart);
+                    svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#8a6f5a" stroke-width="1.6" stroke-opacity="0.45" />`;
                 }
             });
+
+            // Year labels at bottom
+            [2024, 2025, 2026].forEach(yr => {
+                const yrStart = new Date(yr, 0, 1);
+                const yrEnd = new Date(yr + 1, 0, 1);
+                const startClamped = yrStart < MIN ? MIN : yrStart;
+                const endClamped = yrEnd > MAX ? MAX : yrEnd;
+                if (endClamped > startClamped) {
+                    const cx = xRaw(startClamped) + (xRaw(endClamped) - xRaw(startClamped)) / 2;
+                    svg += `<text x="${cx}" y="${H - pad.bottom + 36}" text-anchor="middle" fill="#3d2e22" font-size="13" font-weight="700">${yr}</text>`;
+                }
+            });
+
+            // Y-axis gridlines
+            for (let v = 0; v <= yMax; v += 4) {
+                svg += `<line x1="${pad.left}" y1="${y(v)}" x2="${W - pad.right}" y2="${y(v)}" stroke="#efe3d6" stroke-width="1" />`;
+                svg += `<text x="${pad.left - 6}" y="${y(v) + 4}" text-anchor="end" fill="#a88a6e" font-size="11">${v}</text>`;
+            }
+
+            // Helpers: stacked step areas
+            function stackUpTo(upToFam) {
+                return series.map(s => {
+                    let sum = 0;
+                    for (const f of families) {
+                        sum += s[f];
+                        if (f === upToFam) break;
+                    }
+                    return [s.date, sum];
+                });
+            }
+            function expandSteps(points) {
+                const out = [];
+                points.forEach((p, i) => {
+                    const [d, v] = p;
+                    if (i > 0) out.push([d, points[i - 1][1]]);
+                    out.push([d, v]);
+                });
+                return out;
+            }
+            function stepPath(points) {
+                return expandSteps(points).map((p, i) =>
+                    (i === 0 ? 'M' : 'L') + ` ${xRaw(p[0])} ${y(p[1])}`
+                ).join(' ');
+            }
+            function areaPath(upper, lower) {
+                const u = expandSteps(upper);
+                const l = expandSteps(lower).reverse();
+                return [...u, ...l].map((p, i) =>
+                    (i === 0 ? 'M' : 'L') + ` ${xRaw(p[0])} ${y(p[1])}`
+                ).join(' ') + ' Z';
+            }
+
+            // Stacked step areas, bottom-to-top
+            let lower = series.map(s => [s.date, 0]);
+            families.forEach(fam => {
+                const upper = stackUpTo(fam);
+                svg += `<path d="${areaPath(upper, lower)}" fill="${colors[fam]}" fill-opacity="0.6" />`;
+                lower = upper;
+            });
+
+            // Top outline (total staircase)
+            const topLine = stepPath(series.map(s => [s.date, s.opus + s.sonnet + s.haiku]));
+            svg += `<path d="${topLine}" fill="none" stroke="#5b4636" stroke-width="1.8" />`;
+
+            // Small dots at each release
+            allReleases.forEach((r, i) => {
+                svg += `<circle cx="${x(r.date)}" cy="${y(i + 1)}" r="3.5" fill="${colors[r.family]}" stroke="white" stroke-width="1.5" />`;
+            });
+
+            // Endpoint total label
+            svg += `<text x="${xRaw(MAX) + 8}" y="${y(total) + 4}" fill="#5b4636" font-size="13" font-weight="700">${total} total</text>`;
+
+            // Axis line
+            svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.2" />`;
+
+            // Caption
+            svg += `<text x="${pad.left}" y="${pad.top - 10}" fill="#7a6957" font-size="11" font-style="italic">cumulative Claude releases</text>`;
 
             svg += '</svg>';
             document.getElementById('gap-chart').innerHTML = svg;
