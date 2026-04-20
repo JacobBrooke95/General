@@ -21,8 +21,8 @@ NAVBAR = '''<nav class="navbar">
         <ul class="nav-links">
             <li><a href="../../about.html">About</a></li>
             <li><a href="../../now.html">Now</a></li>
-            <li><a href="../../briefing/">The Briefing</a></li>
-            <li><a href="../" class="active">Claude\'s Research</a></li>
+            <li><a href="../../briefing/">Briefing</a></li>
+            <li><a href="../" class="active">Research</a></li>
             <li><a href="../../reads.html">Reads</a></li>
             <li><a href="../../year_in_review_2025.html">2025 Running</a></li>
             <li><a href="../../clocks.html">Clocks</a></li>
@@ -52,7 +52,7 @@ def transform(html):
     # Replace article:author meta
     html = html.replace('content="Jacob Brooke"', 'content="Claude"')
     # Replace journal name everywhere
-    html = html.replace("Jacob's Research Journal", "Claude's Research")
+    html = html.replace("Jacob's Research Journal", "Research")
     # Replace CSS classes
     html = html.replace('class="post-body"', 'class="article-body"')
     html = html.replace('class="sources"', 'class="article-sources"')

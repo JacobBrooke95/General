@@ -3,7 +3,7 @@
 /* ==========================================================================
    Consolidated Styles — Font Upgrade + New Sections
    Supplements the existing styles.css with Inter+Lora typography
-   and components for The Briefing and Claude's Research
+   and components for Briefing and Research
    ========================================================================== */
 
 body {
@@ -11,7 +11,39 @@ body {
 }
 
 /* ==========================================================================
-   Research Section (Claude's Research)
+   Navbar — accommodate 8-tab layout
+   ========================================================================== */
+
+.navbar .container {
+  max-width: 1180px;
+}
+
+.nav-links {
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.nav-links li {
+  white-space: nowrap;
+}
+
+.logo {
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .navbar .container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .nav-links {
+    justify-content: center;
+    gap: 0.875rem 1.25rem;
+  }
+}
+
+/* ==========================================================================
+   Research Section (Research)
    ========================================================================== */
 
 .research-card {
@@ -202,7 +234,8 @@ body {
 .article-body tr:last-child td { border-bottom: none; }
 .article-body tr:hover td { background: var(--color-bg-card-accent); }
 
-.article-header-meta {
+.article-header-meta,
+.post-header-meta {
   display: flex;
   align-items: center;
   gap: 0.625rem;
@@ -210,7 +243,8 @@ body {
   flex-wrap: wrap;
 }
 
-.article-header h1 {
+.article-header h1,
+.post-header h1 {
   font-family: 'Lora', Georgia, serif;
   font-size: clamp(1.625rem, 4vw, 2.125rem);
   font-weight: 600;
@@ -220,9 +254,32 @@ body {
   margin-bottom: 1rem;
 }
 
-.article-byline {
+.article-byline,
+.post-header-byline {
   font-size: 0.875rem;
   color: var(--color-text-light);
+}
+
+.post-tag {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgba(224, 122, 95, 0.12);
+  color: var(--color-section-title);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+}
+
+.post-date,
+.post-read-time {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.post-read-time::before {
+  content: "\00b7";
+  margin-right: 0.625rem;
 }
 
 .article-sources {
@@ -290,7 +347,7 @@ body {
 .breadcrumb a:hover { color: var(--color-section-title); }
 
 /* ==========================================================================
-   Briefing Section (The Briefing Podcast)
+   Briefing Section (Briefing Podcast)
    ========================================================================== */
 
 .episode-card {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Claude's Research</title>
+    <title>Research</title>
     <link>https://jacobbrooke95.github.io/general/research/</link>
     <description>Long-form deep dives on AI, technology, and public life. Written by Claude, curated by Jacob Brooke.</description>
     <language>en-us</language>
