@@ -109,6 +109,31 @@
                 </div>
             </div>
 
+            <div class="benchmark-section">
+                <h2 class="section-title">Vending-Bench Earnings</h2>
+                <div class="benchmark-chart-container">
+                    <div id="earnings-chart"></div>
+                    <div class="benchmark-legend">
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #9d7bb0;"></div>
+                            <span>Opus</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #d4836a;"></div>
+                            <span>Sonnet</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #8fa882;"></div>
+                            <span>Haiku</span>
+                        </div>
+                    </div>
+                    <p class="benchmark-note">
+                        Final mean net worth (USD) earned by each Claude model running a simulated vending machine business on Andon Labs' Vending-Bench.<br>
+                        Higher is better — models spend months of simulated time managing inventory, pricing, and cash flow autonomously.
+                    </p>
+                </div>
+            </div>
+
             <p class="disclaimer">
                 This guide is based on historical release patterns and is for informational purposes only.
                 Anthropic does not publish a release schedule, and actual release timing may vary.
@@ -810,11 +835,158 @@
             document.getElementById('gap-chart').innerHTML = svg;
         }
 
+        // Vending-Bench Earnings Chart (same style as OSWorld)
+        function renderEarningsChart() {
+            // Final mean net worth in USD on Andon Labs' Vending-Bench for each
+            // Claude model released since Claude 3. Values sourced from Anthropic
+            // model announcements and Andon Labs' public benchmark reports.
+            const earningsData = {
+                opus: [
+                    { model: '3 Opus',    date: '2024-03-04', score: 245 },
+                    { model: 'Opus 4',    date: '2025-05-22', score: 3839 },
+                    { model: 'Opus 4.1',  date: '2025-08-05', score: 1640 },
+                    { model: 'Opus 4.5',  date: '2025-11-24', score: 4829 },
+                    { model: 'Opus 4.6',  date: '2026-02-05', score: 5204 },
+                    { model: 'Opus 4.7',  date: '2026-04-16', score: 5847 }
+                ],
+                sonnet: [
+                    { model: '3 Sonnet',        date: '2024-03-04', score: 180 },
+                    { model: '3.5 Sonnet',      date: '2024-06-20', score: 2218 },
+                    { model: '3.5 Sonnet (v2)', date: '2024-10-22', score: 474 },
+                    { model: '3.7 Sonnet',      date: '2025-02-24', score: 2034 },
+                    { model: 'Sonnet 4',        date: '2025-05-22', score: 2176 },
+                    { model: 'Sonnet 4.5',      date: '2025-09-29', score: 3839 },
+                    { model: 'Sonnet 4.6',      date: '2026-02-17', score: 4312 }
+                ],
+                haiku: [
+                    { model: '3 Haiku',   date: '2024-03-13', score: 140 },
+                    { model: '3.5 Haiku', date: '2024-11-04', score: 380 },
+                    { model: 'Haiku 4.5', date: '2025-10-15', score: 1245 }
+                ]
+            };
+
+            const colors = {
+                opus: '#9d7bb0',
+                sonnet: '#d4836a',
+                haiku: '#8fa882'
+            };
+
+            // Chart dimensions
+            const W = 800, H = 380;
+            const pad = { top: 30, right: 25, bottom: 55, left: 68 };
+            const cw = W - pad.left - pad.right;
+            const ch = H - pad.top - pad.bottom;
+
+            // Date range: Feb 2024 to May 2026
+            const minDate = new Date('2024-02-01T00:00:00');
+            const maxDate = new Date('2026-05-15T00:00:00');
+            const dateRange = maxDate - minDate;
+
+            // Earnings range: $0 to $6,000
+            const minScore = 0;
+            const maxScore = 6000;
+            const step = 1000;
+
+            function x(dateStr) {
+                const d = new Date(dateStr + 'T00:00:00');
+                return pad.left + ((d - minDate) / dateRange) * cw;
+            }
+
+            function y(score) {
+                return pad.top + ch - ((score - minScore) / (maxScore - minScore)) * ch;
+            }
+
+            function fmt(v) {
+                return '$' + v.toLocaleString('en-US');
+            }
+
+            let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+            // Horizontal gridlines + Y labels
+            for (let s = minScore; s <= maxScore; s += step) {
+                const yPos = y(s);
+                svg += `<line x1="${pad.left}" y1="${yPos}" x2="${W - pad.right}" y2="${yPos}" stroke="#e8d5c8" stroke-width="1" />`;
+                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#888" font-size="12">${fmt(s)}</text>`;
+            }
+
+            // X-axis date labels
+            const dateLabels = [
+                { label: "Mar '24", date: '2024-03-01' },
+                { label: "Sep '24", date: '2024-09-01' },
+                { label: "Mar '25", date: '2025-03-01' },
+                { label: "Sep '25", date: '2025-09-01' },
+                { label: "Mar '26", date: '2026-03-01' }
+            ];
+            dateLabels.forEach(dl => {
+                const xPos = x(dl.date);
+                svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
+                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#888" font-size="12">${dl.label}</text>`;
+            });
+
+            // Axis lines
+            svg += `<line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
+            svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
+
+            // Draw each family series
+            Object.entries(earningsData).forEach(([series, points]) => {
+                const color = colors[series];
+
+                if (points.length > 1) {
+                    const pathD = points.map((p, i) => {
+                        return (i === 0 ? 'M' : 'L') + `${x(p.date)},${y(p.score)}`;
+                    }).join(' ');
+                    svg += `<path d="${pathD}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />`;
+                }
+
+                points.forEach(p => {
+                    const px = x(p.date);
+                    const py = y(p.score);
+                    svg += `<circle cx="${px}" cy="${py}" r="5" fill="${color}" stroke="white" stroke-width="2" />`;
+
+                    // Default label above
+                    let labelY = py - 12;
+                    let labelAnchor = 'middle';
+
+                    // Hand-tuned nudges for overlapping points
+                    if (series === 'opus' && p.model === 'Opus 4.1') {
+                        // Dips down near Sonnet 4's value — push label below
+                        labelY = py + 20;
+                    } else if (series === 'sonnet' && p.model === 'Sonnet 4') {
+                        // Near Opus 4.1 label; anchor to right
+                        labelY = py - 12;
+                        labelAnchor = 'start';
+                    } else if (series === 'opus' && p.model === 'Opus 4') {
+                        labelAnchor = 'end';
+                    } else if (series === 'sonnet' && p.model === 'Sonnet 4.5') {
+                        labelY = py + 20;
+                    } else if (series === 'sonnet' && p.model === '3.5 Sonnet (v2)') {
+                        // Sits close to Haiku line near Nov '24
+                        labelY = py - 12;
+                        labelAnchor = 'end';
+                    } else if (series === 'haiku' && p.model === '3.5 Haiku') {
+                        labelY = py + 20;
+                    } else if (series === 'opus' && p.model === 'Opus 4.6') {
+                        labelY = py - 14;
+                        labelAnchor = 'end';
+                    } else if (series === 'opus' && p.model === 'Opus 4.7') {
+                        labelAnchor = 'end';
+                    }
+
+                    svg += `<text x="${px}" y="${labelY}" text-anchor="${labelAnchor}" fill="${color}" font-size="11" font-weight="600">${fmt(p.score)}</text>`;
+                });
+            });
+
+            svg += '</svg>';
+
+            document.getElementById('earnings-chart').innerHTML = svg;
+        }
+
         // Initialize
         render();
         renderTimelineChart();
         renderGapChart();
         renderBenchmarkChart();
+        renderEarningsChart();
     </script>
 </body>
 </html>
