@@ -6,6 +6,33 @@
     <title>Jacob Brooke - Personal Bio</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="styles-consolidated.css">
+    <style>
+        /* Claude model page color accents */
+        :root {
+            --accent-opus:   #9d7bb0;
+            --accent-sonnet: #d4836a;
+            --accent-haiku:  #8fa882;
+        }
+
+        .experience-item {
+            border-left: 4px solid transparent;
+        }
+        .experience-item.accent-opus   { border-left-color: var(--accent-opus); }
+        .experience-item.accent-sonnet { border-left-color: var(--accent-sonnet); }
+        .experience-item.accent-haiku  { border-left-color: var(--accent-haiku); }
+
+        .job-title { color: var(--color-text-dark); }
+
+        .skill.accent-opus   { background: linear-gradient(135deg, var(--accent-opus) 0%, #7a5c90 100%); }
+        .skill.accent-sonnet { background: linear-gradient(135deg, var(--accent-sonnet) 0%, #b86a50 100%); }
+        .skill.accent-haiku  { background: linear-gradient(135deg, var(--accent-haiku) 0%, #6b9060 100%); }
+
+        .education-item {
+            border-left: 3px solid var(--accent-haiku);
+            padding-left: 14px;
+            margin-bottom: 18px;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -32,62 +59,66 @@
                 </div>
                 <h1 class="name">Jacob Brooke</h1>
                 <p class="title">Assistant Director for Planning</p>
-                <p class="location">Jefferson City, Missouri</p>
+                <p class="location">Jefferson City, Missouri &mdash; Open to Relocation</p>
             </div>
 
             <div class="content">
                 <div class="section">
                     <h2 class="section-title">About Me</h2>
                     <p class="bio-text">
-                        I'm Jacob, and I've spent over seven years in Missouri's <strong>legislative process</strong> working with the state's Budget &amp; Planning division. What started as a Political Science degree from Truman State turned into a career I'm passionate about - <strong>helping make government work better</strong>.
+                        I'm Jacob &mdash; I lead policy review for Missouri's <strong>Budget &amp; Planning Division</strong>, managing a 25-person team of analysts that supports the Governor's Office. Over eight years in state government, my work has been about one thing: <strong>making government work better</strong>.
                         <br><br>
-                        My work involves <strong>leading a team of analysts</strong>, managing legislative information flow between state agencies and the Governor's Office, and ensuring policy proposals get thorough review. I helped Missouri <strong>modernize our fiscal note review process</strong> by transitioning to a streamlined web-based platform.
+                        I've modernized legislative systems, driven statewide process improvements, and more recently explored <strong>AI implementation strategies</strong> to help our office work more effectively. Alongside the day-to-day of tracking legislation and coordinating policy across all 17 state departments, I manage internal budget controls, HR, and long-term planning for the division.
                         <br><br>
-                        I'm a problem-solver who turns <strong>complicated policy challenges into clear insights</strong>. I've shared expertise with <strong>NASBO</strong> on "Smart Brevity" communication techniques. When I'm not working on legislation, you'll find me <strong>exploring Missouri's trails</strong>.
+                        I graduated <strong>Magna Cum Laude</strong> from Truman State University with a degree in Political Science &amp; Public Administration, and completed the <strong>Missouri Leadership Academy</strong> in 2022. I'm always looking for ways to bring better tools and clearer thinking to public service &mdash; and when I'm not in the office, you'll find me out on Missouri's trails.
                     </p>
                 </div>
 
                 <div class="section">
                     <h2 class="section-title">Professional Experience</h2>
-                    <div class="experience-item">
+
+                    <div class="experience-item accent-opus">
                         <div class="job-title">Assistant Director for Planning</div>
-                        <div class="company-date">Division of Budget &amp; Planning | August 2025 - Present</div>
+                        <div class="company-date">Office of Administration, Budget &amp; Planning Division | Aug. 2025 &ndash; Present</div>
                         <ul class="job-duties">
-                            <li>Leads strategic planning initiatives for the Division of Budget &amp; Planning</li>
-                            <li>Oversees legislative coordination and policy analysis across state agencies</li>
-                            <li>Manages team of analysts tracking legislation considered by the General Assembly</li>
-                            <li>Coordinates legislative information flow between division, state agencies, and executive branch</li>
+                            <li>Leads policy review for a 25-person office of analysts supporting the Governor's Office</li>
+                            <li>Sets prioritization for legislative tracking and review in anticipation of leadership needs</li>
+                            <li>Manages internal budget controls, human resources, and long-term planning</li>
+                            <li>Facilitates statewide process improvements, including recent Claude implementation strategies</li>
+                            <li>Provides staff training on communication, analysis, and process management</li>
                         </ul>
                     </div>
-                    <div class="experience-item">
-                        <div class="job-title">Legislative Coordinator &amp; Senior Analyst</div>
-                        <div class="company-date">Office of Administration, Budget &amp; Planning | May 2018 - September 2025</div>
+
+                    <div class="experience-item accent-sonnet">
+                        <div class="job-title">Legislative Coordinator</div>
+                        <div class="company-date">Office of Administration, Budget &amp; Planning Division | 2018 &ndash; Aug. 2025</div>
                         <ul class="job-duties">
-                            <li>Coordinated twelve analysts in tracking and reviewing legislation considered by the General Assembly</li>
-                            <li>Managed legislative information flow between division, state agencies, and executive branch</li>
-                            <li>Modernized Missouri's fiscal note review process by transitioning to web-based Missouri Legislative Information System</li>
-                            <li>Facilitated state policy review process for final legislation awaiting gubernatorial action</li>
-                            <li>Reviewed, edited, and provided feedback on policy proposals by the legislature and state agencies</li>
+                            <li>Coordinated policy review processes and edited policy papers from all 17 departments</li>
+                            <li>Partnered with the Assistant Director and Support Manager across office functions</li>
+                            <li>Collaborated with analysts to track bills, cover hearings and debate, and write summary memos</li>
+                            <li>Led design for Missouri's fiscal analysis software system for all state executive agencies</li>
                         </ul>
                     </div>
-                    <div class="experience-item">
+
+                    <div class="experience-item accent-haiku">
                         <div class="job-title">Policy Analyst</div>
-                        <div class="company-date">IBEW-NECA | 2017-2018</div>
+                        <div class="company-date">IBEW-NECA | 2017 &ndash; 2018</div>
                         <ul class="job-duties">
-                            <li>Analyzed Missouri's annual wage-hour reports by occupation title with Microsoft Excel</li>
-                            <li>Applied sector and employment data to create infographics reflecting legislative proposals</li>
+                            <li>Analyzed Missouri's annual wage-hour reports by occupation title and county</li>
+                            <li>Applied employment data to create visualizations of legislative proposal impacts</li>
                             <li>Researched prevailing wage, occupation titling, and labor law</li>
                             <li>Presented data and policy proposals to labor leaders, legislators, and private contractors</li>
                         </ul>
                     </div>
-                    <div class="experience-item">
+
+                    <div class="experience-item accent-haiku">
                         <div class="job-title">Legislative Assistant</div>
                         <div class="company-date">Missouri State Senate | 2017</div>
                         <ul class="job-duties">
-                            <li>Wrote bill briefings, speeches, and constituent correspondence for use by the senator</li>
-                            <li>Assisted in staffing the legislator's committee on Progress and Development</li>
-                            <li>Communicated regularly with state agencies to respond to constituent and legislative requests</li>
-                            <li>Presented policy analysis for senators and staff on pressing legislative issues</li>
+                            <li>Wrote bill briefings, speeches, and constituent correspondence</li>
+                            <li>Staffed the Senator's committee hearings and policy meetings with state and local officials</li>
+                            <li>Communicated with state agencies to address constituent needs and policy issues</li>
+                            <li>Presented policy analysis to senators and senior staff</li>
                         </ul>
                     </div>
                 </div>
@@ -95,8 +126,9 @@
                 <div class="section">
                     <h2 class="section-title">Education &amp; Training</h2>
                     <div class="education-item">
-                        <div class="degree">Bachelor of Science: Political Science &amp; Public Administration</div>
-                        <div class="school-date">Truman State University, Kirksville, MO | 2014-2018</div>
+                        <div class="degree">Bachelor of Science: Political Science &amp; Public Administration, <em>Magna Cum Laude</em></div>
+                        <div class="school-date">Truman State University, Kirksville, MO | 2014 &ndash; 2018</div>
+                        <div class="school-date" style="margin-top: 4px; font-size: 0.88em; color: var(--color-text-light);">Coursework: statistics, public administration, public policy, mass communications</div>
                     </div>
                     <div class="education-item">
                         <div class="degree">Missouri Leadership Academy (Class 9)</div>
@@ -111,7 +143,7 @@
                             <h3 class="achievement-title">Missouri Leadership Academy (Class 9)</h3>
                             <span class="achievement-date">Fall 2022</span>
                         </div>
-                        <p class="achievement-description">Completed Missouri's prestigious six-month leadership training program for emerging state government leaders. Developed advanced skills in driving organizational change and motivating teams. Presented an innovative externship program proposal to the Governor's Office and Cabinet members.</p>
+                        <p class="achievement-description">Completed Missouri's prestigious six-month leadership training program for emerging state government leaders. Learned how to drive change and motivate teams, and presented an externship program proposal to the Governor's Office and Cabinet members.</p>
                         <a href="https://leadershipacademy.mo.gov/bio/?smid=1761" class="achievement-link" target="_blank">View Leadership Academy Profile</a>
                     </div>
                     <div class="achievement-card">
@@ -127,15 +159,17 @@
                 <div class="section">
                     <h2 class="section-title">Core Skills</h2>
                     <div class="skills">
-                        <span class="skill">Legislative Analysis</span>
-                        <span class="skill">Policy Research</span>
-                        <span class="skill">Data Analysis</span>
-                        <span class="skill">Microsoft Excel</span>
-                        <span class="skill">Public Administration</span>
-                        <span class="skill">Government Relations</span>
-                        <span class="skill">Team Leadership</span>
-                        <span class="skill">Project Management</span>
-                        <span class="skill">Public Speaking</span>
+                        <span class="skill accent-opus">Legislative Analysis</span>
+                        <span class="skill accent-sonnet">Policy Research</span>
+                        <span class="skill accent-haiku">Data Analysis</span>
+                        <span class="skill accent-opus">Team Leadership</span>
+                        <span class="skill accent-sonnet">Process Improvement</span>
+                        <span class="skill accent-haiku">Public Administration</span>
+                        <span class="skill accent-opus">Budget Management</span>
+                        <span class="skill accent-sonnet">Government Relations</span>
+                        <span class="skill accent-haiku">Project Management</span>
+                        <span class="skill accent-opus">Public Speaking</span>
+                        <span class="skill accent-sonnet">Microsoft Excel</span>
                     </div>
                 </div>
             </div>
