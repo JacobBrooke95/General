@@ -1082,18 +1082,18 @@ a:hover {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 36px;
-  height: 36px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  border: 2px solid #fff;
+  border: 1.5px solid #fff;
   box-shadow: 0 2px 6px rgba(93, 70, 54, 0.22);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
   font-weight: 700;
-  font-size: 0.72rem;
-  letter-spacing: 0.2px;
+  font-size: 0.58rem;
+  letter-spacing: 0.1px;
   z-index: 2;
 }
 
@@ -1355,6 +1355,41 @@ a:hover {
   font-style: italic;
   margin-top: 0.75rem;
   line-height: 1.4;
+}
+
+.benchmark-paper-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.benchmark-paper-link-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+}
+
+.benchmark-paper-model {
+  font-weight: 600;
+  min-width: 3.5rem;
+}
+
+.benchmark-paper-link-row a {
+  color: var(--color-text-dark);
+  text-decoration: none;
+}
+
+.benchmark-paper-link-row a:hover {
+  color: var(--color-section-title);
+  text-decoration: underline;
+}
+
+.benchmark-paper-sep {
+  color: var(--color-text-light);
 }
 
 /* ==========================================================================
