@@ -1,6 +1,6 @@
 # Jacob Brooke Site Design System
 
-This document defines the visual design language for jacobbrooke.com. Use this as a reference when creating or modifying pages to ensure consistency while preserving each page's unique character.
+This document defines the visual design language for the personal site (`jacobbrooke95.github.io/General/`). Use this as a reference when creating or modifying pages to ensure consistency while preserving each page's unique character.
 
 ---
 
@@ -428,13 +428,14 @@ transition: color 0.2s ease;
 
 | File | Purpose |
 |------|---------|
-| `styles.css` | Shared styles (navbar, footer, base typography) |
+| `styles.css` | Shared styles (navbar, footer, base typography) — single source of truth |
 | `about.html` | Reference for profile/bio pages with gradient hero header |
 | `reads.html` | Reference for card grid layouts |
 | `now.html` | Reference for gradient header with content sections |
 | `claude-models.html` | Reference for data-heavy pages with unique accent colors |
 | `year_in_review_2025.html` | Reference for stats/metrics pages with activity colors |
 | `DESIGN.md` | This file - design system documentation |
+| `.githooks/pre-commit` | Auto-bumps the "Built with Claude" footer date on each commit |
 
 ---
 

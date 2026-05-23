@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+"""Bump the "Built with Claude 🦀 <date>" footer in every staged HTML page.
+
+Matches both raw-unicode (`Sat 03•14•26`) and entity-encoded
+(`Wed 04&#x2022;16&#x2022;26`) variants, preserves whichever encoding
+the file already uses, and re-stages the file so the bump lands in
+the same commit.
+
+Wire up once per clone:  git config core.hooksPath .githooks
+"""
+from __future__ import annotations
+import datetime, re, subprocess, sys
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parent.parent
+TODAY = datetime.date.today()
+DAY = TODAY.strftime("%a")  # Sun, Mon, ...
+MMDDYY = TODAY.strftime("%m %d %y").split()
+
+# Group 1: any whitespace after </a>. Group 2: separator (• or &#x2022;).
+PATTERN = re.compile(
+    r"(</a>)(\s+)[A-Z][a-z]{2}\s+\d{2}(•|&#x2022;)\d{2}\3\d{2}"
+)
+
+
+def staged_html_files() -> list[Path]:
+    out = subprocess.check_output(
+        ["git", "diff", "--cached", "--name-only", "--diff-filter=ACMR"],
+        cwd=REPO,
+        text=True,
+    )
+    return [REPO / p for p in out.splitlines() if p.endswith(".html")]
+
+
+def bump(path: Path) -> bool:
+    text = path.read_text(encoding="utf-8")
+
+    def repl(m: re.Match) -> str:
+        sep = m.group(3)
+        return f"{m.group(1)}{m.group(2)}{DAY} {MMDDYY[0]}{sep}{MMDDYY[1]}{sep}{MMDDYY[2]}"
+
+    new = PATTERN.sub(repl, text)
+    if new == text:
+        return False
+    path.write_text(new, encoding="utf-8")
+    return True
+
+
+def main() -> int:
+    bumped: list[Path] = []
+    for path in staged_html_files():
+        if not path.exists():
+            continue
+        if bump(path):
+            bumped.append(path)
+    if bumped:
+        subprocess.check_call(
+            ["git", "add", "--", *[str(p.relative_to(REPO)) for p in bumped]],
+            cwd=REPO,
+        )
+        print(f"[footer-date] bumped {len(bumped)} file(s) to {DAY} {'•'.join(MMDDYY)}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
