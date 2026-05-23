@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Claude Model Guide - Release Cycle Tracker</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
     <nav class="navbar">
@@ -40,28 +40,6 @@
 
             <div class="model-grid" id="model-grid">
                 <!-- Cards will be populated by JavaScript -->
-            </div>
-
-            <div class="legend-section">
-                <h3>Understanding Model Age</h3>
-                <div class="legend-grid">
-                    <div class="legend-item">
-                        <div class="legend-color green"></div>
-                        <div class="legend-text"><strong>Fresh</strong> - Recently released (&lt;25% of typical cycle)</div>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color gray"></div>
-                        <div class="legend-text"><strong>Current</strong> - Mid-cycle (25-50%)</div>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color yellow"></div>
-                        <div class="legend-text"><strong>Aging</strong> - Later in cycle (50-75%)</div>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color red"></div>
-                        <div class="legend-text"><strong>Dated</strong> - Update may be coming (&gt;75%)</div>
-                    </div>
-                </div>
             </div>
 
             <div class="benchmark-section">
@@ -149,6 +127,38 @@
                             <a href="https://andonlabs.com/evals/vending-bench" target="_blank" rel="noopener">Vending-Bench</a>
                             <span class="benchmark-paper-sep">·</span>
                             <a href="https://arxiv.org/abs/2502.15840" target="_blank" rel="noopener">arXiv 2502.15840</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="benchmark-section">
+                <h2 class="section-title">GDPval-AA</h2>
+                <div class="benchmark-chart-container">
+                    <div id="gdpval-chart"></div>
+                    <div class="benchmark-legend">
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #9d7bb0;"></div>
+                            <span>Opus</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #d4836a;"></div>
+                            <span>Sonnet</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #8fa882;"></div>
+                            <span>Haiku</span>
+                        </div>
+                    </div>
+                    <p class="benchmark-note">
+                        GDPval-AA Elo on real-world knowledge work tasks across 44 occupations and 9 industries (finance, legal, software, etc.). Higher Elo = stronger pairwise win rate against the field.<br>
+                        Scores reflect each model's strongest configuration (reasoning / max effort) on the Artificial Analysis leaderboard.
+                    </p>
+                    <div class="benchmark-paper-links">
+                        <div class="benchmark-paper-link-row">
+                            <a href="https://artificialanalysis.ai/evaluations/gdpval-aa" target="_blank" rel="noopener">GDPval-AA Leaderboard</a>
+                            <span class="benchmark-paper-sep">·</span>
+                            <a href="https://openai.com/index/gdpval/" target="_blank" rel="noopener">GDPval (OpenAI)</a>
                         </div>
                     </div>
                 </div>
@@ -857,16 +867,18 @@
 
         // Vending-Bench Earnings Chart (same style as OSWorld)
         function renderEarningsChart() {
-            // Final mean net worth in USD on Andon Labs' Vending-Bench for each
-            // Claude model released since Claude 3. Values sourced from Anthropic
-            // model announcements and Andon Labs' public benchmark reports.
+            // Final mean net worth in USD on Andon Labs' Vending-Bench (single-player,
+            // original eval). Values for Opus 4, Sonnet 4.5, and 3.5 Sonnet come from the
+            // public Andon Labs leaderboard; Opus 4.6 from Andon's "Opus 4.6 on Vending-Bench"
+            // post. Older Claude 3 entries and unverified models pulled from Anthropic
+            // announcements and may differ from Andon's published numbers.
             const earningsData = {
                 opus: [
                     { model: '3 Opus',    date: '2024-03-04', score: 245 },
-                    { model: 'Opus 4',    date: '2025-05-22', score: 3839 },
+                    { model: 'Opus 4',    date: '2025-05-22', score: 2077 },
                     { model: 'Opus 4.1',  date: '2025-08-05', score: 1640 },
                     { model: 'Opus 4.5',  date: '2025-11-24', score: 4829 },
-                    { model: 'Opus 4.6',  date: '2026-02-05', score: 5204 },
+                    { model: 'Opus 4.6',  date: '2026-02-05', score: 8018 },
                     { model: 'Opus 4.7',  date: '2026-04-16', score: 5847 }
                 ],
                 sonnet: [
@@ -875,7 +887,7 @@
                     { model: '3.5 Sonnet (v2)', date: '2024-10-22', score: 474 },
                     { model: '3.7 Sonnet',      date: '2025-02-24', score: 2034 },
                     { model: 'Sonnet 4',        date: '2025-05-22', score: 2176 },
-                    { model: 'Sonnet 4.5',      date: '2025-09-29', score: 3839 },
+                    { model: 'Sonnet 4.5',      date: '2025-09-29', score: 2465 },
                     { model: 'Sonnet 4.6',      date: '2026-02-17', score: 4312 }
                 ],
                 haiku: [
@@ -902,10 +914,10 @@
             const maxDate = new Date('2026-05-15T00:00:00');
             const dateRange = maxDate - minDate;
 
-            // Earnings range: $0 to $6,000
+            // Earnings range: $0 to $9,000 (Opus 4.6 reaches $8,018 per Andon Labs)
             const minScore = 0;
-            const maxScore = 6000;
-            const step = 1000;
+            const maxScore = 9000;
+            const step = 1500;
 
             function x(dateStr) {
                 const d = new Date(dateStr + 'T00:00:00');
@@ -969,25 +981,25 @@
 
                     // Hand-tuned nudges for overlapping points
                     if (series === 'opus' && p.model === 'Opus 4.1') {
-                        // Dips down near Sonnet 4's value — push label below
                         labelY = py + 20;
                     } else if (series === 'sonnet' && p.model === 'Sonnet 4') {
-                        // Near Opus 4.1 label; anchor to right
+                        // Same date as Opus 4 ($2,077) — push above, anchor right
                         labelY = py - 12;
                         labelAnchor = 'start';
                     } else if (series === 'opus' && p.model === 'Opus 4') {
+                        // Same date as Sonnet 4 — push below, anchor left
+                        labelY = py + 20;
                         labelAnchor = 'end';
                     } else if (series === 'sonnet' && p.model === 'Sonnet 4.5') {
                         labelY = py + 20;
                     } else if (series === 'sonnet' && p.model === '3.5 Sonnet (v2)') {
-                        // Sits close to Haiku line near Nov '24
                         labelY = py - 12;
                         labelAnchor = 'end';
                     } else if (series === 'haiku' && p.model === '3.5 Haiku') {
                         labelY = py + 20;
                     } else if (series === 'opus' && p.model === 'Opus 4.6') {
+                        // Now the peak ($8,018) — label well above the dot
                         labelY = py - 14;
-                        labelAnchor = 'end';
                     } else if (series === 'opus' && p.model === 'Opus 4.7') {
                         labelAnchor = 'end';
                     }
@@ -1001,12 +1013,117 @@
             document.getElementById('earnings-chart').innerHTML = svg;
         }
 
+        // GDPval-AA Chart (same style as OSWorld / Vending-Bench)
+        function renderGDPvalChart() {
+            // Elo scores from Artificial Analysis' GDPval-AA leaderboard.
+            // Where a model has multiple configs, we use the best/strongest
+            // (Reasoning or Adaptive Reasoning + Max Effort).
+            const gdpvalData = {
+                opus: [
+                    { model: 'Opus 4.5', date: '2025-11-24', score: 1450 },
+                    { model: 'Opus 4.6', date: '2026-02-05', score: 1619 },
+                    { model: 'Opus 4.7', date: '2026-04-16', score: 1753 }
+                ],
+                sonnet: [
+                    { model: '3.7 Sonnet', date: '2025-02-24', score: 1051 },
+                    { model: 'Sonnet 4',   date: '2025-05-22', score: 1135 },
+                    { model: 'Sonnet 4.5', date: '2025-09-29', score: 1324 },
+                    { model: 'Sonnet 4.6', date: '2026-02-17', score: 1676 }
+                ],
+                haiku: [
+                    { model: 'Haiku 4.5', date: '2025-10-15', score: 1174 }
+                ]
+            };
+
+            const colors = { opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
+
+            const W = 800, H = 380;
+            const pad = { top: 30, right: 25, bottom: 55, left: 68 };
+            const cw = W - pad.left - pad.right;
+            const ch = H - pad.top - pad.bottom;
+
+            const minDate = new Date('2024-02-01T00:00:00');
+            const maxDate = new Date('2026-05-15T00:00:00');
+            const dateRange = maxDate - minDate;
+
+            const minScore = 1000, maxScore = 1800, step = 200;
+
+            function x(dateStr) {
+                const d = new Date(dateStr + 'T00:00:00');
+                return pad.left + ((d - minDate) / dateRange) * cw;
+            }
+            function y(score) {
+                return pad.top + ch - ((score - minScore) / (maxScore - minScore)) * ch;
+            }
+
+            let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+            for (let s = minScore; s <= maxScore; s += step) {
+                const yPos = y(s);
+                svg += `<line x1="${pad.left}" y1="${yPos}" x2="${W - pad.right}" y2="${yPos}" stroke="#e8d5c8" stroke-width="1" />`;
+                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#888" font-size="12">${s}</text>`;
+            }
+
+            const dateLabels = [
+                { label: "Mar '24", date: '2024-03-01' },
+                { label: "Sep '24", date: '2024-09-01' },
+                { label: "Mar '25", date: '2025-03-01' },
+                { label: "Sep '25", date: '2025-09-01' },
+                { label: "Mar '26", date: '2026-03-01' }
+            ];
+            dateLabels.forEach(dl => {
+                const xPos = x(dl.date);
+                svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
+                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#888" font-size="12">${dl.label}</text>`;
+            });
+
+            svg += `<line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
+            svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
+
+            Object.entries(gdpvalData).forEach(([series, points]) => {
+                const color = colors[series];
+
+                if (points.length > 1) {
+                    const pathD = points.map((p, i) => (i === 0 ? 'M' : 'L') + `${x(p.date)},${y(p.score)}`).join(' ');
+                    svg += `<path d="${pathD}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />`;
+                }
+
+                points.forEach(p => {
+                    const px = x(p.date);
+                    const py = y(p.score);
+                    svg += `<circle cx="${px}" cy="${py}" r="5" fill="${color}" stroke="white" stroke-width="2" />`;
+
+                    let labelY = py - 12;
+                    let labelAnchor = 'middle';
+
+                    // Sonnet 4.6 (1676) close to Opus 4.6 (1619) horizontally and vertically
+                    if (series === 'sonnet' && p.model === 'Sonnet 4.6') {
+                        labelY = py - 12;
+                        labelAnchor = 'start';
+                    } else if (series === 'opus' && p.model === 'Opus 4.6') {
+                        labelY = py + 20;
+                        labelAnchor = 'end';
+                    } else if (series === 'opus' && p.model === 'Opus 4.7') {
+                        labelAnchor = 'end';
+                    } else if (series === 'haiku' && p.model === 'Haiku 4.5') {
+                        labelY = py + 20;
+                    }
+
+                    svg += `<text x="${px}" y="${labelY}" text-anchor="${labelAnchor}" fill="${color}" font-size="11" font-weight="600">${p.score}</text>`;
+                });
+            });
+
+            svg += '</svg>';
+            document.getElementById('gdpval-chart').innerHTML = svg;
+        }
+
         // Initialize
         render();
         renderTimelineChart();
         renderGapChart();
         renderBenchmarkChart();
         renderEarningsChart();
+        renderGDPvalChart();
     </script>
 </body>
 </html>
