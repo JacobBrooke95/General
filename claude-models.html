@@ -171,7 +171,7 @@
         </div>
 
         <div class="footer">
-            <p>Built with Claude <a href="forest.html" class="clawd-link" title="Clawd">🦀</a> Sat 05•23•26</p>
+            <p>Built with Claude <a href="forest.html" class="clawd-link" title="Clawd">🦀</a> Thu 05•28•26</p>
             <p>Data sourced from <a href="https://www.anthropic.com/news" target="_blank" rel="noopener">Anthropic News</a></p>
         </div>
     </div>
@@ -198,7 +198,8 @@
                     { version: "Claude Opus 4.1", date: "2025-08-05", url: "https://www.anthropic.com/news/claude-opus-4-1" },
                     { version: "Claude Opus 4.5", date: "2025-11-24", url: "https://www.anthropic.com/news/claude-opus-4-5" },
                     { version: "Claude Opus 4.6", date: "2026-02-05", url: "https://www.anthropic.com/news/claude-opus-4-6" },
-                    { version: "Claude Opus 4.7", date: "2026-04-16", url: "https://www.anthropic.com/news/claude-opus-4-7" }
+                    { version: "Claude Opus 4.7", date: "2026-04-16", url: "https://www.anthropic.com/news/claude-opus-4-7" },
+                    { version: "Claude Opus 4.8", date: "2026-05-28", url: "https://www.anthropic.com/news/claude-opus-4-8" }
                 ]
             },
             sonnet: {
@@ -475,7 +476,8 @@
                 opus: [
                     { model: 'Opus 4.5', date: '2025-11-24', score: 66.3 },
                     { model: 'Opus 4.6', date: '2026-02-05', score: 72.7 },
-                    { model: 'Opus 4.7', date: '2026-04-16', score: 78.0 }
+                    { model: 'Opus 4.7', date: '2026-04-16', score: 82.8 },
+                    { model: 'Opus 4.8', date: '2026-05-28', score: 83.4 }
                 ],
                 haiku: [
                     { model: 'Haiku 4.5', date: '2025-10-15', score: 50.7 }
@@ -498,9 +500,9 @@
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
 
-            // Date range: Sep 2024 to Mar 2026
+            // Date range: Sep 2024 to Jun 2026
             const minDate = new Date('2024-09-01T00:00:00');
-            const maxDate = new Date('2026-05-15T00:00:00');
+            const maxDate = new Date('2026-06-15T00:00:00');
             const dateRange = maxDate - minDate;
 
             // Score range: 10 to 90
@@ -533,7 +535,7 @@
                 { label: 'Jun \'25', date: '2025-06-01' },
                 { label: 'Oct \'25', date: '2025-10-01' },
                 { label: 'Feb \'26', date: '2026-02-01' },
-                { label: 'May \'26', date: '2026-05-01' }
+                { label: 'Jun \'26', date: '2026-06-01' }
             ];
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
@@ -578,6 +580,12 @@
                     if (series === 'opus' && p.model === 'Opus 4.6') {
                         labelY = py - 14;
                         labelAnchor = 'end';
+                    } else if (series === 'opus' && p.model === 'Opus 4.7') {
+                        labelY = py - 14;
+                        labelAnchor = 'end';
+                    } else if (series === 'opus' && p.model === 'Opus 4.8') {
+                        labelY = py - 14;
+                        labelAnchor = 'end';
                     } else if (series === 'sonnet' && p.model === 'Sonnet 4.6') {
                         labelY = py + 20;
                         labelAnchor = 'start';
@@ -619,7 +627,7 @@
             const ch = H - pad.top - pad.bottom;
 
             const minDate = new Date('2024-02-01T00:00:00');
-            const maxDate = new Date('2026-05-01T00:00:00');
+            const maxDate = new Date('2026-06-15T00:00:00');
             const dateRange = maxDate - minDate;
 
             function x(dateStr) {
@@ -1022,7 +1030,8 @@
                 opus: [
                     { model: 'Opus 4.5', date: '2025-11-24', score: 1450 },
                     { model: 'Opus 4.6', date: '2026-02-05', score: 1619 },
-                    { model: 'Opus 4.7', date: '2026-04-16', score: 1753 }
+                    { model: 'Opus 4.7', date: '2026-04-16', score: 1753 },
+                    { model: 'Opus 4.8', date: '2026-05-28', score: 1890 }
                 ],
                 sonnet: [
                     { model: '3.7 Sonnet', date: '2025-02-24', score: 1051 },
@@ -1043,10 +1052,10 @@
             const ch = H - pad.top - pad.bottom;
 
             const minDate = new Date('2024-02-01T00:00:00');
-            const maxDate = new Date('2026-05-15T00:00:00');
+            const maxDate = new Date('2026-06-15T00:00:00');
             const dateRange = maxDate - minDate;
 
-            const minScore = 1000, maxScore = 1800, step = 200;
+            const minScore = 1000, maxScore = 2000, step = 200;
 
             function x(dateStr) {
                 const d = new Date(dateStr + 'T00:00:00');
@@ -1104,6 +1113,8 @@
                         labelY = py + 20;
                         labelAnchor = 'end';
                     } else if (series === 'opus' && p.model === 'Opus 4.7') {
+                        labelAnchor = 'end';
+                    } else if (series === 'opus' && p.model === 'Opus 4.8') {
                         labelAnchor = 'end';
                     } else if (series === 'haiku' && p.model === 'Haiku 4.5') {
                         labelY = py + 20;
