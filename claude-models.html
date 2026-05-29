@@ -164,6 +164,34 @@
                 </div>
             </div>
 
+            <div class="benchmark-section">
+                <h2 class="section-title">ARC-AGI-2 Reasoning</h2>
+                <div class="benchmark-chart-container">
+                    <div id="arc-chart"></div>
+                    <div class="benchmark-legend">
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #9d7bb0;"></div>
+                            <span>Opus</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #d4836a;"></div>
+                            <span>Sonnet</span>
+                        </div>
+                    </div>
+                    <p class="benchmark-note">
+                        ARC-AGI-2 tests abstract reasoning on novel visual puzzles built to resist memorization — humans score ~60%, and most frontier models were in the single digits at launch. Higher is better.<br>
+                        Scores reflect each model's strongest reported configuration (adaptive reasoning) on the ARC Prize leaderboard. Opus 4.8 and Haiku 4.5 are not yet listed.
+                    </p>
+                    <div class="benchmark-paper-links">
+                        <div class="benchmark-paper-link-row">
+                            <a href="https://arcprize.org/leaderboard" target="_blank" rel="noopener">ARC Prize Leaderboard</a>
+                            <span class="benchmark-paper-sep">·</span>
+                            <a href="https://arcprize.org/arc-agi" target="_blank" rel="noopener">About ARC-AGI</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <p class="disclaimer">
                 This guide is based on historical release patterns and is for informational purposes only.
                 Anthropic does not publish a release schedule, and actual release timing may vary.
@@ -1128,6 +1156,100 @@
             document.getElementById('gdpval-chart').innerHTML = svg;
         }
 
+        // ARC-AGI-2 Chart (same style as OSWorld / GDPval)
+        function renderArcChart() {
+            // ARC-AGI-2 scores (%) from the ARC Prize leaderboard and public aggregators,
+            // using each model's strongest reported config (adaptive reasoning). ARC-AGI-2
+            // is the current frontier variant; Opus 4.8 and Haiku 4.5 are not yet listed.
+            const arcData = {
+                opus: [
+                    { model: 'Opus 4.5', date: '2025-11-24', score: 37.6 },
+                    { model: 'Opus 4.6', date: '2026-02-05', score: 68.8 },
+                    { model: 'Opus 4.7', date: '2026-04-16', score: 75.8 }
+                ],
+                sonnet: [
+                    { model: 'Sonnet 4.5', date: '2025-09-29', score: 13.6 },
+                    { model: 'Sonnet 4.6', date: '2026-02-17', score: 58.3 }
+                ]
+            };
+
+            const colors = { opus: '#9d7bb0', sonnet: '#d4836a' };
+
+            const W = 800, H = 380;
+            const pad = { top: 30, right: 25, bottom: 55, left: 55 };
+            const cw = W - pad.left - pad.right;
+            const ch = H - pad.top - pad.bottom;
+
+            const minDate = new Date('2025-08-01T00:00:00');
+            const maxDate = new Date('2026-06-15T00:00:00');
+            const dateRange = maxDate - minDate;
+
+            const minScore = 0, maxScore = 80, step = 20;
+
+            function x(dateStr) {
+                const d = new Date(dateStr + 'T00:00:00');
+                return pad.left + ((d - minDate) / dateRange) * cw;
+            }
+            function y(score) {
+                return pad.top + ch - ((score - minScore) / (maxScore - minScore)) * ch;
+            }
+
+            let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+            for (let s = minScore; s <= maxScore; s += step) {
+                const yPos = y(s);
+                svg += `<line x1="${pad.left}" y1="${yPos}" x2="${W - pad.right}" y2="${yPos}" stroke="#e8d5c8" stroke-width="1" />`;
+                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#888" font-size="12">${s}%</text>`;
+            }
+
+            const dateLabels = [
+                { label: "Sep '25", date: '2025-09-01' },
+                { label: "Nov '25", date: '2025-11-01' },
+                { label: "Jan '26", date: '2026-01-01' },
+                { label: "Mar '26", date: '2026-03-01' },
+                { label: "May '26", date: '2026-05-01' }
+            ];
+            dateLabels.forEach(dl => {
+                const xPos = x(dl.date);
+                svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
+                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#888" font-size="12">${dl.label}</text>`;
+            });
+
+            svg += `<line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
+            svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
+
+            Object.entries(arcData).forEach(([series, points]) => {
+                const color = colors[series];
+
+                if (points.length > 1) {
+                    const pathD = points.map((p, i) => (i === 0 ? 'M' : 'L') + `${x(p.date)},${y(p.score)}`).join(' ');
+                    svg += `<path d="${pathD}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />`;
+                }
+
+                points.forEach(p => {
+                    const px = x(p.date);
+                    const py = y(p.score);
+                    svg += `<circle cx="${px}" cy="${py}" r="5" fill="${color}" stroke="white" stroke-width="2" />`;
+
+                    let labelY = py - 12;
+                    let labelAnchor = 'middle';
+
+                    // Opus 4.6 (68.8) sits just above Sonnet 4.6 (58.3) at nearly the same
+                    // date — push the Sonnet label below its dot so they don't collide.
+                    if (series === 'sonnet' && p.model === 'Sonnet 4.6') {
+                        labelY = py + 20;
+                    } else if (series === 'opus' && p.model === 'Opus 4.7') {
+                        labelAnchor = 'end';
+                    }
+
+                    svg += `<text x="${px}" y="${labelY}" text-anchor="${labelAnchor}" fill="${color}" font-size="11" font-weight="600">${p.score}%</text>`;
+                });
+            });
+
+            svg += '</svg>';
+            document.getElementById('arc-chart').innerHTML = svg;
+        }
+
         // Initialize
         render();
         renderTimelineChart();
@@ -1135,6 +1257,7 @@
         renderBenchmarkChart();
         renderEarningsChart();
         renderGDPvalChart();
+        renderArcChart();
     </script>
 </body>
 </html>
