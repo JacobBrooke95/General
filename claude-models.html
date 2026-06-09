@@ -59,6 +59,25 @@
             </div>
 
             <div class="benchmark-section">
+                <h2 class="section-title">API Pricing</h2>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Claude API list price per million tokens for the current lineup. Lighter bars are input tokens, solid bars are output tokens.</p>
+                <div class="benchmark-chart-container">
+                    <div id="pricing-chart"></div>
+                    <p class="benchmark-note">
+                        Fable 5 debuts at exactly 2&times; Opus 4.8 ($10 in / $50 out). Claude Mythos 5 is priced identically to Fable 5 but is restricted to Project Glasswing partners.<br>
+                        Opus pricing dropped from $15/$75 to $5/$25 with Opus 4.5 (Nov 2025). Cache hits cost 10% of the input price, and the Batch API halves both rates.
+                    </p>
+                    <div class="benchmark-paper-links">
+                        <div class="benchmark-paper-link-row">
+                            <a href="https://platform.claude.com/docs/en/about-claude/pricing" target="_blank" rel="noopener">Claude API Pricing Docs</a>
+                            <span class="benchmark-paper-sep">·</span>
+                            <a href="https://www.anthropic.com/news/claude-fable-5-mythos-5" target="_blank" rel="noopener">Fable 5 &amp; Mythos 5 Announcement</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="benchmark-section">
                 <h2 class="section-title">OSWorld Benchmark Progress</h2>
                 <div class="benchmark-chart-container">
                     <div id="benchmark-chart"></div>
@@ -82,7 +101,7 @@
                     </div>
                     <p class="benchmark-note">
                         Scores prior to Sonnet 4.5 measured on original OSWorld; scores from Sonnet 4.5 onward use OSWorld-Verified.<br>
-                        OSWorld measures an AI model's ability to interact with real computer interfaces.
+                        OSWorld measures an AI model's ability to interact with real computer interfaces. Claude Fable 5 (Jun 2026) has not yet been evaluated.
                     </p>
                 </div>
             </div>
@@ -138,6 +157,10 @@
                     <div id="gdpval-chart"></div>
                     <div class="benchmark-legend">
                         <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #c09a5b;"></div>
+                            <span>Fable</span>
+                        </div>
+                        <div class="benchmark-legend-item">
                             <div class="benchmark-legend-dot" style="background: #9d7bb0;"></div>
                             <span>Opus</span>
                         </div>
@@ -180,7 +203,7 @@
                     </div>
                     <p class="benchmark-note">
                         ARC-AGI-2 tests abstract reasoning on novel visual puzzles built to resist memorization — humans score ~60%, and most frontier models were in the single digits at launch. Higher is better.<br>
-                        Scores reflect each model's strongest reported configuration (adaptive reasoning) on the ARC Prize leaderboard. Opus 4.8 and Haiku 4.5 are not yet listed.
+                        Scores reflect each model's strongest reported configuration (adaptive reasoning) on the ARC Prize leaderboard. Opus 4.8, Haiku 4.5, and Fable 5 are not yet listed.
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
@@ -916,8 +939,10 @@
             // Final mean net worth in USD on Andon Labs' Vending-Bench (single-player,
             // original eval). Values for Opus 4, Sonnet 4.5, and 3.5 Sonnet come from the
             // public Andon Labs leaderboard; Opus 4.6 from Andon's "Opus 4.6 on Vending-Bench"
-            // post. Older Claude 3 entries and unverified models pulled from Anthropic
-            // announcements and may differ from Andon's published numbers.
+            // post; Opus 4.8 ($5,188) from Andon's "Opus 4.8 on Vending-Bench: Better
+            // Alignment, Worse Performance" post. Older Claude 3 entries and unverified
+            // models pulled from Anthropic announcements and may differ from Andon's
+            // published numbers. No Vending-Bench run published yet for Fable/Mythos.
             const earningsData = {
                 opus: [
                     { model: '3 Opus',    date: '2024-03-04', score: 245 },
@@ -925,7 +950,8 @@
                     { model: 'Opus 4.1',  date: '2025-08-05', score: 1640 },
                     { model: 'Opus 4.5',  date: '2025-11-24', score: 4829 },
                     { model: 'Opus 4.6',  date: '2026-02-05', score: 8018 },
-                    { model: 'Opus 4.7',  date: '2026-04-16', score: 5847 }
+                    { model: 'Opus 4.7',  date: '2026-04-16', score: 5847 },
+                    { model: 'Opus 4.8',  date: '2026-05-28', score: 5188 }
                 ],
                 sonnet: [
                     { model: '3 Sonnet',        date: '2024-03-04', score: 180 },
@@ -955,9 +981,9 @@
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
 
-            // Date range: Feb 2024 to May 2026
+            // Date range: Feb 2024 to Jun 2026
             const minDate = new Date('2024-02-01T00:00:00');
-            const maxDate = new Date('2026-05-15T00:00:00');
+            const maxDate = new Date('2026-06-15T00:00:00');
             const dateRange = maxDate - minDate;
 
             // Earnings range: $0 to $9,000 (Opus 4.6 reaches $8,018 per Andon Labs)
@@ -1048,6 +1074,10 @@
                         labelY = py - 14;
                     } else if (series === 'opus' && p.model === 'Opus 4.7') {
                         labelAnchor = 'end';
+                    } else if (series === 'opus' && p.model === 'Opus 4.8') {
+                        // Below-right of Opus 4.7 — label under the dot to avoid collision
+                        labelY = py + 20;
+                        labelAnchor = 'end';
                     }
 
                     svg += `<text x="${px}" y="${labelY}" text-anchor="${labelAnchor}" fill="${color}" font-size="11" font-weight="600">${fmt(p.score)}</text>`;
@@ -1065,6 +1095,9 @@
             // Where a model has multiple configs, we use the best/strongest
             // (Reasoning or Adaptive Reasoning + Max Effort).
             const gdpvalData = {
+                fable: [
+                    { model: 'Fable 5', date: '2026-06-09', score: 1932 }
+                ],
                 opus: [
                     { model: 'Opus 4.5', date: '2025-11-24', score: 1450 },
                     { model: 'Opus 4.6', date: '2026-02-05', score: 1619 },
@@ -1082,7 +1115,7 @@
                 ]
             };
 
-            const colors = { opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
+            const colors = { fable: '#c09a5b', opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
 
             const W = 800, H = 380;
             const pad = { top: 30, right: 25, bottom: 55, left: 68 };
@@ -1156,6 +1189,10 @@
                         labelAnchor = 'end';
                     } else if (series === 'haiku' && p.model === 'Haiku 4.5') {
                         labelY = py + 20;
+                    } else if (series === 'fable' && p.model === 'Fable 5') {
+                        // Right at the chart edge, just above Opus 4.8 — label below-right of dot
+                        labelY = py + 20;
+                        labelAnchor = 'end';
                     }
 
                     svg += `<text x="${px}" y="${labelY}" text-anchor="${labelAnchor}" fill="${color}" font-size="11" font-weight="600">${p.score}</text>`;
@@ -1260,10 +1297,75 @@
             document.getElementById('arc-chart').innerHTML = svg;
         }
 
+        // API Pricing Chart — grouped input/output bars per current model
+        function renderPricingChart() {
+            // Claude API list pricing (per million tokens) as of June 9, 2026, from
+            // platform.claude.com/docs/en/about-claude/pricing. Claude Mythos 5 is
+            // priced identically to Fable 5 but restricted to Glasswing partners,
+            // so it isn't given its own bars.
+            const pricing = [
+                { name: 'Haiku 4.5',  family: 'haiku',  input: 1,  output: 5 },
+                { name: 'Sonnet 4.6', family: 'sonnet', input: 3,  output: 15 },
+                { name: 'Opus 4.8',   family: 'opus',   input: 5,  output: 25 },
+                { name: 'Fable 5',    family: 'fable',  input: 10, output: 50 }
+            ];
+            const colors = { haiku: '#8fa882', sonnet: '#d4836a', opus: '#9d7bb0', fable: '#c09a5b' };
+
+            const W = 800, H = 380;
+            const pad = { top: 42, right: 25, bottom: 55, left: 55 };
+            const cw = W - pad.left - pad.right;
+            const ch = H - pad.top - pad.bottom;
+
+            const maxPrice = 55; // headroom above Fable's $50 output bar
+            const y = v => pad.top + ch - (v / maxPrice) * ch;
+
+            let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+            // Horizontal gridlines + Y labels
+            for (let s = 0; s <= 50; s += 10) {
+                const yPos = y(s);
+                svg += `<line x1="${pad.left}" y1="${yPos}" x2="${W - pad.right}" y2="${yPos}" stroke="#e8d5c8" stroke-width="1" />`;
+                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#888" font-size="12">$${s}</text>`;
+            }
+
+            const groupW = cw / pricing.length;
+            const barW = 56, gap = 14;
+
+            pricing.forEach((m, i) => {
+                const cx = pad.left + i * groupW + groupW / 2;
+                const color = colors[m.family];
+                const xIn = cx - gap / 2 - barW;
+                const xOut = cx + gap / 2;
+
+                // Input bar (lighter) and output bar (solid)
+                svg += `<rect x="${xIn}" y="${y(m.input)}" width="${barW}" height="${y(0) - y(m.input)}" fill="${color}" fill-opacity="0.45" rx="3" />`;
+                svg += `<rect x="${xOut}" y="${y(m.output)}" width="${barW}" height="${y(0) - y(m.output)}" fill="${color}" rx="3" />`;
+
+                // Value labels above each bar
+                svg += `<text x="${xIn + barW / 2}" y="${y(m.input) - 8}" text-anchor="middle" fill="${color}" font-size="11" font-weight="600">$${m.input} in</text>`;
+                svg += `<text x="${xOut + barW / 2}" y="${y(m.output) - 8}" text-anchor="middle" fill="${color}" font-size="11" font-weight="600">$${m.output} out</text>`;
+
+                // "2× Opus" annotation over the Fable group
+                if (m.family === 'fable') {
+                    svg += `<text x="${cx}" y="${y(m.output) - 24}" text-anchor="middle" fill="#7a6957" font-size="11" font-style="italic">2× Opus 4.8</text>`;
+                }
+
+                // Model name below the axis
+                svg += `<text x="${cx}" y="${H - pad.bottom + 22}" text-anchor="middle" fill="${color}" font-size="13" font-weight="700">${m.name}</text>`;
+            });
+
+            // Baseline
+            svg += `<line x1="${pad.left}" y1="${y(0)}" x2="${W - pad.right}" y2="${y(0)}" stroke="#d4c0b3" stroke-width="1.5" />`;
+
+            svg += '</svg>';
+            document.getElementById('pricing-chart').innerHTML = svg;
+        }
+
         // Initialize
         render();
         renderTimelineChart();
         renderGapChart();
+        renderPricingChart();
         renderBenchmarkChart();
         renderEarningsChart();
         renderGDPvalChart();
