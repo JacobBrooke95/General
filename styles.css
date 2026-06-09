@@ -965,6 +965,15 @@ a:hover {
   background: linear-gradient(135deg, #5b8a9a 0%, #3d6b7a 100%);
 }
 
+.model-header.fable {
+  background: linear-gradient(135deg, #c09a5b 0%, #97743a 100%);
+}
+
+.badge-fable {
+  background: rgba(192, 154, 91, 0.15);
+  color: #a8824a;
+}
+
 .badge-mythos {
   background: rgba(91, 138, 154, 0.15);
   color: #5b8a9a;
