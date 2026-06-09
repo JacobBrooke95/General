@@ -199,7 +199,7 @@
         </div>
 
         <div class="footer">
-            <p>Built with Claude <a href="forest.html" class="clawd-link" title="Clawd">🦀</a> Thu 05•28•26</p>
+            <p>Built with Claude <a href="forest.html" class="clawd-link" title="Clawd">🦀</a> Tue 06•09•26</p>
             <p>Data sourced from <a href="https://www.anthropic.com/news" target="_blank" rel="noopener">Anthropic News</a></p>
         </div>
     </div>
@@ -213,7 +213,15 @@
                 headerClass: "mythos",
                 releases: [
                     { version: "Mythos Preview", date: "2026-04-07", notReleased: true, url: "https://www.anthropic.com/glasswing" },
-                    { version: "Mythos 1", date: "TBD", url: "https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/" }
+                    { version: "Claude Mythos 5", date: "2026-06-09", restricted: true, url: "https://www.anthropic.com/news/claude-fable-5-mythos-5" }
+                ]
+            },
+            fable: {
+                name: "Fable",
+                tier: "Mythos-Class",
+                headerClass: "fable",
+                releases: [
+                    { version: "Claude Fable 5", date: "2026-06-09", url: "https://www.anthropic.com/news/claude-fable-5-mythos-5" }
                 ]
             },
             opus: {
@@ -398,7 +406,9 @@
                         }
                     }
 
-                    const notReleasedTag = r.notReleased ? ' <span style="font-size:0.8em;color:#b8860b;">(not released)</span>' : '';
+                    const notReleasedTag = r.notReleased
+                        ? ' <span style="font-size:0.8em;color:#b8860b;">(not released)</span>'
+                        : (r.restricted ? ' <span style="font-size:0.8em;color:#b8860b;">(restricted access)</span>' : '');
 
                     return `
                         <li>
@@ -638,10 +648,10 @@
         function renderTimelineChart() {
             // Gather all releases into a flat list
             const allReleases = [];
-            const colors = { mythos: '#5b8a9a', opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
-            const familyLabels = { mythos: 'Mythos', opus: 'Opus', sonnet: 'Sonnet', haiku: 'Haiku' };
-            const laneY = { mythos: 0, opus: 1, sonnet: 2, haiku: 3 };
-            const laneOrder = ['mythos', 'opus', 'sonnet', 'haiku'];
+            const colors = { mythos: '#5b8a9a', fable: '#c09a5b', opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
+            const familyLabels = { mythos: 'Mythos', fable: 'Fable', opus: 'Opus', sonnet: 'Sonnet', haiku: 'Haiku' };
+            const laneY = { mythos: 0, fable: 1, opus: 2, sonnet: 3, haiku: 4 };
+            const laneOrder = ['mythos', 'fable', 'opus', 'sonnet', 'haiku'];
 
             Object.entries(modelData).forEach(([key, model]) => {
                 model.releases.forEach(r => {
@@ -649,7 +659,7 @@
                 });
             });
 
-            const W = 800, H = 320;
+            const W = 800, H = 380;
             const pad = { top: 30, right: 30, bottom: 50, left: 80 };
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
@@ -713,8 +723,8 @@
                     const cx = x(r.date);
                     const cy = yLane(key);
                     svg += `<circle cx="${cx}" cy="${cy}" r="6" fill="${color}" stroke="white" stroke-width="2" />`;
-                    if (r.notReleased) {
-                        // Preview-only drops (e.g. Mythos Preview via Glasswing): diagonal white slash
+                    if (r.notReleased || r.restricted) {
+                        // Preview-only or restricted-access drops (e.g. Mythos via Glasswing): diagonal white slash
                         svg += `<line x1="${cx - 3.5}" y1="${cy + 3.5}" x2="${cx + 3.5}" y2="${cy - 3.5}" stroke="white" stroke-width="1.5" stroke-linecap="round" />`;
                     }
 
@@ -735,8 +745,8 @@
 
         // Shipping Pace - Cumulative Staircase with Quarter Bands
         function renderGapChart() {
-            const colors = { opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
-            const families = ['haiku', 'sonnet', 'opus']; // stack order, bottom-to-top
+            const colors = { opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882', fable: '#c09a5b' };
+            const families = ['haiku', 'sonnet', 'opus', 'fable']; // stack order, bottom-to-top
 
             // Collect and sort released, dated releases only
             const allReleases = [];
@@ -764,8 +774,8 @@
             const x = d => xRaw(parse(d));
 
             // Build cumulative series
-            const counts = { opus: 0, sonnet: 0, haiku: 0 };
-            const series = [{ date: MIN, opus: 0, sonnet: 0, haiku: 0 }];
+            const counts = { opus: 0, sonnet: 0, haiku: 0, fable: 0 };
+            const series = [{ date: MIN, opus: 0, sonnet: 0, haiku: 0, fable: 0 }];
             allReleases.forEach(r => {
                 counts[r.family] += 1;
                 series.push({ date: parse(r.date), ...counts });
@@ -880,7 +890,7 @@
             });
 
             // Top outline (total staircase)
-            const topLine = stepPath(series.map(s => [s.date, s.opus + s.sonnet + s.haiku]));
+            const topLine = stepPath(series.map(s => [s.date, s.opus + s.sonnet + s.haiku + s.fable]));
             svg += `<path d="${topLine}" fill="none" stroke="#5b4636" stroke-width="1.8" />`;
 
             // Small dots at each release
