@@ -127,7 +127,7 @@
                     </div>
                     <p class="benchmark-note">
                         Final mean net worth (USD) earned by each Claude model running a simulated vending machine business on Andon Labs' Vending-Bench.<br>
-                        Higher is better — models spend months of simulated time managing inventory, pricing, and cash flow autonomously.
+                        Higher is better — models spend months of simulated time managing inventory, pricing, and cash flow autonomously. Claude Sonnet 5 (Jun 2026) has not been run on Vending-Bench yet.
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
@@ -534,7 +534,8 @@
                     { model: '3.7 Sonnet', date: '2025-02-24', score: 28.0 },
                     { model: '4 Sonnet', date: '2025-05-22', score: 42.2 },
                     { model: 'Sonnet 4.5', date: '2025-09-29', score: 61.4 },
-                    { model: 'Sonnet 4.6', date: '2026-02-17', score: 72.5 }
+                    { model: 'Sonnet 4.6', date: '2026-02-17', score: 72.5 },
+                    { model: 'Sonnet 5', date: '2026-06-30', score: 81.2 }
                 ],
                 opus: [
                     { model: 'Opus 4.5', date: '2025-11-24', score: 66.3 },
@@ -563,9 +564,9 @@
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
 
-            // Date range: Sep 2024 to Jun 2026
+            // Date range: Sep 2024 to Jul 2026
             const minDate = new Date('2024-09-01T00:00:00');
-            const maxDate = new Date('2026-06-15T00:00:00');
+            const maxDate = new Date('2026-07-05T00:00:00');
             const dateRange = maxDate - minDate;
 
             // Score range: 10 to 90
@@ -652,6 +653,10 @@
                     } else if (series === 'sonnet' && p.model === 'Sonnet 4.6') {
                         labelY = py + 20;
                         labelAnchor = 'start';
+                    } else if (series === 'sonnet' && p.model === 'Sonnet 5') {
+                        // Far-right point, just below Opus 4.8 — drop the label below-left
+                        labelY = py + 20;
+                        labelAnchor = 'end';
                     } else if (series === 'opus' && p.model === 'Opus 4.5') {
                         labelY = py + 20;
                     } else if (series === 'mythos') {
@@ -690,7 +695,7 @@
             const ch = H - pad.top - pad.bottom;
 
             const minDate = new Date('2024-02-01T00:00:00');
-            const maxDate = new Date('2026-06-15T00:00:00');
+            const maxDate = new Date('2026-07-05T00:00:00');
             const dateRange = maxDate - minDate;
 
             function x(dateStr) {
@@ -985,7 +990,7 @@
 
             // Date range: Feb 2024 to Jun 2026
             const minDate = new Date('2024-02-01T00:00:00');
-            const maxDate = new Date('2026-06-15T00:00:00');
+            const maxDate = new Date('2026-07-05T00:00:00');
             const dateRange = maxDate - minDate;
 
             // Earnings range: $0 to $9,000 (Opus 4.6 reaches $8,018 per Andon Labs)
@@ -1125,7 +1130,7 @@
             const ch = H - pad.top - pad.bottom;
 
             const minDate = new Date('2024-02-01T00:00:00');
-            const maxDate = new Date('2026-06-15T00:00:00');
+            const maxDate = new Date('2026-07-05T00:00:00');
             const dateRange = maxDate - minDate;
 
             const minScore = 1000, maxScore = 2000, step = 200;
