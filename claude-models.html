@@ -65,6 +65,7 @@
                     <div id="pricing-chart"></div>
                     <p class="benchmark-note">
                         Fable 5 debuts at exactly 2&times; Opus 4.8 ($10 in / $50 out). Claude Mythos 5 is priced identically to Fable 5 but is restricted to Project Glasswing partners.<br>
+                        Sonnet 5 holds Sonnet 4.6's $3 in / $15 out list price, with introductory pricing of $2 in / $10 out through Aug 31, 2026.<br>
                         Opus pricing dropped from $15/$75 to $5/$25 with Opus 4.5 (Nov 2025). Cache hits cost 10% of the input price, and the Batch API halves both rates.
                     </p>
                     <div class="benchmark-paper-links">
@@ -272,7 +273,8 @@
                     { version: "Claude 3.7 Sonnet", date: "2025-02-24", url: "https://www.anthropic.com/news/claude-3-7-sonnet" },
                     { version: "Claude 4 Sonnet", date: "2025-05-22", url: "https://www.anthropic.com/news/claude-4" },
                     { version: "Claude Sonnet 4.5", date: "2025-09-29", url: "https://www.anthropic.com/news/claude-sonnet-4-5" },
-                    { version: "Claude Sonnet 4.6", date: "2026-02-17", url: "https://www.anthropic.com/news/claude-sonnet-4-6" }
+                    { version: "Claude Sonnet 4.6", date: "2026-02-17", url: "https://www.anthropic.com/news/claude-sonnet-4-6" },
+                    { version: "Claude Sonnet 5", date: "2026-06-24", url: "https://www.anthropic.com/news/claude-sonnet-5" }
                 ]
             },
             haiku: {
@@ -1299,13 +1301,14 @@
 
         // API Pricing Chart — grouped input/output bars per current model
         function renderPricingChart() {
-            // Claude API list pricing (per million tokens) as of June 9, 2026, from
+            // Claude API list pricing (per million tokens) as of June 24, 2026, from
             // platform.claude.com/docs/en/about-claude/pricing. Claude Mythos 5 is
             // priced identically to Fable 5 but restricted to Glasswing partners,
-            // so it isn't given its own bars.
+            // so it isn't given its own bars. Sonnet 5 keeps Sonnet 4.6's $3/$15
+            // list price (introductory $2/$10 runs through Aug 31, 2026).
             const pricing = [
                 { name: 'Haiku 4.5',  family: 'haiku',  input: 1,  output: 5 },
-                { name: 'Sonnet 4.6', family: 'sonnet', input: 3,  output: 15 },
+                { name: 'Sonnet 5',   family: 'sonnet', input: 3,  output: 15 },
                 { name: 'Opus 4.8',   family: 'opus',   input: 5,  output: 25 },
                 { name: 'Fable 5',    family: 'fable',  input: 10, output: 50 }
             ];
