@@ -274,7 +274,7 @@
                     { version: "Claude 4 Sonnet", date: "2025-05-22", url: "https://www.anthropic.com/news/claude-4" },
                     { version: "Claude Sonnet 4.5", date: "2025-09-29", url: "https://www.anthropic.com/news/claude-sonnet-4-5" },
                     { version: "Claude Sonnet 4.6", date: "2026-02-17", url: "https://www.anthropic.com/news/claude-sonnet-4-6" },
-                    { version: "Claude Sonnet 5", date: "2026-06-24", url: "https://www.anthropic.com/news/claude-sonnet-5" }
+                    { version: "Claude Sonnet 5", date: "2026-06-30", url: "https://www.anthropic.com/news/claude-sonnet-5" }
                 ]
             },
             haiku: {
@@ -1308,7 +1308,7 @@
             // list price (introductory $2/$10 runs through Aug 31, 2026).
             const pricing = [
                 { name: 'Haiku 4.5',  family: 'haiku',  input: 1,  output: 5 },
-                { name: 'Sonnet 5',   family: 'sonnet', input: 3,  output: 15 },
+                { name: 'Sonnet 5',   family: 'sonnet', input: 3,  output: 15, introInput: 2, introOutput: 10 },
                 { name: 'Opus 4.8',   family: 'opus',   input: 5,  output: 25 },
                 { name: 'Fable 5',    family: 'fable',  input: 10, output: 50 }
             ];
@@ -1340,13 +1340,29 @@
                 const xIn = cx - gap / 2 - barW;
                 const xOut = cx + gap / 2;
 
-                // Input bar (lighter) and output bar (solid)
-                svg += `<rect x="${xIn}" y="${y(m.input)}" width="${barW}" height="${y(0) - y(m.input)}" fill="${color}" fill-opacity="0.45" rx="3" />`;
-                svg += `<rect x="${xOut}" y="${y(m.output)}" width="${barW}" height="${y(0) - y(m.output)}" fill="${color}" rx="3" />`;
+                // Input bar (lighter) and output bar (solid). For models with an
+                // introductory rate, the solid section stops at the intro price and
+                // a lighter section spans the gap up to the list price.
+                const inBase = m.introInput != null ? m.introInput : m.input;
+                const outBase = m.introOutput != null ? m.introOutput : m.output;
+
+                svg += `<rect x="${xIn}" y="${y(inBase)}" width="${barW}" height="${y(0) - y(inBase)}" fill="${color}" fill-opacity="0.45" rx="3" />`;
+                svg += `<rect x="${xOut}" y="${y(outBase)}" width="${barW}" height="${y(0) - y(outBase)}" fill="${color}" rx="3" />`;
+
+                if (m.introInput != null) {
+                    // Lighter "list surcharge" section: intro price up to list price
+                    svg += `<rect x="${xIn}" y="${y(m.input)}" width="${barW}" height="${y(inBase) - y(m.input)}" fill="${color}" fill-opacity="0.18" rx="3" />`;
+                    svg += `<rect x="${xOut}" y="${y(m.output)}" width="${barW}" height="${y(outBase) - y(m.output)}" fill="${color}" fill-opacity="0.4" rx="3" />`;
+                }
 
                 // Value labels above each bar
                 svg += `<text x="${xIn + barW / 2}" y="${y(m.input) - 8}" text-anchor="middle" fill="${color}" font-size="11" font-weight="600">$${m.input} in</text>`;
                 svg += `<text x="${xOut + barW / 2}" y="${y(m.output) - 8}" text-anchor="middle" fill="${color}" font-size="11" font-weight="600">$${m.output} out</text>`;
+
+                // Intro-price annotation over the Sonnet group
+                if (m.introInput != null) {
+                    svg += `<text x="${cx}" y="${y(m.output) - 24}" text-anchor="middle" fill="#7a6957" font-size="11" font-style="italic">$${m.introInput}/$${m.introOutput} intro thru Aug 31</text>`;
+                }
 
                 // "2× Opus" annotation over the Fable group
                 if (m.family === 'fable') {
