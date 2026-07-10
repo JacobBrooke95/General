@@ -204,7 +204,7 @@
                     </div>
                     <p class="benchmark-note">
                         ARC-AGI-2 tests abstract reasoning on novel visual puzzles built to resist memorization — humans score ~60%, and most frontier models were in the single digits at launch. Higher is better.<br>
-                        Scores reflect each model's strongest reported configuration (adaptive reasoning) on the ARC Prize leaderboard. Opus 4.8, Haiku 4.5, and Fable 5 are not yet listed.
+                        Scores reflect each model's strongest reported configuration (adaptive reasoning) on the ARC Prize leaderboard. Opus 4.8, Haiku 4.5, Fable 5, and Sonnet 5 (Jun 2026) are not yet listed.
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
@@ -1215,7 +1215,8 @@
         function renderArcChart() {
             // ARC-AGI-2 scores (%) from the ARC Prize leaderboard and public aggregators,
             // using each model's strongest reported config (adaptive reasoning). ARC-AGI-2
-            // is the current frontier variant; Opus 4.8 and Haiku 4.5 are not yet listed.
+            // is the current frontier variant; Opus 4.8, Haiku 4.5, Fable 5, and
+            // Sonnet 5 are not yet listed.
             const arcData = {
                 opus: [
                     { model: 'Opus 4.5', date: '2025-11-24', score: 37.6 },
