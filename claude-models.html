@@ -79,6 +79,45 @@
             </div>
 
             <div class="benchmark-section">
+                <h2 class="section-title">Capability Profile</h2>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Where each model's strength actually lies. Ten evaluations, all scored 0&ndash;100, run by Artificial Analysis under one harness so the shapes are comparable. Hover any point for the raw score.</p>
+                <div class="benchmark-chart-container">
+                    <div id="radar-chart"></div>
+                    <div class="benchmark-legend">
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #9d7bb0;"></div>
+                            <span><strong>Opus 5</strong></span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px solid #c09a5b;"></div>
+                            <span>Fable 5</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px solid #b9a3c4;"></div>
+                            <span>Opus 4.8</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px solid #d4836a;"></div>
+                            <span>Sonnet 5</span>
+                        </div>
+                    </div>
+                    <p class="benchmark-note">
+                        Opus 5 (solid, filled) takes five of the ten axes — SWE-bench Verified, GPQA Diamond, CritPt, Terminal-Bench 2.1 and the Agentic Index — and its margin is widest on the two agentic ones. Fable 5 holds four: Humanity's Last Exam, Omniscience, SciCode and SWE-bench Pro. So the pricier model is still ahead on raw knowledge and the hardest coding set, while Opus 5 wins where a model has to <em>act</em> rather than recall. The tenth axis, AA-LCR, goes to Sonnet 5 by 0.7 points — long-context reasoning is the one place the cheapest model plotted matches the frontier.<br>
+                        Against Opus 4.8 the gap is a single eight-week generation: +10 points on SWE-bench Pro, +8.2 on CritPt, +7.6 on Omniscience.<br>
+                        The axes are deliberately not all the same difficulty. GPQA Diamond is saturated — all four sit within 2.1 points of each other near the rim — while CritPt (frontier physics) and Omniscience (factual accuracy without hedging) still pin every Claude model well inside the chart. A benchmark where the whole field clusters tells you nothing about which model to pick; the dents are the informative part.<br>
+                        <strong>Not plotted:</strong> Haiku 4.5 and Mythos 5. Haiku 4.5 predates most of these evals and has published results on only three of the ten (SWE-bench Verified 73.3%, Terminal-Bench 2.1 43.8%, OSWorld-Verified 50.7%); Mythos 5's numbers come from Anthropic's own harness rather than this one, so its shape wouldn't be comparable. Plotting either would mean drawing a mostly-imaginary polygon.
+                    </p>
+                    <div class="benchmark-paper-links">
+                        <div class="benchmark-paper-link-row">
+                            <a href="https://artificialanalysis.ai/models/claude-opus-5" target="_blank" rel="noopener">Artificial Analysis</a>
+                            <span class="benchmark-paper-sep">&middot;</span>
+                            <a href="https://thinkingmachines.ai/inkling/" target="_blank" rel="noopener">Chart form borrowed from Thinking Machines</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="benchmark-section">
                 <h2 class="section-title">SWE-bench Verified</h2>
                 <div class="benchmark-chart-container">
                     <div id="swebench-chart"></div>
@@ -1419,6 +1458,140 @@
             document.getElementById('arc-chart').innerHTML = svg;
         }
 
+        // Capability Profile — radar/spider chart across ten evaluations.
+        // Form borrowed from Thinking Machines' Inkling launch chart, restyled to this
+        // page's palette. All ten values come from the Artificial Analysis harness
+        // (via benchlm.ai model pages, pulled 2026-07-25) so one methodology produces
+        // every number — mixing harnesses would make the polygon shapes meaningless.
+        //
+        // Only models with a value on ALL ten axes are plotted. Haiku 4.5 (3 of 10) and
+        // Mythos 5 (Anthropic-harness numbers) are covered in the caption instead —
+        // plotting a missing value at zero, as the original chart does, would read as
+        // "scored zero" rather than "not measured".
+        function renderRadarChart() {
+            // Axes ordered so related categories sit next to each other going clockwise:
+            // coding at the top, then knowledge, factuality, reasoning, agentic.
+            const axes = [
+                { key: 'swe',      name: 'SWE-bench Verified', cat: 'Coding' },
+                { key: 'gpqa',     name: 'GPQA Diamond',       cat: 'Knowledge' },
+                { key: 'hle',      name: 'HLE (no tools)',     cat: 'Knowledge' },
+                { key: 'omni',     name: 'Omniscience',        cat: 'Factuality' },
+                { key: 'lcr',      name: 'AA-LCR',             cat: 'Long context' },
+                { key: 'critpt',   name: 'CritPt',             cat: 'Physics' },
+                { key: 'agentic',  name: 'Agentic Index',      cat: 'Agentic (general)' },
+                { key: 'terminal', name: 'Terminal-Bench 2.1', cat: 'Agentic (coding)' },
+                { key: 'scicode',  name: 'SciCode',            cat: 'Coding (science)' },
+                { key: 'swepro',   name: 'SWE-bench Pro',      cat: 'Coding (hard)' }
+            ];
+
+            const models = [
+                {
+                    key: 'fable', label: 'Fable 5', color: '#c09a5b', hero: false,
+                    scores: { swe: 95.0, gpqa: 92.6, hle: 53.3, omni: 61.4, lcr: 70.0,
+                              critpt: 28.6, agentic: 52.8, terminal: 84.6, scicode: 60.2, swepro: 80.0 }
+                },
+                {
+                    key: 'opus48', label: 'Opus 4.8', color: '#b9a3c4', hero: false, recede: true,
+                    scores: { swe: 88.6, gpqa: 92.0, hle: 45.7, omni: 46.6, lcr: 67.7,
+                              critpt: 20.9, agentic: 47.2, terminal: 84.6, scicode: 53.5, swepro: 69.2 }
+                },
+                {
+                    key: 'sonnet', label: 'Sonnet 5', color: '#d4836a', hero: false,
+                    scores: { swe: 85.2, gpqa: 91.1, hle: 39.6, omni: 38.3, lcr: 70.7,
+                              critpt: 16.9, agentic: 46.7, terminal: 80.5, scicode: 53.6, swepro: 63.2 }
+                },
+                {
+                    key: 'opus5', label: 'Opus 5', color: '#9d7bb0', hero: true,
+                    scores: { swe: 96.0, gpqa: 93.2, hle: 52.6, omni: 54.2, lcr: 70.0,
+                              critpt: 29.1, agentic: 55.3, terminal: 89.1, scicode: 55.7, swepro: 79.2 }
+                }
+            ];
+
+            const W = 800, H = 560;
+            const cx = 400, cy = 288, R = 190;
+            const rings = [20, 40, 60, 80, 100];
+
+            // Axis i points at -90deg + 36deg * i, i.e. axis 0 straight up, then clockwise
+            function angle(i) { return (-90 + (360 / axes.length) * i) * Math.PI / 180; }
+            function pt(i, value, radius) {
+                const a = angle(i);
+                const r = (radius !== undefined ? radius : R) * (value / 100);
+                return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+            }
+
+            let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+            // Concentric ring outlines (decagons, matching the axis count)
+            rings.forEach(ring => {
+                const pts = axes.map((_, i) => pt(i, ring).map(v => v.toFixed(1)).join(',')).join(' ');
+                const isOuter = ring === 100;
+                svg += `<polygon points="${pts}" fill="none" stroke="${isOuter ? '#d4c0b3' : '#e8d5c8'}" stroke-width="${isOuter ? 1.5 : 1}" />`;
+            });
+
+            // Spokes
+            axes.forEach((_, i) => {
+                const [px, py] = pt(i, 100);
+                svg += `<line x1="${cx}" y1="${cy}" x2="${px.toFixed(1)}" y2="${py.toFixed(1)}" stroke="#e8d5c8" stroke-width="1" />`;
+            });
+
+            // Ring scale labels ride the CritPt spoke (straight down). Every model scores
+            // under 30 there, so rings 40 and above are guaranteed clear of the data.
+            rings.filter(r => r >= 40).forEach(ring => {
+                const [px, py] = pt(5, ring);
+                svg += `<text x="${(px + 9).toFixed(1)}" y="${(py + 3).toFixed(1)}" text-anchor="start" fill="#c3ad9a" font-size="9">${ring}</text>`;
+            });
+
+            // Axis labels: benchmark name, with its category on a second line beneath
+            axes.forEach((ax, i) => {
+                const a = angle(i);
+                const lx = cx + (R + 22) * Math.cos(a);
+                const ly = cy + (R + 22) * Math.sin(a);
+                const cosA = Math.cos(a);
+                const anchor = Math.abs(cosA) < 0.15 ? 'middle' : (cosA > 0 ? 'start' : 'end');
+
+                // Vertical block placement: top and bottom vertices need the whole
+                // two-line block pushed clear of the chart, sides just straddle centre
+                let nameY, catY;
+                if (i === 0) { nameY = ly - 16; catY = ly - 3; }
+                else if (Math.abs(cosA) < 0.15) { nameY = ly + 14; catY = ly + 27; }
+                else { nameY = ly - 2; catY = ly + 11; }
+
+                svg += `<text x="${lx.toFixed(1)}" y="${nameY.toFixed(1)}" text-anchor="${anchor}" fill="#5b4636" font-size="12" font-weight="600">${ax.name}</text>`;
+                svg += `<text x="${lx.toFixed(1)}" y="${catY.toFixed(1)}" text-anchor="${anchor}" fill="#a89684" font-size="10.5">${ax.cat}</text>`;
+            });
+
+            // Series. Non-hero models are dashed outlines with hollow markers; the hero
+            // gets a heavier solid stroke and a translucent fill, so it reads first.
+            models.forEach(m => {
+                const pts = axes.map((ax, i) => pt(i, m.scores[ax.key]));
+                const poly = pts.map(p => p.map(v => v.toFixed(1)).join(',')).join(' ');
+
+                if (m.hero) {
+                    svg += `<polygon points="${poly}" fill="${m.color}" fill-opacity="0.18" stroke="${m.color}" stroke-width="3" stroke-linejoin="round" />`;
+                } else if (m.recede) {
+                    // Opus 4.8 is the "where we were" reference — same family hue as Opus 5,
+                    // so keep it thin and faded or the two purples fight each other
+                    svg += `<polygon points="${poly}" fill="none" stroke="${m.color}" stroke-width="1.6" stroke-opacity="0.85" stroke-dasharray="3,3" stroke-linejoin="round" />`;
+                } else {
+                    svg += `<polygon points="${poly}" fill="none" stroke="${m.color}" stroke-width="2" stroke-dasharray="7,4" stroke-linejoin="round" />`;
+                }
+
+                pts.forEach((p, i) => {
+                    const title = `<title>${m.label} — ${axes[i].name}: ${m.scores[axes[i].key]}</title>`;
+                    if (m.hero) {
+                        svg += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4.5" fill="${m.color}" stroke="white" stroke-width="1.5">${title}</circle>`;
+                    } else if (m.recede) {
+                        svg += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="white" stroke="${m.color}" stroke-width="1.6">${title}</circle>`;
+                    } else {
+                        svg += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.8" fill="white" stroke="${m.color}" stroke-width="2">${title}</circle>`;
+                    }
+                });
+            });
+
+            svg += '</svg>';
+            document.getElementById('radar-chart').innerHTML = svg;
+        }
+
         // SWE-bench Verified Chart (same style as OSWorld / GDPval)
         function renderSweBenchChart() {
             // SWE-bench Verified pass rates (%), pulled 2026-07-25 from the llm-stats and
@@ -1766,6 +1939,7 @@
         renderTimelineChart();
         renderGapChart();
         renderPricingChart();
+        renderRadarChart();
         renderSweBenchChart();
         renderTerminalBenchChart();
         renderBenchmarkChart();
