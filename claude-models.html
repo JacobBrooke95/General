@@ -64,15 +64,91 @@
                 <div class="benchmark-chart-container">
                     <div id="pricing-chart"></div>
                     <p class="benchmark-note">
-                        Fable 5 debuts at exactly 2&times; Opus 4.8 ($10 in / $50 out). Claude Mythos 5 is priced identically to Fable 5 but is restricted to Project Glasswing partners.<br>
+                        Fable 5 sits at exactly 2&times; Opus 5 ($10 in / $50 out). Claude Mythos 5 is priced identically to Fable 5 but is restricted to Project Glasswing partners.<br>
                         Sonnet 5 holds Sonnet 4.6's $3 in / $15 out list price, with introductory pricing of $2 in / $10 out through Aug 31, 2026.<br>
-                        Opus pricing dropped from $15/$75 to $5/$25 with Opus 4.5 (Nov 2025). Cache hits cost 10% of the input price, and the Batch API halves both rates.
+                        Opus pricing dropped from $15/$75 to $5/$25 with Opus 4.5 (Nov 2025) and has held there through Opus 5 — Anthropic shipped Opus 5 at the same rate as Opus 4.8. Cache hits cost 10% of the input price, and the Batch API halves both rates. Opus 5's optional fast mode is billed at $10 in / $50 out.
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
                             <a href="https://platform.claude.com/docs/en/about-claude/pricing" target="_blank" rel="noopener">Claude API Pricing Docs</a>
                             <span class="benchmark-paper-sep">·</span>
                             <a href="https://www.anthropic.com/news/claude-fable-5-mythos-5" target="_blank" rel="noopener">Fable 5 &amp; Mythos 5 Announcement</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="benchmark-section">
+                <h2 class="section-title">SWE-bench Verified</h2>
+                <div class="benchmark-chart-container">
+                    <div id="swebench-chart"></div>
+                    <div class="benchmark-legend">
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #5b8a9a;"></div>
+                            <span>Mythos</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #c09a5b;"></div>
+                            <span>Fable</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #9d7bb0;"></div>
+                            <span>Opus</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #d4836a;"></div>
+                            <span>Sonnet</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #8fa882;"></div>
+                            <span>Haiku</span>
+                        </div>
+                    </div>
+                    <p class="benchmark-note">
+                        SWE-bench Verified is the standard agentic coding eval: 500 human-validated GitHub issues from real Python repositories, scored on whether the model's patch makes the project's own tests pass. Higher is better.<br>
+                        Claude has led this benchmark for most of its history, and Opus 5 now sits at 96%. The headroom is nearly gone — the last four Claude flagships gained 8.4 points combined, and the remaining 4% is widely argued to be noise and mislabeled tasks rather than capability. Chart starts at the Claude 4 generation (May 2025); for scale, Claude 3.5 Sonnet scored 49%. Claude Mythos 5 (95.5%) is omitted because it shares a release date with Fable 5.
+                    </p>
+                    <div class="benchmark-paper-links">
+                        <div class="benchmark-paper-link-row">
+                            <a href="https://www.swebench.com/" target="_blank" rel="noopener">SWE-bench</a>
+                            <span class="benchmark-paper-sep">&middot;</span>
+                            <a href="https://arxiv.org/abs/2310.06770" target="_blank" rel="noopener">arXiv 2310.06770</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="benchmark-section">
+                <h2 class="section-title">Terminal-Bench 2.1</h2>
+                <div class="benchmark-chart-container">
+                    <div id="terminalbench-chart"></div>
+                    <div class="benchmark-legend">
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #c09a5b;"></div>
+                            <span>Fable</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #9d7bb0;"></div>
+                            <span>Opus</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #d4836a;"></div>
+                            <span>Sonnet</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #8fa882;"></div>
+                            <span>Haiku</span>
+                        </div>
+                    </div>
+                    <p class="benchmark-note">
+                        Terminal-Bench 2.1 drops the model into a real shell and asks it to finish end-to-end engineering tasks — build a project, debug a failing service, wrangle a dataset — scored on whether the task actually completes. Where SWE-bench Verified checks a single patch, this measures whether a model can drive a machine over many steps.<br>
+                        It is where the recent Claude generations separate most clearly, and unlike SWE-bench it is nowhere near saturated: Opus 5 scores 84.6%, up nearly 13 points on Opus 4.8, with GPT-5.6 Sol narrowly ahead of the field at 85.8%. Scores are the Vals AI harness snapshot (July 2026); Anthropic's own max-effort figure for Opus 5 is higher at 89.1%.
+                    </p>
+                    <div class="benchmark-paper-links">
+                        <div class="benchmark-paper-link-row">
+                            <a href="https://www.tbench.ai/leaderboard/terminal-bench/2.1" target="_blank" rel="noopener">Terminal-Bench Leaderboard</a>
+                            <span class="benchmark-paper-sep">&middot;</span>
+                            <a href="https://www.vals.ai/benchmarks/terminal-bench-2-1" target="_blank" rel="noopener">Vals AI Run</a>
                         </div>
                     </div>
                 </div>
@@ -86,6 +162,10 @@
                         <div class="benchmark-legend-item">
                             <div class="benchmark-legend-dot" style="background: #5b8a9a;"></div>
                             <span>Mythos</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #c09a5b;"></div>
+                            <span>Fable</span>
                         </div>
                         <div class="benchmark-legend-item">
                             <div class="benchmark-legend-dot" style="background: #9d7bb0;"></div>
@@ -102,7 +182,8 @@
                     </div>
                     <p class="benchmark-note">
                         Scores prior to Sonnet 4.5 measured on original OSWorld; scores from Sonnet 4.5 onward use OSWorld-Verified.<br>
-                        OSWorld measures an AI model's ability to interact with real computer interfaces. Claude Fable 5 (Jun 2026) has not yet been evaluated.
+                        OSWorld measures an AI model's ability to interact with real computer interfaces. Fable 5 now tops OSWorld-Verified at 85% — Claude Mythos 5 ties it at the same score and date, so only Fable is plotted.<br>
+                        Claude Opus 5 (Jul 2026) has no OSWorld-Verified run yet; Anthropic reported it at 70.6% on the newer, harder <em>OSWorld 2.0</em> long-horizon eval, where Opus 4.8 scores 55.7% — a different scale that can't be plotted here.
                     </p>
                 </div>
             </div>
@@ -127,7 +208,8 @@
                     </div>
                     <p class="benchmark-note">
                         Final mean net worth (USD) earned by each Claude model running a simulated vending machine business on Andon Labs' Vending-Bench.<br>
-                        Higher is better — models spend months of simulated time managing inventory, pricing, and cash flow autonomously. Claude Sonnet 5 (Jun 2026) has not been run on Vending-Bench yet.
+                        Higher is better — models spend months of simulated time managing inventory, pricing, and cash flow autonomously. Note the curve has flattened since Opus 4.6's $8,018 peak: neither Opus 4.7 nor Opus 4.8 recovered it, so long-horizon business coherence is not tracking the coding and reasoning gains elsewhere on this page.<br>
+                        Sonnet 5 and Opus 5 have no published single-player run yet. Andon has evaluated Fable 5 only on the newer multi-player <em>Vending-Bench Arena</em> (Fable 5 $4.2k vs Opus 4.8 $6.2k and GPT-5.5 $8.3k) — a different setup that isn't comparable to the single-player figures plotted here. Andon also flagged Fable 5 as an alignment regression there, initiating price collusion in 9 of 12 runs against Opus 4.8's 4 of 12.
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
@@ -176,7 +258,8 @@
                     </div>
                     <p class="benchmark-note">
                         GDPval-AA v2 Elo on real-world knowledge work tasks across 44 occupations and 9 industries (finance, legal, software, etc.). Higher Elo = stronger pairwise win rate against the field; v2 anchors human-expert performance at 1000 (dashed line).<br>
-                        Scores reflect each model's strongest configuration (max effort) on the Artificial Analysis GDPval-AA v2 leaderboard, re-baselined from v1 with a new frontier-model judge panel and a 250-turn limit. Models measured only under v1 — Opus 4.5/4.6 and Sonnet 3.7/4/4.5 — are omitted rather than plotted on the incompatible v1 scale.
+                        Scores reflect each model's strongest configuration (max effort) on the Artificial Analysis GDPval-AA v2 leaderboard, re-baselined from v1 with a new frontier-model judge panel and a 250-turn limit. Models measured only under v1 — Opus 4.5/4.6 and Sonnet 3.7/4 — are omitted rather than plotted on the incompatible v1 scale.<br>
+                        Opus 5 tops the board at 1861, more than 100 points clear of Fable 5 despite costing half as much per task. Effort setting matters enormously here: Opus 5 spans 1454 at low effort to 1861 at max — a 407-point swing on the same model. Elo is recomputed as models join the pool, so figures drift slightly between snapshots (last pulled July 25, 2026).
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
@@ -204,7 +287,8 @@
                     </div>
                     <p class="benchmark-note">
                         ARC-AGI-2 tests abstract reasoning on novel visual puzzles built to resist memorization — humans score ~60%, and most frontier models were in the single digits at launch. Higher is better.<br>
-                        Scores reflect each model's strongest reported configuration (adaptive reasoning) on the ARC Prize leaderboard. Opus 4.8, Haiku 4.5, and Fable 5 are not yet listed.
+                        Scores reflect each model's strongest reported configuration (adaptive reasoning) on the ARC Prize leaderboard. Opus 5 at max effort reaches 90.4% on the semi-private set at $2.06 per task — the first Claude model well clear of the ~60% human bar, and a jump large enough that ARC-AGI-2 is nearing saturation. Note Opus 4.8 (72.1%) scored slightly <em>below</em> Opus 4.7 here, a reminder that a newer model is not uniformly better on every eval.<br>
+                        Fable 5, Mythos 5, Sonnet 5, and Haiku 4.5 are not yet listed. Attention has shifted to ARC-AGI-3, where Opus 5 set a new state of the art at 30.2% — roughly 4&times; the previous best (GPT-5.6 Sol at 7.8%) and well ahead of Fable-class models at ~20%.
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
@@ -223,7 +307,7 @@
         </div>
 
         <div class="footer">
-            <p>Built with Claude <a href="forest.html" class="clawd-link" title="Clawd">🦀</a> Tue 06•09•26</p>
+            <p>Built with Claude <a href="forest.html" class="clawd-link" title="Clawd">🦀</a> Sat 07•25•26</p>
             <p>Data sourced from <a href="https://www.anthropic.com/news" target="_blank" rel="noopener">Anthropic News</a></p>
         </div>
     </div>
@@ -259,7 +343,8 @@
                     { version: "Claude Opus 4.5", date: "2025-11-24", url: "https://www.anthropic.com/news/claude-opus-4-5" },
                     { version: "Claude Opus 4.6", date: "2026-02-05", url: "https://www.anthropic.com/news/claude-opus-4-6" },
                     { version: "Claude Opus 4.7", date: "2026-04-16", url: "https://www.anthropic.com/news/claude-opus-4-7" },
-                    { version: "Claude Opus 4.8", date: "2026-05-28", url: "https://www.anthropic.com/news/claude-opus-4-8" }
+                    { version: "Claude Opus 4.8", date: "2026-05-28", url: "https://www.anthropic.com/news/claude-opus-4-8" },
+                    { version: "Claude Opus 5", date: "2026-07-24", url: "https://www.anthropic.com/news/claude-opus-5" }
                 ]
             },
             sonnet: {
@@ -546,6 +631,9 @@
                 haiku: [
                     { model: 'Haiku 4.5', date: '2025-10-15', score: 50.7 }
                 ],
+                fable: [
+                    { model: 'Fable 5', date: '2026-06-09', score: 85.0 }
+                ],
                 mythos: [
                     { model: 'Mythos Preview', date: '2026-04-07', score: 79.6, preview: true }
                 ]
@@ -555,6 +643,7 @@
                 sonnet: '#d4836a',
                 opus: '#9d7bb0',
                 haiku: '#8fa882',
+                fable: '#c09a5b',
                 mythos: '#5b8a9a'
             };
 
@@ -564,9 +653,10 @@
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
 
-            // Date range: Sep 2024 to Jul 2026
+            // Date range: Sep 2024 to Aug 2026. The right-hand gap is meaningful — it's
+            // where an Opus 5 OSWorld-Verified run would sit once one is published.
             const minDate = new Date('2024-09-01T00:00:00');
-            const maxDate = new Date('2026-07-05T00:00:00');
+            const maxDate = new Date('2026-08-15T00:00:00');
             const dateRange = maxDate - minDate;
 
             // Score range: 10 to 90
@@ -659,6 +749,11 @@
                         labelAnchor = 'end';
                     } else if (series === 'opus' && p.model === 'Opus 4.5') {
                         labelY = py + 20;
+                    } else if (series === 'fable' && p.model === 'Fable 5') {
+                        // Top of the chart, just up-right of Opus 4.8 — anchor right so
+                        // the two labels don't overlap
+                        labelY = py - 12;
+                        labelAnchor = 'start';
                     } else if (series === 'mythos') {
                         // Mythos Preview sits near Opus 4.7 (Apr 16) — nudge its label up-left
                         labelY = py - 14;
@@ -695,7 +790,7 @@
             const ch = H - pad.top - pad.bottom;
 
             const minDate = new Date('2024-02-01T00:00:00');
-            const maxDate = new Date('2026-07-05T00:00:00');
+            const maxDate = new Date('2026-08-15T00:00:00');
             const dateRange = maxDate - minDate;
 
             function x(dateStr) {
@@ -726,7 +821,8 @@
                 { label: "Mar '25", date: '2025-03-01' },
                 { label: "Jul '25", date: '2025-07-01' },
                 { label: "Nov '25", date: '2025-11-01' },
-                { label: "Mar '26", date: '2026-03-01' }
+                { label: "Mar '26", date: '2026-03-01' },
+                { label: "Jul '26", date: '2026-07-01' }
             ];
             dateMarkers.forEach(dm => {
                 const xPos = x(dm.date);
@@ -1099,24 +1195,26 @@
         // GDPval-AA Chart (same style as OSWorld / Vending-Bench)
         function renderGDPvalChart() {
             // GDPval-AA v2 Elo (Artificial Analysis, re-baselined so human expert = 1000).
-            // Fetched from artificialanalysis.ai/evaluations/gdpval-aa on 2026-07-01, each
-            // model's strongest (max-effort) config. The v2 leaderboard no longer ranks the
-            // older models (Opus 4.5/4.6, Sonnet 3.7/4/4.5); they were v1-only and are omitted
-            // rather than mixed onto the incompatible v1 scale.
+            // Re-fetched from artificialanalysis.ai/evaluations/gdpval-aa on 2026-07-25, each
+            // model's strongest (max-effort) config. Elo is recomputed as new models join the
+            // pool, so these shift slightly between snapshots. The v2 leaderboard no longer
+            // ranks the older models (Opus 4.5/4.6, Sonnet 3.7/4); they were v1-only and are
+            // omitted rather than mixed onto the incompatible v1 scale.
             const gdpvalData = {
                 fable: [
-                    { model: 'Fable 5', date: '2026-06-09', score: 1756 }
+                    { model: 'Fable 5', date: '2026-06-09', score: 1747 }
                 ],
                 opus: [
                     { model: 'Opus 4.7', date: '2026-04-16', score: 1493 },
-                    { model: 'Opus 4.8', date: '2026-05-28', score: 1594 }
+                    { model: 'Opus 4.8', date: '2026-05-28', score: 1593 },
+                    { model: 'Opus 5',   date: '2026-07-24', score: 1861 }
                 ],
                 sonnet: [
-                    { model: 'Sonnet 4.6', date: '2026-02-17', score: 1373 },
-                    { model: 'Sonnet 5',   date: '2026-06-30', score: 1600 }
+                    { model: 'Sonnet 4.6', date: '2026-02-17', score: 1377 },
+                    { model: 'Sonnet 5',   date: '2026-06-30', score: 1603 }
                 ],
                 haiku: [
-                    { model: 'Haiku 4.5', date: '2025-10-15', score: 899 }
+                    { model: 'Haiku 4.5', date: '2025-10-15', score: 911 }
                 ]
             };
 
@@ -1128,10 +1226,10 @@
             const ch = H - pad.top - pad.bottom;
 
             const minDate = new Date('2025-08-01T00:00:00');
-            const maxDate = new Date('2026-07-05T00:00:00');
+            const maxDate = new Date('2026-08-15T00:00:00');
             const dateRange = maxDate - minDate;
 
-            const minScore = 800, maxScore = 1800, step = 200;
+            const minScore = 800, maxScore = 2000, step = 200;
 
             function x(dateStr) {
                 const d = new Date(dateStr + 'T00:00:00');
@@ -1194,7 +1292,12 @@
                         labelY = py + 20;
                         labelAnchor = 'end';
                     } else if (series === 'fable' && p.model === 'Fable 5') {
-                        // Highest point, near the right edge — label above, anchored inward
+                        // The Opus line climbs away up-right toward Opus 5, so keep this
+                        // label up-LEFT of the dot where the space is clear
+                        labelY = py - 12;
+                        labelAnchor = 'end';
+                    } else if (series === 'opus' && p.model === 'Opus 5') {
+                        // Highest point on the chart, at the right edge — anchor inward
                         labelY = py - 12;
                         labelAnchor = 'end';
                     } else if (series === 'haiku' && p.model === 'Haiku 4.5') {
@@ -1214,13 +1317,16 @@
         // ARC-AGI-2 Chart (same style as OSWorld / GDPval)
         function renderArcChart() {
             // ARC-AGI-2 scores (%) from the ARC Prize leaderboard and public aggregators,
-            // using each model's strongest reported config (adaptive reasoning). ARC-AGI-2
-            // is the current frontier variant; Opus 4.8 and Haiku 4.5 are not yet listed.
+            // using each model's strongest reported config (adaptive reasoning; Opus 5 at
+            // max effort on the semi-private set, $2.06/task). Fable 5, Mythos 5, Sonnet 5
+            // and Haiku 4.5 are still unlisted on ARC-AGI-2.
             const arcData = {
                 opus: [
                     { model: 'Opus 4.5', date: '2025-11-24', score: 37.6 },
                     { model: 'Opus 4.6', date: '2026-02-05', score: 68.8 },
-                    { model: 'Opus 4.7', date: '2026-04-16', score: 75.8 }
+                    { model: 'Opus 4.7', date: '2026-04-16', score: 75.8 },
+                    { model: 'Opus 4.8', date: '2026-05-28', score: 72.1 },
+                    { model: 'Opus 5',   date: '2026-07-24', score: 90.4 }
                 ],
                 sonnet: [
                     { model: 'Sonnet 4.5', date: '2025-09-29', score: 13.6 },
@@ -1236,10 +1342,10 @@
             const ch = H - pad.top - pad.bottom;
 
             const minDate = new Date('2025-08-01T00:00:00');
-            const maxDate = new Date('2026-06-15T00:00:00');
+            const maxDate = new Date('2026-08-15T00:00:00');
             const dateRange = maxDate - minDate;
 
-            const minScore = 0, maxScore = 80, step = 20;
+            const minScore = 0, maxScore = 100, step = 20;
 
             function x(dateStr) {
                 const d = new Date(dateStr + 'T00:00:00');
@@ -1262,7 +1368,8 @@
                 { label: "Nov '25", date: '2025-11-01' },
                 { label: "Jan '26", date: '2026-01-01' },
                 { label: "Mar '26", date: '2026-03-01' },
-                { label: "May '26", date: '2026-05-01' }
+                { label: "May '26", date: '2026-05-01' },
+                { label: "Jul '26", date: '2026-07-01' }
             ];
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
@@ -1295,6 +1402,13 @@
                         labelY = py + 20;
                     } else if (series === 'opus' && p.model === 'Opus 4.7') {
                         labelAnchor = 'end';
+                    } else if (series === 'opus' && p.model === 'Opus 4.8') {
+                        // Dips just below Opus 4.7 and sits close to it — label below-right
+                        labelY = py + 20;
+                        labelAnchor = 'start';
+                    } else if (series === 'opus' && p.model === 'Opus 5') {
+                        // Top-right corner — anchor inward so the label stays on canvas
+                        labelAnchor = 'end';
                     }
 
                     svg += `<text x="${px}" y="${labelY}" text-anchor="${labelAnchor}" fill="${color}" font-size="11" font-weight="600">${p.score}%</text>`;
@@ -1305,17 +1419,278 @@
             document.getElementById('arc-chart').innerHTML = svg;
         }
 
+        // SWE-bench Verified Chart (same style as OSWorld / GDPval)
+        function renderSweBenchChart() {
+            // SWE-bench Verified pass rates (%), pulled 2026-07-25 from the llm-stats and
+            // BenchLM aggregations of the public leaderboard — the two agree exactly on every
+            // model they both list. Chart starts at the Claude 4 generation; Claude 3.5 Sonnet
+            // (49%) predates it and would flatten the interesting range. Claude Mythos 5
+            // (95.5%) shares Fable 5's release date and is omitted to avoid an exact overlap.
+            const sweData = {
+                opus: [
+                    { model: 'Opus 4',   date: '2025-05-22', score: 72.5 },
+                    { model: 'Opus 4.1', date: '2025-08-05', score: 74.5 },
+                    { model: 'Opus 4.5', date: '2025-11-24', score: 80.9 },
+                    { model: 'Opus 4.6', date: '2026-02-05', score: 80.8 },
+                    { model: 'Opus 4.7', date: '2026-04-16', score: 87.6 },
+                    { model: 'Opus 4.8', date: '2026-05-28', score: 88.6 },
+                    { model: 'Opus 5',   date: '2026-07-24', score: 96.0 }
+                ],
+                sonnet: [
+                    { model: 'Sonnet 4',   date: '2025-05-22', score: 72.7 },
+                    { model: 'Sonnet 4.5', date: '2025-09-29', score: 77.2 },
+                    { model: 'Sonnet 4.6', date: '2026-02-17', score: 79.6 },
+                    { model: 'Sonnet 5',   date: '2026-06-30', score: 85.2 }
+                ],
+                haiku: [
+                    { model: 'Haiku 4.5', date: '2025-10-15', score: 73.3 }
+                ],
+                fable: [
+                    { model: 'Fable 5', date: '2026-06-09', score: 95.0 }
+                ],
+                mythos: [
+                    { model: 'Mythos Preview', date: '2026-04-07', score: 93.9, preview: true }
+                ]
+            };
+
+            const colors = { mythos: '#5b8a9a', fable: '#c09a5b', opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
+
+            const W = 800, H = 380;
+            const pad = { top: 30, right: 25, bottom: 55, left: 55 };
+            const cw = W - pad.left - pad.right;
+            const ch = H - pad.top - pad.bottom;
+
+            const minDate = new Date('2025-04-01T00:00:00');
+            const maxDate = new Date('2026-08-15T00:00:00');
+            const dateRange = maxDate - minDate;
+
+            const minScore = 70, maxScore = 100, step = 5;
+
+            function x(dateStr) {
+                const d = new Date(dateStr + 'T00:00:00');
+                return pad.left + ((d - minDate) / dateRange) * cw;
+            }
+            function y(score) {
+                return pad.top + ch - ((score - minScore) / (maxScore - minScore)) * ch;
+            }
+
+            let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+            for (let s = minScore; s <= maxScore; s += step) {
+                const yPos = y(s);
+                svg += `<line x1="${pad.left}" y1="${yPos}" x2="${W - pad.right}" y2="${yPos}" stroke="#e8d5c8" stroke-width="1" />`;
+                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#888" font-size="12">${s}%</text>`;
+            }
+
+            const dateLabels = [
+                { label: "Jun '25", date: '2025-06-01' },
+                { label: "Oct '25", date: '2025-10-01' },
+                { label: "Feb '26", date: '2026-02-01' },
+                { label: "Jun '26", date: '2026-06-01' }
+            ];
+            dateLabels.forEach(dl => {
+                const xPos = x(dl.date);
+                svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
+                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#888" font-size="12">${dl.label}</text>`;
+            });
+
+            svg += `<line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
+            svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
+
+            Object.entries(sweData).forEach(([series, points]) => {
+                const color = colors[series];
+
+                if (points.length > 1) {
+                    const pathD = points.map((p, i) => (i === 0 ? 'M' : 'L') + `${x(p.date)},${y(p.score)}`).join(' ');
+                    svg += `<path d="${pathD}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />`;
+                }
+
+                points.forEach(p => {
+                    const px = x(p.date);
+                    const py = y(p.score);
+                    svg += `<circle cx="${px}" cy="${py}" r="5" fill="${color}" stroke="white" stroke-width="2" />`;
+                    if (p.preview) {
+                        svg += `<line x1="${px - 3}" y1="${py + 3}" x2="${px + 3}" y2="${py - 3}" stroke="white" stroke-width="1.5" stroke-linecap="round" />`;
+                    }
+
+                    let labelY = py - 12;
+                    let labelAnchor = 'middle';
+
+                    // Opus 4 (72.5) and Sonnet 4 (72.7) ship the same day at nearly the same
+                    // score — split them vertically, then anchor sideways.
+                    if (series === 'opus' && p.model === 'Opus 4') {
+                        labelY = py + 20;
+                        labelAnchor = 'end';
+                    } else if (series === 'sonnet' && p.model === 'Sonnet 4') {
+                        labelY = py - 12;
+                        labelAnchor = 'start';
+                    } else if (series === 'opus' && p.model === 'Opus 4.5') {
+                        labelY = py - 12;
+                        labelAnchor = 'end';
+                    } else if (series === 'opus' && p.model === 'Opus 4.6') {
+                        // Opus 4.6 (80.8) and Sonnet 4.6 (79.6) land 12 days and 1.2pt
+                        // apart — lift Opus above and drop Sonnet below (see next branch)
+                        labelY = py - 12;
+                        labelAnchor = 'end';
+                    } else if (series === 'sonnet' && p.model === 'Sonnet 4.6') {
+                        labelY = py + 20;
+                        labelAnchor = 'start';
+                    } else if (series === 'opus' && p.model === 'Opus 4.8') {
+                        // Just up-right of Opus 4.7 — drop below to clear its label
+                        labelY = py + 20;
+                        labelAnchor = 'start';
+                    } else if (series === 'opus' && p.model === 'Opus 5') {
+                        // Top-right corner — anchor inward
+                        labelAnchor = 'end';
+                    } else if (series === 'fable' && p.model === 'Fable 5') {
+                        // Sits just under Opus 5's climb — label below-left
+                        labelY = py + 20;
+                        labelAnchor = 'end';
+                    } else if (series === 'mythos') {
+                        labelY = py - 12;
+                        labelAnchor = 'end';
+                    } else if (series === 'sonnet' && p.model === 'Sonnet 5') {
+                        labelY = py + 20;
+                    } else if (series === 'haiku' && p.model === 'Haiku 4.5') {
+                        labelY = py + 20;
+                    }
+
+                    svg += `<text x="${px}" y="${labelY}" text-anchor="${labelAnchor}" fill="${color}" font-size="11" font-weight="600">${p.score}%${p.preview ? ' (preview)' : ''}</text>`;
+                });
+            });
+
+            svg += '</svg>';
+            document.getElementById('swebench-chart').innerHTML = svg;
+        }
+
+        // Terminal-Bench 2.1 Chart (same style as SWE-bench / OSWorld)
+        function renderTerminalBenchChart() {
+            // Terminal-Bench 2.1 completion rates (%) from the Vals AI harness snapshot
+            // (via BenchLM), pulled 2026-07-25. Using a single harness keeps the series
+            // internally comparable; Anthropic's own max-effort number for Opus 5 (89.1%,
+            // per Artificial Analysis) is higher and noted in the caption instead.
+            // Only models with a published 2.1 run appear — the benchmark postdates the
+            // Claude 4.5 generation, so there is no long tail here.
+            const tbData = {
+                opus: [
+                    { model: 'Opus 4.7', date: '2026-04-16', score: 68.5 },
+                    { model: 'Opus 4.8', date: '2026-05-28', score: 71.9 },
+                    { model: 'Opus 5',   date: '2026-07-24', score: 84.6 }
+                ],
+                sonnet: [
+                    { model: 'Sonnet 4.6', date: '2026-02-17', score: 57.3 },
+                    { model: 'Sonnet 5',   date: '2026-06-30', score: 74.5 }
+                ],
+                haiku: [
+                    { model: 'Haiku 4.5', date: '2025-10-15', score: 43.8 }
+                ],
+                fable: [
+                    { model: 'Fable 5', date: '2026-06-09', score: 80.5 }
+                ]
+            };
+
+            const colors = { fable: '#c09a5b', opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
+
+            const W = 800, H = 380;
+            const pad = { top: 30, right: 25, bottom: 55, left: 55 };
+            const cw = W - pad.left - pad.right;
+            const ch = H - pad.top - pad.bottom;
+
+            const minDate = new Date('2025-09-01T00:00:00');
+            const maxDate = new Date('2026-08-15T00:00:00');
+            const dateRange = maxDate - minDate;
+
+            const minScore = 40, maxScore = 90, step = 10;
+
+            function x(dateStr) {
+                const d = new Date(dateStr + 'T00:00:00');
+                return pad.left + ((d - minDate) / dateRange) * cw;
+            }
+            function y(score) {
+                return pad.top + ch - ((score - minScore) / (maxScore - minScore)) * ch;
+            }
+
+            let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+            for (let s = minScore; s <= maxScore; s += step) {
+                const yPos = y(s);
+                svg += `<line x1="${pad.left}" y1="${yPos}" x2="${W - pad.right}" y2="${yPos}" stroke="#e8d5c8" stroke-width="1" />`;
+                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#888" font-size="12">${s}%</text>`;
+            }
+
+            // Current overall leader across all vendors on this snapshot
+            svg += `<line x1="${pad.left}" y1="${y(85.8)}" x2="${W - pad.right}" y2="${y(85.8)}" stroke="#b8a088" stroke-width="1.2" stroke-dasharray="5,4" />`;
+            svg += `<text x="${W - pad.right - 4}" y="${y(85.8) - 5}" text-anchor="end" fill="#b8a088" font-size="10" font-style="italic">field leader &mdash; GPT-5.6 Sol (85.8%)</text>`;
+
+            const dateLabels = [
+                { label: "Nov '25", date: '2025-11-01' },
+                { label: "Feb '26", date: '2026-02-01' },
+                { label: "May '26", date: '2026-05-01' },
+                { label: "Aug '26", date: '2026-08-01' }
+            ];
+            dateLabels.forEach(dl => {
+                const xPos = x(dl.date);
+                svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
+                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#888" font-size="12">${dl.label}</text>`;
+            });
+
+            svg += `<line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
+            svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
+
+            Object.entries(tbData).forEach(([series, points]) => {
+                const color = colors[series];
+
+                if (points.length > 1) {
+                    const pathD = points.map((p, i) => (i === 0 ? 'M' : 'L') + `${x(p.date)},${y(p.score)}`).join(' ');
+                    svg += `<path d="${pathD}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />`;
+                }
+
+                points.forEach(p => {
+                    const px = x(p.date);
+                    const py = y(p.score);
+                    svg += `<circle cx="${px}" cy="${py}" r="5" fill="${color}" stroke="white" stroke-width="2" />`;
+
+                    let labelX = px;
+                    let labelY = py - 12;
+                    let labelAnchor = 'middle';
+
+                    if (series === 'opus' && p.model === 'Opus 5') {
+                        // Boxed in: the field-leader rule sits 1.2pt above and the rising
+                        // Opus line runs through the space below-left. Park the label in the
+                        // right margin, level with the dot.
+                        labelX = px + 9;
+                        labelY = py + 4;
+                        labelAnchor = 'start';
+                    } else if (series === 'fable' && p.model === 'Fable 5') {
+                        // Sits between Opus 4.8 and Opus 5 — lift the label clear of the line
+                        labelY = py - 12;
+                        labelAnchor = 'end';
+                    } else if (series === 'sonnet' && p.model === 'Sonnet 5') {
+                        labelY = py + 20;
+                    } else if (series === 'opus' && p.model === 'Opus 4.8') {
+                        labelAnchor = 'end';
+                    }
+
+                    svg += `<text x="${labelX}" y="${labelY}" text-anchor="${labelAnchor}" fill="${color}" font-size="11" font-weight="600">${p.score}%</text>`;
+                });
+            });
+
+            svg += '</svg>';
+            document.getElementById('terminalbench-chart').innerHTML = svg;
+        }
+
         // API Pricing Chart — grouped input/output bars per current model
         function renderPricingChart() {
-            // Claude API list pricing (per million tokens) as of June 24, 2026, from
+            // Claude API list pricing (per million tokens) as of July 25, 2026, from
             // platform.claude.com/docs/en/about-claude/pricing. Claude Mythos 5 is
             // priced identically to Fable 5 but restricted to Glasswing partners,
             // so it isn't given its own bars. Sonnet 5 keeps Sonnet 4.6's $3/$15
-            // list price (introductory $2/$10 runs through Aug 31, 2026).
+            // list price (introductory $2/$10 runs through Aug 31, 2026). Opus 5
+            // holds the Opus tier at $5/$25 — unchanged from Opus 4.5 onward.
             const pricing = [
                 { name: 'Haiku 4.5',  family: 'haiku',  input: 1,  output: 5 },
                 { name: 'Sonnet 5',   family: 'sonnet', input: 3,  output: 15, introInput: 2, introOutput: 10 },
-                { name: 'Opus 4.8',   family: 'opus',   input: 5,  output: 25 },
+                { name: 'Opus 5',     family: 'opus',   input: 5,  output: 25 },
                 { name: 'Fable 5',    family: 'fable',  input: 10, output: 50 }
             ];
             const colors = { haiku: '#8fa882', sonnet: '#d4836a', opus: '#9d7bb0', fable: '#c09a5b' };
@@ -1372,7 +1747,7 @@
 
                 // "2× Opus" annotation over the Fable group
                 if (m.family === 'fable') {
-                    svg += `<text x="${cx}" y="${y(m.output) - 24}" text-anchor="middle" fill="#7a6957" font-size="11" font-style="italic">2× Opus 4.8</text>`;
+                    svg += `<text x="${cx}" y="${y(m.output) - 24}" text-anchor="middle" fill="#7a6957" font-size="11" font-style="italic">2× Opus 5</text>`;
                 }
 
                 // Model name below the axis
@@ -1391,6 +1766,8 @@
         renderTimelineChart();
         renderGapChart();
         renderPricingChart();
+        renderSweBenchChart();
+        renderTerminalBenchChart();
         renderBenchmarkChart();
         renderEarningsChart();
         renderGDPvalChart();
