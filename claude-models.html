@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Claude Model Guide - Release Cycle Tracker</title>
-    <link rel="stylesheet" href="styles.css?v=3">
+    <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
     <nav class="navbar">
@@ -36,10 +36,39 @@
                 </p>
             </div>
 
+            <div class="fleet-freshness" id="fleet-freshness"></div>
+
             <p class="last-updated">Last updated: <strong id="last-updated"></strong></p>
 
             <div class="model-grid" id="model-grid">
                 <!-- Cards will be populated by JavaScript -->
+            </div>
+
+            <div class="benchmark-section">
+                <h2 class="section-title">Release Calendar</h2>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Six weeks back and six weeks forward. Solid dots are releases that happened; hollow dots are estimates from the forecast model below, and the coloured bars along the bottom of each week mark the window each estimate is likely to land in.</p>
+                <div class="benchmark-chart-container">
+                    <div id="release-calendar"></div>
+                    <div class="benchmark-legend">
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #9d7bb0;"></div>
+                            <span>Shipped</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px dashed #9d7bb0;"></div>
+                            <span>Predicted</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px solid #e07a5f;"></div>
+                            <span>Today</span>
+                        </div>
+                    </div>
+
+                    <h4 class="forecast-heading">Forecast</h4>
+                    <div class="forecast-list" id="forecast-list"></div>
+
+                    <p class="benchmark-note" id="forecast-method"></p>
+                </div>
             </div>
 
             <div class="benchmark-section">
@@ -346,12 +375,13 @@
         </div>
 
         <div class="footer">
-            <p>Built with Claude <a href="forest.html" class="clawd-link" title="Clawd">🦀</a> Sat 07•25•26</p>
+            <p>Built with Claude <a href="forest.html" class="clawd-link" title="Clawd">🦀</a> Tue 07•28•26</p>
             <p>Data sourced from <a href="https://www.anthropic.com/news" target="_blank" rel="noopener">Anthropic News</a></p>
         </div>
     </div>
 
     <script>
+        // ===== release-data:begin =====
         // Claude model release data with announcement links
         const modelData = {
             mythos: {
@@ -412,6 +442,300 @@
                 ]
             }
         };
+        // ===== release-data:end =====
+
+        // ===== forecast:begin =====
+        // Release forecasting model.
+        //
+        // scripts/predict-releases.js lifts this block and the release-data block out of
+        // this file verbatim and runs them in a Node VM, so the page and the CLI can never
+        // drift apart. That means everything below must stay self-contained: no DOM, no
+        // reliance on helpers defined elsewhere in this script.
+        const ReleaseForecast = (function () {
+            const DAY = 24 * 60 * 60 * 1000;
+
+            // Tunables, picked by sweeping them against `predict-releases.js --backtest`
+            // rather than by taste. Anthropic's cadence has compressed hard — 444 days from
+            // Claude 3 Opus to Claude 4 Opus, 57 from Opus 4.8 to Opus 5 — so a flat mean of
+            // a family's gaps is useless. Every increase in GAP_DECAY made the backtest
+            // monotonically worse; at 0.5 the model's median error was double what it is here.
+            const GAP_DECAY = 0.25;      // each older gap counts a quarter as much as the next
+            const SHRINK_K = 1;          // pseudo-gaps pulling thin histories to the fleet baseline
+            const BASELINE_WINDOW = 6;   // family-level gaps behind the fleet baseline
+            const SPREAD_FRACTION = 0.35;// ± window as a share of the predicted gap
+            const SPREAD_MIN = 10, SPREAD_MAX = 45;
+
+            function parse(dateStr) { return new Date(dateStr + 'T00:00:00'); }
+
+            function iso(date) {
+                const m = String(date.getMonth() + 1).padStart(2, '0');
+                const d = String(date.getDate()).padStart(2, '0');
+                return `${date.getFullYear()}-${m}-${d}`;
+            }
+
+            function addDays(date, n) {
+                const out = new Date(date.getTime());
+                out.setDate(out.getDate() + n);
+                return out;
+            }
+
+            // Signed, unlike the page-level daysBetween() helper.
+            function diffDays(from, to) { return Math.round((to - from) / DAY); }
+
+            function startOfDay(date) {
+                const out = new Date(date.getTime());
+                out.setHours(0, 0, 0, 0);
+                return out;
+            }
+
+            // Only versions that actually shipped set the cadence. Preview-only drops
+            // (Mythos Preview) are excluded, matching how the Shipping Pace chart counts.
+            // cutoff keeps an as-of forecast honest: run the model against a past date and
+            // it only sees what had shipped by then.
+            function shipped(model, cutoff) {
+                return model.releases
+                    .filter(r => r.date !== 'TBD' && !r.notReleased && !r.predicted)
+                    .filter(r => !cutoff || r.date <= cutoff)
+                    .slice()
+                    .sort((a, b) => a.date.localeCompare(b.date));
+            }
+
+            function gapsFor(model, cutoff) {
+                const rel = shipped(model, cutoff);
+                const out = [];
+                for (let i = 1; i < rel.length; i++) {
+                    out.push({
+                        days: diffDays(parse(rel[i - 1].date), parse(rel[i].date)),
+                        end: rel[i].date
+                    });
+                }
+                return out;
+            }
+
+            // Geometrically weighted mean, oldest -> newest: the most recent gap carries
+            // full weight, the one before it GAP_DECAY, and so on.
+            function ewma(values) {
+                if (!values.length) return null;
+                let num = 0, den = 0;
+                values.forEach((v, i) => {
+                    const w = Math.pow(GAP_DECAY, values.length - 1 - i);
+                    num += v * w;
+                    den += w;
+                });
+                return num / den;
+            }
+
+            function median(values) {
+                if (!values.length) return null;
+                const s = values.slice().sort((a, b) => a - b);
+                const mid = Math.floor(s.length / 2);
+                return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
+            }
+
+            // Typical gap between consecutive releases *within* a family, taken across the
+            // whole lineup. This is what a family with little or no history falls back to.
+            function fleetBaseline(data, cutoff) {
+                const all = [];
+                Object.values(data).forEach(m => gapsFor(m, cutoff).forEach(g => all.push(g)));
+                all.sort((a, b) => a.end.localeCompare(b.end));
+                return median(all.slice(-BASELINE_WINDOW).map(g => g.days));
+            }
+
+            // Typical gap between consecutive *ship dates*, any family — how often something
+            // new lands, rather than how often a given family refreshes. This one describes
+            // the recent past rather than forecasting, so it takes a plain median of the
+            // recent window instead of the decayed mean used for predictions.
+            function shipCadence(data, cutoff) {
+                const dates = [];
+                Object.values(data).forEach(m => shipped(m, cutoff).forEach(r => {
+                    if (!dates.includes(r.date)) dates.push(r.date);
+                }));
+                dates.sort();
+                const gaps = [];
+                for (let i = 1; i < dates.length; i++) {
+                    gaps.push(diffDays(parse(dates[i - 1]), parse(dates[i])));
+                }
+                return median(gaps.slice(-BASELINE_WINDOW));
+            }
+
+            function zoneFor(percent) {
+                if (percent < 25) return 'fresh';
+                if (percent < 50) return 'current';
+                if (percent < 75) return 'aging';
+                return 'dated';
+            }
+
+            function forecastFamily(key, model, opts) {
+                const today = opts.today;
+                const baseline = opts.baseline;
+                const rel = shipped(model, opts.cutoff);
+                if (!rel.length) return null;
+
+                const last = rel[rel.length - 1];
+                const lastDate = parse(last.date);
+                const gaps = gapsFor(model, opts.cutoff).map(g => g.days);
+                const n = gaps.length;
+
+                // Shrink the family's own estimate toward the fleet baseline in proportion
+                // to how little history it has: one Fable release tells you nothing about
+                // Fable's cadence, eight Opus releases tell you a lot.
+                const own = ewma(gaps);
+                if (own === null && baseline === null) return null; // nothing to go on yet
+                const w = n / (n + SHRINK_K);
+                const blended = own === null ? baseline
+                    : baseline === null ? own
+                    : w * own + (1 - w) * baseline;
+                const gapDays = Math.round(blended);
+
+                const centre = addDays(lastDate, gapDays);
+                const daysSince = diffDays(lastDate, today);
+                const overdue = centre < today;
+                const spread = Math.max(SPREAD_MIN, Math.min(SPREAD_MAX, Math.round(gapDays * SPREAD_FRACTION)));
+
+                return {
+                    key,
+                    name: model.name,
+                    label: 'Next ' + model.name,
+                    lastVersion: last.version,
+                    lastDate: last.date,
+                    daysSince,
+                    sampleSize: n,
+                    ownEwma: own === null ? null : Math.round(own),
+                    baselineWeight: Math.round((1 - w) * 100),
+                    gapDays,
+                    predictedDate: iso(centre),
+                    daysFromNow: diffDays(today, centre),
+                    overdue,
+                    overdueBy: overdue ? diffDays(centre, today) : 0,
+                    // An overdue family has no meaningful future centre — it is due now, so
+                    // the window runs from today rather than from a date already behind us.
+                    windowStart: iso(overdue ? today : addDays(centre, -spread)),
+                    windowEnd: iso(addDays(overdue ? today : centre, spread)),
+                    spreadDays: spread,
+                    confidence: n >= 4 ? 'high' : n >= 2 ? 'medium' : 'low',
+                    cyclePercent: gapDays > 0 ? Math.round((daysSince / gapDays) * 100) : 0
+                };
+            }
+
+            function forecastAll(data, asOf) {
+                const today = startOfDay(asOf ? (typeof asOf === 'string' ? parse(asOf) : asOf) : new Date());
+                const cutoff = iso(today);
+                const baseline = fleetBaseline(data, cutoff);
+                const families = Object.entries(data)
+                    .map(([key, model]) => forecastFamily(key, model, { today, baseline, cutoff }))
+                    .filter(Boolean)
+                    .sort((a, b) => a.predictedDate.localeCompare(b.predictedDate));
+                const cadence = shipCadence(data, cutoff);
+                return {
+                    asOf: cutoff,
+                    baselineGap: baseline === null ? null : Math.round(baseline), // display only; families use full precision
+                    shipCadence: cadence === null ? null : Math.round(cadence),
+                    families
+                };
+            }
+
+            // Lineup-wide freshness: how long since anything shipped, and how old the
+            // average family flagship is against how long a family cycle usually runs.
+            function fleetFreshness(data, asOf) {
+                const fc = forecastAll(data, asOf);
+                const today = parse(fc.asOf);
+                if (!fc.families.length || !fc.shipCadence) return null;
+
+                let newest = null;
+                fc.families.forEach(f => {
+                    if (!newest || f.lastDate > newest.lastDate) newest = f;
+                });
+
+                const ages = fc.families.map(f => f.daysSince);
+                const avgAge = ages.reduce((a, b) => a + b, 0) / ages.length;
+                const avgCycle = fc.families.reduce((a, f) => a + f.gapDays, 0) / fc.families.length;
+                const oldest = fc.families.slice().sort((a, b) => b.daysSince - a.daysSince)[0];
+
+                const newestPct = Math.round((newest.daysSince / fc.shipCadence) * 100);
+                const avgPct = Math.round((avgAge / avgCycle) * 100);
+
+                return {
+                    asOf: fc.asOf,
+                    modelCount: fc.families.length,
+                    shipCadence: fc.shipCadence,
+                    newest: {
+                        version: newest.lastVersion,
+                        family: newest.name,
+                        date: newest.lastDate,
+                        daysSince: newest.daysSince,
+                        percent: newestPct,
+                        zone: zoneFor(newestPct)
+                    },
+                    average: {
+                        ageDays: Math.round(avgAge),
+                        cycleDays: Math.round(avgCycle),
+                        percent: avgPct,
+                        zone: zoneFor(avgPct),
+                        oldestFamily: oldest.name,
+                        oldestVersion: oldest.lastVersion,
+                        oldestDays: oldest.daysSince
+                    },
+                    today
+                };
+            }
+
+            // Replay history: for every release, forecast it from the day before and score
+            // the answer. This is what the tunables above were chosen against, and it keeps
+            // the accuracy claims on the page honest as new releases are added.
+            function backtest(data) {
+                const results = [];
+                Object.entries(data).forEach(([key, model]) => {
+                    shipped(model).forEach((r, i) => {
+                        if (i === 0) return; // nothing to forecast from
+                        const eve = iso(addDays(parse(r.date), -1));
+                        const f = forecastAll(data, eve).families.find(x => x.key === key);
+                        if (!f) return;
+                        results.push({
+                            family: model.name,
+                            version: r.version,
+                            actual: r.date,
+                            predicted: f.predictedDate,
+                            errorDays: diffDays(parse(r.date), parse(f.predictedDate)),
+                            inWindow: f.windowStart <= r.date && r.date <= f.windowEnd,
+                            overdue: f.overdue,
+                            sampleSize: f.sampleSize,
+                            confidence: f.confidence
+                        });
+                    });
+                });
+                results.sort((a, b) => a.actual.localeCompare(b.actual));
+
+                const abs = results.map(r => Math.abs(r.errorDays));
+                const signed = results.map(r => r.errorDays);
+                // An "overdue" call says "any day now", so it trivially contains the next
+                // day. Score those separately rather than letting them flatter the hit rate.
+                const live = results.filter(r => !r.overdue);
+                const pct = (a, b) => (b ? Math.round((a / b) * 100) : null);
+
+                return {
+                    results,
+                    summary: {
+                        count: results.length,
+                        medianAbsErrorDays: median(abs),
+                        meanAbsErrorDays: abs.length ? Math.round(abs.reduce((a, b) => a + b, 0) / abs.length) : null,
+                        meanSignedErrorDays: signed.length ? Math.round(signed.reduce((a, b) => a + b, 0) / signed.length) : null,
+                        hitRate: pct(results.filter(r => r.inWindow).length, results.length),
+                        overdueCalls: results.length - live.length,
+                        datedHitRate: pct(live.filter(r => r.inWindow).length, live.length),
+                        latest: results[results.length - 1] || null
+                    }
+                };
+            }
+
+            return {
+                forecastAll,
+                fleetFreshness,
+                backtest,
+                zoneFor,
+                helpers: { parse, iso, addDays, diffDays, startOfDay, shipped, gapsFor }
+            };
+        })();
+        // ===== forecast:end =====
 
         function parseDate(dateStr) {
             if (dateStr === 'TBD') return null;
@@ -648,6 +972,294 @@
                 html += createModelCard(key, model);
             }
             grid.innerHTML = html;
+        }
+
+        const FAMILY_COLORS = { mythos: '#5b8a9a', fable: '#c09a5b', opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
+
+        // Lineup Freshness — one rail, two readings: how long since anything shipped,
+        // and how far through its cycle the average family sits.
+        function renderFleetFreshness() {
+            const f = ReleaseForecast.fleetFreshness(modelData);
+            const zoneName = z => z.charAt(0).toUpperCase() + z.slice(1);
+
+            function marker(reading, kind, caption, detail) {
+                const pct = Math.max(3, Math.min(97, reading.percent));
+                // Keep captions inside the card when a marker sits near either end.
+                const shift = pct > 78 ? '-82%' : pct < 22 ? '-18%' : '-50%';
+                return `
+                    <div class="fleet-marker ${kind}" style="left: ${pct}%">
+                        <div class="fleet-marker-caption ${kind === 'newest' ? 'above' : 'below'}" style="transform: translateX(${shift})">
+                            <span class="fleet-marker-title">${caption}</span>
+                            <span class="fleet-marker-detail">${detail}</span>
+                        </div>
+                        <div class="fleet-marker-dot zone-${reading.zone}" title="${zoneName(reading.zone)} — ${reading.percent}% of cycle">${reading.percent}%</div>
+                    </div>
+                `;
+            }
+
+            const n = f.newest, a = f.average;
+            document.getElementById('fleet-freshness').innerHTML = `
+                <div class="fleet-head">
+                    <h2 class="fleet-title">Lineup Freshness</h2>
+                    <div class="fleet-verdicts">
+                        <span class="fleet-verdict zone-${n.zone}">Newest: ${zoneName(n.zone)}</span>
+                        <span class="fleet-verdict zone-${a.zone}">Lineup average: ${zoneName(a.zone)}</span>
+                    </div>
+                </div>
+
+                <div class="fleet-rail">
+                    <div class="fleet-rail-labels">
+                        <span class="zone-fresh">Fresh</span>
+                        <span class="zone-current">Current</span>
+                        <span class="zone-aging">Aging</span>
+                        <span class="zone-dated">Dated</span>
+                    </div>
+                    <div class="fleet-rail-track">
+                        <span class="rail-tick" style="left: 25%"></span>
+                        <span class="rail-tick" style="left: 50%"></span>
+                        <span class="rail-tick" style="left: 75%"></span>
+                        ${marker(n, 'newest', 'Newest release', `${n.version} · ${n.daysSince}d ago`)}
+                        ${marker(a, 'average', 'Lineup average', `${a.ageDays}d old across ${f.modelCount} families`)}
+                    </div>
+                </div>
+
+                <div class="fleet-stats">
+                    <div class="fleet-stat">
+                        <div class="fleet-stat-value">${n.daysSince}</div>
+                        <div class="fleet-stat-label">Days since ${n.version}</div>
+                    </div>
+                    <div class="fleet-stat">
+                        <div class="fleet-stat-value">${a.ageDays}</div>
+                        <div class="fleet-stat-label">Avg model age (days)</div>
+                    </div>
+                    <div class="fleet-stat">
+                        <div class="fleet-stat-value">${f.shipCadence}</div>
+                        <div class="fleet-stat-label">Ship cadence (days)</div>
+                    </div>
+                    <div class="fleet-stat">
+                        <div class="fleet-stat-value">${a.cycleDays}</div>
+                        <div class="fleet-stat-label">Avg family cycle (days)</div>
+                    </div>
+                </div>
+
+                <p class="fleet-note">
+                    The left dot measures the newest release of any family against how often
+                    something &mdash; anything &mdash; ships (${f.shipCadence} days). The right dot measures the average
+                    age of the ${f.modelCount} family flagships (${a.ageDays} days) against how long a family
+                    typically goes between refreshes (${a.cycleDays} days). They can disagree sharply, and
+                    right now they do: ${n.version} is ${n.daysSince} days old, but ${a.oldestVersion} has sat
+                    untouched for ${a.oldestDays} days and drags the average ${a.zone === 'fresh' ? 'down' : 'up'}.
+                </p>
+            `;
+        }
+
+        // Release Calendar — ±6 weeks, shipped releases and forecast estimates on one grid
+        function renderReleaseCalendar() {
+            const H = ReleaseForecast.helpers;
+            const fc = ReleaseForecast.forecastAll(modelData);
+            const today = H.parse(fc.asOf);
+            const fmt = s => H.parse(s).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const shortFmt = s => H.parse(s).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+            const WEEKS = 6;
+            const gridStart = H.addDays(H.addDays(today, -WEEKS * 7), -H.addDays(today, -WEEKS * 7).getDay());
+            const lastDay = H.addDays(today, WEEKS * 7);
+            const gridEnd = H.addDays(lastDay, 6 - lastDay.getDay());
+            const rows = Math.round((H.diffDays(gridStart, gridEnd) + 1) / 7);
+
+            const W = 880;
+            const pad = { top: 54, right: 18, bottom: 42, left: 84 };
+            const colW = (W - pad.left - pad.right) / 7;
+            const rowH = 52;
+            const chartH = pad.top + rows * rowH + pad.bottom;
+            // Strip inside the lower half of each cell, reserved for estimate-window lanes
+            const LANE_TOP = 31, LANE_H = 3.5, LANE_GAP = 1.5;
+
+            const cellIndex = d => H.diffDays(gridStart, d);
+            const colOf = d => cellIndex(d) % 7;
+            const rowOf = d => Math.floor(cellIndex(d) / 7);
+            const cellX = d => pad.left + colOf(d) * colW;
+            const cellY = d => pad.top + rowOf(d) * rowH;
+            const inGrid = d => d >= gridStart && d <= gridEnd;
+
+            // Everything landing on the grid, keyed by day so same-day drops can stack.
+            const items = {};
+            function place(date, item) {
+                if (!inGrid(date)) return;
+                const key = H.iso(date);
+                (items[key] = items[key] || []).push(item);
+            }
+
+            Object.entries(modelData).forEach(([key, model]) => {
+                model.releases.forEach(r => {
+                    if (r.date === 'TBD' || r.predicted) return;
+                    const d = H.parse(r.date);
+                    if (d > today) return;
+                    place(d, {
+                        family: key,
+                        label: r.version.replace('Claude ', ''),
+                        shipped: true,
+                        marked: !!(r.notReleased || r.restricted)
+                    });
+                });
+            });
+
+            const beyond = [];
+            fc.families.forEach(f => {
+                // An overdue family has no future centre to plot — it is due now, so it sits
+                // on today's cell rather than at a date that has already passed.
+                const d = f.overdue ? today : H.parse(f.predictedDate);
+                if (!inGrid(d)) { beyond.push(f); return; }
+                place(d, { family: f.key, label: f.label, shipped: false, overdue: f.overdue, forecast: f });
+            });
+
+            let svg = `<svg viewBox="0 0 ${W} ${chartH}" xmlns="http://www.w3.org/2000/svg">`;
+
+            // Hatch marking forecast territory
+            svg += `<defs><pattern id="cal-future" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+                <rect width="8" height="8" fill="#fffaf4" />
+                <line x1="0" y1="0" x2="0" y2="8" stroke="#f1e2d5" stroke-width="1.2" />
+            </pattern></defs>`;
+
+            // Weekday header
+            ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].forEach((d, i) => {
+                svg += `<text x="${pad.left + i * colW + colW / 2}" y="${pad.top - 12}" text-anchor="middle" fill="#a88a6e" font-size="11" font-weight="700" letter-spacing="0.6">${d.toUpperCase()}</text>`;
+            });
+
+            // Day cells
+            let todayRing = '';
+            for (let i = 0; i < rows * 7; i++) {
+                const d = H.addDays(gridStart, i);
+                const isToday = H.iso(d) === fc.asOf;
+                const future = d > today;
+                const x = cellX(d), y = cellY(d);
+
+                svg += `<rect x="${x + 1}" y="${y + 1}" width="${colW - 2}" height="${rowH - 2}" rx="4" fill="${future ? 'url(#cal-future)' : '#fffdfa'}" stroke="#f0e2d6" stroke-width="1" />`;
+
+                const dayLabel = d.getDate() === 1
+                    ? d.toLocaleDateString('en-US', { month: 'short' }) + ' 1'
+                    : String(d.getDate());
+                svg += `<text x="${x + 6}" y="${y + 13}" fill="${isToday ? '#e07a5f' : '#c4ab94'}" font-size="9.5" font-weight="${isToday ? 700 : 500}">${dayLabel}</text>`;
+                if (isToday) {
+                    svg += `<text x="${x + colW - 6}" y="${y + 13}" text-anchor="end" fill="#e07a5f" font-size="8.5" font-weight="700" letter-spacing="0.5">TODAY</text>`;
+                    // Held back and stroked after the estimate bands so it stays on top
+                    todayRing = `<rect x="${x + 1}" y="${y + 1}" width="${colW - 2}" height="${rowH - 2}" rx="4" fill="none" stroke="#e07a5f" stroke-width="2" />`;
+                }
+            }
+
+            // Estimate windows. Drawn over the cells (an opaque cell fill would hide them)
+            // as a thin lane per family rather than a full-height band: four overlapping
+            // windows shaded across whole cells stack into one muddy block that says nothing.
+            // Each family keeps the same lane on every row, so a bar is identifiable by
+            // colour and height alone.
+            const laneFamilies = fc.families.filter(f =>
+                H.parse(f.windowEnd) >= gridStart && H.parse(f.windowStart) <= gridEnd);
+
+            laneFamilies.forEach((f, lane) => {
+                const start = H.parse(f.windowStart);
+                const end = H.parse(f.windowEnd);
+                const laneY = LANE_TOP + lane * (LANE_H + LANE_GAP);
+                let cur = start < gridStart ? gridStart : start;
+                const stop = end > gridEnd ? gridEnd : end;
+                while (cur <= stop) {
+                    const rowEnd = H.addDays(cur, 6 - colOf(cur));
+                    const segEnd = rowEnd > stop ? stop : rowEnd;
+                    const x = cellX(cur) + 4;
+                    const width = (colOf(segEnd) - colOf(cur) + 1) * colW - 8;
+                    svg += `<g><title>${f.label} — likely between ${shortFmt(f.windowStart)} and ${shortFmt(f.windowEnd)}</title>`;
+                    svg += `<rect x="${x}" y="${cellY(cur) + laneY}" width="${width}" height="${LANE_H}" rx="1.75" fill="${FAMILY_COLORS[f.key]}" fill-opacity="0.65" /></g>`;
+                    cur = H.addDays(segEnd, 1);
+                }
+            });
+
+            svg += todayRing;
+
+            // Week-of labels in the gutter
+            for (let r = 0; r < rows; r++) {
+                const weekStart = H.addDays(gridStart, r * 7);
+                const y = pad.top + r * rowH + rowH / 2 + 4;
+                svg += `<text x="${pad.left - 12}" y="${y}" text-anchor="end" fill="#a88a6e" font-size="11" font-weight="600">${weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</text>`;
+            }
+
+            // Release dots
+            Object.entries(items).forEach(([dateStr, list]) => {
+                const d = H.parse(dateStr);
+                const x = cellX(d), y = cellY(d);
+                const step = list.length > 1 ? 12 : 0;
+                const startY = y + 21 - step * (list.length - 1) / 2;
+
+                list.forEach((item, i) => {
+                    const cy = startY + i * step;
+                    const cx = x + 13;
+                    const color = FAMILY_COLORS[item.family];
+                    const tip = item.shipped
+                        ? `${item.label} — shipped ${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`
+                        : `${item.label} — estimated ${item.overdue ? 'overdue, due now' : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} (${item.forecast.confidence} confidence)`;
+
+                    svg += `<g><title>${tip}</title>`;
+                    if (item.shipped) {
+                        svg += `<circle cx="${cx}" cy="${cy}" r="5.5" fill="${color}" stroke="white" stroke-width="2" />`;
+                        if (item.marked) {
+                            svg += `<line x1="${cx - 3}" y1="${cy + 3}" x2="${cx + 3}" y2="${cy - 3}" stroke="white" stroke-width="1.5" stroke-linecap="round" />`;
+                        }
+                    } else {
+                        svg += `<circle cx="${cx}" cy="${cy}" r="5.5" fill="#fffdfa" stroke="${color}" stroke-width="2" stroke-dasharray="2.6,2.2" />`;
+                    }
+                    const weight = item.shipped ? 700 : 600;
+                    const style = item.shipped ? '' : ' font-style="italic"';
+                    svg += `<text x="${cx + 9}" y="${cy + 3.5}" fill="${color}" font-size="${list.length > 1 ? 9 : 10}" font-weight="${weight}"${style}>${item.label}${item.shipped ? '' : ' ?'}</text>`;
+                    svg += `</g>`;
+                });
+            });
+
+            // Lane key — the bars in the cells are only readable if you know whose they are.
+            if (laneFamilies.length) {
+                const keyY = pad.top + rows * rowH + 24;
+                const entries = laneFamilies.map(f => f.name);
+                const widths = entries.map(n => 24 + n.length * 6.2);
+                const totalW = widths.reduce((a, b) => a + b, 0) + 14 + 96;
+                let kx = pad.left + (W - pad.left - pad.right - totalW) / 2;
+                svg += `<text x="${kx}" y="${keyY + 4}" fill="#a88a6e" font-size="10" font-weight="600">Estimate windows:</text>`;
+                kx += 96;
+                laneFamilies.forEach((f, i) => {
+                    svg += `<rect x="${kx}" y="${keyY}" width="16" height="3" rx="1.5" fill="${FAMILY_COLORS[f.key]}" fill-opacity="0.8" />`;
+                    svg += `<text x="${kx + 21}" y="${keyY + 4}" fill="${FAMILY_COLORS[f.key]}" font-size="10" font-weight="600">${f.name}</text>`;
+                    kx += widths[i] + 14;
+                });
+            }
+
+            document.getElementById('release-calendar').innerHTML = svg;
+
+            // Forecast table
+            const rowsHTML = fc.families.map(f => {
+                const delta = f.overdue
+                    ? `<span class="forecast-delta overdue">${f.overdueBy}d overdue</span>`
+                    : `<span class="forecast-delta">in ${f.daysFromNow}d</span>`;
+                const basis = f.sampleSize === 0
+                    ? 'no prior gaps, baseline only'
+                    : `${f.sampleSize} gap${f.sampleSize === 1 ? '' : 's'}, weighted ${f.ownEwma}d, ${f.baselineWeight}% baseline`;
+                return `
+                    <div class="forecast-row" style="--fam: ${FAMILY_COLORS[f.key]}">
+                        <span class="forecast-fam">${f.label}</span>
+                        <span class="forecast-date">${fmt(f.predictedDate)}</span>
+                        ${delta}
+                        <span class="forecast-basis">${f.gapDays}d cycle &middot; window ${shortFmt(f.windowStart)}&ndash;${shortFmt(f.windowEnd)} &middot; ${basis}</span>
+                        <span class="forecast-conf conf-${f.confidence}">${f.confidence}</span>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('forecast-list').innerHTML = rowsHTML;
+
+            const outside = beyond.map(f => `${f.label} (${fmt(f.predictedDate)})`).join(', ');
+            const bt = ReleaseForecast.backtest(modelData).summary;
+            const latest = bt.latest;
+            document.getElementById('forecast-method').innerHTML =
+                `Each family's next release is estimated from a decayed average of its own release gaps &mdash; the most recent gap carries full weight, the one before it a quarter, the one before that a sixteenth &mdash; then shrunk toward the lineup-wide baseline of ${fc.baselineGap} days in proportion to how little history the family has. Fable and Mythos have shipped once each, so they are entirely baseline. A family whose estimated date has already passed is marked overdue and plotted on today.`
+                + (outside ? ` Falling outside this window: ${outside}.` : '')
+                + ` Replaying all ${bt.count} past releases, forecasting each from the day before it shipped, the median error is ${bt.medianAbsErrorDays} days and the actual date landed inside the estimate window ${bt.datedHitRate}% of the time`
+                + (latest ? `; the most recent call, ${latest.version.replace('Claude ', '')}, was ${Math.abs(latest.errorDays)} day${Math.abs(latest.errorDays) === 1 ? '' : 's'} out` : '')
+                + `. The decay rate and shrinkage were picked by sweeping them against that backtest, not by taste.`
+                + ` Run it yourself with <code>node scripts/predict-releases.js --backtest</code>, which lifts this code out of the page so the two can't disagree. Estimates only &mdash; Anthropic publishes no schedule.`;
         }
 
         // OSWorld Benchmark Chart
@@ -1936,6 +2548,8 @@
 
         // Initialize
         render();
+        renderFleetFreshness();
+        renderReleaseCalendar();
         renderTimelineChart();
         renderGapChart();
         renderPricingChart();

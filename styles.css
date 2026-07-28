@@ -1112,6 +1112,257 @@ a:hover {
 .status-rail-marker.badge-aging   { background: #d4836a; }
 .status-rail-marker.badge-dated   { background: #c9705e; }
 
+/* Lineup-wide freshness bar — same four zones as the per-model rails, but
+   carrying two readings at once: newest release, and the lineup average. */
+.fleet-freshness {
+  background: linear-gradient(135deg, var(--color-bg-card-accent) 0%, var(--color-bg-card-accent-end) 100%);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem 1.6rem 1.25rem;
+  margin: 1.75rem 0 1.5rem;
+}
+
+.fleet-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.fleet-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-section-title);
+  letter-spacing: 0.3px;
+  margin: 0;
+}
+
+.fleet-verdicts {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.fleet-verdict {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+}
+
+.fleet-verdict.zone-fresh   { background: rgba(141, 168, 130, 0.2); color: #5a7550; }
+.fleet-verdict.zone-current { background: rgba(102, 102, 102, 0.15); color: #555; }
+.fleet-verdict.zone-aging   { background: rgba(212, 131, 106, 0.2); color: #a86a52; }
+.fleet-verdict.zone-dated   { background: rgba(201, 112, 94, 0.2); color: var(--color-primary-hover); }
+
+.fleet-rail {
+  margin-top: 1rem;
+}
+
+.fleet-rail-labels {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.fleet-rail-labels > span {
+  text-align: center;
+  opacity: 0.65;
+}
+
+.fleet-rail-labels .zone-fresh { color: #5a7550; }
+.fleet-rail-labels .zone-current { color: #6b6b6b; }
+.fleet-rail-labels .zone-aging { color: #a86a52; }
+.fleet-rail-labels .zone-dated { color: var(--color-primary-hover, #c9705e); }
+
+/* Vertical room for the captions that sit above and below the track */
+.fleet-rail-track {
+  position: relative;
+  height: 10px;
+  border-radius: 5px;
+  margin: 44px 4px 52px;
+  background: linear-gradient(to right,
+    rgba(141, 168, 130, 0.55) 0%,
+    rgba(141, 168, 130, 0.55) 25%,
+    rgba(120, 120, 120, 0.28) 25%,
+    rgba(120, 120, 120, 0.28) 50%,
+    rgba(212, 131, 106, 0.55) 50%,
+    rgba(212, 131, 106, 0.55) 75%,
+    rgba(201, 112, 94, 0.72) 75%,
+    rgba(201, 112, 94, 0.72) 100%);
+}
+
+.fleet-rail-track .rail-tick {
+  top: -2px;
+  height: 14px;
+}
+
+.fleet-marker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.fleet-marker-dot {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 7px rgba(93, 70, 54, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.66rem;
+}
+
+/* The average marker reads as a ring so the two are told apart without colour */
+.fleet-marker.average .fleet-marker-dot {
+  background: #fffdfa;
+  border-width: 4px;
+}
+
+.fleet-marker-dot.zone-fresh   { background: #8fa882; }
+.fleet-marker-dot.zone-current { background: #8a8a8a; }
+.fleet-marker-dot.zone-aging   { background: #d4836a; }
+.fleet-marker-dot.zone-dated   { background: #c9705e; }
+
+.fleet-marker.average .fleet-marker-dot.zone-fresh   { border-color: #8fa882; color: #5a7550; }
+.fleet-marker.average .fleet-marker-dot.zone-current { border-color: #8a8a8a; color: #555; }
+.fleet-marker.average .fleet-marker-dot.zone-aging   { border-color: #d4836a; color: #a86a52; }
+.fleet-marker.average .fleet-marker-dot.zone-dated   { border-color: #c9705e; color: var(--color-primary-hover); }
+
+.fleet-marker-caption {
+  position: absolute;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  white-space: nowrap;
+  line-height: 1.25;
+}
+
+.fleet-marker-caption.above { bottom: 26px; }
+.fleet-marker-caption.below { top: 26px; }
+
+.fleet-marker-title {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  letter-spacing: 0.2px;
+}
+
+.fleet-marker-detail {
+  font-size: 0.66rem;
+  color: var(--color-text-light);
+}
+
+.fleet-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+.fleet-stat {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 0.5rem;
+  text-align: center;
+}
+
+.fleet-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  line-height: 1.1;
+}
+
+.fleet-stat-label {
+  font-size: 0.68rem;
+  color: var(--color-text-muted);
+  margin-top: 0.15rem;
+}
+
+.fleet-note {
+  font-size: 0.75rem;
+  color: #8c7b6b;
+  line-height: 1.5;
+  margin: 0.9rem 0 0;
+}
+
+/* Forecast table under the release calendar */
+.forecast-heading {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--color-text-muted);
+  margin: 1.4rem 0 0.6rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.forecast-row {
+  display: grid;
+  grid-template-columns: 6.5rem 7rem 6rem 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  border-left: 3px solid var(--fam, var(--color-border));
+  background: rgba(255, 255, 255, 0.55);
+  margin-bottom: 0.35rem;
+}
+
+.forecast-fam {
+  font-weight: 700;
+  color: var(--fam);
+}
+
+.forecast-date {
+  color: var(--color-text-dark);
+  font-weight: 600;
+}
+
+.forecast-delta {
+  color: var(--color-text-light);
+}
+
+.forecast-delta.overdue {
+  color: var(--color-primary-hover);
+  font-weight: 700;
+}
+
+.forecast-basis {
+  color: #9a8874;
+  font-size: 0.72rem;
+}
+
+.forecast-conf {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 0.15rem 0.5rem;
+  border-radius: 20px;
+  justify-self: start;
+}
+
+.conf-high { background: rgba(141, 168, 130, 0.22); color: #5a7550; }
+.conf-medium { background: rgba(212, 131, 106, 0.2); color: #a86a52; }
+.conf-low { background: rgba(120, 120, 120, 0.16); color: #6b6b6b; }
+
 .stats-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1501,6 +1752,38 @@ a:hover {
 
   .stats-grid {
     grid-template-columns: 1fr;
+  }
+
+  .fleet-freshness {
+    padding: 1.1rem 1rem 1rem;
+  }
+
+  .fleet-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .fleet-marker-detail {
+    display: none;
+  }
+
+  .forecast-row {
+    grid-template-columns: 1fr auto;
+    row-gap: 0.2rem;
+  }
+
+  .forecast-basis {
+    grid-column: 1 / -1;
+  }
+
+  /* A 13-week grid scaled to phone width loses its day numbers entirely, so let
+     the calendar scroll inside its own box rather than shrinking to illegible. */
+  #release-calendar {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #release-calendar svg {
+    min-width: 620px;
   }
 
   .release-list li {
