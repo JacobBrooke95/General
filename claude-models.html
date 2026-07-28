@@ -46,7 +46,7 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">Release Calendar</h2>
-                <p class="benchmark-note" style="margin-bottom: 18px;">Six weeks back and six weeks forward. Solid dots are releases that happened; hollow dots are estimates from the forecast model below, and the coloured bars along the bottom of each week mark the window each estimate is likely to land in.</p>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Six weeks back and six weeks forward on one date axis, a lane per family, pivoting on today. Solid dots are releases that happened; hollow dots are estimates from the forecast model below, each sitting on a dashed bar spanning the window it is likely to land in.</p>
                 <div class="benchmark-chart-container">
                     <div id="release-calendar"></div>
                     <div class="benchmark-legend">
@@ -59,7 +59,11 @@
                             <span>Predicted</span>
                         </div>
                         <div class="benchmark-legend-item">
-                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px solid #e07a5f;"></div>
+                            <div class="benchmark-legend-dot" style="background: rgba(157,123,176,0.18); border: 1px dashed rgba(157,123,176,0.8); width: 26px; height: 11px; border-radius: 6px;"></div>
+                            <span>Estimate window</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #e07a5f; width: 2px; height: 14px; border-radius: 0;"></div>
                             <span>Today</span>
                         </div>
                     </div>
@@ -1053,7 +1057,11 @@
             `;
         }
 
-        // Release Calendar — ±6 weeks, shipped releases and forecast estimates on one grid
+        // Release Calendar — the last and next six weeks on a single date axis, one lane
+        // per family. This started as a month grid and that was the wrong shape: five
+        // events across ninety-one days left almost every cell empty, and a fifty-day
+        // estimate window drawn across seven identical cells read as a table rule rather
+        // than an interval. On a real axis, a window is just a bar of the right length.
         function renderReleaseCalendar() {
             const H = ReleaseForecast.helpers;
             const fc = ReleaseForecast.forecastAll(modelData);
@@ -1062,173 +1070,159 @@
             const shortFmt = s => H.parse(s).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
             const WEEKS = 6;
-            const gridStart = H.addDays(H.addDays(today, -WEEKS * 7), -H.addDays(today, -WEEKS * 7).getDay());
-            const lastDay = H.addDays(today, WEEKS * 7);
-            const gridEnd = H.addDays(lastDay, 6 - lastDay.getDay());
-            const rows = Math.round((H.diffDays(gridStart, gridEnd) + 1) / 7);
+            const SPAN = WEEKS * 14;                        // days, end to end
+            const axisStart = H.addDays(today, -WEEKS * 7);
+            const axisEnd = H.addDays(today, WEEKS * 7);
 
+            const laneOrder = ['mythos', 'fable', 'opus', 'sonnet', 'haiku'];
             const W = 880;
-            const pad = { top: 54, right: 18, bottom: 42, left: 84 };
-            const colW = (W - pad.left - pad.right) / 7;
-            const rowH = 52;
-            const chartH = pad.top + rows * rowH + pad.bottom;
-            // Strip inside the lower half of each cell, reserved for estimate-window lanes
-            const LANE_TOP = 31, LANE_H = 3.5, LANE_GAP = 1.5;
+            const pad = { top: 58, right: 30, bottom: 30, left: 82 };
+            const laneH = 46;
+            const plotW = W - pad.left - pad.right;
+            const plotH = laneOrder.length * laneH;
+            const chartH = pad.top + plotH + pad.bottom;
 
-            const cellIndex = d => H.diffDays(gridStart, d);
-            const colOf = d => cellIndex(d) % 7;
-            const rowOf = d => Math.floor(cellIndex(d) / 7);
-            const cellX = d => pad.left + colOf(d) * colW;
-            const cellY = d => pad.top + rowOf(d) * rowH;
-            const inGrid = d => d >= gridStart && d <= gridEnd;
+            const x = d => pad.left + (H.diffDays(axisStart, d) / SPAN) * plotW;
+            const clampX = v => Math.max(pad.left, Math.min(W - pad.right, v));
+            const laneTop = i => pad.top + i * laneH;
+            const laneY = i => laneTop(i) + laneH / 2;
+            const xToday = x(today);
 
-            // Everything landing on the grid, keyed by day so same-day drops can stack.
-            const items = {};
-            function place(date, item) {
-                if (!inGrid(date)) return;
-                const key = H.iso(date);
-                (items[key] = items[key] || []).push(item);
-            }
-
-            Object.entries(modelData).forEach(([key, model]) => {
-                model.releases.forEach(r => {
-                    if (r.date === 'TBD' || r.predicted) return;
-                    const d = H.parse(r.date);
-                    if (d > today) return;
-                    place(d, {
-                        family: key,
-                        label: r.version.replace('Claude ', ''),
-                        shipped: true,
-                        marked: !!(r.notReleased || r.restricted)
-                    });
-                });
-            });
-
-            const beyond = [];
-            fc.families.forEach(f => {
-                // An overdue family has no future centre to plot — it is due now, so it sits
-                // on today's cell rather than at a date that has already passed.
-                const d = f.overdue ? today : H.parse(f.predictedDate);
-                if (!inGrid(d)) { beyond.push(f); return; }
-                place(d, { family: f.key, label: f.label, shipped: false, overdue: f.overdue, forecast: f });
+            // Estimates whose centre lands past either end of the axis — named under the
+            // chart instead, so a reader never assumes an empty lane means nothing is coming.
+            const beyond = fc.families.filter(f => {
+                const centre = f.overdue ? today : H.parse(f.predictedDate);
+                return centre < axisStart || centre > axisEnd;
             });
 
             let svg = `<svg viewBox="0 0 ${W} ${chartH}" xmlns="http://www.w3.org/2000/svg">`;
 
-            // Hatch marking forecast territory
-            svg += `<defs><pattern id="cal-future" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
-                <rect width="8" height="8" fill="#fffaf4" />
-                <line x1="0" y1="0" x2="0" y2="8" stroke="#f1e2d5" stroke-width="1.2" />
-            </pattern></defs>`;
+            // The forecast half stands on its own ground. Semi-transparent, not a flat
+            // colour — the container behind it is a gradient, so a solid fill would drift
+            // out of step with it across the width.
+            svg += `<rect x="${xToday}" y="${pad.top}" width="${W - pad.right - xToday}" height="${plotH}" fill="rgba(184, 146, 104, 0.09)" />`;
 
-            // Weekday header
-            ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].forEach((d, i) => {
-                svg += `<text x="${pad.left + i * colW + colW / 2}" y="${pad.top - 12}" text-anchor="middle" fill="#a88a6e" font-size="11" font-weight="700" letter-spacing="0.6">${d.toUpperCase()}</text>`;
+            // Lanes. No alternating bands: the family colour carries the row, and a band
+            // drawn over the forecast ground would erase the past/future split on that row.
+            laneOrder.forEach((fam, i) => {
+                svg += `<line x1="${pad.left}" y1="${laneY(i)}" x2="${W - pad.right}" y2="${laneY(i)}" stroke="${FAMILY_COLORS[fam]}" stroke-width="1" stroke-opacity="0.22" />`;
+                svg += `<text x="${pad.left - 14}" y="${laneY(i) + 4}" text-anchor="end" fill="${FAMILY_COLORS[fam]}" font-size="12.5" font-weight="700">${modelData[fam].name}</text>`;
             });
 
-            // Day cells
-            let todayRing = '';
-            for (let i = 0; i < rows * 7; i++) {
-                const d = H.addDays(gridStart, i);
-                const isToday = H.iso(d) === fc.asOf;
-                const future = d > today;
-                const x = cellX(d), y = cellY(d);
-
-                svg += `<rect x="${x + 1}" y="${y + 1}" width="${colW - 2}" height="${rowH - 2}" rx="4" fill="${future ? 'url(#cal-future)' : '#fffdfa'}" stroke="#f0e2d6" stroke-width="1" />`;
-
-                const dayLabel = d.getDate() === 1
-                    ? d.toLocaleDateString('en-US', { month: 'short' }) + ' 1'
-                    : String(d.getDate());
-                svg += `<text x="${x + 6}" y="${y + 13}" fill="${isToday ? '#e07a5f' : '#c4ab94'}" font-size="9.5" font-weight="${isToday ? 700 : 500}">${dayLabel}</text>`;
-                if (isToday) {
-                    svg += `<text x="${x + colW - 6}" y="${y + 13}" text-anchor="end" fill="#e07a5f" font-size="8.5" font-weight="700" letter-spacing="0.5">TODAY</text>`;
-                    // Held back and stroked after the estimate bands so it stays on top
-                    todayRing = `<rect x="${x + 1}" y="${y + 1}" width="${colW - 2}" height="${rowH - 2}" rx="4" fill="none" stroke="#e07a5f" stroke-width="2" />`;
+            // Week gridlines, dated every fortnight
+            for (let d = 0; d <= SPAN; d += 7) {
+                const at = H.addDays(axisStart, d);
+                const px = x(at);
+                const fortnight = d % 14 === 0;
+                svg += `<line x1="${px}" y1="${pad.top}" x2="${px}" y2="${pad.top + plotH}" stroke="#dcc7b6" stroke-width="1" stroke-opacity="${fortnight ? 0.65 : 0.3}" />`;
+                if (fortnight && d !== WEEKS * 7) {
+                    svg += `<text x="${px}" y="${pad.top - 14}" text-anchor="middle" fill="#a88a6e" font-size="10.5" font-weight="600">${shortFmt(H.iso(at))}</text>`;
                 }
             }
 
-            // Estimate windows. Drawn over the cells (an opaque cell fill would hide them)
-            // as a thin lane per family rather than a full-height band: four overlapping
-            // windows shaded across whole cells stack into one muddy block that says nothing.
-            // Each family keeps the same lane on every row, so a bar is identifiable by
-            // colour and height alone.
-            const laneFamilies = fc.families.filter(f =>
-                H.parse(f.windowEnd) >= gridStart && H.parse(f.windowStart) <= gridEnd);
+            // Today, the pivot the whole chart is built around
+            svg += `<line x1="${xToday}" y1="${pad.top - 7}" x2="${xToday}" y2="${pad.top + plotH + 7}" stroke="#e07a5f" stroke-width="2" />`;
+            svg += `<text x="${xToday}" y="${pad.top - 30}" text-anchor="middle" fill="#e07a5f" font-size="10" font-weight="700" letter-spacing="0.9">TODAY</text>`;
+            svg += `<text x="${xToday}" y="${pad.top - 14}" text-anchor="middle" fill="#e07a5f" font-size="10.5" font-weight="600">${shortFmt(fc.asOf)}</text>`;
 
-            laneFamilies.forEach((f, lane) => {
-                const start = H.parse(f.windowStart);
-                const end = H.parse(f.windowEnd);
-                const laneY = LANE_TOP + lane * (LANE_H + LANE_GAP);
-                let cur = start < gridStart ? gridStart : start;
-                const stop = end > gridEnd ? gridEnd : end;
-                while (cur <= stop) {
-                    const rowEnd = H.addDays(cur, 6 - colOf(cur));
-                    const segEnd = rowEnd > stop ? stop : rowEnd;
-                    const x = cellX(cur) + 4;
-                    const width = (colOf(segEnd) - colOf(cur) + 1) * colW - 8;
-                    svg += `<g><title>${f.label} — likely between ${shortFmt(f.windowStart)} and ${shortFmt(f.windowEnd)}</title>`;
-                    svg += `<rect x="${x}" y="${cellY(cur) + laneY}" width="${width}" height="${LANE_H}" rx="1.75" fill="${FAMILY_COLORS[f.key]}" fill-opacity="0.65" /></g>`;
-                    cur = H.addDays(segEnd, 1);
+            // Estimate windows, as intervals of their true length
+            fc.families.forEach(f => {
+                const lane = laneOrder.indexOf(f.key);
+                if (lane === -1) return;
+                const ws = H.parse(f.windowStart), we = H.parse(f.windowEnd);
+                if (we < axisStart || ws > axisEnd) return;
+
+                const x0 = clampX(x(ws)), x1 = clampX(x(we));
+                const y = laneY(lane), capH = 15;
+                const color = FAMILY_COLORS[f.key];
+                svg += `<g><title>${f.label} — likely between ${shortFmt(f.windowStart)} and ${shortFmt(f.windowEnd)}, centred on ${fmt(f.predictedDate)}</title>`;
+                svg += `<rect x="${x0}" y="${y - capH / 2}" width="${Math.max(3, x1 - x0)}" height="${capH}" rx="${capH / 2}" fill="${color}" fill-opacity="0.18" stroke="${color}" stroke-opacity="0.55" stroke-width="1" stroke-dasharray="3.5,2.5" /></g>`;
+                if (we > axisEnd) {
+                    svg += `<text x="${W - pad.right + 6}" y="${y + 4.5}" fill="${color}" font-size="13" font-weight="700" opacity="0.8">&#8250;</text>`;
+                }
+
+                // A window whose centre sits off the axis gets no dot, so it would otherwise
+                // be an unlabelled bar. Name it and point at where the estimate actually lands.
+                if (beyond.indexOf(f) !== -1) {
+                    const mid = Math.min(W - pad.right - 4, (x0 + x1) / 2);
+                    svg += `<text x="${mid}" y="${y - 12}" text-anchor="middle" fill="${color}" font-size="10" font-weight="600" font-style="italic">${f.label} &#8594; ${shortFmt(f.predictedDate)}</text>`;
                 }
             });
 
-            svg += todayRing;
+            // Point markers: what shipped, and where each estimate centres
+            const marks = [];
+            Object.entries(modelData).forEach(([key, model]) => {
+                const lane = laneOrder.indexOf(key);
+                if (lane === -1) return;
+                model.releases.forEach(r => {
+                    if (r.date === 'TBD' || r.predicted) return;
+                    const d = H.parse(r.date);
+                    if (d > today || d < axisStart || d > axisEnd) return;
+                    marks.push({
+                        lane, at: d, color: FAMILY_COLORS[key], shipped: true,
+                        label: r.version.replace('Claude ', ''),
+                        marked: !!(r.notReleased || r.restricted),
+                        tip: `${r.version} — shipped ${fmt(r.date)}`
+                    });
+                });
+            });
+            fc.families.forEach(f => {
+                const lane = laneOrder.indexOf(f.key);
+                if (lane === -1) return;
+                // An overdue family has no future centre to plot: it is due now, so it sits
+                // on the today line rather than at a date already behind us.
+                const centre = f.overdue ? today : H.parse(f.predictedDate);
+                if (centre < axisStart || centre > axisEnd) return;
+                marks.push({
+                    lane, at: centre, color: FAMILY_COLORS[f.key], shipped: false, overdue: f.overdue,
+                    label: f.overdue ? `${f.label} &middot; ${f.overdueBy}d overdue` : f.label,
+                    tip: `${f.label} — estimated ${fmt(f.predictedDate)}${f.overdue ? `, ${f.overdueBy} days overdue` : ''} (${f.confidence} confidence)`
+                });
+            });
 
-            // Week-of labels in the gutter
-            for (let r = 0; r < rows; r++) {
-                const weekStart = H.addDays(gridStart, r * 7);
-                const y = pad.top + r * rowH + rowH / 2 + 4;
-                svg += `<text x="${pad.left - 12}" y="${y}" text-anchor="end" fill="#a88a6e" font-size="11" font-weight="600">${weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</text>`;
-            }
-
-            // Release dots
-            Object.entries(items).forEach(([dateStr, list]) => {
-                const d = H.parse(dateStr);
-                const x = cellX(d), y = cellY(d);
-                const step = list.length > 1 ? 12 : 0;
-                const startY = y + 21 - step * (list.length - 1) / 2;
-
-                list.forEach((item, i) => {
-                    const cy = startY + i * step;
-                    const cx = x + 13;
-                    const color = FAMILY_COLORS[item.family];
-                    const tip = item.shipped
-                        ? `${item.label} — shipped ${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`
-                        : `${item.label} — estimated ${item.overdue ? 'overdue, due now' : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} (${item.forecast.confidence} confidence)`;
-
-                    svg += `<g><title>${tip}</title>`;
-                    if (item.shipped) {
-                        svg += `<circle cx="${cx}" cy="${cy}" r="5.5" fill="${color}" stroke="white" stroke-width="2" />`;
-                        if (item.marked) {
-                            svg += `<line x1="${cx - 3}" y1="${cy + 3}" x2="${cx + 3}" y2="${cy - 3}" stroke="white" stroke-width="1.5" stroke-linecap="round" />`;
-                        }
-                    } else {
-                        svg += `<circle cx="${cx}" cy="${cy}" r="5.5" fill="#fffdfa" stroke="${color}" stroke-width="2" stroke-dasharray="2.6,2.2" />`;
+            marks.forEach(m => {
+                const cx = x(m.at), cy = laneY(m.lane);
+                svg += `<g><title>${m.tip}</title>`;
+                if (m.shipped) {
+                    svg += `<circle cx="${cx}" cy="${cy}" r="6" fill="${m.color}" stroke="white" stroke-width="2" />`;
+                    if (m.marked) {
+                        svg += `<line x1="${cx - 3.5}" y1="${cy + 3.5}" x2="${cx + 3.5}" y2="${cy - 3.5}" stroke="white" stroke-width="1.5" stroke-linecap="round" />`;
                     }
-                    const weight = item.shipped ? 700 : 600;
-                    const style = item.shipped ? '' : ' font-style="italic"';
-                    svg += `<text x="${cx + 9}" y="${cy + 3.5}" fill="${color}" font-size="${list.length > 1 ? 9 : 10}" font-weight="${weight}"${style}>${item.label}${item.shipped ? '' : ' ?'}</text>`;
-                    svg += `</g>`;
-                });
+                } else {
+                    svg += `<circle cx="${cx}" cy="${cy}" r="6" fill="#fffdfa" stroke="${m.color}" stroke-width="2" stroke-dasharray="2.8,2.2" />`;
+                }
+
+                // Labels ride above their marker, nudged so they never run off either end.
+                // Overdue markers sit on the today rule, so their label goes beside it instead.
+                // The trailing "?" marks an estimate; an overdue label already says so in words
+                const text = m.label + (m.shipped || m.overdue ? '' : ' ?');
+                const width = text.length * 5.4;
+                let tx = cx, anchor = 'middle';
+                if (m.overdue) { tx = cx + 11; anchor = 'start'; }
+                else if (cx - width / 2 < pad.left + 2) { tx = pad.left + 2; anchor = 'start'; }
+                else if (cx + width / 2 > W - pad.right - 2) { tx = W - pad.right - 2; anchor = 'end'; }
+                const style = m.shipped ? '' : ' font-style="italic"';
+                svg += `<text x="${tx}" y="${cy - 12}" text-anchor="${anchor}" fill="${m.color}" font-size="10" font-weight="${m.shipped ? 700 : 600}"${style}>${text}</text>`;
+                svg += `</g>`;
             });
 
-            // Lane key — the bars in the cells are only readable if you know whose they are.
-            if (laneFamilies.length) {
-                const keyY = pad.top + rows * rowH + 24;
-                const entries = laneFamilies.map(f => f.name);
-                const widths = entries.map(n => 24 + n.length * 6.2);
-                const totalW = widths.reduce((a, b) => a + b, 0) + 14 + 96;
-                let kx = pad.left + (W - pad.left - pad.right - totalW) / 2;
-                svg += `<text x="${kx}" y="${keyY + 4}" fill="#a88a6e" font-size="10" font-weight="600">Estimate windows:</text>`;
-                kx += 96;
-                laneFamilies.forEach((f, i) => {
-                    svg += `<rect x="${kx}" y="${keyY}" width="16" height="3" rx="1.5" fill="${FAMILY_COLORS[f.key]}" fill-opacity="0.8" />`;
-                    svg += `<text x="${kx + 21}" y="${keyY + 4}" fill="${FAMILY_COLORS[f.key]}" font-size="10" font-weight="600">${f.name}</text>`;
-                    kx += widths[i] + 14;
-                });
-            }
+            // Which way is which
+            const footY = pad.top + plotH + 20;
+            svg += `<text x="${pad.left}" y="${footY}" fill="#b09a86" font-size="10" font-style="italic">shipped</text>`;
+            svg += `<text x="${W - pad.right}" y="${footY}" text-anchor="end" fill="#b09a86" font-size="10" font-style="italic">forecast</text>`;
 
-            document.getElementById('release-calendar').innerHTML = svg;
+            svg += '</svg>';
+            const host = document.getElementById('release-calendar');
+            host.innerHTML = svg;
+
+            // On narrow screens the chart scrolls inside its box rather than shrinking to
+            // illegible. Open it on today — otherwise the first thing a phone shows is the
+            // emptiest six weeks and the forecast is hidden off to the right.
+            requestAnimationFrame(() => {
+                if (host.scrollWidth > host.clientWidth) {
+                    host.scrollLeft = (xToday / W) * host.scrollWidth - host.clientWidth * 0.3;
+                }
+            });
 
             // Forecast table
             const rowsHTML = fc.families.map(f => {
