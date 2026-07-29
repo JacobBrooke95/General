@@ -113,7 +113,7 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">Capability Profile</h2>
-                <p class="benchmark-note" style="margin-bottom: 18px;">Where each model's strength actually lies. Ten evaluations, all scored 0&ndash;100, run by Artificial Analysis under one harness so the shapes are comparable &mdash; the one exception being Haiku 4.5's two diamonds, which are Anthropic's own figures because no independent run exists. Hover any point for the raw score.</p>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Where each model's strength actually lies. Ten evaluations, all scored 0&ndash;100. Eight axes come from Artificial Analysis's single harness (Omniscience is its accuracy reading, not the headline index); the two SWE-bench axes come from the public leaderboard aggregations used by the SWE-bench chart below, as AA no longer carries them. Haiku 4.5's two diamonds are Anthropic's own figures &mdash; no independent run exists. Hover any point for the raw score.</p>
                 <div class="benchmark-chart-container">
                     <div id="radar-chart"></div>
                     <div class="benchmark-legend">
@@ -344,8 +344,8 @@
                     </div>
                     <p class="benchmark-note">
                         GDPval-AA v2 Elo on real-world knowledge work tasks across 44 occupations and 9 industries (finance, legal, software, etc.). Higher Elo = stronger pairwise win rate against the field; v2 anchors human-expert performance at 1000 (dashed line).<br>
-                        Scores reflect each model's strongest configuration (max effort) on the Artificial Analysis GDPval-AA v2 leaderboard, re-baselined from v1 with a new frontier-model judge panel and a 250-turn limit. Models measured only under v1 — Opus 4.5/4.6 and Sonnet 3.7/4 — are omitted rather than plotted on the incompatible v1 scale.<br>
-                        Opus 5 tops the board at 1861, more than 100 points clear of Fable 5 despite costing half as much per task. Effort setting matters enormously here: Opus 5 spans 1454 at low effort to 1861 at max — a 407-point swing on the same model. Elo is recomputed as models join the pool, so figures drift slightly between snapshots (last pulled July 25, 2026).
+                        Scores reflect each model's strongest configuration (max effort) on the Artificial Analysis GDPval-AA v2 leaderboard, re-baselined from v1 with a new frontier-model judge panel and a 250-turn limit. Opus 4.5 and 4.6 were measured only under v1 and have no v2 Elo, so they are omitted rather than plotted on the incompatible scale — the Opus line starting at 4.7 is missing data, not a debut. Claude 3.5 Haiku does hold a v2 score (456) but predates this window and sits four hundred points below the chart floor.<br>
+                        Opus 5 tops the board at 1861, more than 100 points clear of Fable 5 despite costing half as much per task — and Fable 5 in turn edges the best non-Claude entry, GPT-5.6 Sol at max effort (1736). The long Sonnet climb is the quiet story: 871 (below the human anchor) to 1601 in thirteen months. Effort setting matters enormously here: Opus 5 spans 1454 at low effort to 1861 at max — a 407-point swing on the same model. Elo is recomputed as models join the pool, so figures drift slightly between snapshots (Sonnet 5 moved 1603→1601 between the July 25 and July 29 pulls; figures shown are July 29, 2026).
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
@@ -404,11 +404,19 @@
                             <div class="benchmark-legend-dot" style="background: #d4836a;"></div>
                             <span>Sonnet</span>
                         </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #8fa882;"></div>
+                            <span>Haiku</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px dashed #9d7bb0;"></div>
+                            <span>ARC-AGI-3 (dashed)</span>
+                        </div>
                     </div>
                     <p class="benchmark-note">
                         ARC-AGI-2 tests abstract reasoning on novel visual puzzles built to resist memorization — humans score ~60%, and most frontier models were in the single digits at launch. Higher is better.<br>
-                        Scores reflect each model's strongest reported configuration (adaptive reasoning) on the ARC Prize leaderboard. Opus 5 at max effort reaches 90.4% on the semi-private set at $2.06 per task — the first Claude model well clear of the ~60% human bar, and a jump large enough that ARC-AGI-2 is nearing saturation. Note Opus 4.8 (72.1%) scored slightly <em>below</em> Opus 4.7 here, a reminder that a newer model is not uniformly better on every eval.<br>
-                        Fable 5, Mythos 5, Sonnet 5, and Haiku 4.5 are not yet listed. Attention has shifted to ARC-AGI-3, where Opus 5 set a new state of the art at 30.2% — roughly 4&times; the previous best (GPT-5.6 Sol at 7.8%) and well ahead of Fable-class models at ~20%.
+                        Scores are each model's strongest listed configuration on the ARC Prize leaderboard, read from its published data files on July 29, 2026 — which is why two figures differ slightly from the Max-effort runs quoted elsewhere: Opus 4.6's best run is 120K-High at 69.2% (Max: 68.8%), Sonnet 4.6's is High at 60.4% (Max: 58.3%). Opus 5 at max effort reaches 90.4% at $2.06 per task — well clear of the ~60% human bar but second on the board to GPT-5.6 Sol's 92.5% at max. Note Opus 4.8 (72.1%) scored slightly <em>below</em> Opus 4.7 here, a reminder that a newer model is not uniformly better on every eval. Haiku 4.5 <em>is</em> listed, at 4.0% ($0.38/task) — roughly where whole frontier lineups sat when ARC-AGI-2 launched. Fable 5, Mythos 5 and Sonnet 5 remain unlisted.<br>
+                        The dashed line is <strong>ARC-AGI-3</strong> — interactive environments rather than static puzzles, and nowhere near saturated. Claude's series: Opus 4.6 at 0.5%, Opus 4.7 at 0.2%, Opus 4.8 at 1.5%, then Opus 5 at 30.2% — a new state of the art, roughly 4&times; the previous best (GPT-5.6 Sol at 7.8%), from a run that cost about $20.7k. Configs are mixed (Opus 4.6 at Max, the rest High-only; ARC Prize notes Opus 5 was "evaluated only at High reasoning effort" due to the short testing window), so read the dashed slope loosely. ARC Prize also reports Fable-class models at ~20% on ARC-AGI-3's <em>Public Demo environments</em> — a different environment set, which is why no Fable point appears on the dashed line.
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
@@ -1927,11 +1935,12 @@
         // GDPval-AA Chart (same style as OSWorld / Vending-Bench)
         function renderGDPvalChart() {
             // GDPval-AA v2 Elo (Artificial Analysis, re-baselined so human expert = 1000).
-            // Re-fetched from artificialanalysis.ai/evaluations/gdpval-aa on 2026-07-25, each
+            // Re-fetched from artificialanalysis.ai/evaluations/gdpval-aa on 2026-07-29, each
             // model's strongest (max-effort) config. Elo is recomputed as new models join the
-            // pool, so these shift slightly between snapshots. The v2 leaderboard no longer
-            // ranks the older models (Opus 4.5/4.6, Sonnet 3.7/4); they were v1-only and are
-            // omitted rather than mixed onto the incompatible v1 scale.
+            // pool, so these shift slightly between snapshots (Sonnet 5 drifted 1603 -> 1601
+            // in the four days since the previous pull). Opus 4.5/4.6 were measured only
+            // under v1 and have no v2 Elo, so they're omitted; Claude 3.5 Haiku does have a
+            // v2 score (456) but predates this window and sits far below the chart floor.
             const gdpvalData = {
                 fable: [
                     { model: 'Fable 5', date: '2026-06-09', score: 1747 }
@@ -1942,8 +1951,10 @@
                     { model: 'Opus 5',   date: '2026-07-24', score: 1861 }
                 ],
                 sonnet: [
+                    { model: 'Sonnet 4',   date: '2025-05-22', score: 871 },
+                    { model: 'Sonnet 4.5', date: '2025-09-29', score: 1052 },
                     { model: 'Sonnet 4.6', date: '2026-02-17', score: 1377 },
-                    { model: 'Sonnet 5',   date: '2026-06-30', score: 1603 }
+                    { model: 'Sonnet 5',   date: '2026-06-30', score: 1601 }
                 ],
                 haiku: [
                     { model: 'Haiku 4.5', date: '2025-10-15', score: 911 }
@@ -1957,7 +1968,7 @@
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
 
-            const minDate = new Date('2025-08-01T00:00:00');
+            const minDate = new Date('2025-04-15T00:00:00');
             const maxDate = new Date('2026-08-15T00:00:00');
             const dateRange = maxDate - minDate;
 
@@ -1984,6 +1995,7 @@
             svg += `<text x="${W - pad.right - 4}" y="${y(1000) - 5}" text-anchor="end" fill="#b8a088" font-size="10" font-style="italic">human baseline (1000)</text>`;
 
             const dateLabels = [
+                { label: "Jun '25", date: '2025-06-01' },
                 { label: "Sep '25", date: '2025-09-01' },
                 { label: "Dec '25", date: '2025-12-01' },
                 { label: "Mar '26", date: '2026-03-01' },
@@ -2025,25 +2037,40 @@
 
         // ARC-AGI-2 Chart (same style as OSWorld / GDPval)
         function renderArcChart() {
-            // ARC-AGI-2 scores (%) from the ARC Prize leaderboard and public aggregators,
-            // using each model's strongest reported config (adaptive reasoning; Opus 5 at
-            // max effort on the semi-private set, $2.06/task). Fable 5, Mythos 5, Sonnet 5
-            // and Haiku 4.5 are still unlisted on ARC-AGI-2.
+            // ARC-AGI-2 scores (%) read directly from the ARC Prize leaderboard data files
+            // (arcprize.org/media/data/leaderboard/v2.json, pulled 2026-07-29), using each
+            // model's strongest listed config: Opus 4.6 is the 120K-High run (69.17) rather
+            // than Max (68.75), Sonnet 4.6 the High run (60.42) rather than Max (58.33),
+            // Opus 5 Max ($2.06/task). Fable 5, Mythos 5 and Sonnet 5 are still unlisted.
             const arcData = {
                 opus: [
                     { model: 'Opus 4.5', date: '2025-11-24', score: 37.6 },
-                    { model: 'Opus 4.6', date: '2026-02-05', score: 68.8 },
+                    { model: 'Opus 4.6', date: '2026-02-05', score: 69.2 },
                     { model: 'Opus 4.7', date: '2026-04-16', score: 75.8 },
                     { model: 'Opus 4.8', date: '2026-05-28', score: 72.1 },
                     { model: 'Opus 5',   date: '2026-07-24', score: 90.4 }
                 ],
                 sonnet: [
                     { model: 'Sonnet 4.5', date: '2025-09-29', score: 13.6 },
-                    { model: 'Sonnet 4.6', date: '2026-02-17', score: 58.3 }
+                    { model: 'Sonnet 4.6', date: '2026-02-17', score: 60.4 }
+                ],
+                haiku: [
+                    { model: 'Haiku 4.5', date: '2025-10-15', score: 4.0 }
                 ]
             };
 
-            const colors = { opus: '#9d7bb0', sonnet: '#d4836a' };
+            // ARC-AGI-3 (interactive environments, semi-private) — same leaderboard's
+            // v3.json. A separate, much harder eval drawn as a dashed series: configs are
+            // mixed (Opus 4.6 at Max, the rest at High — the only efforts run), which is
+            // why it gets its own visual register rather than joining the solid lines.
+            const arc3Data = [
+                { model: 'Opus 4.6', config: 'Max',  date: '2026-02-05', score: 0.51 },
+                { model: 'Opus 4.7', config: 'High', date: '2026-04-16', score: 0.18 },
+                { model: 'Opus 4.8', config: 'High', date: '2026-05-28', score: 1.52 },
+                { model: 'Opus 5',   config: 'High', date: '2026-07-24', score: 30.16 }
+            ];
+
+            const colors = { opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
 
             const W = 800, H = 380;
             const pad = { top: 30, right: 25, bottom: 55, left: 55 };
@@ -2107,7 +2134,20 @@
                 });
             });
 
-            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch });
+            // ARC-AGI-3 dashed overlay. Individual points get tooltips; only the endpoint
+            // gets a text annotation — the three sub-2% points would label as clutter.
+            const arc3Path = arc3Data.map((p, i) => (i === 0 ? 'M' : 'L') + `${x(p.date)},${y(p.score)}`).join(' ');
+            svg += `<path d="${arc3Path}" fill="none" stroke="${colors.opus}" stroke-width="2" stroke-dasharray="5,4" stroke-opacity="0.75" stroke-linecap="round" stroke-linejoin="round" />`;
+            arc3Data.forEach(p => {
+                svg += `<circle cx="${x(p.date)}" cy="${y(p.score)}" r="4.5" fill="#fffdfa" stroke="${colors.opus}" stroke-width="2" stroke-dasharray="2.4,2">`
+                     + `<title>${p.model} (${p.config}) — ARC-AGI-3: ${p.score}%</title></circle>`;
+            });
+            const arc3End = arc3Data[arc3Data.length - 1];
+            const a3x = x(arc3End.date) - 10, a3y = y(arc3End.score) + 4;
+            svg += `<text x="${a3x}" y="${a3y}" text-anchor="end" fill="${colors.opus}" font-size="10.5" font-style="italic">ARC-AGI-3 · ${arc3End.score.toFixed(1)}%</text>`;
+
+            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch },
+                [annotationBox(a3x, a3y, `ARC-AGI-3 - ${arc3End.score.toFixed(1)}%`, 10.5)]);
 
             svg += '</svg>';
             document.getElementById('arc-chart').innerHTML = svg;
