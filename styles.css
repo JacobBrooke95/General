@@ -1608,6 +1608,71 @@ a:hover {
   flex-shrink: 0;
 }
 
+/* Disclosure wrapping the prose under each chart */
+.chart-notes {
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.chart-notes > summary {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--color-text-muted);
+  user-select: none;
+}
+
+.chart-notes > summary::-webkit-details-marker {
+  display: none;
+}
+
+.chart-notes > summary::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 5px solid currentColor;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  transition: transform 0.15s ease;
+}
+
+.chart-notes[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.chart-notes > summary:hover {
+  color: var(--color-section-title);
+}
+
+.chart-notes > summary:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* The disclosure already draws the separating rule and the leading gap */
+.chart-notes .benchmark-note:first-of-type {
+  margin-top: 0.65rem;
+}
+
+.chart-notes .benchmark-paper-links {
+  border-top: none;
+  padding-top: 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chart-notes > summary::before {
+    transition: none;
+  }
+}
+
 .benchmark-note {
   text-align: center;
   color: #999;

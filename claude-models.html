@@ -286,7 +286,8 @@
                     <p class="benchmark-note">
                         Final mean net worth (USD) earned by each Claude model running a simulated vending machine business on Andon Labs' Vending-Bench.<br>
                         Higher is better — models spend months of simulated time managing inventory, pricing, and cash flow autonomously. Note the curve has flattened since Opus 4.6's $8,018 peak: neither Opus 4.7 nor Opus 4.8 recovered it, so long-horizon business coherence is not tracking the coding and reasoning gains elsewhere on this page.<br>
-                        Sonnet 5 and Opus 5 have no published single-player run yet. Andon has evaluated Fable 5 only on the newer multi-player <em>Vending-Bench Arena</em> (Fable 5 $4.2k vs Opus 4.8 $6.2k and GPT-5.5 $8.3k) — a different setup that isn't comparable to the single-player figures plotted here. Andon also flagged Fable 5 as an alignment regression there, initiating price collusion in 9 of 12 runs against Opus 4.8's 4 of 12.
+                        Sonnet 5 and Opus 5 still have no published single-player run, so neither appears above. Everything recent has landed on the newer multi-player <em>Vending-Bench Arena</em> instead: Opus 5 posted a record $11,182 mean final balance there in July 2026, against Fable 5's $4.2k, Opus 4.8's $6.2k and GPT-5.5's $8.3k. Arena runs several agents against each other on one simulated street, so those figures sit on a different scale and can't be plotted alongside the single-player numbers here.<br>
+                        Opus 5's record is not a clean win. Andon reports it never lied to a customer but ignored complaints that should have produced refunds, and emailed a rival agent proposing the two of them split the market and each sell unique products — collusion arrived at deliberately rather than stumbled into. Fable 5 was flagged as an alignment regression on the same eval, initiating price collusion in 9 of 12 runs against Opus 4.8's 4 of 12. On this benchmark the most profitable Claude and the best-behaved Claude have not been the same model for a while.
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
@@ -306,6 +307,12 @@
                             <a href="https://andonlabs.com/evals/vending-bench" target="_blank" rel="noopener">Vending-Bench</a>
                             <span class="benchmark-paper-sep">·</span>
                             <a href="https://arxiv.org/abs/2502.15840" target="_blank" rel="noopener">arXiv 2502.15840</a>
+                        </div>
+                        <div class="benchmark-paper-link-row">
+                            <span class="benchmark-paper-model" style="color: #7a6957;">Arena</span>
+                            <a href="https://andonlabs.com/evals/vending-bench-arena" target="_blank" rel="noopener">Vending-Bench Arena</a>
+                            <span class="benchmark-paper-sep">·</span>
+                            <a href="https://techcrunch.com/2026/07/29/claude-opus-5-became-downright-ruthless-when-tasked-with-running-a-vending-machine/" target="_blank" rel="noopener">TechCrunch on the Opus 5 run</a>
                         </div>
                     </div>
                 </div>
@@ -1019,6 +1026,106 @@
 
         const FAMILY_COLORS = { mythos: '#5b8a9a', fable: '#c09a5b', opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
 
+        // Two-line point labels — model name nearest the dot, its value on the far side —
+        // placed greedily. Each label tries slots around its dot, nearest first, and takes
+        // the first that clears every label already placed, every plotted dot, and the
+        // chart edges.
+        //
+        // These charts used to carry a hand-tuned nudge per crowded point. That stopped
+        // working the moment labels grew a second line, and it never survived new models
+        // being added anyway. This does the same job from the geometry.
+        // Bounding box for a right-anchored annotation, so placeLabels can dodge it.
+        function annotationBox(right, baseline, text, fontPx) {
+            const w = text.replace(/&[a-z]+;/g, ' ').length * fontPx * 0.49;
+            return { x: right - w, y: baseline - fontPx + 1, w, h: fontPx + 3 };
+        }
+
+        // `obstacles` holds anything already drawn that a label must dodge — reference-line
+        // annotations, mostly. Without them the placer happily parks a label on top of one.
+        function placeLabels(items, bounds, obstacles) {
+            // Rough advance widths for the two type sizes, rounded up so the reserved box
+            // is never narrower than the glyphs that land in it.
+            const NAME_W = 6.4, VALUE_W = 5.7;
+            const NEAR = [
+                { dx: 0, dy: -12, anchor: 'middle' },
+                { dx: 0, dy: 21, anchor: 'middle' },
+                { dx: -9, dy: -12, anchor: 'end' },
+                { dx: 9, dy: -12, anchor: 'start' },
+                { dx: -9, dy: 21, anchor: 'end' },
+                { dx: 9, dy: 21, anchor: 'start' },
+                { dx: -11, dy: 5, anchor: 'end' },
+                { dx: 11, dy: 5, anchor: 'start' },
+                { dx: -30, dy: -12, anchor: 'end' },
+                { dx: 30, dy: -12, anchor: 'start' },
+                { dx: -30, dy: 21, anchor: 'end' },
+                { dx: 30, dy: 21, anchor: 'start' }
+            ];
+            // Rings that step further out when the neighbourhood is full. Anything past
+            // LEADER_AT gets a connector drawn back to its dot, since at that distance the
+            // label no longer reads as belonging to any particular point.
+            const LEADER_AT = 24;
+            const FAR = [-26, 35, -40, 49, -54, 63, -68, 77].flatMap(dy => [
+                { dx: 0, dy, anchor: 'middle' },
+                { dx: -9, dy, anchor: 'end' },
+                { dx: 9, dy, anchor: 'start' },
+                { dx: -30, dy, anchor: 'end' },
+                { dx: 30, dy, anchor: 'start' }
+            ]);
+            const SLOTS = NEAR.concat(FAR);
+
+            function box(item, c) {
+                const w = Math.max(String(item.name).length * NAME_W, String(item.value).length * VALUE_W);
+                const nameY = item.py + c.dy;
+                const valueY = c.dy > 0 ? nameY + 13 : nameY - 12;
+                const cx = item.px + c.dx;
+                const x = c.anchor === 'middle' ? cx - w / 2 : c.anchor === 'end' ? cx - w : cx;
+                const top = Math.min(nameY, valueY) - 9;
+                const bottom = Math.max(nameY, valueY) + 3;
+                return { x, y: top, w, h: bottom - top, nameY, valueY, cx };
+            }
+
+            const hits = (a, b, pad) =>
+                a.x < b.x + b.w + pad && a.x + a.w + pad > b.x &&
+                a.y < b.y + b.h + pad && a.y + a.h + pad > b.y;
+
+            const dots = items.map(i => ({ x: i.px - 7, y: i.py - 7, w: 14, h: 14 }));
+            const placed = (obstacles || []).slice();
+
+            items.forEach(item => {
+                let best = null, bestCost = Infinity;
+                for (let i = 0; i < SLOTS.length; i++) {
+                    const b = box(item, SLOTS[i]);
+                    const outside = b.x < bounds.x || b.x + b.w > bounds.x + bounds.w
+                                 || b.y < bounds.y || b.y + b.h > bounds.y + bounds.h;
+                    // Distance from the dot is the tiebreaker, so a label never drifts
+                    // further than it has to.
+                    let cost = i + (outside ? 400 : 0);
+                    placed.forEach(p => { if (hits(b, p, 4)) cost += 100; });
+                    dots.forEach(d => { if (hits(b, d, 1)) cost += 100; });
+                    if (cost < bestCost) { bestCost = cost; best = { b, c: SLOTS[i] }; }
+                    if (cost === i) break; // clean slot, and slots are ordered nearest-first
+                }
+                placed.push(best.b);
+                item.slot = best;
+            });
+
+            return items.map(item => {
+                const { b, c } = item.slot;
+                const x = b.cx.toFixed(1);
+                let out = '';
+                if (Math.abs(c.dy) > LEADER_AT) {
+                    const up = c.dy < 0;
+                    const fromY = item.py + (up ? -7 : 7);
+                    const toY = up ? b.y + b.h + 1 : b.y - 1;
+                    const toX = Math.max(b.x, Math.min(b.x + b.w, item.px));
+                    out += `<line x1="${item.px.toFixed(1)}" y1="${fromY.toFixed(1)}" x2="${toX.toFixed(1)}" y2="${toY.toFixed(1)}" stroke="${item.color}" stroke-width="1.1" stroke-opacity="0.6" />`;
+                }
+                return out
+                     + `<text x="${x}" y="${b.nameY.toFixed(1)}" text-anchor="${c.anchor}" fill="${item.color}" font-size="11.5" font-weight="600">${item.name}</text>`
+                     + `<text x="${x}" y="${b.valueY.toFixed(1)}" text-anchor="${c.anchor}" fill="${item.color}" font-size="10.5" opacity="0.75">${item.value}</text>`;
+            }).join('');
+        }
+
         // Lineup Freshness — one rail, two readings: how long since anything shipped,
         // and how far through its cycle the average family sits.
         function renderFleetFreshness() {
@@ -1386,6 +1493,7 @@
             svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
 
             // Draw each series
+            const labelItems = [];
             Object.entries(benchmarkData).forEach(([series, points]) => {
                 const color = colors[series];
 
@@ -1410,43 +1518,11 @@
                         svg += `<line x1="${px - 3}" y1="${py + 3}" x2="${px + 3}" y2="${py - 3}" stroke="white" stroke-width="1.5" stroke-linecap="round" />`;
                     }
 
-                    // Score label - position above by default, adjust for overlaps
-                    let labelY = py - 12;
-                    let labelAnchor = 'middle';
-
-                    // Special positioning for close/overlapping points
-                    if (series === 'opus' && p.model === 'Opus 4.6') {
-                        labelY = py - 14;
-                        labelAnchor = 'end';
-                    } else if (series === 'opus' && p.model === 'Opus 4.7') {
-                        labelY = py - 14;
-                        labelAnchor = 'end';
-                    } else if (series === 'opus' && p.model === 'Opus 4.8') {
-                        labelY = py - 14;
-                        labelAnchor = 'end';
-                    } else if (series === 'sonnet' && p.model === 'Sonnet 4.6') {
-                        labelY = py + 20;
-                        labelAnchor = 'start';
-                    } else if (series === 'sonnet' && p.model === 'Sonnet 5') {
-                        // Far-right point, just below Opus 4.8 — drop the label below-left
-                        labelY = py + 20;
-                        labelAnchor = 'end';
-                    } else if (series === 'opus' && p.model === 'Opus 4.5') {
-                        labelY = py + 20;
-                    } else if (series === 'fable' && p.model === 'Fable 5') {
-                        // Top of the chart, just up-right of Opus 4.8 — anchor right so
-                        // the two labels don't overlap
-                        labelY = py - 12;
-                        labelAnchor = 'start';
-                    } else if (series === 'mythos') {
-                        // Mythos Preview sits near Opus 4.7 (Apr 16) — nudge its label up-left
-                        labelY = py - 14;
-                        labelAnchor = 'end';
-                    }
-
-                    svg += `<text x="${px}" y="${labelY}" text-anchor="${labelAnchor}" fill="${color}" font-size="11" font-weight="600">${p.score}%${p.preview ? ' (preview)' : ''}</text>`;
+                    labelItems.push({ px, py, color, name: p.model, value: `${p.score}%` });
                 });
             });
+
+            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch });
 
             svg += '</svg>';
 
@@ -1819,6 +1895,7 @@
             svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
 
             // Draw each family series
+            const labelItems = [];
             Object.entries(earningsData).forEach(([series, points]) => {
                 const color = colors[series];
 
@@ -1834,42 +1911,11 @@
                     const py = y(p.score);
                     svg += `<circle cx="${px}" cy="${py}" r="5" fill="${color}" stroke="white" stroke-width="2" />`;
 
-                    // Default label above
-                    let labelY = py - 12;
-                    let labelAnchor = 'middle';
-
-                    // Hand-tuned nudges for overlapping points
-                    if (series === 'opus' && p.model === 'Opus 4.1') {
-                        labelY = py + 20;
-                    } else if (series === 'sonnet' && p.model === 'Sonnet 4') {
-                        // Same date as Opus 4 ($2,077) — push above, anchor right
-                        labelY = py - 12;
-                        labelAnchor = 'start';
-                    } else if (series === 'opus' && p.model === 'Opus 4') {
-                        // Same date as Sonnet 4 — push below, anchor left
-                        labelY = py + 20;
-                        labelAnchor = 'end';
-                    } else if (series === 'sonnet' && p.model === 'Sonnet 4.5') {
-                        labelY = py + 20;
-                    } else if (series === 'sonnet' && p.model === '3.5 Sonnet (v2)') {
-                        labelY = py - 12;
-                        labelAnchor = 'end';
-                    } else if (series === 'haiku' && p.model === '3.5 Haiku') {
-                        labelY = py + 20;
-                    } else if (series === 'opus' && p.model === 'Opus 4.6') {
-                        // Now the peak ($8,018) — label well above the dot
-                        labelY = py - 14;
-                    } else if (series === 'opus' && p.model === 'Opus 4.7') {
-                        labelAnchor = 'end';
-                    } else if (series === 'opus' && p.model === 'Opus 4.8') {
-                        // Below-right of Opus 4.7 — label under the dot to avoid collision
-                        labelY = py + 20;
-                        labelAnchor = 'end';
-                    }
-
-                    svg += `<text x="${px}" y="${labelY}" text-anchor="${labelAnchor}" fill="${color}" font-size="11" font-weight="600">${fmt(p.score)}</text>`;
+                    labelItems.push({ px, py, color, name: p.model, value: `${fmt(p.score)}` });
                 });
             });
+
+            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch });
 
             svg += '</svg>';
 
@@ -1950,6 +1996,7 @@
             svg += `<line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
             svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
 
+            const labelItems = [];
             Object.entries(gdpvalData).forEach(([series, points]) => {
                 const color = colors[series];
 
@@ -1963,36 +2010,12 @@
                     const py = y(p.score);
                     svg += `<circle cx="${px}" cy="${py}" r="5" fill="${color}" stroke="white" stroke-width="2" />`;
 
-                    let labelY = py - 12;
-                    let labelAnchor = 'middle';
-
-                    // Sonnet 4.6 (1676) close to Opus 4.6 (1619) horizontally and vertically
-                    if (series === 'sonnet' && p.model === 'Sonnet 5') {
-                        // Far-right point, close to Opus 4.8 in height — drop label below-left
-                        labelY = py + 20;
-                        labelAnchor = 'end';
-                    } else if (series === 'opus' && p.model === 'Opus 4.8') {
-                        // Fable sits just up-right — push this label below-left to avoid it
-                        labelY = py + 20;
-                        labelAnchor = 'end';
-                    } else if (series === 'fable' && p.model === 'Fable 5') {
-                        // The Opus line climbs away up-right toward Opus 5, so keep this
-                        // label up-LEFT of the dot where the space is clear
-                        labelY = py - 12;
-                        labelAnchor = 'end';
-                    } else if (series === 'opus' && p.model === 'Opus 5') {
-                        // Highest point on the chart, at the right edge — anchor inward
-                        labelY = py - 12;
-                        labelAnchor = 'end';
-                    } else if (series === 'haiku' && p.model === 'Haiku 4.5') {
-                        // Near the bottom axis — keep label above, anchored right
-                        labelY = py - 12;
-                        labelAnchor = 'start';
-                    }
-
-                    svg += `<text x="${px}" y="${labelY}" text-anchor="${labelAnchor}" fill="${color}" font-size="11" font-weight="600">${p.score}</text>`;
+                    labelItems.push({ px, py, color, name: p.model, value: `${p.score}` });
                 });
             });
+
+            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch },
+                [annotationBox(W - pad.right - 4, y(1000) - 5, 'human baseline (1000)', 10)]);
 
             svg += '</svg>';
             document.getElementById('gdpval-chart').innerHTML = svg;
@@ -2064,6 +2087,7 @@
             svg += `<line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
             svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
 
+            const labelItems = [];
             Object.entries(arcData).forEach(([series, points]) => {
                 const color = colors[series];
 
@@ -2077,27 +2101,11 @@
                     const py = y(p.score);
                     svg += `<circle cx="${px}" cy="${py}" r="5" fill="${color}" stroke="white" stroke-width="2" />`;
 
-                    let labelY = py - 12;
-                    let labelAnchor = 'middle';
-
-                    // Opus 4.6 (68.8) sits just above Sonnet 4.6 (58.3) at nearly the same
-                    // date — push the Sonnet label below its dot so they don't collide.
-                    if (series === 'sonnet' && p.model === 'Sonnet 4.6') {
-                        labelY = py + 20;
-                    } else if (series === 'opus' && p.model === 'Opus 4.7') {
-                        labelAnchor = 'end';
-                    } else if (series === 'opus' && p.model === 'Opus 4.8') {
-                        // Dips just below Opus 4.7 and sits close to it — label below-right
-                        labelY = py + 20;
-                        labelAnchor = 'start';
-                    } else if (series === 'opus' && p.model === 'Opus 5') {
-                        // Top-right corner — anchor inward so the label stays on canvas
-                        labelAnchor = 'end';
-                    }
-
-                    svg += `<text x="${px}" y="${labelY}" text-anchor="${labelAnchor}" fill="${color}" font-size="11" font-weight="600">${p.score}%</text>`;
+                    labelItems.push({ px, py, color, name: p.model, value: `${p.score}%` });
                 });
             });
+
+            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch });
 
             svg += '</svg>';
             document.getElementById('arc-chart').innerHTML = svg;
@@ -2339,6 +2347,7 @@
             svg += `<line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
             svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
 
+            const labelItems = [];
             Object.entries(rliData).forEach(([series, points]) => {
                 const color = colors[series];
 
@@ -2352,20 +2361,12 @@
                     svg += `<circle cx="${px}" cy="${py}" r="5" fill="${color}" stroke="white" stroke-width="2">`
                          + `<title>${p.model} — ${p.score}% automation rate${p.scaffold ? ' (' + p.scaffold + ')' : ''}</title></circle>`;
 
-                    let labelY = py - 12, labelAnchor = 'middle', labelX = px;
-                    // Sonnet 4.5 is boxed in: the launch baseline runs just above it and the
-                    // zero axis just below, so its label goes beside the point instead.
-                    if (p.model === 'Sonnet 4.5') { labelX = px + 11; labelY = py + 9; labelAnchor = 'start'; }
-                    // Fable 5 is 12 days after Opus 4.8 and near the top — anchor inward
-                    else if (p.model === 'Fable 5') { labelAnchor = 'end'; }
-                    else if (p.model === 'Opus 4.8') { labelY = py + 21; labelAnchor = 'end'; }
-
-                    const scoreY = p.model === 'Sonnet 4.5' ? labelY + 13
-                        : labelY + (labelY > py ? 13 : -12);
-                    svg += `<text x="${labelX}" y="${labelY}" text-anchor="${labelAnchor}" fill="${color}" font-size="11.5" font-weight="600">${p.model}</text>`;
-                    svg += `<text x="${labelX}" y="${scoreY}" text-anchor="${labelAnchor}" fill="${color}" font-size="10.5" opacity="0.75">${p.score}%</text>`;
+                    labelItems.push({ px, py, color, name: p.model, value: `${p.score}%` });
                 });
             });
+
+            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch },
+                [annotationBox(W - pad.right - 4, launchY - 7, '2.5% - best of any model at launch, Oct 2025', 10.5)]);
 
             svg += '</svg>';
             document.getElementById('rli-chart').innerHTML = svg;
@@ -2449,6 +2450,7 @@
             svg += `<line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
             svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
 
+            const labelItems = [];
             Object.entries(sweData).forEach(([series, points]) => {
                 const color = colors[series];
 
@@ -2465,51 +2467,11 @@
                         svg += `<line x1="${px - 3}" y1="${py + 3}" x2="${px + 3}" y2="${py - 3}" stroke="white" stroke-width="1.5" stroke-linecap="round" />`;
                     }
 
-                    let labelY = py - 12;
-                    let labelAnchor = 'middle';
-
-                    // Opus 4 (72.5) and Sonnet 4 (72.7) ship the same day at nearly the same
-                    // score — split them vertically, then anchor sideways.
-                    if (series === 'opus' && p.model === 'Opus 4') {
-                        labelY = py + 20;
-                        labelAnchor = 'end';
-                    } else if (series === 'sonnet' && p.model === 'Sonnet 4') {
-                        labelY = py - 12;
-                        labelAnchor = 'start';
-                    } else if (series === 'opus' && p.model === 'Opus 4.5') {
-                        labelY = py - 12;
-                        labelAnchor = 'end';
-                    } else if (series === 'opus' && p.model === 'Opus 4.6') {
-                        // Opus 4.6 (80.8) and Sonnet 4.6 (79.6) land 12 days and 1.2pt
-                        // apart — lift Opus above and drop Sonnet below (see next branch)
-                        labelY = py - 12;
-                        labelAnchor = 'end';
-                    } else if (series === 'sonnet' && p.model === 'Sonnet 4.6') {
-                        labelY = py + 20;
-                        labelAnchor = 'start';
-                    } else if (series === 'opus' && p.model === 'Opus 4.8') {
-                        // Just up-right of Opus 4.7 — drop below to clear its label
-                        labelY = py + 20;
-                        labelAnchor = 'start';
-                    } else if (series === 'opus' && p.model === 'Opus 5') {
-                        // Top-right corner — anchor inward
-                        labelAnchor = 'end';
-                    } else if (series === 'fable' && p.model === 'Fable 5') {
-                        // Sits just under Opus 5's climb — label below-left
-                        labelY = py + 20;
-                        labelAnchor = 'end';
-                    } else if (series === 'mythos') {
-                        labelY = py - 12;
-                        labelAnchor = 'end';
-                    } else if (series === 'sonnet' && p.model === 'Sonnet 5') {
-                        labelY = py + 20;
-                    } else if (series === 'haiku' && p.model === 'Haiku 4.5') {
-                        labelY = py + 20;
-                    }
-
-                    svg += `<text x="${px}" y="${labelY}" text-anchor="${labelAnchor}" fill="${color}" font-size="11" font-weight="600">${p.score}%${p.preview ? ' (preview)' : ''}</text>`;
+                    labelItems.push({ px, py, color, name: p.model, value: `${p.score}%` });
                 });
             });
+
+            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch });
 
             svg += '</svg>';
             document.getElementById('swebench-chart').innerHTML = svg;
@@ -2589,6 +2551,7 @@
             svg += `<line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
             svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
 
+            const labelItems = [];
             Object.entries(tbData).forEach(([series, points]) => {
                 const color = colors[series];
 
@@ -2602,30 +2565,12 @@
                     const py = y(p.score);
                     svg += `<circle cx="${px}" cy="${py}" r="5" fill="${color}" stroke="white" stroke-width="2" />`;
 
-                    let labelX = px;
-                    let labelY = py - 12;
-                    let labelAnchor = 'middle';
-
-                    if (series === 'opus' && p.model === 'Opus 5') {
-                        // Boxed in: the field-leader rule sits 1.2pt above and the rising
-                        // Opus line runs through the space below-left. Park the label in the
-                        // right margin, level with the dot.
-                        labelX = px + 9;
-                        labelY = py + 4;
-                        labelAnchor = 'start';
-                    } else if (series === 'fable' && p.model === 'Fable 5') {
-                        // Sits between Opus 4.8 and Opus 5 — lift the label clear of the line
-                        labelY = py - 12;
-                        labelAnchor = 'end';
-                    } else if (series === 'sonnet' && p.model === 'Sonnet 5') {
-                        labelY = py + 20;
-                    } else if (series === 'opus' && p.model === 'Opus 4.8') {
-                        labelAnchor = 'end';
-                    }
-
-                    svg += `<text x="${labelX}" y="${labelY}" text-anchor="${labelAnchor}" fill="${color}" font-size="11" font-weight="600">${p.score}%</text>`;
+                    labelItems.push({ px, py, color, name: p.model, value: `${p.score}%` });
                 });
             });
+
+            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch },
+                [annotationBox(W - pad.right - 4, y(85.8) - 5, 'field leader - GPT-5.6 Sol (85.8%)', 10)]);
 
             svg += '</svg>';
             document.getElementById('terminalbench-chart').innerHTML = svg;
@@ -2713,6 +2658,27 @@
             document.getElementById('pricing-chart').innerHTML = svg;
         }
 
+        // Fold the prose under each chart into a disclosure. The notes earn their place —
+        // several carry caveats that change how a chart should be read — but stacked a
+        // dozen deep they bury the charts they belong to. Legends and the forecast table
+        // are data, not commentary, so they stay out in the open.
+        function collapseChartNotes() {
+            document.querySelectorAll('.benchmark-chart-container').forEach(container => {
+                const notes = Array.from(container.children).filter(el =>
+                    el.classList.contains('benchmark-note') || el.classList.contains('benchmark-paper-links'));
+                if (!notes.length) return;
+
+                const details = document.createElement('details');
+                details.className = 'chart-notes';
+                const summary = document.createElement('summary');
+                summary.textContent = notes.some(n => n.classList.contains('benchmark-paper-links'))
+                    ? 'Notes & sources' : 'Notes';
+                details.appendChild(summary);
+                container.insertBefore(details, notes[0]);
+                notes.forEach(n => details.appendChild(n));
+            });
+        }
+
         // Initialize
         render();
         renderFleetFreshness();
@@ -2728,6 +2694,7 @@
         renderGDPvalChart();
         renderRliChart();
         renderArcChart();
+        collapseChartNotes();
     </script>
 </body>
 </html>
