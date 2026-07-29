@@ -221,7 +221,7 @@
                     </div>
                     <p class="benchmark-note">
                         Terminal-Bench 2.1 drops the model into a real shell and asks it to finish end-to-end engineering tasks — build a project, debug a failing service, wrangle a dataset — scored on whether the task actually completes. Where SWE-bench Verified checks a single patch, this measures whether a model can drive a machine over many steps.<br>
-                        It is where the recent Claude generations separate most clearly, and unlike SWE-bench it is nowhere near saturated: Opus 5 scores 84.6%, up nearly 13 points on Opus 4.8, with GPT-5.6 Sol narrowly ahead of the field at 85.8%. Scores are the Vals AI harness snapshot (July 2026); Anthropic's own max-effort figure for Opus 5 is higher at 89.1%.
+                        It is where the recent Claude generations separate most clearly, and unlike SWE-bench it is nowhere near saturated: Opus 5 scores 84.6%, up nearly 13 points on Opus 4.8, with GPT-5.6 Sol narrowly ahead of the field at 85.8%. Scores are the Vals AI harness snapshot (re-verified to the decimal July 29, 2026). Two caveats from Vals's own run notes: the Opus 5 and Fable 5 runs used Opus 4.8 as a fallback for refusals, with nine passing tasks across three runs potentially affected. Anthropic's own max-effort figure for Opus 5 is higher at 89.1% — a number that appears on no public leaderboard, so treat it as vendor-reported. OpenAI's counterpart claims for Sol run to 91.9% in its top mode.
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
@@ -262,7 +262,8 @@
                     <p class="benchmark-note">
                         Scores prior to Sonnet 4.5 measured on original OSWorld; scores from Sonnet 4.5 onward use OSWorld-Verified.<br>
                         OSWorld measures an AI model's ability to interact with real computer interfaces. Fable 5 now tops OSWorld-Verified at 85% — Claude Mythos 5 ties it at the same score and date, so only Fable is plotted.<br>
-                        Claude Opus 5 (Jul 2026) has no OSWorld-Verified run yet; Anthropic reported it at 70.6% on the newer, harder <em>OSWorld 2.0</em> long-horizon eval, where Opus 4.8 scores 55.7% — a different scale that can't be plotted here.
+                        These are Anthropic's current reported figures, mirrored by the aggregator boards. Two places the sources disagree, both audited July 29, 2026: Opus 4.7 is plotted at Anthropic's restated 82.3% (a harness fix announced with Opus 4.8) while the community boards still carry the original 78.0% run, and Sonnet 4.6's first-party entry on the official leaderboard reads 72.1% against the announced 72.5% plotted here. The official board's strongest Claude-driven entry is actually a third-party scaffold — Pointer Agent driving Opus 4.7 at 83.6% — which isn't plotted because the rest of the series is bare-model runs.<br>
+                        Claude Opus 5 (Jul 2026) still has no OSWorld-Verified run. Anthropic reported it at 70.6% on the newer, harder <em>OSWorld 2.0</em> long-horizon eval, where Opus 4.8 scores 55.7% — figures on OSWorld 2.0's partial-credit scale, roughly in line with the official board's Opus 4.8 at 54.8 (its strict pass/fail reading is 20.6). Mixed metrics and harnesses are why OSWorld 2.0 stays in this note rather than on the chart.
                     </p>
                 </div>
             </div>
@@ -1426,7 +1427,10 @@
                 opus: [
                     { model: 'Opus 4.5', date: '2025-11-24', score: 66.3 },
                     { model: 'Opus 4.6', date: '2026-02-05', score: 72.7 },
-                    { model: 'Opus 4.7', date: '2026-04-16', score: 82.8 },
+                    // 82.3 is Anthropic's restated figure (Opus 4.8 announcement footnote:
+                    // harness change "to more accurately reflect the model's performance");
+                    // the community boards still carry the original 78.0 run.
+                    { model: 'Opus 4.7', date: '2026-04-16', score: 82.3 },
                     { model: 'Opus 4.8', date: '2026-05-28', score: 83.4 }
                 ],
                 haiku: [
