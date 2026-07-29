@@ -113,7 +113,7 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">Capability Profile</h2>
-                <p class="benchmark-note" style="margin-bottom: 18px;">Where each model's strength actually lies. Ten evaluations, all scored 0&ndash;100. Eight axes come from Artificial Analysis's single harness (Omniscience is its accuracy reading, not the headline index); the two SWE-bench axes come from the public leaderboard aggregations used by the SWE-bench chart below, as AA no longer carries them. Haiku 4.5's two diamonds are Anthropic's own figures &mdash; no independent run exists. Hover any point for the raw score.</p>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Where each model's strength actually lies. Ten evaluations, all scored 0&ndash;100. Eight axes come from Artificial Analysis's single harness &mdash; Haiku 4.5 via AA's fully-measured Reasoning entry, and Omniscience as AA's accuracy reading rather than the headline index. The two SWE-bench axes come from the public boards: vendor-reported Verified figures via the aggregators, Scale's public-subset leaderboard for Pro. Hover any point for the raw score.</p>
                 <div class="benchmark-chart-container">
                     <div id="radar-chart"></div>
                     <div class="benchmark-legend">
@@ -134,15 +134,15 @@
                             <span>Sonnet 5</span>
                         </div>
                         <div class="benchmark-legend-item">
-                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px solid #8fa882; border-radius: 1px; transform: rotate(45deg);"></div>
-                            <span>Haiku 4.5 <em style="font-style: normal; opacity: 0.7;">(2 axes only)</em></span>
+                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px solid #8fa882;"></div>
+                            <span>Haiku 4.5</span>
                         </div>
                     </div>
                     <p class="benchmark-note">
                         Opus 5 (solid, filled) takes five of the ten axes — SWE-bench Verified, GPQA Diamond, CritPt, Terminal-Bench 2.1 and the Agentic Index — and its margin is widest on the two agentic ones. Fable 5 holds four: Humanity's Last Exam, Omniscience, SciCode and SWE-bench Pro. So the pricier model is still ahead on raw knowledge and the hardest coding set, while Opus 5 wins where a model has to <em>act</em> rather than recall. The tenth axis, AA-LCR, goes to Sonnet 5 by 0.7 points — long-context reasoning is the one place the cheapest model plotted matches the frontier.<br>
                         Against Opus 4.8 the gap is a single eight-week generation: +10 points on SWE-bench Pro, +8.2 on CritPt, +7.6 on Omniscience.<br>
-                        The axes are deliberately not all the same difficulty. GPQA Diamond is saturated — all four sit within 2.1 points of each other near the rim — while CritPt (frontier physics) and Omniscience (factual accuracy without hedging) still pin every Claude model well inside the chart. A benchmark where the whole field clusters tells you nothing about which model to pick; the dents are the informative part.<br>
-                        <strong>Haiku 4.5</strong> appears as two green diamonds rather than a shape. It predates most of these evals, and Artificial Analysis has never run it on them &mdash; every eval on its page reads <em>no data available</em> and its Intelligence Index entry is flagged an estimate. The only published numbers are Anthropic's own, and just two of them land on an axis here: SWE-bench Verified 73.3% and Terminal-Bench 2.1 43.8%. Both sit well inside every other model, which is the honest read on a model built for cost and speed. Its third published figure, OSWorld-Verified 50.7%, has no axis on this chart. The system card is no help either &mdash; it hands capability numbers off to the launch post and reports only safety and Responsible Scaling work, so the only evals in it are Cybench (15 of 32 challenges), LAB-Bench, a bias benchmark, a prompt-injection suite, and a 45-problem <em>hard subset</em> of SWE-bench Verified on which Haiku 4.5 scores 36.6%. That last one is a different set from the 500-problem eval on the axis above and can't be substituted for it. Drawing a decagon through two known points would have meant inventing the other eight.<br>
+                        The axes are deliberately not all the same difficulty. GPQA Diamond is saturated for the frontier tier — the four flagship polygons sit within 2.1 points of each other near the rim, and only Haiku (67.2) falls away from the cluster — while CritPt (frontier physics) and Omniscience (factual accuracy without hedging) still pin every Claude model well inside the chart. A benchmark where the whole field clusters tells you nothing about which model to pick; the dents are the informative part.<br>
+                        <strong>Haiku 4.5</strong> is now a full polygon, and its history on this chart is a correction worth owning: an earlier revision plotted it as two lone points on the claim that Artificial Analysis had never run it. That claim was half-right — AA's default Haiku page (the non-reasoning variant) shows <em>no data available</em> per eval and an estimated index — but AA separately carries <em>Claude 4.5 Haiku (Reasoning)</em>, fully measured (Intelligence Index 29.58), and that entry fills eight of the ten axes, including a measured 0.0 on CritPt and single-digit HLE. The shape it draws is the tier gap in one glance: long-context reasoning within a point of the frontier four (70.3 AA-LCR), respectable coding, and knowledge/agentic axes that collapse toward the centre. Its SWE-bench Pro figure (39.5) is Scale's public-subset leaderboard, and SWE-bench Verified (73.3) Anthropic's launch figure, matching how those two axes are sourced for every model here. Two stray details for the record: the 43.8 Terminal-Bench figure this chart previously credited to Anthropic is actually Vals AI's independent run (Anthropic's own launch number was 41.0 on Terminal-Bench <em>1.0</em>, a different version; the AA figure plotted is 44.2), and Haiku's system card contains no capability benchmarks at all — its closest item is a 45-problem hard-subset SWE run at 36.6% that is not the eval on the axis above.<br>
                         <strong>Still not plotted:</strong> Mythos 5, whose numbers come from Anthropic's own harness rather than this one, so its shape wouldn't be comparable to anything else here.
                     </p>
                     <div class="benchmark-paper-links">
@@ -2382,14 +2382,17 @@
                               critpt: 29.1, agentic: 55.3, terminal: 89.1, scicode: 55.7, swepro: 79.2 }
                 },
                 {
-                    // Haiku 4.5 has published results on two of these ten axes, and both come
-                    // from Anthropic rather than this harness — Artificial Analysis lists "no
-                    // data available" for every eval on its Haiku 4.5 page and marks the
-                    // Intelligence Index entry an estimate. So it is drawn as two readings,
-                    // not a polygon: joining two vertices across a ten-axis chart would trace
-                    // a shape eight-tenths invented.
-                    key: 'haiku', label: 'Haiku 4.5', color: '#8fa882', partial: true,
-                    scores: { swe: 73.3, terminal: 43.8 }
+                    // Haiku 4.5, full polygon. AA's default Haiku page (the non-reasoning
+                    // variant) shows no per-eval data and an estimated index — which misled
+                    // an earlier revision of this chart into plotting Haiku as two lone
+                    // points. AA separately carries "Claude 4.5 Haiku (Reasoning)", fully
+                    // measured (Intelligence Index 29.58), and that entry supplies eight of
+                    // these ten axes, including a measured 0.0 on CritPt. The SWE axes
+                    // follow the same sourcing as the other models: Verified is Anthropic's
+                    // launch figure via the aggregators, Pro is Scale's public-subset board.
+                    key: 'haiku', label: 'Haiku 4.5', color: '#8fa882',
+                    scores: { swe: 73.3, gpqa: 67.2, hle: 9.7, omni: 17.4, lcr: 70.3,
+                              critpt: 0.0, agentic: 16.4, terminal: 44.2, scicode: 43.3, swepro: 39.5 }
                 }
             ];
 
@@ -2449,27 +2452,6 @@
             // Series. Non-hero models are dashed outlines with hollow markers; the hero
             // gets a heavier solid stroke and a translucent fill, so it reads first.
             models.forEach(m => {
-                // Partial series: markers only, on the axes that actually have a number.
-                // Diamonds rather than circles so they never read as vertices of a missing
-                // polygon, each with a stub of its spoke to tie it to the right axis.
-                if (m.partial) {
-                    axes.forEach((ax, i) => {
-                        const v = m.scores[ax.key];
-                        if (v === undefined) return;
-                        const [px, py] = pt(i, v);
-                        const r = 5;
-                        const diamond = [
-                            `${px.toFixed(1)},${(py - r).toFixed(1)}`,
-                            `${(px + r).toFixed(1)},${py.toFixed(1)}`,
-                            `${px.toFixed(1)},${(py + r).toFixed(1)}`,
-                            `${(px - r).toFixed(1)},${py.toFixed(1)}`
-                        ].join(' ');
-                        svg += `<polygon points="${diamond}" fill="#fffdfa" stroke="${m.color}" stroke-width="2.2">`
-                             + `<title>${m.label} — ${ax.name}: ${v} (one of only two published axes)</title></polygon>`;
-                    });
-                    return;
-                }
-
                 const pts = axes.map((ax, i) => pt(i, m.scores[ax.key]));
                 const poly = pts.map(p => p.map(v => v.toFixed(1)).join(',')).join(' ');
 
