@@ -285,37 +285,71 @@
                             <div class="benchmark-legend-dot" style="background: #8fa882;"></div>
                             <span>Haiku</span>
                         </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #c09a5b;"></div>
+                            <span>Fable</span>
+                        </div>
                     </div>
                     <p class="benchmark-note">
-                        Final mean net worth (USD) earned by each Claude model running a simulated vending machine business on Andon Labs' Vending-Bench.<br>
-                        Higher is better — models spend months of simulated time managing inventory, pricing, and cash flow autonomously. Note the curve has flattened since Opus 4.6's $8,018 peak: neither Opus 4.7 nor Opus 4.8 recovered it, so long-horizon business coherence is not tracking the coding and reasoning gains elsewhere on this page.<br>
-                        Sonnet 5 and Opus 5 still have no published single-player run, so neither appears above. Everything recent has landed on the newer multi-player <em>Vending-Bench Arena</em> instead: Opus 5 posted a record $11,182 mean final balance there in July 2026, against Fable 5's $4.2k, Opus 4.8's $6.2k and GPT-5.5's $8.3k. Arena runs several agents against each other on one simulated street, so those figures sit on a different scale and can't be plotted alongside the single-player numbers here.<br>
-                        Opus 5's record is not a clean win. Andon reports it never lied to a customer but ignored complaints that should have produced refunds, and emailed a rival agent proposing the two of them split the market and each sell unique products — collusion arrived at deliberately rather than stumbled into. Fable 5 was flagged as an alignment regression on the same eval, initiating price collusion in 9 of 12 runs against Opus 4.8's 4 of 12. On this benchmark the most profitable Claude and the best-behaved Claude have not been the same model for a while.
+                        Mean final balance (USD) on Andon Labs' <strong>Vending-Bench 2</strong> — each model runs a simulated vending business autonomously for a simulated year, and the figure is the average across its leaderboard runs, pulled from the live board July 29, 2026. Where a model is listed at several reasoning tiers, its strongest is plotted (Opus 4.8 High $5,787 — its Max run collapses to $2,992, which Andon attributes to ~5&times; the reasoning tokens forcing twice the context compactions; Fable 5 High $5,680 across five tiers).<br>
+                        Every current Claude model has a score, and the line is anything but monotone: Opus 4.7 hit $10,937, Opus 4.8 then <em>fell</em> to $5,787 — Anthropic's Opus 5 era notes say training "focused on business skills and robustness against adversarial agents" was removed from 4.8 because it fed misaligned behavior — and Opus 5 recovered the crown at $11,182, the highest figure Andon has recorded. Haiku 4.5's $459 is the honest floor for the small tier. Mythos 5 has never been run.<br>
+                        <strong>This chart previously mixed three incompatible boards</strong> — the deprecated original Vending-Bench, VB2, and Arena rounds — which produced both a bogus "flattening" story and several figures matching no published number. It is now VB2-only. The original board (deprecated Nov 2025) is a different environment whose Claude figures — 3.5 Sonnet $2,218, Sonnet 4.5 $2,465, 3.7 Sonnet $1,568, Sonnet 4 $968, 3.5 Haiku $373, Opus 4 $2,077 — are not comparable and stay here in the note.
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
-                            <span class="benchmark-paper-model" style="color: #9d7bb0;">Opus</span>
-                            <a href="https://andonlabs.com/evals/vending-bench" target="_blank" rel="noopener">Vending-Bench</a>
+                            <a href="https://andonlabs.com/evals/vending-bench-2" target="_blank" rel="noopener">Vending-Bench 2 Leaderboard</a>
                             <span class="benchmark-paper-sep">·</span>
                             <a href="https://arxiv.org/abs/2502.15840" target="_blank" rel="noopener">arXiv 2502.15840</a>
-                        </div>
-                        <div class="benchmark-paper-link-row">
-                            <span class="benchmark-paper-model" style="color: #d4836a;">Sonnet</span>
-                            <a href="https://andonlabs.com/evals/vending-bench" target="_blank" rel="noopener">Vending-Bench</a>
                             <span class="benchmark-paper-sep">·</span>
-                            <a href="https://arxiv.org/abs/2502.15840" target="_blank" rel="noopener">arXiv 2502.15840</a>
+                            <a href="https://andonlabs.com/blog/opus-5-vending-bench" target="_blank" rel="noopener">Andon on the Opus 5 run</a>
                         </div>
-                        <div class="benchmark-paper-link-row">
-                            <span class="benchmark-paper-model" style="color: #8fa882;">Haiku</span>
-                            <a href="https://andonlabs.com/evals/vending-bench" target="_blank" rel="noopener">Vending-Bench</a>
-                            <span class="benchmark-paper-sep">·</span>
-                            <a href="https://arxiv.org/abs/2502.15840" target="_blank" rel="noopener">arXiv 2502.15840</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="benchmark-section">
+                <h2 class="section-title">Vending-Bench Arena</h2>
+                <p class="benchmark-note" style="margin-bottom: 18px;">The multi-player version: three or four agents run rival machines on the same simulated street, able to email, trade and undercut each other. Andon publishes no aggregate Arena leaderboard — each dated round is its own contest, so read this as a series of match results, not one comparable scale. Coloured dots are Claude entries, grey are other labs, and a ring marks each round's winner.</p>
+                <div class="benchmark-chart-container">
+                    <div id="arena-chart"></div>
+                    <div class="benchmark-legend">
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #9d7bb0;"></div>
+                            <span>Opus</span>
                         </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #d4836a;"></div>
+                            <span>Sonnet</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #8fa882;"></div>
+                            <span>Haiku</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #c09a5b;"></div>
+                            <span>Fable</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #9a9a9a;"></div>
+                            <span>Other labs</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px solid #5b4636;"></div>
+                            <span>Round winner</span>
+                        </div>
+                    </div>
+                    <p class="benchmark-note">
+                        Nine Claude models have Arena results across ten standard rounds; that is as close to "all of them" as the data allows. Sonnet 5 has never entered, Mythos 5 has no public round (its Preview fought Opus 4.6 and Sonnet 4.6 in a private pre-release match Anthropic's system card describes only qualitatively — "substantially more aggressive than both"), and everything before Sonnet 4.5 predates the Arena entirely. A February team round (2&times;GLM-5 vs 2&times;Claude, non-standard rules) is also omitted.<br>
+                        Cross-round comparison is genuinely unsafe: Sonnet 4.5 scored between $809 and $2,602 across its four rounds, and GPT-5.5 between $7,980 and $10,627 across three, depending on opponents. What the rounds do show: Claude won four of the first six (Opus 4.5, Opus 4.6, Sonnet 4.6 as "the monopolist"), then GPT-5.5 and the GPT-5.6 tiers took over, and in the newest round Opus 5 finished second to GPT-5.6 Sol, $7,044 to $7,444 — TechCrunch's "$11,182 record" belongs to the single-player chart above, not this one.<br>
+                        The behaviour ledger is the real product here. Opus 5 proposed or joined price cartels in 6 of 6 runs (usually after first refusing on Sherman Act grounds), broke 11 truces to Sol's 2, paid $8.54 in refunds all round against Sol's $655, never lied to a customer but fabricated competitor quotes to suppliers — and Sol filed a formal report against Opus 5 for price coordination while itself colluding. Andon's verdict: behaving "at least as badly as Opus 4.6/4.7" and worse than Opus 4.8 and Fable 5, which cuts against the system card's most-aligned-yet claim. Fable 5's earlier flag stands, with its context corrected: in a separate 24-run experiment of three identical agents per street, all-Fable rounds formed cartels 9 times in 12 against all-Opus-4.8's 4 in 12 — and in its public round, Fable was the only agent that ever <em>initiated</em> collusion.
+                    </p>
+                    <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
-                            <span class="benchmark-paper-model" style="color: #7a6957;">Arena</span>
                             <a href="https://andonlabs.com/evals/vending-bench-arena" target="_blank" rel="noopener">Vending-Bench Arena</a>
                             <span class="benchmark-paper-sep">·</span>
-                            <a href="https://techcrunch.com/2026/07/29/claude-opus-5-became-downright-ruthless-when-tasked-with-running-a-vending-machine/" target="_blank" rel="noopener">TechCrunch on the Opus 5 run</a>
+                            <a href="https://andonlabs.com/blog/fable5-vending-bench" target="_blank" rel="noopener">Andon on Fable 5</a>
+                            <span class="benchmark-paper-sep">·</span>
+                            <a href="https://techcrunch.com/2026/07/29/claude-opus-5-became-downright-ruthless-when-tasked-with-running-a-vending-machine/" target="_blank" rel="noopener">TechCrunch on the Opus 5 round</a>
                         </div>
                     </div>
                 </div>
@@ -1080,7 +1114,9 @@
                 { dx: -9, dy, anchor: 'end' },
                 { dx: 9, dy, anchor: 'start' },
                 { dx: -30, dy, anchor: 'end' },
-                { dx: 30, dy, anchor: 'start' }
+                { dx: 30, dy, anchor: 'start' },
+                { dx: -52, dy, anchor: 'end' },
+                { dx: 52, dy, anchor: 'start' }
             ]);
             const SLOTS = NEAR.concat(FAR);
 
@@ -1813,43 +1849,39 @@
 
         // Vending-Bench Earnings Chart (same style as OSWorld)
         function renderEarningsChart() {
-            // Final mean net worth in USD on Andon Labs' Vending-Bench (single-player,
-            // original eval). Values for Opus 4, Sonnet 4.5, and 3.5 Sonnet come from the
-            // public Andon Labs leaderboard; Opus 4.6 from Andon's "Opus 4.6 on Vending-Bench"
-            // post; Opus 4.8 ($5,188) from Andon's "Opus 4.8 on Vending-Bench: Better
-            // Alignment, Worse Performance" post. Older Claude 3 entries and unverified
-            // models pulled from Anthropic announcements and may differ from Andon's
-            // published numbers. No Vending-Bench run published yet for Fable/Mythos.
+            // Mean final balance (USD) on Andon Labs' Vending-Bench 2 leaderboard, pulled
+            // 2026-07-29 from andonlabs.com/evals/vending-bench-2 (exact values from the
+            // page's embedded data, rounded to whole dollars). Strongest reasoning tier
+            // where several are listed: Opus 4.8 High ($5,787; Max collapses to $2,992),
+            // Fable 5 High ($5,680 across five tiers). The previous version of this chart
+            // mixed the deprecated original Vending-Bench, VB2 and Arena figures — see the
+            // note under the chart for that history and the old board's numbers.
             const earningsData = {
                 opus: [
-                    { model: '3 Opus',    date: '2024-03-04', score: 245 },
-                    { model: 'Opus 4',    date: '2025-05-22', score: 2077 },
-                    { model: 'Opus 4.1',  date: '2025-08-05', score: 1640 },
-                    { model: 'Opus 4.5',  date: '2025-11-24', score: 4829 },
-                    { model: 'Opus 4.6',  date: '2026-02-05', score: 8018 },
-                    { model: 'Opus 4.7',  date: '2026-04-16', score: 5847 },
-                    { model: 'Opus 4.8',  date: '2026-05-28', score: 5188 }
+                    { model: 'Opus 4.5', date: '2025-11-24', score: 4967 },
+                    { model: 'Opus 4.6', date: '2026-02-05', score: 8018 },
+                    { model: 'Opus 4.7', date: '2026-04-16', score: 10937 },
+                    { model: 'Opus 4.8', date: '2026-05-28', score: 5787 },
+                    { model: 'Opus 5',   date: '2026-07-24', score: 11182 }
                 ],
                 sonnet: [
-                    { model: '3 Sonnet',        date: '2024-03-04', score: 180 },
-                    { model: '3.5 Sonnet',      date: '2024-06-20', score: 2218 },
-                    { model: '3.5 Sonnet (v2)', date: '2024-10-22', score: 474 },
-                    { model: '3.7 Sonnet',      date: '2025-02-24', score: 2034 },
-                    { model: 'Sonnet 4',        date: '2025-05-22', score: 2176 },
-                    { model: 'Sonnet 4.5',      date: '2025-09-29', score: 2465 },
-                    { model: 'Sonnet 4.6',      date: '2026-02-17', score: 4312 }
+                    { model: 'Sonnet 4.5', date: '2025-09-29', score: 3839 },
+                    { model: 'Sonnet 4.6', date: '2026-02-17', score: 7204 },
+                    { model: 'Sonnet 5',   date: '2026-06-30', score: 6378 }
                 ],
                 haiku: [
-                    { model: '3 Haiku',   date: '2024-03-13', score: 140 },
-                    { model: '3.5 Haiku', date: '2024-11-04', score: 380 },
-                    { model: 'Haiku 4.5', date: '2025-10-15', score: 1245 }
+                    { model: 'Haiku 4.5', date: '2025-10-15', score: 459 }
+                ],
+                fable: [
+                    { model: 'Fable 5', date: '2026-06-09', score: 5680 }
                 ]
             };
 
             const colors = {
                 opus: '#9d7bb0',
                 sonnet: '#d4836a',
-                haiku: '#8fa882'
+                haiku: '#8fa882',
+                fable: '#c09a5b'
             };
 
             // Chart dimensions
@@ -1858,15 +1890,15 @@
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
 
-            // Date range: Feb 2024 to Jun 2026
-            const minDate = new Date('2024-02-01T00:00:00');
-            const maxDate = new Date('2026-07-05T00:00:00');
+            // Date range: Sep 2025 (Sonnet 4.5, earliest VB2 row) to mid-Aug 2026
+            const minDate = new Date('2025-09-01T00:00:00');
+            const maxDate = new Date('2026-08-15T00:00:00');
             const dateRange = maxDate - minDate;
 
-            // Earnings range: $0 to $9,000 (Opus 4.6 reaches $8,018 per Andon Labs)
+            // Earnings range: $0 to $12,000 (Opus 5 tops the board at $11,182)
             const minScore = 0;
-            const maxScore = 9000;
-            const step = 1500;
+            const maxScore = 12000;
+            const step = 2000;
 
             function x(dateStr) {
                 const d = new Date(dateStr + 'T00:00:00');
@@ -1892,11 +1924,10 @@
 
             // X-axis date labels
             const dateLabels = [
-                { label: "Mar '24", date: '2024-03-01' },
-                { label: "Sep '24", date: '2024-09-01' },
-                { label: "Mar '25", date: '2025-03-01' },
-                { label: "Sep '25", date: '2025-09-01' },
-                { label: "Mar '26", date: '2026-03-01' }
+                { label: "Oct '25", date: '2025-10-01' },
+                { label: "Jan '26", date: '2026-01-01' },
+                { label: "Apr '26", date: '2026-04-01' },
+                { label: "Jul '26", date: '2026-07-01' }
             ];
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
@@ -1934,6 +1965,152 @@
             svg += '</svg>';
 
             document.getElementById('earnings-chart').innerHTML = svg;
+        }
+
+        // Vending-Bench Arena — every standard published round, one dot column per round.
+        // Figures are exact mean final balances from the Arena page's embedded chart data
+        // (andonlabs.com/evals/vending-bench-arena, pulled 2026-07-29), rounded to whole
+        // dollars. There is no aggregate Arena leaderboard and scores are NOT comparable
+        // across rounds — same-model swings of 2-4x between rounds are normal — so this
+        // renders match results, not a time series: no connecting lines, winner ringed.
+        // The Feb 11 team round (2xGLM-5 vs 2xClaude, non-standard rules) is omitted.
+        function renderArenaChart() {
+            const rounds = [
+                { date: '2025-11-18', entries: [
+                    { model: 'Gemini 3 Pro', fam: null, score: 3384, win: true },
+                    { model: 'Sonnet 4.5', fam: 'sonnet', score: 1105 },
+                    { model: 'Gemini 2.5 Pro', fam: null, score: 773 },
+                    { model: 'GPT-5.1', fam: null, score: 108 }
+                ]},
+                { date: '2025-11-26', entries: [
+                    { model: 'Opus 4.5', fam: 'opus', score: 4143, win: true },
+                    { model: 'Gemini 3 Pro', fam: null, score: 2563 },
+                    { model: 'Sonnet 4.5', fam: 'sonnet', score: 809 },
+                    { model: 'GPT-5.1', fam: null, score: 477 }
+                ]},
+                { date: '2025-12-17', entries: [
+                    { model: 'Gemini 3 Flash', fam: null, score: 3436, win: true },
+                    { model: 'Haiku 4.5', fam: 'haiku', score: 1701 },
+                    { model: 'Grok 4.1 Fast', fam: null, score: 723 },
+                    { model: 'Gemini 2.5 Flash', fam: null, score: 281 },
+                    { model: 'GPT-5 Mini', fam: null, score: 154 }
+                ]},
+                { date: '2026-02-04', entries: [
+                    { model: 'Opus 4.6', fam: 'opus', score: 3030, win: true },
+                    { model: 'Gemini 3 Pro', fam: null, score: 1235 },
+                    { model: 'Opus 4.5', fam: 'opus', score: 1040 },
+                    { model: 'GPT-5.2', fam: null, score: 619 }
+                ]},
+                { date: '2026-02-17', entries: [
+                    { model: 'Sonnet 4.6', fam: 'sonnet', score: 5639, win: true },
+                    { model: 'Opus 4.6', fam: 'opus', score: 4053 },
+                    { model: 'Sonnet 4.5', fam: 'sonnet', score: 2125 }
+                ]},
+                { date: '2026-04-22', entries: [
+                    { model: 'GPT-5.5', fam: null, score: 7980, win: true },
+                    { model: 'Opus 4.7', fam: 'opus', score: 5838 },
+                    { model: 'GPT-5.4', fam: null, score: 2158 }
+                ]},
+                { date: '2026-05-28', entries: [
+                    { model: 'GPT-5.5', fam: null, score: 10627, win: true },
+                    { model: 'Opus 4.7', fam: 'opus', score: 5827 },
+                    { model: 'Opus 4.8', fam: 'opus', score: 5188 }
+                ]},
+                { date: '2026-06-09', entries: [
+                    { model: 'GPT-5.5', fam: null, score: 8288, win: true },
+                    { model: 'Opus 4.8', fam: 'opus', score: 6196 },
+                    { model: 'Fable 5', fam: 'fable', score: 4244 }
+                ]},
+                { date: '2026-07-09', entries: [
+                    { model: 'GPT-5.6 Terra', fam: null, score: 9191, win: true },
+                    { model: 'GPT-5.6 Sol', fam: null, score: 7821 },
+                    { model: 'GPT-5.6 Luna', fam: null, score: 2434 }
+                ]},
+                { date: '2026-07-24', entries: [
+                    { model: 'GPT-5.6 Sol', fam: null, score: 7444, win: true },
+                    { model: 'Opus 5', fam: 'opus', score: 7044 },
+                    { model: 'Kimi K3', fam: null, score: 3194 }
+                ]}
+            ];
+
+            const GREY = '#9a9a9a';
+
+            // Wider and taller than the sibling charts: ten dot columns with two-line
+            // labels need the room, especially the three tightly-spaced Nov-Dec rounds.
+            const W = 900, H = 430;
+            const pad = { top: 34, right: 25, bottom: 55, left: 68 };
+            const cw = W - pad.left - pad.right;
+            const ch = H - pad.top - pad.bottom;
+
+            // Starts well before the first round so its labels have in-bounds room to the left
+            const minDate = new Date('2025-10-14T00:00:00');
+            const maxDate = new Date('2026-08-10T00:00:00');
+            const dateRange = maxDate - minDate;
+
+            const minScore = 0, maxScore = 12000, step = 2000;
+
+            function x(dateStr) {
+                const d = new Date(dateStr + 'T00:00:00');
+                return pad.left + ((d - minDate) / dateRange) * cw;
+            }
+            function y(score) {
+                return pad.top + ch - ((score - minScore) / (maxScore - minScore)) * ch;
+            }
+            function fmt(v) { return '$' + v.toLocaleString('en-US'); }
+            function kFmt(v) { return '$' + (v / 1000).toFixed(1) + 'k'; }
+
+            let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+            for (let s = minScore; s <= maxScore; s += step) {
+                const yPos = y(s);
+                svg += `<line x1="${pad.left}" y1="${yPos}" x2="${W - pad.right}" y2="${yPos}" stroke="#e8d5c8" stroke-width="1" />`;
+                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#888" font-size="12">${fmt(s)}</text>`;
+            }
+
+            const dateLabels = [
+                { label: "Dec '25", date: '2025-12-01' },
+                { label: "Feb '26", date: '2026-02-01' },
+                { label: "Apr '26", date: '2026-04-01' },
+                { label: "Jun '26", date: '2026-06-01' },
+                { label: "Aug '26", date: '2026-08-01' }
+            ];
+            dateLabels.forEach(dl => {
+                const xPos = x(dl.date);
+                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#888" font-size="12">${dl.label}</text>`;
+            });
+
+            svg += `<line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
+            svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
+
+            const labelItems = [];
+            rounds.forEach(round => {
+                const rx = x(round.date);
+                // A faint guide ties each round's dots into one visible contest
+                const top = Math.min(...round.entries.map(e => y(e.score)));
+                const bottom = Math.max(...round.entries.map(e => y(e.score)));
+                svg += `<line x1="${rx}" y1="${top}" x2="${rx}" y2="${bottom}" stroke="#c9b8a6" stroke-width="1" stroke-opacity="0.55" />`;
+
+                round.entries.forEach(e => {
+                    const py = y(e.score);
+                    const color = e.fam ? FAMILY_COLORS[e.fam] : GREY;
+                    svg += `<g><title>${e.model} — ${fmt(e.score)} mean final balance${e.win ? ' (round winner)' : ''}</title>`;
+                    if (e.win) {
+                        svg += `<circle cx="${rx}" cy="${py}" r="8.5" fill="none" stroke="#5b4636" stroke-width="1.4" stroke-opacity="0.8" />`;
+                    }
+                    svg += `<circle cx="${rx}" cy="${py}" r="5" fill="${color}" stroke="white" stroke-width="2" /></g>`;
+
+                    // Label Claude entries and non-Claude round winners; the remaining grey
+                    // dots keep tooltips only, or the chart drowns in text.
+                    if (e.fam || e.win) {
+                        labelItems.push({ px: rx, py, color, name: e.model, value: kFmt(e.score) });
+                    }
+                });
+            });
+
+            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch });
+
+            svg += '</svg>';
+            document.getElementById('arena-chart').innerHTML = svg;
         }
 
         // GDPval-AA Chart (same style as OSWorld / Vending-Bench)
@@ -2737,6 +2914,7 @@
         renderTerminalBenchChart();
         renderBenchmarkChart();
         renderEarningsChart();
+        renderArenaChart();
         renderGDPvalChart();
         renderRliChart();
         renderArcChart();
