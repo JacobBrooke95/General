@@ -121,7 +121,9 @@ function table(forecast, freshness, weeks) {
       `window ${fmt(f.windowStart)} – ${fmt(f.windowEnd)} · ` +
       (f.sampleSize === 0
         ? 'no prior gaps, baseline only'
-        : `${f.sampleSize} prior gap${f.sampleSize === 1 ? '' : 's'}, weighted ${f.ownEwma}d, ${f.baselineWeight}% baseline`)
+        : f.baselineWeight === 0
+        ? `${f.sampleSize} prior gaps, weighted ${f.ownEwma}d, own history only`
+        : `${f.sampleSize} prior gap, weighted ${f.ownEwma}d, ${f.baselineWeight}% baseline`)
     ));
   });
 
@@ -139,7 +141,7 @@ function table(forecast, freshness, weeks) {
   const n = freshness.newest, a = freshness.average;
   lines.push('');
   lines.push(BOLD('Lineup freshness'));
-  lines.push(`  newest release   ${n.percent}% of cycle  ${n.zone.padEnd(8)} ${DIM(`${n.version}, ${n.daysSince}d ago vs ${freshness.shipCadence}d cadence`)}`);
+  lines.push(`  newest release   ${n.percent}% of cycle  ${n.zone.padEnd(8)} ${DIM(`${n.version}, ${n.daysSince}d into its family's ~${n.cycleDays}d cycle`)}`);
   lines.push(`  lineup average   ${a.percent}% of cycle  ${a.zone.padEnd(8)} ${DIM(`${a.ageDays}d avg age across ${freshness.modelCount} families vs ${a.cycleDays}d cycle`)}`);
   lines.push(DIM(`  oldest: ${a.oldestVersion}, untouched for ${a.oldestDays}d`));
   lines.push('');
@@ -169,6 +171,7 @@ function backtestTable(bt) {
   const s = bt.summary;
   lines.push('');
   lines.push(`  ${s.count} forecasts · median absolute error ${BOLD(s.medianAbsErrorDays + 'd')} · mean ${s.meanAbsErrorDays}d`);
+  lines.push(`  mature regime (≥2 prior gaps, ${s.matureCount} forecasts): median ${BOLD(s.matureMedianAbsErrorDays + 'd')}`);
   lines.push(`  mean signed error ${s.meanSignedErrorDays > 0 ? '+' : ''}${s.meanSignedErrorDays}d ${DIM(s.meanSignedErrorDays > 0 ? '(model runs late — it lags an accelerating cadence)' : '(model runs early)')}`);
   lines.push(`  actual date landed inside the estimate window ${s.hitRate}% of the time`);
   lines.push(DIM(`  excluding ${s.overdueCalls} "due now" calls, which trivially contain the next day: ${s.datedHitRate}%`));

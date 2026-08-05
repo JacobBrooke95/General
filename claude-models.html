@@ -46,7 +46,7 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">Release Calendar</h2>
-                <p class="benchmark-note" style="margin-bottom: 18px;">Six weeks back and six weeks forward on one date axis, a lane per family, pivoting on today. Solid dots are releases that happened; hollow dots are estimates from the forecast model below, each sitting on a dashed bar spanning the window it is likely to land in.</p>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Six weeks back, and forward as far as the furthest estimate, on one date axis — a lane per family, pivoting on today. Solid dots are releases that happened, with dotted ticks showing what the model had called for them the day before they shipped; hollow dots are the estimated dates for each family's next release, each on a dashed bar spanning the window it is likely to land in.</p>
                 <div class="benchmark-chart-container">
                     <div id="release-calendar"></div>
                     <div class="benchmark-legend">
@@ -61,6 +61,10 @@
                         <div class="benchmark-legend-item">
                             <div class="benchmark-legend-dot" style="background: rgba(157,123,176,0.18); border: 1px dashed rgba(157,123,176,0.8); width: 26px; height: 11px; border-radius: 6px;"></div>
                             <span>Estimate window</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: transparent; border-bottom: 2px dotted #9d7bb0; width: 20px; height: 2px; border-radius: 0;"></div>
+                            <span>Model's past call &rarr; actual</span>
                         </div>
                         <div class="benchmark-legend-item">
                             <div class="benchmark-legend-dot" style="background: #e07a5f; width: 2px; height: 14px; border-radius: 0;"></div>
@@ -554,11 +558,15 @@
             // Claude 3 Opus to Claude 4 Opus, 57 from Opus 4.8 to Opus 5 — so a flat mean of
             // a family's gaps is useless. Every increase in GAP_DECAY made the backtest
             // monotonically worse; at 0.5 the model's median error was double what it is here.
+            // SPREAD was widened Aug 2026 from ±35% [10,45]: the narrower windows caught the
+            // actual date only 57% of the time (excluding due-now calls, which contain the
+            // next day trivially) — too low for a bar labelled "likely". ±50% catches 86%
+            // at zero cost to the point estimates.
             const GAP_DECAY = 0.25;      // each older gap counts a quarter as much as the next
-            const SHRINK_K = 1;          // pseudo-gaps pulling thin histories to the fleet baseline
+            const SHRINK_K = 1;          // pseudo-gaps pulling single-gap families to the fleet baseline
             const BASELINE_WINDOW = 6;   // family-level gaps behind the fleet baseline
-            const SPREAD_FRACTION = 0.35;// ± window as a share of the predicted gap
-            const SPREAD_MIN = 10, SPREAD_MAX = 45;
+            const SPREAD_FRACTION = 0.5; // ± window as a share of the predicted gap
+            const SPREAD_MIN = 14, SPREAD_MAX = 70;
 
             function parse(dateStr) { return new Date(dateStr + 'T00:00:00'); }
 
@@ -671,12 +679,17 @@
                 const gaps = gapsFor(model, opts.cutoff).map(g => g.days);
                 const n = gaps.length;
 
-                // Shrink the family's own estimate toward the fleet baseline in proportion
-                // to how little history it has: one Fable release tells you nothing about
-                // Fable's cadence, eight Opus releases tell you a lot.
+                // A family with two or more real gaps stands on its own history. The fleet
+                // baseline is dominated by the fast Opus/Sonnet cadence, and blending it in
+                // dragged slow families into premature "overdue" calls — under full
+                // shrinkage the backtest ran 141 days early on Haiku, and its central
+                // estimate sat below both of Haiku's observed gaps, which no amount of
+                // prior-pulling justifies. Single-gap families still borrow the baseline
+                // (one gap genuinely underdetermines a cadence); zero-gap families are
+                // baseline-only.
                 const own = ewma(gaps);
                 if (own === null && baseline === null) return null; // nothing to go on yet
-                const w = n / (n + SHRINK_K);
+                const w = n >= 2 ? 1 : n / (n + SHRINK_K);
                 const blended = own === null ? baseline
                     : baseline === null ? own
                     : w * own + (1 - w) * baseline;
@@ -746,7 +759,12 @@
                 const avgCycle = fc.families.reduce((a, f) => a + f.gapDays, 0) / fc.families.length;
                 const oldest = fc.families.slice().sort((a, b) => b.daysSince - a.daysSince)[0];
 
-                const newestPct = Math.round((newest.daysSince / fc.shipCadence) * 100);
+                // The newest release is measured against its own family's cycle, not the
+                // lineup-wide ship cadence. Against the ~23-day cadence, "Fresh" lasted six
+                // days and a twelve-day-old flagship read "Aging" — a metronome answer to a
+                // question nobody was asking. Against its family cycle it reads as a person
+                // would: how far is this model through the stretch before its own successor?
+                const newestPct = Math.round((newest.daysSince / newest.gapDays) * 100);
                 const avgPct = Math.round((avgAge / avgCycle) * 100);
 
                 return {
@@ -758,6 +776,7 @@
                         family: newest.name,
                         date: newest.lastDate,
                         daysSince: newest.daysSince,
+                        cycleDays: newest.gapDays,
                         percent: newestPct,
                         zone: zoneFor(newestPct)
                     },
@@ -805,6 +824,10 @@
                 // An "overdue" call says "any day now", so it trivially contains the next
                 // day. Score those separately rather than letting them flatter the hit rate.
                 const live = results.filter(r => !r.overdue);
+                // Forecasts made with two or more prior gaps — the regime every family
+                // with any history is in today. The headline median is dragged by four
+                // giant early-history misses made from zero or one gap.
+                const mature = results.filter(r => r.sampleSize >= 2).map(r => Math.abs(r.errorDays));
                 const pct = (a, b) => (b ? Math.round((a / b) * 100) : null);
 
                 return {
@@ -812,6 +835,8 @@
                     summary: {
                         count: results.length,
                         medianAbsErrorDays: median(abs),
+                        matureCount: mature.length,
+                        matureMedianAbsErrorDays: median(mature),
                         meanAbsErrorDays: abs.length ? Math.round(abs.reduce((a, b) => a + b, 0) / abs.length) : null,
                         meanSignedErrorDays: signed.length ? Math.round(signed.reduce((a, b) => a + b, 0) / signed.length) : null,
                         hitRate: pct(results.filter(r => r.inWindow).length, results.length),
@@ -1240,12 +1265,14 @@
                 </div>
 
                 <p class="fleet-note">
-                    The left dot measures the newest release of any family against how often
-                    something &mdash; anything &mdash; ships (${f.shipCadence} days). The right dot measures the average
-                    age of the ${f.modelCount} family flagships (${a.ageDays} days) against how long a family
-                    typically goes between refreshes (${a.cycleDays} days). They can disagree sharply, and
-                    right now they do: ${n.version} is ${n.daysSince} days old, but ${a.oldestVersion} has sat
-                    untouched for ${a.oldestDays} days and drags the average ${a.zone === 'fresh' ? 'down' : 'up'}.
+                    The left dot measures the newest release of any family against that family's own
+                    release cycle (${n.version} is ${n.daysSince} days into an estimated ${n.cycleDays}-day ${n.family}
+                    cycle). The right dot measures the average age of the ${f.modelCount} family flagships
+                    (${a.ageDays} days) against how long a family typically goes between refreshes
+                    (${a.cycleDays} days). They can disagree sharply: a lineup can hold a brand-new flagship
+                    and still be old on average &mdash; ${a.oldestVersion} has sat untouched for ${a.oldestDays} days
+                    and drags the average ${a.zone === 'fresh' ? 'down' : 'up'}. For reference, something in the
+                    lineup ships about every ${f.shipCadence} days.
                 </p>
             `;
         }
@@ -1263,9 +1290,16 @@
             const shortFmt = s => H.parse(s).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
             const WEEKS = 6;
-            const SPAN = WEEKS * 14;                        // days, end to end
             const axisStart = H.addDays(today, -WEEKS * 7);
-            const axisEnd = H.addDays(today, WEEKS * 7);
+            // The forward horizon stretches to cover every family's estimated date (past
+            // estimates plot as "overdue, due now" on today's line instead) plus a little
+            // margin, so no future prediction sits off the chart. Never less than six weeks.
+            const lastCentre = fc.families.reduce((latest, f) => {
+                const centre = f.overdue ? today : H.parse(f.predictedDate);
+                return centre > latest ? centre : latest;
+            }, H.addDays(today, WEEKS * 7 - 10));
+            const axisEnd = H.addDays(lastCentre, 10);
+            const SPAN = H.diffDays(axisStart, axisEnd);    // days, end to end
 
             const laneOrder = ['mythos', 'fable', 'opus', 'sonnet', 'haiku'];
             const W = 880;
@@ -1302,13 +1336,16 @@
                 svg += `<text x="${pad.left - 14}" y="${laneY(i) + 4}" text-anchor="end" fill="${FAMILY_COLORS[fam]}" font-size="12.5" font-weight="700">${modelData[fam].name}</text>`;
             });
 
-            // Week gridlines, dated every fortnight
+            // Week gridlines. Date labels adapt to the axis length — every fortnight when
+            // six weeks forward, backing off to monthly-ish as the horizon stretches —
+            // and skip the today-adjacent slot, which the TODAY flag already dates.
+            const labelEvery = SPAN > 130 ? 28 : 14;
             for (let d = 0; d <= SPAN; d += 7) {
                 const at = H.addDays(axisStart, d);
                 const px = x(at);
-                const fortnight = d % 14 === 0;
-                svg += `<line x1="${px}" y1="${pad.top}" x2="${px}" y2="${pad.top + plotH}" stroke="#dcc7b6" stroke-width="1" stroke-opacity="${fortnight ? 0.65 : 0.3}" />`;
-                if (fortnight && d !== WEEKS * 7) {
+                const labelled = d % labelEvery === 0;
+                svg += `<line x1="${px}" y1="${pad.top}" x2="${px}" y2="${pad.top + plotH}" stroke="#dcc7b6" stroke-width="1" stroke-opacity="${labelled ? 0.65 : 0.3}" />`;
+                if (labelled && Math.abs(px - x(today)) > 34) {
                     svg += `<text x="${px}" y="${pad.top - 14}" text-anchor="middle" fill="#a88a6e" font-size="10.5" font-weight="600">${shortFmt(H.iso(at))}</text>`;
                 }
             }
@@ -1340,6 +1377,32 @@
                     const mid = Math.min(W - pad.right - 4, (x0 + x1) / 2);
                     svg += `<text x="${mid}" y="${y - 12}" text-anchor="middle" fill="${color}" font-size="10" font-weight="600" font-style="italic">${f.label} &#8594; ${shortFmt(f.predictedDate)}</text>`;
                 }
+            });
+
+            // Retrospective calls: for releases that shipped inside the visible window,
+            // where did this same model, run the day before, say they would land? The
+            // backtest is the page's honesty mechanism — putting its recent calls on the
+            // calendar lets a reader judge the forecast against outcomes at a glance.
+            ReleaseForecast.backtest(modelData).results.forEach(r => {
+                const key = Object.keys(modelData).find(k => modelData[k].name === r.family);
+                const lane = laneOrder.indexOf(key);
+                if (lane === -1) return;
+                const actual = H.parse(r.actual);
+                if (actual < axisStart || actual > today) return;
+
+                const color = FAMILY_COLORS[key];
+                const cy = laneY(lane) + 10;
+                const xa = clampX(x(actual));
+                const xp = clampX(x(H.parse(r.predicted)));
+                const early = r.errorDays < 0;
+                const desc = `${Math.abs(r.errorDays)}d ${early ? 'early' : 'late'}`;
+
+                svg += `<g><title>${r.version}: the model's day-before call was ${fmt(r.predicted)} — ${desc}</title>`;
+                svg += `<line x1="${xp}" y1="${cy - 4}" x2="${xp}" y2="${cy + 4}" stroke="${color}" stroke-width="1.6" />`;
+                svg += `<line x1="${xp}" y1="${cy}" x2="${xa}" y2="${cy}" stroke="${color}" stroke-width="1.1" stroke-dasharray="1.5,2.5" />`;
+                svg += `<line x1="${xa}" y1="${cy - 3}" x2="${xa}" y2="${cy + 3}" stroke="${color}" stroke-width="1.1" />`;
+                svg += `<text x="${Math.max((xp + xa) / 2, pad.left + 40)}" y="${cy + 13}" text-anchor="middle" fill="${color}" font-size="9" font-style="italic" opacity="0.85">called ${shortFmt(r.predicted)} &middot; ${desc}</text>`;
+                svg += `</g>`;
             });
 
             // Point markers: what shipped, and where each estimate centres
@@ -1424,7 +1487,9 @@
                     : `<span class="forecast-delta">in ${f.daysFromNow}d</span>`;
                 const basis = f.sampleSize === 0
                     ? 'no prior gaps, baseline only'
-                    : `${f.sampleSize} gap${f.sampleSize === 1 ? '' : 's'}, weighted ${f.ownEwma}d, ${f.baselineWeight}% baseline`;
+                    : f.baselineWeight === 0
+                    ? `${f.sampleSize} gaps, weighted ${f.ownEwma}d, own history only`
+                    : `${f.sampleSize} gap, weighted ${f.ownEwma}d, ${f.baselineWeight}% baseline`;
                 return `
                     <div class="forecast-row" style="--fam: ${FAMILY_COLORS[f.key]}">
                         <span class="forecast-fam">${f.label}</span>
@@ -1441,11 +1506,11 @@
             const bt = ReleaseForecast.backtest(modelData).summary;
             const latest = bt.latest;
             document.getElementById('forecast-method').innerHTML =
-                `Each family's next release is estimated from a decayed average of its own release gaps &mdash; the most recent gap carries full weight, the one before it a quarter, the one before that a sixteenth &mdash; then shrunk toward the lineup-wide baseline of ${fc.baselineGap} days in proportion to how little history the family has. Fable and Mythos have shipped once each, so they are entirely baseline. A family whose estimated date has already passed is marked overdue and plotted on today.`
+                `Each family's next release is estimated from a decayed average of its own release gaps &mdash; the most recent gap carries full weight, the one before it a quarter, the one before that a sixteenth. A family with two or more gaps stands entirely on its own history; a single-gap family is blended toward the lineup-wide baseline of ${fc.baselineGap} days, and Fable and Mythos, having shipped once each with no gap yet, are baseline-only. A family whose estimated date has already passed is marked overdue and plotted on today.`
                 + (outside ? ` Falling outside this window: ${outside}.` : '')
-                + ` Replaying all ${bt.count} past releases, forecasting each from the day before it shipped, the median error is ${bt.medianAbsErrorDays} days and the actual date landed inside the estimate window ${bt.datedHitRate}% of the time`
+                + ` Replaying all ${bt.count} past releases, forecasting each from the day before it shipped: median error ${bt.medianAbsErrorDays} days overall, ${bt.matureMedianAbsErrorDays} days across the ${bt.matureCount} forecasts made with two or more prior gaps (the regime every family with history is in today), and the actual date landed inside the estimate window ${bt.datedHitRate}% of the time excluding due-now calls`
                 + (latest ? `; the most recent call, ${latest.version.replace('Claude ', '')}, was ${Math.abs(latest.errorDays)} day${Math.abs(latest.errorDays) === 1 ? '' : 's'} out` : '')
-                + `. The decay rate and shrinkage were picked by sweeping them against that backtest, not by taste.`
+                + `. The dotted ticks on the calendar are these retrospective calls drawn in place. The decay rate was picked by sweeping it against this backtest; the window width was widened August 2026 (from &plusmn;35% to &plusmn;50%) after a review found the narrower bars caught the actual date only 57% of the time &mdash; too rarely to be labelled likely &mdash; and the same review stopped full-history families being dragged toward the baseline, which had been manufacturing a phantom Haiku overdue call.`
                 + ` Run it yourself with <code>node scripts/predict-releases.js --backtest</code>, which lifts this code out of the page so the two can't disagree. Estimates only &mdash; Anthropic publishes no schedule.`;
         }
 
