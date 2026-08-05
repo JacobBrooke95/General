@@ -63,8 +63,17 @@ function parseArgs(argv) {
     else if (flag === '--help' || flag === '-h') opts.help = true;
     else throw new Error(`Unknown argument: ${arg}`);
   }
-  if (opts.date && !/^\d{4}-\d{2}-\d{2}$/.test(opts.date)) {
-    throw new Error(`--date expects YYYY-MM-DD, got "${opts.date}"`);
+  if (opts.date) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(opts.date)) {
+      throw new Error(`--date expects YYYY-MM-DD, got "${opts.date}"`);
+    }
+    // The regex admits month 13 or day 45; a real date round-trips through Date
+    const d = new Date(opts.date + 'T00:00:00');
+    const back = isNaN(d) ? null
+      : `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    if (back !== opts.date) {
+      throw new Error(`--date "${opts.date}" is not a real calendar date`);
+    }
   }
   if (!Number.isFinite(opts.weeks) || opts.weeks <= 0) {
     throw new Error('--weeks expects a positive number');
@@ -138,12 +147,16 @@ function table(forecast, freshness, weeks) {
     });
   }
 
-  const n = freshness.newest, a = freshness.average;
-  lines.push('');
-  lines.push(BOLD('Lineup freshness'));
-  lines.push(`  newest release   ${n.percent}% of cycle  ${n.zone.padEnd(8)} ${DIM(`${n.version}, ${n.daysSince}d into its family's ~${n.cycleDays}d cycle`)}`);
-  lines.push(`  lineup average   ${a.percent}% of cycle  ${a.zone.padEnd(8)} ${DIM(`${a.ageDays}d avg age across ${freshness.modelCount} families vs ${a.cycleDays}d cycle`)}`);
-  lines.push(DIM(`  oldest: ${a.oldestVersion}, untouched for ${a.oldestDays}d`));
+  // fleetFreshness returns null for as-of dates before the lineup had a
+  // forecastable family (anything before 2024-06-20)
+  if (freshness) {
+    const n = freshness.newest, a = freshness.average;
+    lines.push('');
+    lines.push(BOLD('Lineup freshness'));
+    lines.push(`  newest release   ${n.percent}% of cycle  ${n.zone.padEnd(8)} ${DIM(`${n.version}, ${n.daysSince}d into its family's ~${n.cycleDays}d cycle`)}`);
+    lines.push(`  lineup average   ${a.percent}% of cycle  ${a.zone.padEnd(8)} ${DIM(`${a.ageDays}d avg age across ${freshness.modelCount} families vs ${a.cycleDays}d cycle`)}`);
+    lines.push(DIM(`  oldest: ${a.oldestVersion}, untouched for ${a.oldestDays}d`));
+  }
   lines.push('');
   lines.push(DIM('Estimates only. Anthropic publishes no release schedule.'));
   lines.push('');
