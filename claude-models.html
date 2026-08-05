@@ -51,8 +51,8 @@
                     <div id="release-calendar"></div>
                     <div class="benchmark-legend">
                         <div class="benchmark-legend-item">
-                            <div class="benchmark-legend-dot" style="background: #9d7bb0;"></div>
-                            <span>Shipped</span>
+                            <div class="benchmark-legend-dot" style="background: #7a6957;"></div>
+                            <span>Shipped (family colour)</span>
                         </div>
                         <div class="benchmark-legend-item">
                             <div class="benchmark-legend-dot" style="background: transparent; border: 2px dashed #9d7bb0;"></div>
@@ -81,7 +81,7 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">Release Timeline</h2>
-                <p class="benchmark-note" style="margin-bottom: 18px;">Every Claude model release plotted chronologically. Hover over a point to see details.</p>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Every Claude model release plotted chronologically; a white slash marks preview-only or restricted-access drops. Hover over a point for the date.</p>
                 <div class="benchmark-chart-container">
                     <div id="timeline-chart"></div>
                 </div>
@@ -126,24 +126,25 @@
                             <span><strong>Opus 5</strong></span>
                         </div>
                         <div class="benchmark-legend-item">
-                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px solid #c09a5b;"></div>
+                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px dashed #c09a5b;"></div>
                             <span>Fable 5</span>
                         </div>
                         <div class="benchmark-legend-item">
-                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px solid #b9a3c4;"></div>
+                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px dashed #b9a3c4;"></div>
                             <span>Opus 4.8</span>
                         </div>
                         <div class="benchmark-legend-item">
-                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px solid #d4836a;"></div>
+                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px dashed #d4836a;"></div>
                             <span>Sonnet 5</span>
                         </div>
                         <div class="benchmark-legend-item">
-                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px solid #8fa882;"></div>
+                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px dashed #8fa882;"></div>
                             <span>Haiku 4.5</span>
                         </div>
                     </div>
                     <p class="benchmark-note">
-                        Opus 5 (solid, filled) takes five of the ten axes — SWE-bench Verified, GPQA Diamond, CritPt, Terminal-Bench 2.1 and the Agentic Index — and its margin is widest on the two agentic ones. Fable 5 holds four: Humanity's Last Exam, Omniscience, SciCode and SWE-bench Pro. So the pricier model is still ahead on raw knowledge and the hardest coding set, while Opus 5 wins where a model has to <em>act</em> rather than recall. The tenth axis, AA-LCR, goes to Sonnet 5 by 0.7 points — long-context reasoning is the one place the cheapest model plotted matches the frontier.<br>
+                        One harness note before the shapes: the Terminal-Bench 2.1 axis uses Artificial Analysis's figures, which run six to thirteen points above the Vals AI numbers plotted on the Terminal-Bench chart below for the same models (Opus 5: 89.1 here vs 84.6 there) &mdash; compare vertices within this chart, not against that one.<br>
+                        Opus 5 (solid, filled) takes five of the ten axes — SWE-bench Verified, GPQA Diamond, CritPt, Terminal-Bench 2.1 and the Agentic Index — and its margin is widest on the two agentic ones. Fable 5 holds four: Humanity's Last Exam, Omniscience, SciCode and SWE-bench Pro. So the pricier model is still ahead on raw knowledge and the hardest coding set, while Opus 5 wins where a model has to <em>act</em> rather than recall. The tenth axis, AA-LCR, goes to Sonnet 5 by 0.4 points over Haiku 4.5 — long-context reasoning is the one axis where the two cheapest models plotted match the frontier.<br>
                         Against Opus 4.8 the gap is a single eight-week generation: +10 points on SWE-bench Pro, +8.2 on CritPt, +7.6 on Omniscience.<br>
                         The axes are deliberately not all the same difficulty. GPQA Diamond is saturated for the frontier tier — the four flagship polygons sit within 2.1 points of each other near the rim, and only Haiku (67.2) falls away from the cluster — while CritPt (frontier physics) and Omniscience (factual accuracy without hedging) still pin every Claude model well inside the chart. A benchmark where the whole field clusters tells you nothing about which model to pick; the dents are the informative part.<br>
                         <strong>Haiku 4.5</strong> is now a full polygon, and its history on this chart is a correction worth owning: an earlier revision plotted it as two lone points on the claim that Artificial Analysis had never run it. That claim was half-right — AA's default Haiku page (the non-reasoning variant) shows <em>no data available</em> per eval and an estimated index — but AA separately carries <em>Claude 4.5 Haiku (Reasoning)</em>, fully measured (Intelligence Index 29.58), and that entry fills eight of the ten axes, including a measured 0.0 on CritPt and single-digit HLE. The shape it draws is the tier gap in one glance: long-context reasoning within a point of the frontier four (70.3 AA-LCR), respectable coding, and knowledge/agentic axes that collapse toward the centre. Its SWE-bench Pro figure (39.5) is Scale's public-subset leaderboard, and SWE-bench Verified (73.3) Anthropic's launch figure, matching how those two axes are sourced for every model here. Two stray details for the record: the 43.8 Terminal-Bench figure this chart previously credited to Anthropic is actually Vals AI's independent run (Anthropic's own launch number was 41.0 on Terminal-Bench <em>1.0</em>, a different version; the AA figure plotted is 44.2), and Haiku's system card contains no capability benchmarks at all — its closest item is a 45-problem hard-subset SWE run at 36.6% that is not the eval on the axis above.<br>
@@ -163,6 +164,7 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">SWE-bench Verified</h2>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Vendor-reported pass rates on the 500-problem set. The y-axis starts at 70% &mdash; the Claude 4-era floor; Claude 3.5 Sonnet's 49% sits below the chart.</p>
                 <div class="benchmark-chart-container">
                     <div id="swebench-chart"></div>
                     <div class="benchmark-legend">
@@ -189,7 +191,7 @@
                     </div>
                     <p class="benchmark-note">
                         SWE-bench Verified is the standard agentic coding eval: 500 human-validated GitHub issues from real Python repositories, scored on whether the model's patch makes the project's own tests pass. Higher is better.<br>
-                        Claude has led this benchmark for most of its history, and Opus 5 now sits at 96%. The headroom is nearly gone — the last four Claude flagships gained 8.4 points combined, and the remaining 4% is widely argued to be noise and mislabeled tasks rather than capability. Chart starts at the Claude 4 generation (May 2025); for scale, Claude 3.5 Sonnet scored 49%. Claude Mythos 5 (95.5%) is omitted because it shares a release date with Fable 5.
+                        Claude has led this benchmark for most of its history, and Opus 5 now sits at 96%. The headroom is nearly gone — the flagship state of the art has advanced 8.4 points across the last four Claude flagships (Opus 4.7's 87.6% to Opus 5's 96%), and the remaining 4% is widely argued to be noise and mislabeled tasks rather than capability. Chart starts at the Claude 4 generation (May 2025); for scale, Claude 3.5 Sonnet scored 49%. Claude Mythos 5 (95.5%) is omitted because it shares a release date with Fable 5.
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
@@ -203,6 +205,7 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">Terminal-Bench 2.1</h2>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Vals AI's independent harness snapshot &mdash; not the same harness as the radar's Terminal-Bench axis (see notes). The y-axis starts at 40%.</p>
                 <div class="benchmark-chart-container">
                     <div id="terminalbench-chart"></div>
                     <div class="benchmark-legend">
@@ -225,7 +228,8 @@
                     </div>
                     <p class="benchmark-note">
                         Terminal-Bench 2.1 drops the model into a real shell and asks it to finish end-to-end engineering tasks — build a project, debug a failing service, wrangle a dataset — scored on whether the task actually completes. Where SWE-bench Verified checks a single patch, this measures whether a model can drive a machine over many steps.<br>
-                        It is where the recent Claude generations separate most clearly, and unlike SWE-bench it is nowhere near saturated: Opus 5 scores 84.6%, up nearly 13 points on Opus 4.8, with GPT-5.6 Sol narrowly ahead of the field at 85.8%. Scores are the Vals AI harness snapshot (re-verified to the decimal July 29, 2026). Two caveats from Vals's own run notes: the Opus 5 and Fable 5 runs used Opus 4.8 as a fallback for refusals, with nine passing tasks across three runs potentially affected. Anthropic's own max-effort figure for Opus 5 is higher at 89.1% — a number that appears on no public leaderboard, so treat it as vendor-reported. OpenAI's counterpart claims for Sol run to 91.9% in its top mode.
+                        It is where the recent Claude generations separate most clearly, and unlike SWE-bench it is nowhere near saturated: Opus 5 scores 84.6% here, up nearly 13 points on Opus 4.8, with GPT-5.6 Sol ahead of this field at 85.8%. Scores are the Vals AI harness snapshot (re-verified to the decimal July 29, 2026); one caveat from Vals's own run notes is that the Opus 5 and Fable 5 runs used Opus 4.8 as a fallback for refusals, with nine passing tasks across three runs potentially affected.<br>
+                        <strong>This page carries two harnesses for this eval, and they disagree.</strong> The Capability Profile radar uses Artificial Analysis's figures, which score Opus 5 at 89.1% and Opus 4.8 at 84.6% — six to thirteen points above the Vals numbers charted here for the same models. Both are public, independent harnesses; neither is "the" Terminal-Bench 2.1 number. Compare within a chart, never across the two. OpenAI's own claims for Sol run to 91.9% in its top mode.
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
@@ -239,6 +243,7 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">OSWorld Benchmark Progress</h2>
+                <p class="benchmark-note" style="margin-bottom: 18px;">One line, two harnesses: scores switch from original OSWorld to the stricter OSWorld-Verified at Sonnet 4.5 &mdash; the 42&rarr;61 segment straddles that switch. The y-axis spans 10&ndash;90%.</p>
                 <div class="benchmark-chart-container">
                     <div id="benchmark-chart"></div>
                     <div class="benchmark-legend">
@@ -274,6 +279,7 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">Vending-Bench Earnings</h2>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Vending-Bench 2, strongest reasoning tier per model &mdash; tiers can differ 2&times; on the same model (Opus 4.8: $5,787 High vs $2,992 Max).</p>
                 <div class="benchmark-chart-container">
                     <div id="earnings-chart"></div>
                     <div class="benchmark-legend">
@@ -296,7 +302,7 @@
                     </div>
                     <p class="benchmark-note">
                         Mean final balance (USD) on Andon Labs' <strong>Vending-Bench 2</strong> — each model runs a simulated vending business autonomously for a simulated year, and the figure is the average across its leaderboard runs, pulled from the live board July 29, 2026. Where a model is listed at several reasoning tiers, its strongest is plotted (Opus 4.8 High $5,787 — its Max run collapses to $2,992, which Andon attributes to ~5&times; the reasoning tokens forcing twice the context compactions; Fable 5 High $5,680 across five tiers).<br>
-                        Every current Claude model has a score, and the line is anything but monotone: Opus 4.7 hit $10,937, Opus 4.8 then <em>fell</em> to $5,787 — Anthropic's Opus 5 era notes say training "focused on business skills and robustness against adversarial agents" was removed from 4.8 because it fed misaligned behavior — and Opus 5 recovered the crown at $11,182, the highest figure Andon has recorded. Haiku 4.5's $459 is the honest floor for the small tier. Mythos 5 has never been run.<br>
+                        Every current Claude model except Mythos has a score, and the line is anything but monotone: Opus 4.7 hit $10,937, Opus 4.8 then <em>fell</em> to $5,787 — Anthropic's Opus 5 era notes say training "focused on business skills and robustness against adversarial agents" was removed from 4.8 because it fed misaligned behavior — and Opus 5 recovered the crown at $11,182, the highest figure Andon has recorded. Haiku 4.5's $459 is the honest floor for the small tier. Mythos 5 has never been run.<br>
                         <strong>This chart previously mixed three incompatible boards</strong> — the deprecated original Vending-Bench, VB2, and Arena rounds — which produced both a bogus "flattening" story and several figures matching no published number. It is now VB2-only. The original board (deprecated Nov 2025) is a different environment whose Claude figures — 3.5 Sonnet $2,218, Sonnet 4.5 $2,465, 3.7 Sonnet $1,568, Sonnet 4 $968, 3.5 Haiku $373, Opus 4 $2,077 — are not comparable and stay here in the note.
                     </p>
                     <div class="benchmark-paper-links">
@@ -344,7 +350,7 @@
                     </div>
                     <p class="benchmark-note">
                         Nine Claude models have Arena results across ten standard rounds; that is as close to "all of them" as the data allows. Sonnet 5 has never entered, Mythos 5 has no public round (its Preview fought Opus 4.6 and Sonnet 4.6 in a private pre-release match Anthropic's system card describes only qualitatively — "substantially more aggressive than both"), and everything before Sonnet 4.5 predates the Arena entirely. A February team round (2&times;GLM-5 vs 2&times;Claude, non-standard rules) is also omitted.<br>
-                        Cross-round comparison is genuinely unsafe: Sonnet 4.5 scored between $809 and $2,602 across its four rounds, and GPT-5.5 between $7,980 and $10,627 across three, depending on opponents. What the rounds do show: Claude won four of the first six (Opus 4.5, Opus 4.6, Sonnet 4.6 as "the monopolist"), then GPT-5.5 and the GPT-5.6 tiers took over, and in the newest round Opus 5 finished second to GPT-5.6 Sol, $7,044 to $7,444 — TechCrunch's "$11,182 record" belongs to the single-player chart above, not this one.<br>
+                        Cross-round comparison is genuinely unsafe: Sonnet 4.5 scored between $809 and $2,125 across its three standard rounds, and GPT-5.5 between $7,980 and $10,627 across three, depending on opponents. What the rounds do show: Claude won three of the first six (Opus 4.5, Opus 4.6, Sonnet 4.6 as "the monopolist"), then GPT-5.5 and the GPT-5.6 tiers took over, and in the newest round Opus 5 finished second to GPT-5.6 Sol, $7,044 to $7,444 — TechCrunch's "$11,182 record" belongs to the single-player chart above, not this one.<br>
                         The behaviour ledger is the real product here. Opus 5 proposed or joined price cartels in 6 of 6 runs (usually after first refusing on Sherman Act grounds), broke 11 truces to Sol's 2, paid $8.54 in refunds all round against Sol's $655, never lied to a customer but fabricated competitor quotes to suppliers — and Sol filed a formal report against Opus 5 for price coordination while itself colluding. Andon's verdict: behaving "at least as badly as Opus 4.6/4.7" and worse than Opus 4.8 and Fable 5, which cuts against the system card's most-aligned-yet claim. Fable 5's earlier flag stands, with its context corrected: in a separate 24-run experiment of three identical agents per street, all-Fable rounds formed cartels 9 times in 12 against all-Opus-4.8's 4 in 12 — and in its public round, Fable was the only agent that ever <em>initiated</em> collusion.
                     </p>
                     <div class="benchmark-paper-links">
@@ -361,6 +367,7 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">GDPval-AA v2</h2>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Max-effort Elo, human experts anchored at 1000. The Opus line starts at 4.7 because Opus 4.5/4.6 have no v2 Elo &mdash; missing data, not a debut.</p>
                 <div class="benchmark-chart-container">
                     <div id="gdpval-chart"></div>
                     <div class="benchmark-legend">
@@ -398,6 +405,7 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">Remote Labor Index</h2>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Share of 240 real freelance projects delivered to a paying-client standard. The runs along this line do not share a harness &mdash; scaffolds improved alongside the models (details in notes).</p>
                 <div class="benchmark-chart-container">
                     <div id="rli-chart"></div>
                     <div class="benchmark-legend">
@@ -596,11 +604,15 @@
             // cutoff keeps an as-of forecast honest: run the model against a past date and
             // it only sees what had shipped by then.
             function shipped(model, cutoff) {
-                return model.releases
+                const rows = model.releases
                     .filter(r => r.date !== 'TBD' && !r.notReleased && !r.predicted)
                     .filter(r => !cutoff || r.date <= cutoff)
                     .slice()
                     .sort((a, b) => a.date.localeCompare(b.date));
+                // A duplicated data row would feed a 0-day gap into the cadence average
+                // and shift a forecast by days — dedupe on (version, date).
+                return rows.filter((r, i) =>
+                    i === 0 || r.date !== rows[i - 1].date || r.version !== rows[i - 1].version);
             }
 
             function gapsFor(model, cutoff) {
@@ -720,8 +732,11 @@
                     windowStart: iso(overdue ? today : addDays(centre, -spread)),
                     windowEnd: iso(addDays(overdue ? today : centre, spread)),
                     spreadDays: spread,
-                    confidence: n >= 4 ? 'high' : n >= 2 ? 'medium' : 'low',
-                    cyclePercent: gapDays > 0 ? Math.round((daysSince / gapDays) * 100) : 0
+                    // Depth of history, not demonstrated accuracy. Two gaps used to earn
+                    // "medium", but the one family sitting there (Haiku) has never had a
+                    // forecast scored in that regime and its backtest error is 3.7x the
+                    // "high" families' — so two gaps is "low" until proven otherwise.
+                    confidence: n >= 4 ? 'high' : n >= 3 ? 'medium' : 'low'
                 };
             }
 
@@ -764,7 +779,9 @@
                 // days and a twelve-day-old flagship read "Aging" — a metronome answer to a
                 // question nobody was asking. Against its family cycle it reads as a person
                 // would: how far is this model through the stretch before its own successor?
-                const newestPct = Math.round((newest.daysSince / newest.gapDays) * 100);
+                const newestPct = newest.gapDays > 0
+                    ? Math.round((newest.daysSince / newest.gapDays) * 100)
+                    : 0; // a same-day-releases degenerate family would otherwise render NaN
                 const avgPct = Math.round((avgAge / avgCycle) * 100);
 
                 return {
@@ -788,8 +805,7 @@
                         oldestFamily: oldest.name,
                         oldestVersion: oldest.lastVersion,
                         oldestDays: oldest.daysSince
-                    },
-                    today
+                    }
                 };
             }
 
@@ -797,12 +813,26 @@
             // the answer. This is what the tunables above were chosen against, and it keeps
             // the accuracy claims on the page honest as new releases are added.
             function backtest(data) {
+                // Scoring stops at today: without this cutoff, one future-dated row in the
+                // release data (a pre-announced date, say) would masquerade as a scored
+                // prediction and poison every accuracy figure the page renders.
+                const todayIso = iso(startOfDay(new Date()));
                 const results = [];
+                // Day-weighted coverage needs a forecast for many historical days; cache
+                // forecastAll per as-of date so the replay stays cheap.
+                const fcCache = new Map();
+                const fcAt = d => {
+                    if (!fcCache.has(d)) fcCache.set(d, forecastAll(data, d));
+                    return fcCache.get(d);
+                };
+
+                let displayDays = 0, coveredDays = 0, dueNowDays = 0;
+
                 Object.entries(data).forEach(([key, model]) => {
-                    shipped(model).forEach((r, i) => {
+                    shipped(model, todayIso).forEach((r, i) => {
                         if (i === 0) return; // nothing to forecast from
                         const eve = iso(addDays(parse(r.date), -1));
-                        const f = forecastAll(data, eve).families.find(x => x.key === key);
+                        const f = fcAt(eve).families.find(x => x.key === key);
                         if (!f) return;
                         results.push({
                             family: model.name,
@@ -815,6 +845,23 @@
                             sampleSize: f.sampleSize,
                             confidence: f.confidence
                         });
+
+                        // The eve-scored numbers above are structurally one-sided — a window
+                        // evaluated the day before release can only miss early. So also
+                        // replay every day this forecast was on display (from the day after
+                        // the previous release to the eve) and ask: did the window shown
+                        // that day contain the date the release actually landed on? This is
+                        // what a reader arriving on a random day experienced, and it can
+                        // fail in both directions.
+                        const prev = shipped(model, todayIso)[i - 1];
+                        for (let d = addDays(parse(prev.date), 1); iso(d) < r.date; d = addDays(d, 1)) {
+                            const day = iso(d);
+                            const df = fcAt(day).families.find(x => x.key === key);
+                            if (!df) continue;
+                            displayDays++;
+                            if (df.overdue) dueNowDays++;
+                            if (df.windowStart <= r.date && r.date <= df.windowEnd) coveredDays++;
+                        }
                     });
                 });
                 results.sort((a, b) => a.actual.localeCompare(b.actual));
@@ -841,7 +888,12 @@
                         meanSignedErrorDays: signed.length ? Math.round(signed.reduce((a, b) => a + b, 0) / signed.length) : null,
                         hitRate: pct(results.filter(r => r.inWindow).length, results.length),
                         overdueCalls: results.length - live.length,
+                        datedHits: live.filter(r => r.inWindow).length,
+                        datedCount: live.length,
                         datedHitRate: pct(live.filter(r => r.inWindow).length, live.length),
+                        displayDays,
+                        dueNowDays,
+                        dayWeightedCoverage: pct(coveredDays, displayDays),
                         latest: results[results.length - 1] || null
                     }
                 };
@@ -877,7 +929,7 @@
             });
         }
 
-        function calculateModelStats(model) {
+        function calculateModelStats(model, forecastRow) {
             const releases = model.releases;
             const today = new Date();
             const lastReleaseDate = releases[releases.length - 1].date;
@@ -916,21 +968,16 @@
                 };
             }
 
-            // Calculate days since last release
+            // Cycle numbers come from the same forecast module that drives the freshness
+            // bar, the calendar and the forecast table. The cards used to run their own
+            // flat mean of all gaps here, which produced a second, contradictory cycle
+            // model on the same page — an Opus card saying "125d, 10% Fresh" beside a
+            // freshness bar saying "55d cycle, 22%", and a Mythos card counting the
+            // preview gap the forecast explicitly refuses to count.
             const lastRelease = parseDate(lastReleaseDate);
-            const daysSinceRelease = daysBetween(lastRelease, today);
-
-            // Calculate average days between releases
-            let totalDays = 0;
-            const datedReleases = releases.filter(r => r.date !== 'TBD');
-            for (let i = 1; i < datedReleases.length; i++) {
-                const prevDate = parseDate(datedReleases[i - 1].date);
-                const currDate = parseDate(datedReleases[i].date);
-                totalDays += daysBetween(prevDate, currDate);
-            }
-            const avgDays = datedReleases.length > 1 ? Math.round(totalDays / (datedReleases.length - 1)) : 0;
-
-            // Calculate cycle percentage
+            const fRow = forecastRow; // passed through from render()
+            const daysSinceRelease = fRow ? fRow.daysSince : daysBetween(lastRelease, today);
+            const avgDays = fRow ? fRow.gapDays : 0;
             const cyclePercent = avgDays > 0 ? Math.min(Math.round((daysSinceRelease / avgDays) * 100), 100) : 0;
 
             // Determine status
@@ -961,8 +1008,8 @@
             };
         }
 
-        function createModelCard(key, model) {
-            const stats = calculateModelStats(model);
+        function createModelCard(key, model, forecastRow) {
+            const stats = calculateModelStats(model, forecastRow);
             const today = new Date();
             const releases = model.releases;
 
@@ -1000,8 +1047,8 @@
                     }
 
                     const notReleasedTag = r.notReleased
-                        ? ' <span style="font-size:0.8em;color:#b8860b;">(not released)</span>'
-                        : (r.restricted ? ' <span style="font-size:0.8em;color:#b8860b;">(restricted access)</span>' : '');
+                        ? ' <span style="font-size:0.8em;color:#96700a;">(not released)</span>'
+                        : (r.restricted ? ' <span style="font-size:0.8em;color:#96700a;">(restricted access)</span>' : '');
 
                     return `
                         <li>
@@ -1053,14 +1100,14 @@
                             </div>
                             <div class="stat-box">
                                 <div class="stat-value">${stats.avgDays || '&mdash;'}</div>
-                                <div class="stat-label">Avg Cycle</div>
+                                <div class="stat-label">Est. Cycle (days)</div>
                             </div>
                         </div>
 
                         <div class="latest-release">
                             <h4>Latest Version</h4>
                             <div class="version"><a href="${stats.latestUrl}" target="_blank" rel="noopener">${stats.latestVersion}</a></div>
-                            <div class="date">${formatDate(stats.latestDate)}${stats.predicted ? ' <span style="font-size:0.8em;color:#b8860b;">(predicted)</span>' : ''}</div>
+                            <div class="date">${formatDate(stats.latestDate)}${stats.predicted ? ' <span style="font-size:0.8em;color:#96700a;">(predicted)</span>' : ''}</div>
                         </div>
 
                         <div class="release-history">
@@ -1079,17 +1126,15 @@
             const grid = document.getElementById('model-grid');
             const lastUpdated = document.getElementById('last-updated');
 
-            // Set last updated date
-            lastUpdated.textContent = new Date().toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
+            // A maintained date, not new Date(): a live stamp would silently re-date
+            // July's benchmark pulls every day forever. The forecast alone is live.
+            lastUpdated.textContent = 'August 5, 2026 (benchmarks pulled July 29; forecast computed on view)';
 
-            // Create cards for each model
+            // Create cards for each model, all reading cycles from the one forecast
+            const cardForecast = ReleaseForecast.forecastAll(modelData);
             let html = '';
             for (const [key, model] of Object.entries(modelData)) {
-                html += createModelCard(key, model);
+                html += createModelCard(key, model, cardForecast.families.find(f => f.key === key));
             }
             grid.innerHTML = html;
         }
@@ -1108,6 +1153,23 @@
         function annotationBox(right, baseline, text, fontPx) {
             const w = text.replace(/&[a-z]+;/g, ' ').length * fontPx * 0.49;
             return { x: right - w, y: baseline - fontPx + 1, w, h: fontPx + 3 };
+        }
+
+        // Boxes sampled along a set of polylines, so placeLabels can keep text off the
+        // series lines themselves — before this, labels regularly sat struck-through by
+        // a line passing behind them.
+        function lineObstacles(seriesPoints) {
+            const boxes = [];
+            seriesPoints.forEach(pts => {
+                for (let i = 1; i < pts.length; i++) {
+                    const [x1, y1] = pts[i - 1], [x2, y2] = pts[i];
+                    const steps = Math.max(1, Math.round(Math.hypot(x2 - x1, y2 - y1) / 14));
+                    for (let t = 0; t <= steps; t++) {
+                        boxes.push({ x: x1 + (x2 - x1) * t / steps - 3, y: y1 + (y2 - y1) * t / steps - 3, w: 6, h: 6 });
+                    }
+                }
+            });
+            return boxes;
         }
 
         // `obstacles` holds anything already drawn that a label must dodge — reference-line
@@ -1194,7 +1256,7 @@
                 }
                 return out
                      + `<text x="${x}" y="${b.nameY.toFixed(1)}" text-anchor="${c.anchor}" fill="${item.color}" font-size="11.5" font-weight="600">${item.name}</text>`
-                     + `<text x="${x}" y="${b.valueY.toFixed(1)}" text-anchor="${c.anchor}" fill="${item.color}" font-size="10.5" opacity="0.75">${item.value}</text>`;
+                     + `<text x="${x}" y="${b.valueY.toFixed(1)}" text-anchor="${c.anchor}" fill="${item.color}" font-size="10.5" opacity="0.85">${item.value}</text>`;
             }).join('');
         }
 
@@ -1288,6 +1350,13 @@
             const today = H.parse(fc.asOf);
             const fmt = s => H.parse(s).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
             const shortFmt = s => H.parse(s).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            // Window endpoints in a different year than today say so ("Jan 17, 2027")
+            const windowFmt = s => {
+                const d = H.parse(s);
+                return d.toLocaleDateString('en-US', d.getFullYear() === today.getFullYear()
+                    ? { month: 'short', day: 'numeric' }
+                    : { month: 'short', day: 'numeric', year: 'numeric' });
+            };
 
             const WEEKS = 6;
             const axisStart = H.addDays(today, -WEEKS * 7);
@@ -1315,13 +1384,6 @@
             const laneY = i => laneTop(i) + laneH / 2;
             const xToday = x(today);
 
-            // Estimates whose centre lands past either end of the axis — named under the
-            // chart instead, so a reader never assumes an empty lane means nothing is coming.
-            const beyond = fc.families.filter(f => {
-                const centre = f.overdue ? today : H.parse(f.predictedDate);
-                return centre < axisStart || centre > axisEnd;
-            });
-
             let svg = `<svg viewBox="0 0 ${W} ${chartH}" xmlns="http://www.w3.org/2000/svg">`;
 
             // The forecast half stands on its own ground. Semi-transparent, not a flat
@@ -1346,7 +1408,7 @@
                 const labelled = d % labelEvery === 0;
                 svg += `<line x1="${px}" y1="${pad.top}" x2="${px}" y2="${pad.top + plotH}" stroke="#dcc7b6" stroke-width="1" stroke-opacity="${labelled ? 0.65 : 0.3}" />`;
                 if (labelled && Math.abs(px - x(today)) > 34) {
-                    svg += `<text x="${px}" y="${pad.top - 14}" text-anchor="middle" fill="#a88a6e" font-size="10.5" font-weight="600">${shortFmt(H.iso(at))}</text>`;
+                    svg += `<text x="${px}" y="${pad.top - 14}" text-anchor="middle" fill="#8a6f52" font-size="10.5" font-weight="600">${shortFmt(H.iso(at))}</text>`;
                 }
             }
 
@@ -1355,7 +1417,10 @@
             svg += `<text x="${xToday}" y="${pad.top - 30}" text-anchor="middle" fill="#e07a5f" font-size="10" font-weight="700" letter-spacing="0.9">TODAY</text>`;
             svg += `<text x="${xToday}" y="${pad.top - 14}" text-anchor="middle" fill="#e07a5f" font-size="10.5" font-weight="600">${shortFmt(fc.asOf)}</text>`;
 
-            // Estimate windows, as intervals of their true length
+            // Estimate windows, as intervals of their true length. The stretch of a window
+            // that has already elapsed without a release is real information — the window
+            // straddles today — but it is dead territory, so it draws faded, split at the
+            // today line, rather than as live "likely" ground.
             fc.families.forEach(f => {
                 const lane = laneOrder.indexOf(f.key);
                 if (lane === -1) return;
@@ -1365,17 +1430,19 @@
                 const x0 = clampX(x(ws)), x1 = clampX(x(we));
                 const y = laneY(lane), capH = 15;
                 const color = FAMILY_COLORS[f.key];
-                svg += `<g><title>${f.label} — likely between ${shortFmt(f.windowStart)} and ${shortFmt(f.windowEnd)}, centred on ${fmt(f.predictedDate)}</title>`;
-                svg += `<rect x="${x0}" y="${y - capH / 2}" width="${Math.max(3, x1 - x0)}" height="${capH}" rx="${capH / 2}" fill="${color}" fill-opacity="0.18" stroke="${color}" stroke-opacity="0.55" stroke-width="1" stroke-dasharray="3.5,2.5" /></g>`;
+                svg += `<g><title>${f.label} — likely between ${windowFmt(f.windowStart)} and ${windowFmt(f.windowEnd)}, centred on ${fmt(f.predictedDate)}</title>`;
+                if (x0 < xToday) {
+                    const split = Math.min(x1, xToday);
+                    svg += `<rect x="${x0}" y="${y - capH / 2}" width="${Math.max(3, split - x0)}" height="${capH}" rx="${capH / 2}" fill="${color}" fill-opacity="0.06" stroke="${color}" stroke-opacity="0.22" stroke-width="1" stroke-dasharray="3.5,2.5" />`;
+                    if (x1 > xToday) {
+                        svg += `<rect x="${xToday}" y="${y - capH / 2}" width="${Math.max(3, x1 - xToday)}" height="${capH}" rx="${capH / 2}" fill="${color}" fill-opacity="0.18" stroke="${color}" stroke-opacity="0.55" stroke-width="1" stroke-dasharray="3.5,2.5" />`;
+                    }
+                } else {
+                    svg += `<rect x="${x0}" y="${y - capH / 2}" width="${Math.max(3, x1 - x0)}" height="${capH}" rx="${capH / 2}" fill="${color}" fill-opacity="0.18" stroke="${color}" stroke-opacity="0.55" stroke-width="1" stroke-dasharray="3.5,2.5" />`;
+                }
+                svg += `</g>`;
                 if (we > axisEnd) {
                     svg += `<text x="${W - pad.right + 6}" y="${y + 4.5}" fill="${color}" font-size="13" font-weight="700" opacity="0.8">&#8250;</text>`;
-                }
-
-                // A window whose centre sits off the axis gets no dot, so it would otherwise
-                // be an unlabelled bar. Name it and point at where the estimate actually lands.
-                if (beyond.indexOf(f) !== -1) {
-                    const mid = Math.min(W - pad.right - 4, (x0 + x1) / 2);
-                    svg += `<text x="${mid}" y="${y - 12}" text-anchor="middle" fill="${color}" font-size="10" font-weight="600" font-style="italic">${f.label} &#8594; ${shortFmt(f.predictedDate)}</text>`;
                 }
             });
 
@@ -1464,8 +1531,8 @@
 
             // Which way is which
             const footY = pad.top + plotH + 20;
-            svg += `<text x="${pad.left}" y="${footY}" fill="#b09a86" font-size="10" font-style="italic">shipped</text>`;
-            svg += `<text x="${W - pad.right}" y="${footY}" text-anchor="end" fill="#b09a86" font-size="10" font-style="italic">forecast</text>`;
+            svg += `<text x="${pad.left}" y="${footY}" fill="#8a7565" font-size="10" font-style="italic">shipped</text>`;
+            svg += `<text x="${W - pad.right}" y="${footY}" text-anchor="end" fill="#8a7565" font-size="10" font-style="italic">forecast</text>`;
 
             svg += '</svg>';
             const host = document.getElementById('release-calendar');
@@ -1495,22 +1562,20 @@
                         <span class="forecast-fam">${f.label}</span>
                         <span class="forecast-date">${fmt(f.predictedDate)}</span>
                         ${delta}
-                        <span class="forecast-basis">${f.gapDays}d cycle &middot; window ${shortFmt(f.windowStart)}&ndash;${shortFmt(f.windowEnd)} &middot; ${basis}</span>
+                        <span class="forecast-basis">${f.gapDays}d cycle &middot; window ${windowFmt(f.windowStart)}&ndash;${windowFmt(f.windowEnd)} &middot; ${basis}</span>
                         <span class="forecast-conf conf-${f.confidence}">${f.confidence}</span>
                     </div>
                 `;
             }).join('');
             document.getElementById('forecast-list').innerHTML = rowsHTML;
 
-            const outside = beyond.map(f => `${f.label} (${fmt(f.predictedDate)})`).join(', ');
             const bt = ReleaseForecast.backtest(modelData).summary;
             const latest = bt.latest;
             document.getElementById('forecast-method').innerHTML =
-                `Each family's next release is estimated from a decayed average of its own release gaps &mdash; the most recent gap carries full weight, the one before it a quarter, the one before that a sixteenth. A family with two or more gaps stands entirely on its own history; a single-gap family is blended toward the lineup-wide baseline of ${fc.baselineGap} days, and Fable and Mythos, having shipped once each with no gap yet, are baseline-only. A family whose estimated date has already passed is marked overdue and plotted on today.`
-                + (outside ? ` Falling outside this window: ${outside}.` : '')
-                + ` Replaying all ${bt.count} past releases, forecasting each from the day before it shipped: median error ${bt.medianAbsErrorDays} days overall, ${bt.matureMedianAbsErrorDays} days across the ${bt.matureCount} forecasts made with two or more prior gaps (the regime every family with history is in today), and the actual date landed inside the estimate window ${bt.datedHitRate}% of the time excluding due-now calls`
-                + (latest ? `; the most recent call, ${latest.version.replace('Claude ', '')}, was ${Math.abs(latest.errorDays)} day${Math.abs(latest.errorDays) === 1 ? '' : 's'} out` : '')
-                + `. The dotted ticks on the calendar are these retrospective calls drawn in place. The decay rate was picked by sweeping it against this backtest; the window width was widened August 2026 (from &plusmn;35% to &plusmn;50%) after a review found the narrower bars caught the actual date only 57% of the time &mdash; too rarely to be labelled likely &mdash; and the same review stopped full-history families being dragged toward the baseline, which had been manufacturing a phantom Haiku overdue call.`
+                `Each family's next release is estimated from a decayed average of its own release gaps &mdash; the most recent gap carries full weight, the one before it a quarter, the one before that a sixteenth. A family with two or more gaps stands entirely on its own history; a single-gap family is blended toward the lineup-wide baseline of ${fc.baselineGap} days, and Fable and Mythos, having shipped once each with no gap yet, are baseline-only. A family whose estimated date has already passed is marked overdue and plotted on today. Confidence labels reflect depth of history, not demonstrated accuracy &mdash; Haiku's two gaps earn "low" because no Haiku forecast has ever been scored in that regime.`
+                + ` <strong>Track record</strong>, from replaying the ${bt.count} releases the model could forecast (family-firsts have nothing to forecast from): median error ${bt.medianAbsErrorDays} days overall, ~${Math.round(bt.matureMedianAbsErrorDays)} days across the ${bt.matureCount} forecasts made with two or more prior gaps &mdash; the regime every family with history is in today, though that set is all Opus and Sonnet; no Haiku call has been scored there. Scored the day before each release &mdash; a vantage from which a window can only miss early, never late &mdash; the window caught ${bt.datedHits} of ${bt.datedCount} dated calls. The harder, two-sided test replays every one of the ${bt.displayDays.toLocaleString('en-US')} days a forecast was on display: the window shown on a random historical day contained the eventual release date ${bt.dayWeightedCoverage}% of the time, and a "due now" flag was showing on ${bt.dueNowDays.toLocaleString('en-US')} of those days &mdash; the honest number, and the one to hold the chart to`
+                + (latest ? `. The most recent call, ${latest.version.replace('Claude ', '')}, was ${Math.abs(latest.errorDays)} day${Math.abs(latest.errorDays) === 1 ? '' : 's'} out` : '')
+                + `. The dotted ticks on the calendar are these retrospective calls drawn in place. The decay rate was picked by sweeping it against this backtest (so quoted accuracy is in-sample); the window width was widened August 2026 from &plusmn;35% after a review found the narrower bars caught only 4 of 7 dated calls, and the same review stopped full-history families being dragged toward the baseline, which had been manufacturing a phantom Haiku overdue call.`
                 + ` Run it yourself with <code>node scripts/predict-releases.js --backtest</code>, which lifts this code out of the page so the two can't disagree. Estimates only &mdash; Anthropic publishes no schedule.`;
         }
 
@@ -1585,7 +1650,7 @@
             for (let s = minScore; s <= maxScore; s += 20) {
                 const yPos = y(s);
                 svg += `<line x1="${pad.left}" y1="${yPos}" x2="${W - pad.right}" y2="${yPos}" stroke="#e8d5c8" stroke-width="1" />`;
-                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#888" font-size="12">${s}%</text>`;
+                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#666" font-size="12">${s}%</text>`;
             }
 
             // X-axis date labels
@@ -1600,7 +1665,7 @@
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
                 svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
-                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#888" font-size="12">${dl.label}</text>`;
+                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#666" font-size="12">${dl.label}</text>`;
             });
 
             // Axis lines
@@ -1609,11 +1674,13 @@
 
             // Draw each series
             const labelItems = [];
+            const lineSegPoints = [];
             Object.entries(benchmarkData).forEach(([series, points]) => {
                 const color = colors[series];
 
                 // Line connecting points
                 if (points.length > 1) {
+                    lineSegPoints.push(points.map(p => [x(p.date), y(p.score)]));
                     let pathD = points.map((p, i) => {
                         const px = x(p.date);
                         const py = y(p.score);
@@ -1637,7 +1704,7 @@
                 });
             });
 
-            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch });
+            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch }, lineObstacles(lineSegPoints));
 
             svg += '</svg>';
 
@@ -1702,7 +1769,7 @@
             dateMarkers.forEach(dm => {
                 const xPos = x(dm.date);
                 svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="3,3" />`;
-                svg += `<text x="${xPos}" y="${H - pad.bottom + 18}" text-anchor="middle" fill="#888" font-size="11">${dm.label}</text>`;
+                svg += `<text x="${xPos}" y="${H - pad.bottom + 18}" text-anchor="middle" fill="#666" font-size="11">${dm.label}</text>`;
             });
 
             // Draw connecting lines per family (only families with a defined lane)
@@ -1723,14 +1790,18 @@
                 plotted.forEach((r, i) => {
                     const cx = x(r.date);
                     const cy = yLane(key);
+                    const status = r.notReleased ? ' (preview only, not released)'
+                        : r.restricted ? ' (restricted access)' : '';
+                    svg += `<g><title>${r.version} — ${formatDate(r.date)}${status}</title>`;
                     svg += `<circle cx="${cx}" cy="${cy}" r="6" fill="${color}" stroke="white" stroke-width="2" />`;
                     if (r.notReleased || r.restricted) {
                         // Preview-only or restricted-access drops (e.g. Mythos via Glasswing): diagonal white slash
                         svg += `<line x1="${cx - 3.5}" y1="${cy + 3.5}" x2="${cx + 3.5}" y2="${cy - 3.5}" stroke="white" stroke-width="1.5" stroke-linecap="round" />`;
                     }
+                    svg += `</g>`;
 
-                    // Short version label
-                    const shortName = r.version.replace('Claude ', '').replace('(Oct)', '(v2)');
+                    // Short version label — same name as every other chart uses
+                    const shortName = r.version.replace('Claude ', '');
                     // Alternate labels above/below to avoid overlap
                     const labelOffset = i % 2 === 0 ? -14 : 18;
                     svg += `<text x="${cx}" y="${cy + labelOffset}" text-anchor="middle" fill="#555" font-size="9.5" font-weight="500">${shortName}</text>`;
@@ -1746,8 +1817,10 @@
 
         // Shipping Pace - Cumulative Staircase with Quarter Bands
         function renderGapChart() {
-            const colors = { opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882', fable: '#c09a5b' };
-            const families = ['haiku', 'sonnet', 'opus', 'fable']; // stack order, bottom-to-top
+            const colors = { opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882', fable: '#c09a5b', mythos: '#5b8a9a' };
+            // Stack order, bottom-to-top. Mythos counts here: restricted access is still a
+            // ship (the preview drop stays excluded via notReleased, as everywhere else).
+            const families = ['haiku', 'sonnet', 'opus', 'fable', 'mythos'];
 
             // Collect and sort released, dated releases only
             const allReleases = [];
@@ -1775,8 +1848,8 @@
             const x = d => xRaw(parse(d));
 
             // Build cumulative series
-            const counts = { opus: 0, sonnet: 0, haiku: 0, fable: 0 };
-            const series = [{ date: MIN, opus: 0, sonnet: 0, haiku: 0, fable: 0 }];
+            const counts = { opus: 0, sonnet: 0, haiku: 0, fable: 0, mythos: 0 };
+            const series = [{ date: MIN, opus: 0, sonnet: 0, haiku: 0, fable: 0, mythos: 0 }];
             allReleases.forEach(r => {
                 counts[r.family] += 1;
                 series.push({ date: parse(r.date), ...counts });
@@ -1807,7 +1880,7 @@
                     // Quarter label at top of band
                     const q = Math.floor(qStart.getMonth() / 3) + 1;
                     if (bandW > 26) {
-                        svg += `<text x="${bandX + bandW / 2}" y="${pad.top + 13}" text-anchor="middle" fill="#b8a088" font-size="10" font-weight="600">Q${q}</text>`;
+                        svg += `<text x="${bandX + bandW / 2}" y="${pad.top + 13}" text-anchor="middle" fill="#8a7355" font-size="10" font-weight="600">Q${q}</text>`;
                     }
                     // Releases in this quarter
                     const qReleases = allReleases.filter(r => {
@@ -1846,7 +1919,7 @@
             // Y-axis gridlines
             for (let v = 0; v <= yMax; v += 4) {
                 svg += `<line x1="${pad.left}" y1="${y(v)}" x2="${W - pad.right}" y2="${y(v)}" stroke="#efe3d6" stroke-width="1" />`;
-                svg += `<text x="${pad.left - 6}" y="${y(v) + 4}" text-anchor="end" fill="#a88a6e" font-size="11">${v}</text>`;
+                svg += `<text x="${pad.left - 6}" y="${y(v) + 4}" text-anchor="end" fill="#8a6f52" font-size="11">${v}</text>`;
             }
 
             // Helpers: stacked step areas
@@ -1891,7 +1964,7 @@
             });
 
             // Top outline (total staircase)
-            const topLine = stepPath(series.map(s => [s.date, s.opus + s.sonnet + s.haiku + s.fable]));
+            const topLine = stepPath(series.map(s => [s.date, s.opus + s.sonnet + s.haiku + s.fable + s.mythos]));
             svg += `<path d="${topLine}" fill="none" stroke="#5b4636" stroke-width="1.8" />`;
 
             // Small dots at each release
@@ -1984,7 +2057,7 @@
             for (let s = minScore; s <= maxScore; s += step) {
                 const yPos = y(s);
                 svg += `<line x1="${pad.left}" y1="${yPos}" x2="${W - pad.right}" y2="${yPos}" stroke="#e8d5c8" stroke-width="1" />`;
-                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#888" font-size="12">${fmt(s)}</text>`;
+                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#666" font-size="12">${fmt(s)}</text>`;
             }
 
             // X-axis date labels
@@ -1997,7 +2070,7 @@
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
                 svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
-                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#888" font-size="12">${dl.label}</text>`;
+                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#666" font-size="12">${dl.label}</text>`;
             });
 
             // Axis lines
@@ -2006,10 +2079,12 @@
 
             // Draw each family series
             const labelItems = [];
+            const lineSegPoints = [];
             Object.entries(earningsData).forEach(([series, points]) => {
                 const color = colors[series];
 
                 if (points.length > 1) {
+                    lineSegPoints.push(points.map(p => [x(p.date), y(p.score)]));
                     const pathD = points.map((p, i) => {
                         return (i === 0 ? 'M' : 'L') + `${x(p.date)},${y(p.score)}`;
                     }).join(' ');
@@ -2025,7 +2100,7 @@
                 });
             });
 
-            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch });
+            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch }, lineObstacles(lineSegPoints));
 
             svg += '</svg>';
 
@@ -2129,7 +2204,7 @@
             for (let s = minScore; s <= maxScore; s += step) {
                 const yPos = y(s);
                 svg += `<line x1="${pad.left}" y1="${yPos}" x2="${W - pad.right}" y2="${yPos}" stroke="#e8d5c8" stroke-width="1" />`;
-                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#888" font-size="12">${fmt(s)}</text>`;
+                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#666" font-size="12">${fmt(s)}</text>`;
             }
 
             const dateLabels = [
@@ -2141,13 +2216,14 @@
             ];
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
-                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#888" font-size="12">${dl.label}</text>`;
+                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#666" font-size="12">${dl.label}</text>`;
             });
 
             svg += `<line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
             svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
 
             const labelItems = [];
+            const allDotBoxes = [];
             rounds.forEach(round => {
                 const rx = x(round.date);
                 // A faint guide ties each round's dots into one visible contest
@@ -2158,6 +2234,7 @@
                 round.entries.forEach(e => {
                     const py = y(e.score);
                     const color = e.fam ? FAMILY_COLORS[e.fam] : GREY;
+                    allDotBoxes.push({ x: rx - 9, y: py - 9, w: 18, h: 18 });
                     svg += `<g><title>${e.model} — ${fmt(e.score)} mean final balance${e.win ? ' (round winner)' : ''}</title>`;
                     if (e.win) {
                         svg += `<circle cx="${rx}" cy="${py}" r="8.5" fill="none" stroke="#5b4636" stroke-width="1.4" stroke-opacity="0.8" />`;
@@ -2172,7 +2249,7 @@
                 });
             });
 
-            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch });
+            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch }, allDotBoxes);
 
             svg += '</svg>';
             document.getElementById('arena-chart').innerHTML = svg;
@@ -2233,12 +2310,12 @@
             for (let s = minScore; s <= maxScore; s += step) {
                 const yPos = y(s);
                 svg += `<line x1="${pad.left}" y1="${yPos}" x2="${W - pad.right}" y2="${yPos}" stroke="#e8d5c8" stroke-width="1" />`;
-                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#888" font-size="12">${s}</text>`;
+                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#666" font-size="12">${s}</text>`;
             }
 
             // Human-expert baseline — GDPval-AA v2 anchors human performance at 1000
             svg += `<line x1="${pad.left}" y1="${y(1000)}" x2="${W - pad.right}" y2="${y(1000)}" stroke="#b8a088" stroke-width="1.2" stroke-dasharray="5,4" />`;
-            svg += `<text x="${W - pad.right - 4}" y="${y(1000) - 5}" text-anchor="end" fill="#b8a088" font-size="10" font-style="italic">human baseline (1000)</text>`;
+            svg += `<text x="${W - pad.right - 4}" y="${y(1000) - 5}" text-anchor="end" fill="#8a7355" font-size="10" font-style="italic">human baseline (1000)</text>`;
 
             const dateLabels = [
                 { label: "Jun '25", date: '2025-06-01' },
@@ -2250,17 +2327,19 @@
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
                 svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
-                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#888" font-size="12">${dl.label}</text>`;
+                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#666" font-size="12">${dl.label}</text>`;
             });
 
             svg += `<line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
             svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
 
             const labelItems = [];
+            const lineSegPoints = [];
             Object.entries(gdpvalData).forEach(([series, points]) => {
                 const color = colors[series];
 
                 if (points.length > 1) {
+                    lineSegPoints.push(points.map(p => [x(p.date), y(p.score)]));
                     const pathD = points.map((p, i) => (i === 0 ? 'M' : 'L') + `${x(p.date)},${y(p.score)}`).join(' ');
                     svg += `<path d="${pathD}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />`;
                 }
@@ -2275,7 +2354,7 @@
             });
 
             svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch },
-                [annotationBox(W - pad.right - 4, y(1000) - 5, 'human baseline (1000)', 10)]);
+                [annotationBox(W - pad.right - 4, y(1000) - 5, 'human baseline (1000)', 10)].concat(lineObstacles(lineSegPoints)));
 
             svg += '</svg>';
             document.getElementById('gdpval-chart').innerHTML = svg;
@@ -2342,7 +2421,7 @@
             for (let s = minScore; s <= maxScore; s += step) {
                 const yPos = y(s);
                 svg += `<line x1="${pad.left}" y1="${yPos}" x2="${W - pad.right}" y2="${yPos}" stroke="#e8d5c8" stroke-width="1" />`;
-                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#888" font-size="12">${s}%</text>`;
+                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#666" font-size="12">${s}%</text>`;
             }
 
             const dateLabels = [
@@ -2356,17 +2435,19 @@
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
                 svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
-                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#888" font-size="12">${dl.label}</text>`;
+                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#666" font-size="12">${dl.label}</text>`;
             });
 
             svg += `<line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
             svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
 
             const labelItems = [];
+            const lineSegPoints = [];
             Object.entries(arcData).forEach(([series, points]) => {
                 const color = colors[series];
 
                 if (points.length > 1) {
+                    lineSegPoints.push(points.map(p => [x(p.date), y(p.score)]));
                     const pathD = points.map((p, i) => (i === 0 ? 'M' : 'L') + `${x(p.date)},${y(p.score)}`).join(' ');
                     svg += `<path d="${pathD}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />`;
                 }
@@ -2382,8 +2463,9 @@
 
             // ARC-AGI-3 dashed overlay. Individual points get tooltips; only the endpoint
             // gets a text annotation — the three sub-2% points would label as clutter.
+            lineSegPoints.push(arc3Data.map(p => [x(p.date), y(p.score)]));
             const arc3Path = arc3Data.map((p, i) => (i === 0 ? 'M' : 'L') + `${x(p.date)},${y(p.score)}`).join(' ');
-            svg += `<path d="${arc3Path}" fill="none" stroke="${colors.opus}" stroke-width="2" stroke-dasharray="5,4" stroke-opacity="0.75" stroke-linecap="round" stroke-linejoin="round" />`;
+            svg += `<path d="${arc3Path}" fill="none" stroke="${colors.opus}" stroke-width="2" stroke-dasharray="5,4" stroke-opacity="0.85" stroke-linecap="round" stroke-linejoin="round" />`;
             arc3Data.forEach(p => {
                 svg += `<circle cx="${x(p.date)}" cy="${y(p.score)}" r="4.5" fill="#fffdfa" stroke="${colors.opus}" stroke-width="2" stroke-dasharray="2.4,2">`
                      + `<title>${p.model} (${p.config}) — ARC-AGI-3: ${p.score}%</title></circle>`;
@@ -2393,7 +2475,7 @@
             svg += `<text x="${a3x}" y="${a3y}" text-anchor="end" fill="${colors.opus}" font-size="10.5" font-style="italic">ARC-AGI-3 · ${arc3End.score.toFixed(1)}%</text>`;
 
             svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch },
-                [annotationBox(a3x, a3y, `ARC-AGI-3 - ${arc3End.score.toFixed(1)}%`, 10.5)]);
+                [annotationBox(a3x, a3y, `ARC-AGI-3 - ${arc3End.score.toFixed(1)}%`, 10.5)].concat(lineObstacles(lineSegPoints)));
 
             svg += '</svg>';
             document.getElementById('arc-chart').innerHTML = svg;
@@ -2492,7 +2574,7 @@
             // under 30 there, so rings 40 and above are guaranteed clear of the data.
             rings.filter(r => r >= 40).forEach(ring => {
                 const [px, py] = pt(5, ring);
-                svg += `<text x="${(px + 9).toFixed(1)}" y="${(py + 3).toFixed(1)}" text-anchor="start" fill="#c3ad9a" font-size="9">${ring}</text>`;
+                svg += `<text x="${(px + 9).toFixed(1)}" y="${(py + 3).toFixed(1)}" text-anchor="start" fill="#9a836c" font-size="9">${ring}</text>`;
             });
 
             // Axis labels: benchmark name, with its category on a second line beneath
@@ -2593,7 +2675,7 @@
             for (let s = minScore; s <= maxScore; s += step) {
                 const yPos = y(s);
                 svg += `<line x1="${pad.left}" y1="${yPos}" x2="${W - pad.right}" y2="${yPos}" stroke="#e8d5c8" stroke-width="1" />`;
-                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#888" font-size="12">${s}%</text>`;
+                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#666" font-size="12">${s}%</text>`;
             }
 
             const dateLabels = [
@@ -2605,7 +2687,7 @@
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
                 svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
-                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#888" font-size="12">${dl.label}</text>`;
+                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#666" font-size="12">${dl.label}</text>`;
             });
 
             // Where the entire field sat when the index launched — the baseline everything
@@ -2618,10 +2700,12 @@
             svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
 
             const labelItems = [];
+            const lineSegPoints = [];
             Object.entries(rliData).forEach(([series, points]) => {
                 const color = colors[series];
 
                 if (points.length > 1) {
+                    lineSegPoints.push(points.map(p => [x(p.date), y(p.score)]));
                     const pathD = points.map((p, i) => (i === 0 ? 'M' : 'L') + `${x(p.date)},${y(p.score)}`).join(' ');
                     svg += `<path d="${pathD}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />`;
                 }
@@ -2636,7 +2720,7 @@
             });
 
             svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch },
-                [annotationBox(W - pad.right - 4, launchY - 7, '2.5% - best of any model at launch, Oct 2025', 10.5)]);
+                [annotationBox(W - pad.right - 4, launchY - 7, '2.5% - best of any model at launch, Oct 2025', 10.5)].concat(lineObstacles(lineSegPoints)));
 
             svg += '</svg>';
             document.getElementById('rli-chart').innerHTML = svg;
@@ -2702,7 +2786,7 @@
             for (let s = minScore; s <= maxScore; s += step) {
                 const yPos = y(s);
                 svg += `<line x1="${pad.left}" y1="${yPos}" x2="${W - pad.right}" y2="${yPos}" stroke="#e8d5c8" stroke-width="1" />`;
-                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#888" font-size="12">${s}%</text>`;
+                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#666" font-size="12">${s}%</text>`;
             }
 
             const dateLabels = [
@@ -2714,17 +2798,19 @@
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
                 svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
-                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#888" font-size="12">${dl.label}</text>`;
+                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#666" font-size="12">${dl.label}</text>`;
             });
 
             svg += `<line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
             svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
 
             const labelItems = [];
+            const lineSegPoints = [];
             Object.entries(sweData).forEach(([series, points]) => {
                 const color = colors[series];
 
                 if (points.length > 1) {
+                    lineSegPoints.push(points.map(p => [x(p.date), y(p.score)]));
                     const pathD = points.map((p, i) => (i === 0 ? 'M' : 'L') + `${x(p.date)},${y(p.score)}`).join(' ');
                     svg += `<path d="${pathD}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />`;
                 }
@@ -2741,7 +2827,7 @@
                 });
             });
 
-            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch });
+            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch }, lineObstacles(lineSegPoints));
 
             svg += '</svg>';
             document.getElementById('swebench-chart').innerHTML = svg;
@@ -2799,12 +2885,12 @@
             for (let s = minScore; s <= maxScore; s += step) {
                 const yPos = y(s);
                 svg += `<line x1="${pad.left}" y1="${yPos}" x2="${W - pad.right}" y2="${yPos}" stroke="#e8d5c8" stroke-width="1" />`;
-                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#888" font-size="12">${s}%</text>`;
+                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#666" font-size="12">${s}%</text>`;
             }
 
             // Current overall leader across all vendors on this snapshot
             svg += `<line x1="${pad.left}" y1="${y(85.8)}" x2="${W - pad.right}" y2="${y(85.8)}" stroke="#b8a088" stroke-width="1.2" stroke-dasharray="5,4" />`;
-            svg += `<text x="${W - pad.right - 4}" y="${y(85.8) - 5}" text-anchor="end" fill="#b8a088" font-size="10" font-style="italic">field leader &mdash; GPT-5.6 Sol (85.8%)</text>`;
+            svg += `<text x="${W - pad.right - 4}" y="${y(85.8) - 5}" text-anchor="end" fill="#8a7355" font-size="10" font-style="italic">field leader &mdash; GPT-5.6 Sol (85.8%)</text>`;
 
             const dateLabels = [
                 { label: "Nov '25", date: '2025-11-01' },
@@ -2815,17 +2901,19 @@
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
                 svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
-                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#888" font-size="12">${dl.label}</text>`;
+                svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#666" font-size="12">${dl.label}</text>`;
             });
 
             svg += `<line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
             svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
 
             const labelItems = [];
+            const lineSegPoints = [];
             Object.entries(tbData).forEach(([series, points]) => {
                 const color = colors[series];
 
                 if (points.length > 1) {
+                    lineSegPoints.push(points.map(p => [x(p.date), y(p.score)]));
                     const pathD = points.map((p, i) => (i === 0 ? 'M' : 'L') + `${x(p.date)},${y(p.score)}`).join(' ');
                     svg += `<path d="${pathD}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />`;
                 }
@@ -2840,7 +2928,7 @@
             });
 
             svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch },
-                [annotationBox(W - pad.right - 4, y(85.8) - 5, 'field leader - GPT-5.6 Sol (85.8%)', 10)]);
+                [annotationBox(W - pad.right - 4, y(85.8) - 5, 'field leader - GPT-5.6 Sol (85.8%)', 10)].concat(lineObstacles(lineSegPoints)));
 
             svg += '</svg>';
             document.getElementById('terminalbench-chart').innerHTML = svg;
@@ -2876,7 +2964,7 @@
             for (let s = 0; s <= 50; s += 10) {
                 const yPos = y(s);
                 svg += `<line x1="${pad.left}" y1="${yPos}" x2="${W - pad.right}" y2="${yPos}" stroke="#e8d5c8" stroke-width="1" />`;
-                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#888" font-size="12">$${s}</text>`;
+                svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#666" font-size="12">$${s}</text>`;
             }
 
             const groupW = cw / pricing.length;

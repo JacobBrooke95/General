@@ -1851,6 +1851,17 @@ a:hover {
     min-width: 620px;
   }
 
+  /* Same treatment for the radar: at phone width its 12px viewBox text renders
+     around 5px physical — let it scroll at a legible size instead. */
+  #radar-chart {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #radar-chart svg {
+    min-width: 560px;
+  }
+
   .release-list li {
     flex-wrap: wrap;
   }

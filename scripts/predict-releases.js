@@ -171,23 +171,27 @@ function backtestTable(bt) {
   lines.push(DIM('ACTUAL        VERSION                   PREDICTED     ERROR      WINDOW   N'));
   bt.results.forEach(r => {
     const err = `${r.errorDays > 0 ? '+' : ''}${r.errorDays}d`;
+    // An overdue call's window trivially contains the next day — scoring it "hit"
+    // would let the model's worst calls flatter the stats, so it reports n/a.
+    const windowCol = r.overdue ? DIM('n/a'.padEnd(9))
+      : r.inWindow ? 'hit'.padEnd(9) : DIM('miss'.padEnd(9));
     lines.push(
       fmt(r.actual).padEnd(14) +
       r.version.replace('Claude ', '').padEnd(26) +
       fmt(r.predicted).padEnd(14) +
       (Math.abs(r.errorDays) > 60 ? RED(err.padEnd(11)) : err.padEnd(11)) +
-      (r.inWindow ? 'hit'.padEnd(9) : DIM('miss'.padEnd(9))) +
+      windowCol +
       String(r.sampleSize)
     );
   });
 
   const s = bt.summary;
   lines.push('');
-  lines.push(`  ${s.count} forecasts · median absolute error ${BOLD(s.medianAbsErrorDays + 'd')} · mean ${s.meanAbsErrorDays}d`);
-  lines.push(`  mature regime (≥2 prior gaps, ${s.matureCount} forecasts): median ${BOLD(s.matureMedianAbsErrorDays + 'd')}`);
-  lines.push(`  mean signed error ${s.meanSignedErrorDays > 0 ? '+' : ''}${s.meanSignedErrorDays}d ${DIM(s.meanSignedErrorDays > 0 ? '(model runs late — it lags an accelerating cadence)' : '(model runs early)')}`);
-  lines.push(`  actual date landed inside the estimate window ${s.hitRate}% of the time`);
-  lines.push(DIM(`  excluding ${s.overdueCalls} "due now" calls, which trivially contain the next day: ${s.datedHitRate}%`));
+  lines.push(`  ${s.count} forecasts · median absolute error ${BOLD(s.medianAbsErrorDays + 'd')} · mean ${s.meanAbsErrorDays}d · mean signed ${s.meanSignedErrorDays > 0 ? '+' : ''}${s.meanSignedErrorDays}d`);
+  lines.push(`  mature regime (≥2 prior gaps, ${s.matureCount} forecasts, all Opus/Sonnet): median ${BOLD(s.matureMedianAbsErrorDays + 'd')}`);
+  lines.push(`  window caught ${BOLD(`${s.datedHits} of ${s.datedCount}`)} dated calls · ${s.overdueCalls} overdue calls scored n/a (their windows cannot miss)`);
+  lines.push(`  day-weighted: over ${s.displayDays.toLocaleString('en-US')} display-days, the shown window contained the eventual date ${BOLD(s.dayWeightedCoverage + '%')} of the time ("due now" showing on ${s.dueNowDays.toLocaleString('en-US')})`);
+  lines.push(DIM('  eve-of-release scoring is one-sided (can only miss early); the day-weighted line is the two-sided test'));
   lines.push('');
   return lines.join('\n');
 }
