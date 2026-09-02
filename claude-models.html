@@ -128,7 +128,11 @@
                             <span><strong>Opus 5</strong></span>
                         </div>
                         <div class="benchmark-legend-item">
-                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px dashed #c09a5b;"></div>
+                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px solid #c09a5b;"></div>
+                            <span><strong>Fable 5.1</strong> &middot; 9 of 10 axes</span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px dotted #c9ab74;"></div>
                             <span>Fable 5</span>
                         </div>
                         <div class="benchmark-legend-item">
@@ -145,12 +149,14 @@
                         </div>
                     </div>
                     <p class="benchmark-note">
-                        One harness note before the shapes: the Terminal-Bench 2.1 axis uses Artificial Analysis's figures, which run six to thirteen points above the Vals AI numbers plotted on the Terminal-Bench chart below for the same models (Opus 5: 89.1 here vs 84.6 there) &mdash; compare vertices within this chart, not against that one.<br>
-                        Opus 5 (solid, filled) takes five of the ten axes — SWE-bench Verified, GPQA Diamond, CritPt, Terminal-Bench 2.1 and the Agentic Index — and its margin is widest on the two agentic ones. Fable 5 holds four: Humanity's Last Exam, Omniscience, SciCode and SWE-bench Pro. So the pricier model is still ahead on raw knowledge and the hardest coding set, while Opus 5 wins where a model has to <em>act</em> rather than recall. The tenth axis, AA-LCR, goes to Sonnet 5 by 0.4 points over Haiku 4.5 — long-context reasoning is the one axis where the two cheapest models plotted match the frontier.<br>
-                        Against Opus 4.8 the gap is a single eight-week generation: +10 points on SWE-bench Pro, +8.2 on CritPt, +7.6 on Omniscience.<br>
-                        The axes are deliberately not all the same difficulty. GPQA Diamond is saturated for the frontier tier — the four flagship polygons sit within 2.1 points of each other near the rim, and only Haiku (67.2) falls away from the cluster — while CritPt (frontier physics) and Omniscience (factual accuracy without hedging) still pin every Claude model well inside the chart. A benchmark where the whole field clusters tells you nothing about which model to pick; the dents are the informative part.<br>
-                        <strong>Haiku 4.5</strong> is now a full polygon, and its history on this chart is a correction worth owning: an earlier revision plotted it as two lone points on the claim that Artificial Analysis had never run it. That claim was half-right — AA's default Haiku page (the non-reasoning variant) shows <em>no data available</em> per eval and an estimated index — but AA separately carries <em>Claude 4.5 Haiku (Reasoning)</em>, fully measured (Intelligence Index 29.58), and that entry fills eight of the ten axes, including a measured 0.0 on CritPt and single-digit HLE. The shape it draws is the tier gap in one glance: long-context reasoning within a point of the frontier four (70.3 AA-LCR), respectable coding, and knowledge/agentic axes that collapse toward the centre. Its SWE-bench Pro figure (39.5) is Scale's public-subset leaderboard, and SWE-bench Verified (73.3) Anthropic's launch figure, matching how those two axes are sourced for every model here. Two stray details for the record: the 43.8 Terminal-Bench figure this chart previously credited to Anthropic is actually Vals AI's independent run (Anthropic's own launch number was 41.0 on Terminal-Bench <em>1.0</em>, a different version; the AA figure plotted is 44.2), and Haiku's system card contains no capability benchmarks at all — its closest item is a 45-problem hard-subset SWE run at 36.6% that is not the eval on the axis above.<br>
-                        <strong>Still not plotted:</strong> Mythos 5 and Mythos 5.1, whose numbers come from Anthropic's own harness rather than this one, so their shapes wouldn't be comparable to anything else here. Fable 5.1 (Sep 1, 2026) is also absent for now: Artificial Analysis lists it as fully measured (Intelligence Index 66) but this page has not yet pulled its per-axis figures, and Anthropic published no SWE-bench Verified number for it, which is how that axis is sourced. Its polygon can be drawn once both are in hand.
+                        One harness note before the shapes: the Terminal-Bench 2.1 axis uses Artificial Analysis's figures, which run six to thirteen points above the Vals AI numbers plotted on the Terminal-Bench chart below for the same models (Opus 5: 89.1 here vs 84.6 there; Fable 5.1: 91.4 here vs 85.0 there) &mdash; compare vertices within this chart, not against that one.<br>
+                        <strong>Fable 5.1 (solid gold outline) is the new outer edge.</strong> It clears Opus 5 on all nine axes it has a figure for: by 6.3 points on Omniscience and on SciCode, 4.3 on AA-LCR, 4.2 on Humanity's Last Exam, 2.3 on Terminal-Bench 2.1, 2.1 on the Agentic Index, 2.0 on SWE-bench Pro, and by half a point or less on GPQA Diamond and CritPt. Its tenth vertex is left open on purpose: Anthropic published no SWE-bench Verified figure for it, that axis is vendor-sourced, and a missing value drawn at zero would read as a score. So the shape has a gap at the top, not a dent.<br>
+                        Opus 5 (solid, filled) stays the reference polygon at half the price. Against Fable 5 it still takes five of the ten axes — SWE-bench Verified, GPQA Diamond, CritPt, Terminal-Bench 2.1 and the Agentic Index — with its margin widest on the two agentic ones, while Fable 5 holds Humanity's Last Exam, Omniscience, SciCode, SWE-bench Pro and, after this pull, AA-LCR. The generational read survives: the cheaper Opus 5 wins where a model has to <em>act</em> rather than recall, the Fable tier wins on raw knowledge and the hardest coding set, and Fable 5.1 now wins on both. AA-LCR is no longer the odd axis where the cheap models matched the frontier — Sonnet 5's 77.0 still beats Opus 5 and Fable 5, but Fable 5.1's 80.0 is clear of everything.<br>
+                        Against Opus 4.8 the Opus 5 gap is a single eight-week generation: +12.1 points on Omniscience, +10 on SWE-bench Pro, +8.2 on CritPt.<br>
+                        <strong>Snapshot note.</strong> All eight Artificial Analysis axes were re-pulled on September 2, 2026 from AA's own model pages, and the re-pull moved four axes for every model since the July 25 read — Humanity's Last Exam, Omniscience, the Agentic Index, and AA-LCR by five to seven points across the board. That is why every polygon here was refreshed together instead of one September shape being laid over five July ones. GPQA Diamond, CritPt, Terminal-Bench 2.1 and SciCode came back unchanged to the decimal. The SWE-bench Pro vertex for Fable 5.1 (81.2) is Anthropic's launch figure, the same sourcing that gave Fable 5 its 80.0 and Opus 5 its 79.2.<br>
+                        The axes are deliberately not all the same difficulty. GPQA Diamond is saturated for the frontier tier — the five flagship polygons sit within 2.6 points of each other near the rim, and only Haiku (67.2) falls away from the cluster — while CritPt (frontier physics) and Omniscience (factual accuracy without hedging) still pin every Claude model well inside the chart. A benchmark where the whole field clusters tells you nothing about which model to pick; the dents are the informative part.<br>
+                        <strong>Haiku 4.5</strong> is now a full polygon, and its history on this chart is a correction worth owning: an earlier revision plotted it as two lone points on the claim that Artificial Analysis had never run it. That claim was half-right — AA's default Haiku page (the non-reasoning variant) shows <em>no data available</em> per eval and an estimated index — but AA separately carries <em>Claude 4.5 Haiku (Reasoning)</em>, fully measured (Intelligence Index 29.58), and that entry fills eight of the ten axes, including a measured 0.0 on CritPt and an HLE score of 10.4. The shape it draws is the tier gap in one glance: long-context reasoning that stays near the pack (73.7 AA-LCR, above Opus 4.8's 73.0), respectable coding, and knowledge/agentic axes that collapse toward the centre. Its SWE-bench Pro figure (39.5) is Scale's public-subset leaderboard, and SWE-bench Verified (73.3) Anthropic's launch figure, matching how those two axes are sourced for every model here. Two stray details for the record: the 43.8 Terminal-Bench figure this chart previously credited to Anthropic is actually Vals AI's independent run (Anthropic's own launch number was 41.0 on Terminal-Bench <em>1.0</em>, a different version; the AA figure plotted is 44.2), and Haiku's system card contains no capability benchmarks at all — its closest item is a 45-problem hard-subset SWE run at 36.6% that is not the eval on the axis above.<br>
+                        <strong>Still not plotted:</strong> Mythos 5 and Mythos 5.1, whose numbers come from Anthropic's own harness rather than this one, so their shapes wouldn't be comparable to anything else here. Their system card carries no GPQA Diamond, SciCode, AA-LCR or Agentic Index figure at all, and its HLE, CritPt and Omniscience runs are internal variants of the evals on these axes.
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
@@ -1138,7 +1144,7 @@
 
             // A maintained date, not new Date(): a live stamp would silently re-date
             // July's benchmark pulls every day forever. The forecast alone is live.
-            lastUpdated.textContent = 'September 2, 2026 (Fable 5.1 and Mythos 5.1 added; benchmarks pulled July 29 unless a section says otherwise; forecast computed on view)';
+            lastUpdated.textContent = 'September 2, 2026 (Fable 5.1 and Mythos 5.1 added; Capability Profile and GDPval re-pulled September 2, other benchmarks July 29; forecast computed on view)';
 
             // Create cards for each model, all reading cycles from the one forecast
             const cardForecast = ReleaseForecast.forecastAll(modelData);
@@ -2509,14 +2515,25 @@
 
         // Capability Profile — radar/spider chart across ten evaluations.
         // Form borrowed from Thinking Machines' Inkling launch chart, restyled to this
-        // page's palette. All ten values come from the Artificial Analysis harness
-        // (via benchlm.ai model pages, pulled 2026-07-25) so one methodology produces
-        // every number — mixing harnesses would make the polygon shapes meaningless.
+        // page's palette. Eight axes come from the Artificial Analysis harness, read on
+        // 2026-09-02 straight from the data embedded in AA's model pages (benchlm.ai,
+        // the earlier route, carried only Anthropic's own figures for Fable 5.1). One
+        // methodology produces every AA number — mixing harnesses would make the
+        // polygon shapes meaningless. The two SWE axes keep their own sourcing: Verified
+        // is the vendor's launch figure, Pro the public-subset board (which for the
+        // three newest models coincides with the vendor figure).
         //
-        // Only models with a value on ALL ten axes are plotted. Haiku 4.5 (3 of 10) and
-        // Mythos 5 (Anthropic-harness numbers) are covered in the caption instead —
-        // plotting a missing value at zero, as the original chart does, would read as
-        // "scored zero" rather than "not measured".
+        // The 2026-09-02 re-pull moved four axes for every model since the 2026-07-25
+        // read — HLE, Omniscience, the Agentic Index, and AA-LCR by five to seven
+        // points across the board — so all five earlier polygons were refreshed in the
+        // same pull rather than plotting a September shape beside July ones. GPQA,
+        // CritPt, Terminal-Bench 2.1 and SciCode were unchanged to the decimal.
+        //
+        // A null score is a documented gap, never a zero: the series is drawn as an
+        // open polyline with no marker at that vertex. Plotting a missing value at
+        // zero, as the original chart does, would read as "scored zero" rather than
+        // "not measured". Mythos 5 / 5.1 (Anthropic-harness numbers) stay in the
+        // caption instead.
         function renderRadarChart() {
             // Axes ordered so related categories sit next to each other going clockwise:
             // coding at the top, then knowledge, factuality, reasoning, agentic.
@@ -2533,26 +2550,43 @@
                 { key: 'swepro',   name: 'SWE-bench Pro',      cat: 'Coding (hard)' }
             ];
 
+            // Every AA value is the model's headline AA variant: max effort, with AA's
+            // default refusal fallback on the Fable rows (the same configuration AA uses
+            // for its Intelligence Index).
             const models = [
                 {
-                    key: 'fable', label: 'Fable 5', color: '#c09a5b', hero: false,
-                    scores: { swe: 95.0, gpqa: 92.6, hle: 53.3, omni: 61.4, lcr: 70.0,
-                              critpt: 28.6, agentic: 52.8, terminal: 84.6, scicode: 60.2, swepro: 80.0 }
+                    // Fable 5 now recedes behind Fable 5.1 the way Opus 4.8 recedes behind
+                    // Opus 5: same family hue, thinner and faded, so the two golds don't fight.
+                    key: 'fable', label: 'Fable 5', color: '#c9ab74', hero: false, recede: true,
+                    scores: { swe: 95.0, gpqa: 92.6, hle: 55.5, omni: 65.3, lcr: 76.7,
+                              critpt: 28.6, agentic: 56.6, terminal: 84.6, scicode: 60.2, swepro: 80.0 }
                 },
                 {
                     key: 'opus48', label: 'Opus 4.8', color: '#b9a3c4', hero: false, recede: true,
-                    scores: { swe: 88.6, gpqa: 92.0, hle: 45.7, omni: 46.6, lcr: 67.7,
-                              critpt: 20.9, agentic: 47.2, terminal: 84.6, scicode: 53.5, swepro: 69.2 }
+                    scores: { swe: 88.6, gpqa: 92.0, hle: 48.7, omni: 48.8, lcr: 73.0,
+                              critpt: 20.9, agentic: 49.4, terminal: 84.6, scicode: 53.5, swepro: 69.2 }
                 },
                 {
                     key: 'sonnet', label: 'Sonnet 5', color: '#d4836a', hero: false,
-                    scores: { swe: 85.2, gpqa: 91.1, hle: 39.6, omni: 38.3, lcr: 70.7,
-                              critpt: 16.9, agentic: 46.7, terminal: 80.5, scicode: 53.6, swepro: 63.2 }
+                    scores: { swe: 85.2, gpqa: 91.1, hle: 41.3, omni: 40.1, lcr: 77.0,
+                              critpt: 16.9, agentic: 49.7, terminal: 80.5, scicode: 53.6, swepro: 63.2 }
                 },
                 {
                     key: 'opus5', label: 'Opus 5', color: '#9d7bb0', hero: true,
-                    scores: { swe: 96.0, gpqa: 93.2, hle: 52.6, omni: 54.2, lcr: 70.0,
-                              critpt: 29.1, agentic: 55.3, terminal: 89.1, scicode: 55.7, swepro: 79.2 }
+                    scores: { swe: 96.0, gpqa: 93.2, hle: 54.9, omni: 60.9, lcr: 75.7,
+                              critpt: 29.1, agentic: 59.2, terminal: 89.1, scicode: 55.7, swepro: 79.2 }
+                },
+                {
+                    // Fable 5.1, nine of ten axes. swe is null because Anthropic published no
+                    // SWE-bench Verified figure at launch (its system card reports Pro,
+                    // Multilingual and Multimodal only), and that axis is vendor-sourced.
+                    // swepro 81.2 is Anthropic's launch figure — the same sourcing behind
+                    // Fable 5's 80.0 and Opus 5's 79.2. AA's CritPt page lists the xhigh run
+                    // higher (31.1); 29.7 is the max-effort run, kept for consistency with
+                    // every other vertex.
+                    key: 'fable51', label: 'Fable 5.1', color: '#c09a5b', lead: true,
+                    scores: { swe: null, gpqa: 93.7, hle: 59.1, omni: 67.2, lcr: 80.0,
+                              critpt: 29.7, agentic: 61.3, terminal: 91.4, scicode: 62.0, swepro: 81.2 }
                 },
                 {
                     // Haiku 4.5, full polygon. AA's default Haiku page (the non-reasoning
@@ -2564,8 +2598,8 @@
                     // follow the same sourcing as the other models: Verified is Anthropic's
                     // launch figure via the aggregators, Pro is Scale's public-subset board.
                     key: 'haiku', label: 'Haiku 4.5', color: '#8fa882',
-                    scores: { swe: 73.3, gpqa: 67.2, hle: 9.7, omni: 17.4, lcr: 70.3,
-                              critpt: 0.0, agentic: 16.4, terminal: 44.2, scicode: 43.3, swepro: 39.5 }
+                    scores: { swe: 73.3, gpqa: 67.2, hle: 10.4, omni: 18.0, lcr: 73.7,
+                              critpt: 0.0, agentic: 16.5, terminal: 44.2, scicode: 43.3, swepro: 39.5 }
                 }
             ];
 
@@ -2623,31 +2657,54 @@
             });
 
             // Series. Non-hero models are dashed outlines with hollow markers; the hero
-            // gets a heavier solid stroke and a translucent fill, so it reads first.
+            // gets a heavier solid stroke and a translucent fill, so it reads first; the
+            // lead (newest flagship) is a solid unfilled outline drawn last, on top.
             models.forEach(m => {
-                const pts = axes.map((ax, i) => pt(i, m.scores[ax.key]));
-                const poly = pts.map(p => p.map(v => v.toFixed(1)).join(',')).join(' ');
+                // A null score is a documented gap. The series is then drawn as an open
+                // polyline that starts just after the gap and runs the long way round, so
+                // the missing vertex shows as an absence — no point, no segment — rather
+                // than a value at zero.
+                const present = axes.map((ax, i) => (m.scores[ax.key] == null ? null : i)).filter(i => i !== null);
+                const gap = axes.findIndex(ax => m.scores[ax.key] == null);
+                const order = gap === -1 ? present
+                    : present.filter(i => i > gap).concat(present.filter(i => i < gap));
+                const pts = order.map(i => ({ i, p: pt(i, m.scores[axes[i].key]) }));
+                const poly = pts.map(({ p }) => p.map(v => v.toFixed(1)).join(',')).join(' ');
+                const shape = gap === -1 ? 'polygon' : 'polyline';
 
                 if (m.hero) {
-                    svg += `<polygon points="${poly}" fill="${m.color}" fill-opacity="0.18" stroke="${m.color}" stroke-width="3" stroke-linejoin="round" />`;
+                    svg += `<${shape} points="${poly}" fill="${m.color}" fill-opacity="0.18" stroke="${m.color}" stroke-width="3" stroke-linejoin="round" />`;
+                } else if (m.lead) {
+                    svg += `<${shape} points="${poly}" fill="none" stroke="${m.color}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" />`;
                 } else if (m.recede) {
-                    // Opus 4.8 is the "where we were" reference — same family hue as Opus 5,
-                    // so keep it thin and faded or the two purples fight each other
-                    svg += `<polygon points="${poly}" fill="none" stroke="${m.color}" stroke-width="1.6" stroke-opacity="0.85" stroke-dasharray="3,3" stroke-linejoin="round" />`;
+                    // Opus 4.8 and Fable 5 are the "where we were" references — same family
+                    // hue as their successors, so keep them thin and faded or the pairs fight
+                    svg += `<${shape} points="${poly}" fill="none" stroke="${m.color}" stroke-width="1.6" stroke-opacity="0.85" stroke-dasharray="3,3" stroke-linejoin="round" />`;
                 } else {
-                    svg += `<polygon points="${poly}" fill="none" stroke="${m.color}" stroke-width="2" stroke-dasharray="7,4" stroke-linejoin="round" />`;
+                    svg += `<${shape} points="${poly}" fill="none" stroke="${m.color}" stroke-width="2" stroke-dasharray="7,4" stroke-linejoin="round" />`;
                 }
 
-                pts.forEach((p, i) => {
+                pts.forEach(({ i, p }) => {
                     const title = `<title>${m.label} — ${axes[i].name}: ${m.scores[axes[i].key]}</title>`;
                     if (m.hero) {
                         svg += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4.5" fill="${m.color}" stroke="white" stroke-width="1.5">${title}</circle>`;
+                    } else if (m.lead) {
+                        svg += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4" fill="${m.color}" stroke="white" stroke-width="1.5">${title}</circle>`;
                     } else if (m.recede) {
                         svg += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="white" stroke="${m.color}" stroke-width="1.6">${title}</circle>`;
                     } else {
                         svg += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.8" fill="white" stroke="${m.color}" stroke-width="2">${title}</circle>`;
                     }
                 });
+
+                if (gap !== -1) {
+                    // Mark the open vertex on the rim, in the series colour, so the gap reads
+                    // as deliberate rather than as a rendering fault.
+                    // Sits just outside the rim (5% past it), clear of the markers that
+                    // crowd the rim on a saturated axis and below the axis label block.
+                    const [gx, gy] = pt(gap, 105);
+                    svg += `<text x="${gx.toFixed(1)}" y="${(gy + 3).toFixed(1)}" text-anchor="middle" fill="${m.color}" font-size="9" font-style="italic">${m.label}: no figure</text>`;
+                }
             });
 
             svg += '</svg>';
