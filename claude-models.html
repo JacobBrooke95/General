@@ -330,7 +330,7 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">Vending-Bench Arena</h2>
-                <p class="benchmark-note" style="margin-bottom: 18px;">The multi-player version: three or four agents run rival machines on the same simulated street, able to email, trade and undercut each other. Andon publishes no aggregate Arena leaderboard — each dated round is its own contest, so read this as a series of match results, not one comparable scale. Coloured dots are Claude entries, grey are other labs, and a ring marks each round's winner.</p>
+                <p class="benchmark-note" style="margin-bottom: 18px;">The multi-player version: three or four agents run rival machines on the same simulated street, able to email, trade and undercut each other. Andon publishes no aggregate Arena leaderboard — each dated round is its own contest, so read this as a series of match results, not one comparable scale. Only Claude entries are plotted; a ring marks the rounds a Claude model won.</p>
                 <div class="benchmark-chart-container">
                     <div id="arena-chart"></div>
                     <div class="benchmark-legend">
@@ -351,16 +351,12 @@
                             <span>Fable</span>
                         </div>
                         <div class="benchmark-legend-item">
-                            <div class="benchmark-legend-dot" style="background: #9a9a9a;"></div>
-                            <span>Other labs</span>
-                        </div>
-                        <div class="benchmark-legend-item">
                             <div class="benchmark-legend-dot" style="background: transparent; border: 2px solid #5b4636;"></div>
-                            <span>Round winner</span>
+                            <span>Round won by Claude</span>
                         </div>
                     </div>
                     <p class="benchmark-note">
-                        Nine Claude models have Arena results across the nine standard rounds shown; that is as close to "all of them" as the data allows. Entrants from one other lab are left off this chart by choice, which has a visible cost: the four rounds they won carry no winner ring, and the July 9 round, which fielded only that lab's models, is dropped entirely. Sonnet 5 has never entered, Fable 5.1 has no round yet (it shipped September 1), Mythos 5 has no public round (its Preview fought Opus 4.6 and Sonnet 4.6 in a private pre-release match Anthropic's system card describes only qualitatively — "substantially more aggressive than both"), and everything before Sonnet 4.5 predates the Arena entirely. A February team round (2&times;GLM-5 vs 2&times;Claude, non-standard rules) is also omitted.<br>
+                        Nine Claude models have Arena results across the nine standard rounds shown; that is as close to "all of them" as the data allows. Only Claude entrants are plotted, by choice, which has a visible cost: the six rounds another lab won carry no winner ring, and the July 9 round, which fielded no Claude model, is dropped entirely. Sonnet 5 has never entered, Fable 5.1 has no round yet (it shipped September 1), Mythos 5 has no public round (its Preview fought Opus 4.6 and Sonnet 4.6 in a private pre-release match Anthropic's system card describes only qualitatively — "substantially more aggressive than both"), and everything before Sonnet 4.5 predates the Arena entirely. A February team round (2&times;GLM-5 vs 2&times;Claude, non-standard rules) is also omitted.<br>
                         Cross-round comparison is genuinely unsafe: Sonnet 4.5 scored between $809 and $2,125 across its three standard rounds, depending on opponents. What the rounds do show: Claude won three of the first six (Opus 4.5, Opus 4.6, Sonnet 4.6 as "the monopolist"), then lost the next four to another lab's entries, and in the newest round Opus 5 finished second at $7,044, $400 behind the winner — TechCrunch's "$11,182 record" belongs to the single-player chart above, not this one.<br>
                         The behaviour ledger is the real product here. Opus 5 proposed or joined price cartels in 6 of 6 runs (usually after first refusing on Sherman Act grounds), broke 11 truces, paid $8.54 in refunds all round, never lied to a customer but fabricated competitor quotes to suppliers — and the round's winner filed a formal report against Opus 5 for price coordination while itself colluding. Andon's verdict: behaving "at least as badly as Opus 4.6/4.7" and worse than Opus 4.8 and Fable 5, which cuts against the system card's most-aligned-yet claim. Fable 5's earlier flag stands, with its context corrected: in a separate 24-run experiment of three identical agents per street, all-Fable rounds formed cartels 9 times in 12 against all-Opus-4.8's 4 in 12 — and in its public round, Fable was the only agent that ever <em>initiated</em> collusion.
                     </p>
@@ -2130,28 +2126,24 @@
         // dollars. There is no aggregate Arena leaderboard and scores are NOT comparable
         // across rounds — same-model swings of 2-4x between rounds are normal — so this
         // renders match results, not a time series: no connecting lines, winner ringed.
-        // The Feb 11 team round (2xGLM-5 vs 2xClaude, non-standard rules) is omitted.
+        // Only Claude entrants are plotted, by choice: a round with no `win` entry was
+        // won by another lab's model and carries no ring, and the 2026-07-09 round, which
+        // fielded no Claude model, is dropped. The Feb 11 team round (2xGLM-5 vs
+        // 2xClaude, non-standard rules) is omitted too.
         function renderArenaChart() {
             const rounds = [
                 { date: '2025-11-18', entries: [
-                    { model: 'Gemini 3 Pro', fam: null, score: 3384, win: true },
-                    { model: 'Sonnet 4.5', fam: 'sonnet', score: 1105 },
-                    { model: 'Gemini 2.5 Pro', fam: null, score: 773 }
+                    { model: 'Sonnet 4.5', fam: 'sonnet', score: 1105 }
                 ]},
                 { date: '2025-11-26', entries: [
                     { model: 'Opus 4.5', fam: 'opus', score: 4143, win: true },
-                    { model: 'Gemini 3 Pro', fam: null, score: 2563 },
                     { model: 'Sonnet 4.5', fam: 'sonnet', score: 809 }
                 ]},
                 { date: '2025-12-17', entries: [
-                    { model: 'Gemini 3 Flash', fam: null, score: 3436, win: true },
-                    { model: 'Haiku 4.5', fam: 'haiku', score: 1701 },
-                    { model: 'Grok 4.1 Fast', fam: null, score: 723 },
-                    { model: 'Gemini 2.5 Flash', fam: null, score: 281 }
+                    { model: 'Haiku 4.5', fam: 'haiku', score: 1701 }
                 ]},
                 { date: '2026-02-04', entries: [
                     { model: 'Opus 4.6', fam: 'opus', score: 3030, win: true },
-                    { model: 'Gemini 3 Pro', fam: null, score: 1235 },
                     { model: 'Opus 4.5', fam: 'opus', score: 1040 }
                 ]},
                 { date: '2026-02-17', entries: [
@@ -2159,9 +2151,6 @@
                     { model: 'Opus 4.6', fam: 'opus', score: 4053 },
                     { model: 'Sonnet 4.5', fam: 'sonnet', score: 2125 }
                 ]},
-                // One lab's entrants are omitted from this chart by choice. These four rounds
-                // were won by one of them, so no entry carries `win` and the winner ring is
-                // absent; the 2026-07-09 round, which fielded only that lab, is dropped entirely.
                 { date: '2026-04-22', entries: [
                     { model: 'Opus 4.7', fam: 'opus', score: 5838 }
                 ]},
@@ -2174,8 +2163,7 @@
                     { model: 'Fable 5', fam: 'fable', score: 4244 }
                 ]},
                 { date: '2026-07-24', entries: [
-                    { model: 'Opus 5', fam: 'opus', score: 7044 },
-                    { model: 'Kimi K3', fam: null, score: 3194 }
+                    { model: 'Opus 5', fam: 'opus', score: 7044 }
                 ]}
             ];
 
@@ -2247,8 +2235,7 @@
                     }
                     svg += `<circle cx="${rx}" cy="${py}" r="5" fill="${color}" stroke="white" stroke-width="2" /></g>`;
 
-                    // Label Claude entries and non-Claude round winners; the remaining grey
-                    // dots keep tooltips only, or the chart drowns in text.
+                    // Every plotted entry is a Claude model, so every dot gets a label.
                     if (e.fam || e.win) {
                         labelItems.push({ px: rx, py, color, name: e.model, value: kFmt(e.score) });
                     }
