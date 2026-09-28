@@ -1840,27 +1840,6 @@ a:hover {
     grid-column: 1 / -1;
   }
 
-  /* A 13-week grid scaled to phone width loses its day numbers entirely, so let
-     the calendar scroll inside its own box rather than shrinking to illegible. */
-  #release-calendar {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  #release-calendar svg {
-    min-width: 620px;
-  }
-
-  /* Same treatment for the radar: at phone width its 12px viewBox text renders
-     around 5px physical — let it scroll at a legible size instead. */
-  #radar-chart {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  #radar-chart svg {
-    min-width: 560px;
-  }
 
   .release-list li {
     flex-wrap: wrap;
@@ -1882,4 +1861,54 @@ a:hover {
     padding: 30px 20px;
     border-radius: var(--radius-md);
   }
+}
+
+/* Phones: charts redraw on a narrow canvas (see the compact mode in
+   claude-models.html), so give them every pixel the card can spare. */
+@media (max-width: 600px) {
+  .container {
+    padding: 0 12px;
+  }
+
+  .page-card {
+    padding: 24px 14px;
+  }
+
+  .benchmark-chart-container {
+    padding: 0.75rem 0.5rem;
+  }
+}
+
+/* Small tablets sit between the phone layout and the desktop one. The calendar and
+   radar carry the densest type, so there they scroll inside their box at a legible
+   size rather than shrink. */
+@media (min-width: 601px) and (max-width: 768px) {
+  #release-calendar,
+  #radar-chart {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #release-calendar svg {
+    min-width: 620px;
+  }
+
+  #radar-chart svg {
+    min-width: 560px;
+  }
+}
+
+/* Tap-for-detail on chart points (touch screens never show SVG titles) */
+.chart-tip {
+  position: absolute;
+  z-index: 50;
+  max-width: 260px;
+  padding: 6px 10px;
+  border-radius: var(--radius-md);
+  background: #3d2e22;
+  color: #fdf8f3;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  box-shadow: 0 4px 14px rgba(61, 46, 34, 0.25);
+  pointer-events: none;
 }
