@@ -11,11 +11,6 @@
         <div class="container">
             <h1 class="logo">Jacob Brooke</h1>
             <ul class="nav-links">
-                <li><a href="about.html">About</a></li>
-                <li><a href="now.html">Now</a></li>
-                <li><a href="reads.html">Reads</a></li>
-                <li><a href="year_in_review_2025.html">2025 Running</a></li>
-                <li><a href="clocks.html">Clocks</a></li>
                 <li><a href="claude-models.html" class="active">Claude Guide</a></li>
             </ul>
         </div>
@@ -81,7 +76,7 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">Release Timeline</h2>
-                <p class="benchmark-note" style="margin-bottom: 18px;">Every Claude model release plotted chronologically; a white slash marks preview-only or restricted-access drops. Hover over a point for the date.</p>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Every Claude model release plotted chronologically; a white slash marks preview-only or restricted-access drops. Hover over or tap a point for the date.</p>
                 <div class="benchmark-chart-container">
                     <div id="timeline-chart"></div>
                 </div>
@@ -89,7 +84,7 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">Shipping Pace</h2>
-                <p class="benchmark-note" style="margin-bottom: 18px;">Cumulative Claude releases over time, stacked by family. Each step up is a ship — the steeper the slope, the faster the pace. Numbers inside the quarter bands show releases shipped that quarter.</p>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Cumulative Claude releases over time, stacked by family. Each step up is a ship — the steeper the slope, the faster the pace. Numbers under the quarter bands show releases shipped that quarter.</p>
                 <div class="benchmark-chart-container">
                     <div id="gap-chart"></div>
                 </div>
@@ -102,7 +97,7 @@
                     <div id="pricing-chart"></div>
                     <p class="benchmark-note">
                         <strong>Opus 5.5 (Sep 22, 2026) is the first Opus price cut in ten months:</strong> $4 in / $20 out, down from $5 / $25, with cache reads at $0.20 (from $0.50 — now 5% of the input price rather than 10%) and cache writes at $5. Anthropic's headline is that it costs 40% less than Opus 5 on typical workloads; only the 20% list cut is on this chart, and the rest of that claim is the cheaper cache plus fewer tokens per task, which the bars can't show. Fast mode drops in step, to $8 in / $40 out. The cut also widens the Fable premium from 2&times; to 2.5&times; on both input and output. Anthropic says Sonnet 5.5 and Haiku 5.5 follow "in the coming weeks"; their prices are unannounced, so Sonnet 5 and Haiku 4.5 hold their bars for now.<br>
-                        Fable 5.1 (Sep 1, 2026) holds Fable 5's $10 in / $50 out, so its release moved no bar on this chart. Its price cut is off-chart: cache reads fell from $1 to $0.25 per million — 2.5% of the input price, against the 10% every other Claude model charges — which Anthropic puts at roughly 25% off a typical Fable bill and up to 45% on cache-heavy agentic runs. Fable 5 stays on the API at its old rates. Claude Mythos 5.1 is priced identically to Fable 5.1 but is restricted to trusted-access programs (cyber and life-sciences verification), as Mythos 5 was to Project Glasswing partners.<br>
+                        Fable 5.1 (Sep 1, 2026) holds Fable 5's $10 in / $50 out, so its release moved no bar on this chart. Its price cut is off-chart: cache reads fell from $1 to $0.25 per million — 2.5% of the input price, against 10% on most other Claude models and 5% on Opus 5.5 — which Anthropic puts at roughly 25% off a typical Fable bill and up to 45% on cache-heavy agentic runs. Fable 5 stays on the API at its old rates. Claude Mythos 5.1 is priced identically to Fable 5.1 but is restricted to trusted-access programs (cyber and life-sciences verification), as Mythos 5 was to Project Glasswing partners.<br>
                         Sonnet 5's $2 in / $10 out was announced as introductory pricing through Aug 31, 2026, with a step back up to Sonnet 4.6's $3 / $15 due Sep 1; Anthropic cancelled the increase and made $2 / $10 the standard price, so the intro overlay this chart used to carry is gone.<br>
                         Opus pricing dropped from $15/$75 to $5/$25 with Opus 4.5 (Nov 2025) and held there through Opus 5, which stays on the API at those rates (fast mode $10 in / $50 out). Cache hits cost 10% of the input price on every model except Opus 5.5 (5%), Fable 5.1 and Mythos 5.1 (2.5%), and the Batch API halves both rates.
                     </p>
@@ -122,7 +117,7 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">Capability Profile</h2>
-                <p class="benchmark-note" style="margin-bottom: 18px;">Where each model's strength actually lies. Ten evaluations, all scored 0&ndash;100. Eight axes come from Artificial Analysis's single harness &mdash; Haiku 4.5 via AA's fully-measured Reasoning entry, and Omniscience as AA's accuracy reading rather than the headline index. LiveCodeBench is Vals AI's harness — its hard split, one independent run for every model plotted — and SWE-bench Pro is Scale's public-subset leaderboard. Hover any point for the raw score.</p>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Where each model's strength actually lies. Ten evaluations, all scored 0&ndash;100. Eight axes come from Artificial Analysis's single harness &mdash; Haiku 4.5 via AA's fully-measured Reasoning entry, and Omniscience as AA's accuracy reading rather than the headline index. LiveCodeBench is Vals AI's harness — its hard split, one independent run for every model plotted — and SWE-bench Pro is Scale's public-subset leaderboard. Hover over or tap any point for the raw score.</p>
                 <div class="benchmark-chart-container">
                     <div id="radar-chart"></div>
                     <div class="benchmark-legend">
@@ -152,14 +147,14 @@
                         </div>
                     </div>
                     <p class="benchmark-note">
-                        One harness note before the shapes: the Terminal-Bench 2.1 axis uses Artificial Analysis's figures, which run six to thirteen points above the Vals AI numbers plotted on the Terminal-Bench chart below for the same models (Opus 5: 89.1 here vs 84.6 there; Fable 5.1: 91.4 here vs 85.0 there) &mdash; compare vertices within this chart, not against that one.<br>
-                        <strong>Fable 5.1 (solid gold outline) is the new outer edge.</strong> It clears Opus 5 on all ten axes: by 6.3 points on Omniscience and on SciCode, 4.3 on AA-LCR, 4.2 on Humanity's Last Exam, 3.2 on LiveCodeBench's hard split, 2.3 on Terminal-Bench 2.1, 2.1 on the Agentic Index, 2.0 on SWE-bench Pro, and by half a point or less on GPQA Diamond and CritPt.<br>
+                        One harness note before the shapes: the Terminal-Bench 2.1 axis uses Artificial Analysis's figures, which run above the Vals AI numbers plotted on the Terminal-Bench chart below for the same models &mdash; by anywhere from 0.4 points (Haiku 4.5) to 12.7 (Opus 4.8) (Opus 5: 89.1 here vs 84.6 there; Fable 5.1: 91.4 here vs 85.0 there) &mdash; compare vertices within this chart, not against that one.<br>
+                        <strong>Fable 5.1 (solid gold outline) is the new outer edge.</strong> It clears Opus 5 on all ten axes: by 6.3 points on Omniscience and on SciCode, 4.3 on AA-LCR, 4.2 on Humanity's Last Exam, 3.2 on LiveCodeBench's hard split, 2.3 on Terminal-Bench 2.1, 2.1 on the Agentic Index, 2.0 on SWE-bench Pro, and by 0.5 on GPQA Diamond and 0.6 on CritPt.<br>
                         Opus 5 (solid, filled) stays the reference polygon at half the price. Against Fable 5 it takes four of the ten axes — GPQA Diamond, CritPt, Terminal-Bench 2.1 and the Agentic Index — with its margin widest on the two agentic ones, while Fable 5 holds the other six: Humanity's Last Exam, Omniscience, SciCode, both coding boards (SWE-bench Pro and LiveCodeBench) and, after this pull, AA-LCR. The generational read survives: the cheaper Opus 5 wins where a model has to <em>act</em> rather than recall, the Fable tier wins on raw knowledge and the hardest coding set, and Fable 5.1 now wins on both. AA-LCR is no longer the odd axis where the cheap models matched the frontier — Sonnet 5's 77.0 still beats Opus 5 and Fable 5, but Fable 5.1's 80.0 is clear of everything.<br>
                         Against Opus 4.8 the Opus 5 gap is a single eight-week generation: +12.1 points on Omniscience, +10 on SWE-bench Pro, +8.2 on CritPt.<br>
                         <strong>Snapshot note.</strong> All eight Artificial Analysis axes were re-pulled on September 2, 2026 from AA's own model pages, and the re-pull moved four axes for every model since the July 25 read — Humanity's Last Exam, Omniscience, the Agentic Index, and AA-LCR by five to seven points across the board. That is why every polygon here was refreshed together instead of one September shape being laid over five July ones. GPQA Diamond, CritPt, Terminal-Bench 2.1 and SciCode came back unchanged to the decimal. The SWE-bench Pro vertex for Fable 5.1 (81.2) is Anthropic's launch figure, the same sourcing that gave Fable 5 its 80.0 and Opus 5 its 79.2.<br>
                         <strong>Why LiveCodeBench replaced SWE-bench Verified on this chart.</strong> Verified was the one vendor-sourced axis, Anthropic published no figure for Fable 5.1, and its top end was saturated anyway. Vals AI has run LiveCodeBench for every model here under one harness (Haiku 4.5 as its thinking entry), so the axis now has one independent run per model. The hard split is what's plotted, because the overall board bunches the four flagships within 2.7 points — Fable 5.1 90.5, Fable 5 89.8, Opus 5 89.0, Opus 4.8 87.8, then Sonnet 5 at 82.4 and Haiku 4.5 at 41.2 — while hard-problem accuracy spreads them to 80.6, 79.7, 77.4 and 74.6, then 66.9 and 11.1. Same ordering, three times the separation; that is the informative part. The SWE-bench Verified chart further up the page is unchanged.<br>
                         The axes are deliberately not all the same difficulty. GPQA Diamond is saturated for the frontier tier — the five flagship polygons sit within 2.6 points of each other near the rim, and only Haiku (67.2) falls away from the cluster — while CritPt (frontier physics) and Omniscience (factual accuracy without hedging) still pin every Claude model well inside the chart. A benchmark where the whole field clusters tells you nothing about which model to pick; the dents are the informative part.<br>
-                        <strong>Haiku 4.5</strong> is now a full polygon, and its history on this chart is a correction worth owning: an earlier revision plotted it as two lone points on the claim that Artificial Analysis had never run it. That claim was half-right — AA's default Haiku page (the non-reasoning variant) shows <em>no data available</em> per eval and an estimated index — but AA separately carries <em>Claude 4.5 Haiku (Reasoning)</em>, fully measured (Intelligence Index 29.58), and that entry fills eight of the ten axes, including a measured 0.0 on CritPt and an HLE score of 10.4. The shape it draws is the tier gap in one glance: long-context reasoning that stays near the pack (73.7 AA-LCR, above Opus 4.8's 73.0), respectable coding, and knowledge/agentic axes that collapse toward the centre. Its SWE-bench Pro figure (39.5) is Scale's public-subset leaderboard, and SWE-bench Verified (73.3) Anthropic's launch figure, matching how those two axes are sourced for every model here. Two stray details for the record: the 43.8 Terminal-Bench figure this chart previously credited to Anthropic is actually Vals AI's independent run (Anthropic's own launch number was 41.0 on Terminal-Bench <em>1.0</em>, a different version; the AA figure plotted is 44.2), and Haiku's system card contains no capability benchmarks at all — its closest item is a 45-problem hard-subset SWE run at 36.6% that is not the eval on the axis above.<br>
+                        <strong>Haiku 4.5</strong> is now a full polygon, and its history on this chart is a correction worth owning: an earlier revision plotted it as two lone points on the claim that Artificial Analysis had never run it. That claim was half-right — AA's default Haiku page (the non-reasoning variant) shows <em>no data available</em> per eval and an estimated index — but AA separately carries <em>Claude 4.5 Haiku (Reasoning)</em>, fully measured (Intelligence Index 29.58), and that entry fills eight of the ten axes, including a measured 0.0 on CritPt and an HLE score of 10.4. The shape it draws is the tier gap in one glance: long-context reasoning that stays near the pack (73.7 AA-LCR, above Opus 4.8's 73.0), respectable coding, and knowledge/agentic axes that collapse toward the centre. Its SWE-bench Pro figure (39.5) is Scale's public-subset leaderboard and its LiveCodeBench figure (11.1) Vals AI's hard split, matching how those two axes are sourced for every model here. Two stray details for the record: the 43.8 Terminal-Bench figure this chart previously credited to Anthropic is actually Vals AI's independent run (Anthropic's own launch number was 41.0 on Terminal-Bench <em>1.0</em>, a different version; the AA figure plotted is 44.2), and Haiku's system card contains no capability benchmarks at all — its closest item is a 45-problem hard-subset SWE run at 36.6% that is not the eval on the axis above.<br>
                         <strong>Still not plotted:</strong> Mythos 5 and Mythos 5.1, whose numbers come from Anthropic's own harness rather than this one, so their shapes wouldn't be comparable to anything else here. Their system card carries no GPQA Diamond, SciCode, AA-LCR or Agentic Index figure at all, and its HLE, CritPt and Omniscience runs are internal variants of the evals on these axes.<br>
                         <strong>Opus 5.5 (Sep 22, 2026) is not plotted yet.</strong> Artificial Analysis measured it on release day and ranks it first on its Intelligence Index, but AA has re-versioned part of its suite since this chart's September 2 pull (AA-LCR is now v1.1, and Terminal-Bench 4.0 has entered the index), so an Opus 5.5 shape drawn today would sit on different rulers from the six polygons above. Vals AI has no LiveCodeBench run for it, so one axis would be empty regardless. The SWE-bench Pro vertex is ready: 89.9 from the system card, the same Anthropic sourcing as every other point on that spoke, 8.7 points outside Fable 5.1's 81.2. It gets a polygon when the whole chart can be re-pulled together, as the September refresh was. One number worth carrying until then: AA logged 260M output tokens for Opus 5.5 across its index runs, against a 91M median &mdash; a reminder that Anthropic's "40% cheaper" claim is about typical workloads, not max-effort evals.
                     </p>
@@ -204,7 +199,7 @@
                     </div>
                     <p class="benchmark-note">
                         SWE-bench Verified is the standard agentic coding eval: 500 human-validated GitHub issues from real Python repositories, scored on whether the model's patch makes the project's own tests pass. Higher is better.<br>
-                        Claude has led this benchmark for most of its history, and Opus 5 now sits at 96%. The headroom is nearly gone — the flagship state of the art has advanced 8.4 points across the last four Claude flagships (Opus 4.7's 87.6% to Opus 5's 96%), and the remaining 4% is widely argued to be noise and mislabeled tasks rather than capability. Chart starts at the Claude 4 generation (May 2025); for scale, Claude 3.5 Sonnet scored 49%. Claude Mythos 5 (95.5%) is omitted because it shares a release date with Fable 5.<br>
+                        Claude has led this benchmark for most of its history, and Opus 5 now sits at 96%. The headroom is nearly gone — Opus alone climbed 8.4 points in three releases (Opus 4.7's 87.6% to Opus 5's 96%), and the remaining 4% is widely argued to be noise and mislabeled tasks rather than capability. Chart starts at the Claude 4 generation (May 2025); for scale, Claude 3.5 Sonnet scored 49%. Claude Mythos 5 (95.5%) is omitted because it shares a release date with Fable 5.<br>
                         <strong>Fable 5.1 (Sep 1, 2026) has no point here for a plain reason:</strong> Anthropic's launch table for it carried no SWE-bench Verified figure at all. Its coding headline moved to Terminal-Bench 4.0 — 55.8%, against 42.0% for Fable 5 and 52.3% for Opus 5 — a newer, harder suite this page doesn't chart yet. Mythos 5.1, scored on that same suite at 60.9%, is the only capability number Anthropic published for it; the 5.1-point gap to Fable 5.1 is the cost of the production safeguards, which Anthropic says it expects to narrow.<br>
                         <strong>Opus 5.5 (Sep 22, 2026) is absent for the same reason:</strong> its <a href="https://anthropic.com/claude-opus-5-5-system-card" target="_blank" rel="noopener">system card</a> has no SWE-bench Verified figure either, which makes Opus 5's 96% likely the last point this chart gets. Anthropic now reports three harder variants instead: SWE-bench Pro 89.9% (Opus 5 79.2, Fable 5.1 81.2), Multilingual 93.9% (89.5, 89.1) and Multimodal 61.4% (59.4, 54.7). That is a 10.7-point gain over Opus 5 on Pro. On Terminal-Bench 4.0 it scores 66.4% at xhigh effort (&plusmn;2.6; 64.8% at max, within noise) &mdash; 10.6 points over Fable 5.1, 14.1 over Opus 5, and 5.5 over the restricted Mythos 5.1's 60.9. Safeguard fallbacks answered 2.5% of its requests and touched 10% of trials.
                     </p>
@@ -244,7 +239,7 @@
                     <p class="benchmark-note">
                         Terminal-Bench 2.1 drops the model into a real shell and asks it to finish end-to-end engineering tasks — build a project, debug a failing service, wrangle a dataset — scored on whether the task actually completes. Where SWE-bench Verified checks a single patch, this measures whether a model can drive a machine over many steps.<br>
                         It is where the recent Claude generations separate most clearly, and unlike SWE-bench it is nowhere near saturated: Opus 5 scores 84.6% here, up nearly 13 points on Opus 4.8. Fable 5.1 (Sep 1, 2026) lands at 85.0% — a 4.5-point step over Fable 5 and 0.4 above Opus 5, so it now heads the Claude series on the Vals board. Scores are the Vals AI harness snapshot (re-verified to the decimal July 29, 2026; the Fable 5.1 row was read on September 2 from the board's August 31 update); one caveat from Vals's own run notes is that the Opus 5 and Fable 5 runs used Opus 4.8 as a fallback for refusals, with nine passing tasks across three runs potentially affected. Fable 5.1's run leaned harder on the same route (Opus 5, then 4.8): 23 of its 267 tasks were rescued by a fallback, and Vals puts the score at 79.0% if those count as failures — which would drop it below Opus 5, so treat the ordering above as within the harness's noise. Opus 5.5 (Sep 22, 2026) has no Vals run yet; Anthropic reported it only on the newer Terminal-Bench 4.0, noted under SWE-bench above.<br>
-                        <strong>This page carries two harnesses for this eval, and they disagree.</strong> The Capability Profile radar uses Artificial Analysis's figures, which score Opus 5 at 89.1% and Opus 4.8 at 84.6% — six to thirteen points above the Vals numbers charted here for the same models. Both are public, independent harnesses; neither is "the" Terminal-Bench 2.1 number. Compare within a chart, never across the two.
+                        <strong>This page carries two harnesses for this eval, and they disagree.</strong> The Capability Profile radar uses Artificial Analysis's figures, which score Opus 5 at 89.1% and Opus 4.8 at 84.6% — 4.5 and 12.7 points above the Vals numbers charted here for the same models. Both are public, independent harnesses; neither is "the" Terminal-Bench 2.1 number. Compare within a chart, never across the two.
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
@@ -438,7 +433,7 @@
                     <p class="benchmark-note">
                         The Remote Labor Index is the bluntest economic eval on this page: 240 real freelance projects bought off Upwork &mdash; 3D and CAD, architecture, graphic design, video, audio, data analysis, web apps &mdash; where human graders judge each deliverable against the professional work the client originally paid for. The automation rate is the share finished to a standard a paying client would actually accept. Nothing partial counts.<br>
                         Claude has gone from 2.08% to 15.8% in nine months, and the whole field topped out at 2.5% when Scale AI and CAIS launched the index in October 2025. For scale on the current board: Manus 1.6 Max sits at 2.92% and Gemini 3 Pro at 1.25%. Even so, the leader fails six projects in seven &mdash; this is the eval where frontier models still look furthest from doing a job end to end.<br>
-                        <strong>Read the slope carefully.</strong> These runs do not share a harness. Opus 4.5 and Sonnet 4.5 were plain model runs; Opus 4.6's 4.17% used the Claude Cowork scaffold; and the three newest entries were run in industry scaffolds &mdash; Claude Code for the Anthropic models &mdash; modified to add a native computer-use tool, with up to 24 hours of wall-clock per project. Fable 5 also got a $150 per-project budget against the standard $50. Part of this curve is the models getting better and part is the harness around them getting better, and the index does not separate the two.<br>
+                        <strong>Read the slope carefully.</strong> These runs do not share a harness. Opus 4.5 and Sonnet 4.5 were plain model runs; Opus 4.6's 4.17% used the Claude Cowork scaffold; and the two newest, Opus 4.8 and Fable 5, were run in industry scaffolds &mdash; Claude Code for the Anthropic models &mdash; modified to add a native computer-use tool, with up to 24 hours of wall-clock per project. Fable 5 also got a $150 per-project budget against the standard $50. Part of this curve is the models getting better and part is the harness around them getting better, and the index does not separate the two.<br>
                         <strong>Not evaluated:</strong> Opus 5, which shipped on July 24, three weeks after these results were published; Fable 5.1 and Mythos 5.1 (September 1); Opus 5.5 (September 22); Sonnet 5; Haiku 4.5; and Mythos 5. The gap at the right-hand edge is where an Opus 5 run would go. CAIS's announcement post quotes Fable 5 at 16.1%; the leaderboard and the accompanying write-up both say 15.8%, which is the figure plotted here.
                     </p>
                     <div class="benchmark-paper-links">
@@ -453,6 +448,7 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">ARC-AGI-2 Reasoning</h2>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Abstract reasoning on novel visual puzzles, from the ARC Prize leaderboard &mdash; each model's strongest listed configuration. Humans score about 60%. The dashed line is the newer, interactive ARC-AGI-3.</p>
                 <div class="benchmark-chart-container">
                     <div id="arc-chart"></div>
                     <div class="benchmark-legend">
@@ -499,7 +495,7 @@
         </div>
 
         <div class="footer">
-            <p>Built with Claude <a href="forest.html" class="clawd-link" title="Clawd">🦀</a> Tue 09•22•26</p>
+            <p>Built with Claude <a href="https://claude.ai" class="clawd-link" title="Clawd" target="_blank" rel="noopener">🦀</a> Mon 09•28•26</p>
             <p>Data sourced from <a href="https://www.anthropic.com/news" target="_blank" rel="noopener">Anthropic News</a></p>
         </div>
     </div>
@@ -533,7 +529,7 @@
                 headerClass: "opus",
                 releases: [
                     { version: "Claude 3 Opus", date: "2024-03-04", url: "https://www.anthropic.com/news/claude-3-family" },
-                    { version: "Claude 4 Opus", date: "2025-05-22", url: "https://www.anthropic.com/news/claude-4" },
+                    { version: "Claude Opus 4", date: "2025-05-22", url: "https://www.anthropic.com/news/claude-4" },
                     { version: "Claude Opus 4.1", date: "2025-08-05", url: "https://www.anthropic.com/news/claude-opus-4-1" },
                     { version: "Claude Opus 4.5", date: "2025-11-24", url: "https://www.anthropic.com/news/claude-opus-4-5" },
                     { version: "Claude Opus 4.6", date: "2026-02-05", url: "https://www.anthropic.com/news/claude-opus-4-6" },
@@ -552,7 +548,7 @@
                     { version: "Claude 3.5 Sonnet", date: "2024-06-20", url: "https://www.anthropic.com/news/claude-3-5-sonnet" },
                     { version: "Claude 3.5 Sonnet (Oct)", date: "2024-10-22", url: "https://www.anthropic.com/news/3-5-models-and-computer-use" },
                     { version: "Claude 3.7 Sonnet", date: "2025-02-24", url: "https://www.anthropic.com/news/claude-3-7-sonnet" },
-                    { version: "Claude 4 Sonnet", date: "2025-05-22", url: "https://www.anthropic.com/news/claude-4" },
+                    { version: "Claude Sonnet 4", date: "2025-05-22", url: "https://www.anthropic.com/news/claude-4" },
                     { version: "Claude Sonnet 4.5", date: "2025-09-29", url: "https://www.anthropic.com/news/claude-sonnet-4-5" },
                     { version: "Claude Sonnet 4.6", date: "2026-02-17", url: "https://www.anthropic.com/news/claude-sonnet-4-6" },
                     { version: "Claude Sonnet 5", date: "2026-06-30", url: "https://www.anthropic.com/news/claude-sonnet-5" }
@@ -583,7 +579,7 @@
 
             // Tunables, picked by sweeping them against `predict-releases.js --backtest`
             // rather than by taste. Anthropic's cadence has compressed hard — 444 days from
-            // Claude 3 Opus to Claude 4 Opus, 57 from Opus 4.8 to Opus 5 — so a flat mean of
+            // Claude 3 Opus to Claude Opus 4, 57 from Opus 4.8 to Opus 5 — so a flat mean of
             // a family's gaps is useless. Every increase in GAP_DECAY made the backtest
             // monotonically worse; at 0.5 the model's median error was double what it is here.
             // SPREAD was widened Aug 2026 from ±35% [10,45]: the narrower windows caught the
@@ -934,6 +930,15 @@
             return new Date(dateStr + 'T00:00:00');
         }
 
+        // Midnight today. parseDate() yields midnight too, so day counts come out whole;
+        // measuring from the current time instead made "d ago" badges round up a day
+        // every afternoon and disagree with the forecast's count beside them.
+        function startOfToday() {
+            const d = new Date();
+            d.setHours(0, 0, 0, 0);
+            return d;
+        }
+
         function daysBetween(date1, date2) {
             const oneDay = 24 * 60 * 60 * 1000;
             return Math.round(Math.abs((date2 - date1) / oneDay));
@@ -951,7 +956,7 @@
 
         function calculateModelStats(model, forecastRow) {
             const releases = model.releases;
-            const today = new Date();
+            const today = startOfToday();
             const lastReleaseDate = releases[releases.length - 1].date;
 
             // Handle TBD / unreleased models
@@ -1030,7 +1035,7 @@
 
         function createModelCard(key, model, forecastRow) {
             const stats = calculateModelStats(model, forecastRow);
-            const today = new Date();
+            const today = startOfToday();
             const releases = model.releases;
 
             // Build release list with days between
@@ -1148,7 +1153,7 @@
 
             // A maintained date, not new Date(): a live stamp would silently re-date
             // July's benchmark pulls every day forever. The forecast alone is live.
-            lastUpdated.textContent = 'September 22, 2026 (Opus 5.5 added; GDPval moved to v2.1 and re-pulled September 22, Capability Profile September 2, other benchmarks July 29; forecast computed on view)';
+            lastUpdated.textContent = 'September 22, 2026 (Opus 5.5 added and pricing updated; GDPval moved to v2.1 and re-pulled September 22; Capability Profile, Terminal-Bench and ARC-AGI-2 last updated September 2; other benchmarks July 29; forecast computed on view)';
 
             // Create cards for each model, all reading cycles from the one forecast
             const cardForecast = ReleaseForecast.forecastAll(modelData);
@@ -1161,6 +1166,97 @@
 
         const FAMILY_COLORS = { mythos: '#5b8a9a', fable: '#c09a5b', opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
 
+        // ===== Phone layout =====
+        // Every chart is an SVG scaled to its container. An 800-unit drawing squeezed onto a
+        // phone came out at a third of its size, with 4px labels. Below this width each chart
+        // redraws on a narrower canvas with larger type instead, labels only each series'
+        // latest point, and leaves the rest to tap-for-detail.
+        const COMPACT_QUERY = window.matchMedia('(max-width: 600px)');
+        const UI = { compact: false, k: 1 };  // k scales type and label geometry inside the SVG
+        function setUiMode() {
+            UI.compact = COMPACT_QUERY.matches;
+            UI.k = UI.compact ? 1.3 : 1;
+        }
+        setUiMode();
+
+        // Canvas size for a chart: its desktop geometry, or the phone one. Phone canvases are
+        // 400 units wide (about 320px on a typical phone, so type renders near its nominal
+        // size) and proportionally taller, since a 2:1 plot is a sliver at that width.
+        function frame(W, H, pad) {
+            if (!UI.compact) return { W, H, pad };
+            return {
+                W: 400,
+                H: Math.round(H * 0.9),
+                // Extra headroom: the newest points crowd the top-right corner, and their
+                // two-line labels need somewhere to go
+                pad: { top: pad.top + 16, right: Math.min(pad.right, 16), bottom: pad.bottom, left: Math.round(pad.left * 1.1) }
+            };
+        }
+
+        // Right edge of a dated chart: the hand-set edge, or six weeks past the newest point
+        // once the data outgrows it, so an added model never lands off the chart.
+        function dateDomainEnd(defaultEnd, dates) {
+            const edge = new Date(defaultEnd + 'T00:00:00');
+            const newest = new Date(dates.slice().sort().pop() + 'T00:00:00');
+            newest.setDate(newest.getDate() + 42);
+            return newest > edge ? newest : edge;
+        }
+
+        // Month ticks every `stride` months from `first` ('YYYY-MM-01') up to about five
+        // weeks short of `max` (nearer, a centred label overhangs the edge), labelled
+        // "Jun '26". On phones every other tick is dropped when neighbours would sit closer
+        // than a label's width on the ~330-unit plot.
+        function monthTicks(first, max, stride, min) {
+            const out = [];
+            const d = new Date(first + 'T00:00:00');
+            const edge = new Date(max.getTime() - 35 * 86400000);
+            while (d <= edge) {
+                out.push({
+                    label: d.toLocaleDateString('en-US', { month: 'short' }) + " '" + String(d.getFullYear()).slice(2),
+                    date: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-01`
+                });
+                d.setMonth(d.getMonth() + stride);
+            }
+            const spacing = (stride * 30.4 * 86400000 / (max - min)) * 330;
+            return UI.compact && spacing < 70 ? out.filter((_, i) => i % 2 === 0) : out;
+        }
+
+        // Writes a chart into its host. On phones every font-size scales by UI.k, and any
+        // element carrying a <title> also gets a data-tip, so tapping it shows the title —
+        // touch screens never show SVG titles on their own.
+        function setSvg(id, svg) {
+            if (UI.compact) {
+                svg = svg.replace(/font-size="([\d.]+)"/g, (m, v) => `font-size="${(v * UI.k).toFixed(1)}"`);
+            }
+            svg = svg.replace(/<(g|circle|rect)([^>]*)>\s*<title>([^<]*)<\/title>/g,
+                (m, tag, attrs, t) => `<${tag}${attrs} data-tip="${t.replace(/"/g, '&quot;')}"><title>${t}</title>`);
+            document.getElementById(id).innerHTML = svg;
+        }
+
+        // Tap-for-detail. Mouse users get the native <title> tooltip on hover, so this only
+        // answers touch and pen taps.
+        const chartTip = document.createElement('div');
+        chartTip.className = 'chart-tip';
+        chartTip.hidden = true;
+        document.body.appendChild(chartTip);
+        let lastPointer = 'mouse';
+        document.addEventListener('pointerdown', e => { lastPointer = e.pointerType; }, true);
+        document.addEventListener('click', e => {
+            const target = lastPointer !== 'mouse' && e.target.closest && e.target.closest('[data-tip]');
+            if (!target) { chartTip.hidden = true; return; }
+            const tmp = document.createElement('textarea');
+            tmp.innerHTML = target.getAttribute('data-tip');
+            chartTip.textContent = tmp.value;
+            chartTip.hidden = false;
+            const r = target.getBoundingClientRect();
+            const w = chartTip.offsetWidth, h = chartTip.offsetHeight;
+            const left = Math.max(8, Math.min(window.innerWidth - w - 8, r.left + r.width / 2 - w / 2));
+            const above = r.top - h - 8;
+            chartTip.style.left = (left + window.scrollX) + 'px';
+            chartTip.style.top = ((above > 8 ? above : r.bottom + 8) + window.scrollY) + 'px';
+        });
+        window.addEventListener('resize', () => { chartTip.hidden = true; });
+
         // Two-line point labels — model name nearest the dot, its value on the far side —
         // placed greedily. Each label tries slots around its dot, nearest first, and takes
         // the first that clears every label already placed, every plotted dot, and the
@@ -1171,8 +1267,9 @@
         // being added anyway. This does the same job from the geometry.
         // Bounding box for a right-anchored annotation, so placeLabels can dodge it.
         function annotationBox(right, baseline, text, fontPx) {
-            const w = text.replace(/&[a-z]+;/g, ' ').length * fontPx * 0.49;
-            return { x: right - w, y: baseline - fontPx + 1, w, h: fontPx + 3 };
+            const px = fontPx * UI.k;
+            const w = text.replace(/&[a-z]+;/g, ' ').length * px * 0.49;
+            return { x: right - w, y: baseline - px + 1, w, h: px + 3 };
         }
 
         // Boxes sampled along a set of polylines, so placeLabels can keep text off the
@@ -1194,61 +1291,98 @@
 
         // `obstacles` holds anything already drawn that a label must dodge — reference-line
         // annotations, mostly. Without them the placer happily parks a label on top of one.
+        //
+        // Items may carry `series` (defaults to colour). On phones only each series' latest
+        // point is labelled; every point still gets a transparent hit target whose title
+        // shows on hover or tap.
         function placeLabels(items, bounds, obstacles) {
+            const k = UI.k;
+            // Keep text a few units clear of the x-axis rather than sitting on it
+            bounds = { ...bounds, h: bounds.h - 4 };
             // Rough advance widths for the two type sizes, rounded up so the reserved box
             // is never narrower than the glyphs that land in it.
-            const NAME_W = 6.4, VALUE_W = 5.7;
+            // (Measured against the phone type, the desktop figures ran a few percent narrow.)
+            const NAME_W = (UI.compact ? 6.8 : 6.4) * k, VALUE_W = (UI.compact ? 5.9 : 5.7) * k;
+            const slot = (dx, dy, anchor) => ({ dx: dx * k, dy: dy * k, anchor });
             const NEAR = [
-                { dx: 0, dy: -12, anchor: 'middle' },
-                { dx: 0, dy: 21, anchor: 'middle' },
-                { dx: -9, dy: -12, anchor: 'end' },
-                { dx: 9, dy: -12, anchor: 'start' },
-                { dx: -9, dy: 21, anchor: 'end' },
-                { dx: 9, dy: 21, anchor: 'start' },
-                { dx: -11, dy: 5, anchor: 'end' },
-                { dx: 11, dy: 5, anchor: 'start' },
-                { dx: -30, dy: -12, anchor: 'end' },
-                { dx: 30, dy: -12, anchor: 'start' },
-                { dx: -30, dy: 21, anchor: 'end' },
-                { dx: 30, dy: 21, anchor: 'start' }
+                slot(0, -12, 'middle'),
+                slot(0, 21, 'middle'),
+                slot(-9, -12, 'end'),
+                slot(9, -12, 'start'),
+                slot(-9, 21, 'end'),
+                slot(9, 21, 'start'),
+                slot(-11, 5, 'end'),
+                slot(11, 5, 'start'),
+                slot(-30, -12, 'end'),
+                slot(30, -12, 'start'),
+                slot(-30, 21, 'end'),
+                slot(30, 21, 'start')
             ];
             // Rings that step further out when the neighbourhood is full. Anything past
             // LEADER_AT gets a connector drawn back to its dot, since at that distance the
             // label no longer reads as belonging to any particular point.
-            const LEADER_AT = 24;
+            const LEADER_AT = 24 * k;
             const FAR = [-26, 35, -40, 49, -54, 63, -68, 77].flatMap(dy => [
-                { dx: 0, dy, anchor: 'middle' },
-                { dx: -9, dy, anchor: 'end' },
-                { dx: 9, dy, anchor: 'start' },
-                { dx: -30, dy, anchor: 'end' },
-                { dx: 30, dy, anchor: 'start' },
-                { dx: -52, dy, anchor: 'end' },
-                { dx: 52, dy, anchor: 'start' }
+                slot(0, dy, 'middle'),
+                slot(-9, dy, 'end'),
+                slot(9, dy, 'start'),
+                slot(-30, dy, 'end'),
+                slot(30, dy, 'start'),
+                slot(-52, dy, 'end'),
+                slot(52, dy, 'start')
             ]);
             const SLOTS = NEAR.concat(FAR);
 
             function box(item, c) {
                 const w = Math.max(String(item.name).length * NAME_W, String(item.value).length * VALUE_W);
                 const nameY = item.py + c.dy;
-                const valueY = c.dy > 0 ? nameY + 13 : nameY - 12;
+                const valueY = c.dy > 0 ? nameY + 13 * k : nameY - 12 * k;
                 const cx = item.px + c.dx;
                 const x = c.anchor === 'middle' ? cx - w / 2 : c.anchor === 'end' ? cx - w : cx;
-                const top = Math.min(nameY, valueY) - 9;
-                const bottom = Math.max(nameY, valueY) + 3;
+                const top = Math.min(nameY, valueY) - 9 * k;
+                const bottom = Math.max(nameY, valueY) + 3 * k;
                 return { x, y: top, w, h: bottom - top, nameY, valueY, cx };
+            }
+
+            // Where a label's connector runs: from the dot's edge to the near side of the box
+            function leader(item, b, c) {
+                const up = c.dy < 0;
+                return {
+                    x1: item.px, y1: item.py + (up ? -7 : 7),
+                    x2: Math.max(b.x, Math.min(b.x + b.w, item.px)), y2: up ? b.y + b.h + 1 : b.y - 1
+                };
             }
 
             const hits = (a, b, pad) =>
                 a.x < b.x + b.w + pad && a.x + a.w + pad > b.x &&
                 a.y < b.y + b.h + pad && a.y + a.h + pad > b.y;
+            const distTo = (b, px, py) => Math.hypot(
+                Math.max(b.x - px, 0, px - (b.x + b.w)), Math.max(b.y - py, 0, py - (b.y + b.h)));
 
-            const dots = items.map(i => ({ x: i.px - 7, y: i.py - 7, w: 14, h: 14 }));
+            // On phones, label the latest point of each series and leave the rest to tap
+            if (UI.compact) {
+                const latest = {};
+                items.forEach(i => {
+                    const key = i.series || i.color;
+                    if (!latest[key] || i.px > latest[key].px) latest[key] = i;
+                });
+                items.forEach(i => { i.labelled = latest[i.series || i.color] === i; });
+            } else {
+                items.forEach(i => { i.labelled = true; });
+            }
+
+            const dots = items.map(i => ({ x: i.px - 7, y: i.py - 7, w: 14, h: 14, item: i }));
             const placed = (obstacles || []).slice();
 
-            items.forEach(item => {
+            // Newest first on phones, so if a crowded corner has to shed a label it is
+            // never the latest model's
+            const order = items.filter(i => i.labelled);
+            if (UI.compact) order.sort((a, b) => b.px - a.px);
+            order.forEach(item => {
                 let best = null, bestCost = Infinity;
                 for (let i = 0; i < SLOTS.length; i++) {
-                    const b = box(item, SLOTS[i]);
+                    const c = SLOTS[i];
+                    const b = box(item, c);
                     const outside = b.x < bounds.x || b.x + b.w > bounds.x + bounds.w
                                  || b.y < bounds.y || b.y + b.h > bounds.y + bounds.h;
                     // Distance from the dot is the tiebreaker, so a label never drifts
@@ -1256,28 +1390,50 @@
                     let cost = i + (outside ? 400 : 0);
                     placed.forEach(p => { if (hits(b, p, 4)) cost += 100; });
                     dots.forEach(d => { if (hits(b, d, 1)) cost += 100; });
-                    if (cost < bestCost) { bestCost = cost; best = { b, c: SLOTS[i] }; }
+                    if (Math.abs(c.dy) > LEADER_AT) {
+                        // A connector that cuts through another label reads as pointing at it
+                        const l = leader(item, b, c);
+                        const path = lineObstacles([[[l.x1, l.y1], [l.x2, l.y2]]]);
+                        if (placed.some(p => path.some(q => hits(q, p, 0)))) cost += 60;
+                    } else {
+                        // Without a connector, a label reads as belonging to whichever dot
+                        // it sits nearest — so it must sit nearer its own than any other.
+                        const own = distTo(b, item.px, item.py);
+                        if (dots.some(d => d.item !== item && distTo(b, d.item.px, d.item.py) < own + 2)) cost += 60;
+                    }
+                    if (cost < bestCost) { bestCost = cost; best = { b, c }; }
                     if (cost === i) break; // clean slot, and slots are ordered nearest-first
                 }
+                // A phone has no room to spare: a label with nowhere clean to go is left
+                // off rather than drawn over another. The point is still a tap away.
+                if (UI.compact && bestCost >= 100) {
+                    item.labelled = false;
+                    return;
+                }
                 placed.push(best.b);
+                if (Math.abs(best.c.dy) > LEADER_AT) {
+                    const l = leader(item, best.b, best.c);
+                    placed.push(...lineObstacles([[[l.x1, l.y1], [l.x2, l.y2]]]));
+                }
                 item.slot = best;
             });
 
-            return items.map(item => {
+            const labels = items.filter(i => i.labelled).map(item => {
                 const { b, c } = item.slot;
                 const x = b.cx.toFixed(1);
                 let out = '';
                 if (Math.abs(c.dy) > LEADER_AT) {
-                    const up = c.dy < 0;
-                    const fromY = item.py + (up ? -7 : 7);
-                    const toY = up ? b.y + b.h + 1 : b.y - 1;
-                    const toX = Math.max(b.x, Math.min(b.x + b.w, item.px));
-                    out += `<line x1="${item.px.toFixed(1)}" y1="${fromY.toFixed(1)}" x2="${toX.toFixed(1)}" y2="${toY.toFixed(1)}" stroke="${item.color}" stroke-width="1.1" stroke-opacity="0.6" />`;
+                    const l = leader(item, b, c);
+                    out += `<line x1="${l.x1.toFixed(1)}" y1="${l.y1.toFixed(1)}" x2="${l.x2.toFixed(1)}" y2="${l.y2.toFixed(1)}" stroke="${item.color}" stroke-width="1.1" stroke-opacity="0.6" />`;
                 }
                 return out
                      + `<text x="${x}" y="${b.nameY.toFixed(1)}" text-anchor="${c.anchor}" fill="${item.color}" font-size="11.5" font-weight="600">${item.name}</text>`
                      + `<text x="${x}" y="${b.valueY.toFixed(1)}" text-anchor="${c.anchor}" fill="${item.color}" font-size="10.5" opacity="0.85">${item.value}</text>`;
             }).join('');
+            const targets = items.map(item =>
+                `<circle cx="${item.px.toFixed(1)}" cy="${item.py.toFixed(1)}" r="${(11 * k).toFixed(1)}" fill="transparent"><title>${item.tip || `${item.name} — ${item.value}`}</title></circle>`
+            ).join('');
+            return labels + targets;
         }
 
         // Lineup Freshness — one rail, two readings: how long since anything shipped,
@@ -1391,9 +1547,10 @@
             const SPAN = H.diffDays(axisStart, axisEnd);    // days, end to end
 
             const laneOrder = ['mythos', 'fable', 'opus', 'sonnet', 'haiku'];
-            const W = 880;
-            const pad = { top: 58, right: 30, bottom: 30, left: 82 };
-            const laneH = 46;
+            // Phones get a narrower canvas with taller lanes for the larger type
+            const W = UI.compact ? 460 : 880;
+            const pad = UI.compact ? { top: 64, right: 20, bottom: 30, left: 70 } : { top: 58, right: 30, bottom: 30, left: 82 };
+            const laneH = UI.compact ? 58 : 46;
             const plotW = W - pad.left - pad.right;
             const plotH = laneOrder.length * laneH;
             const chartH = pad.top + plotH + pad.bottom;
@@ -1421,13 +1578,13 @@
             // Week gridlines. Date labels adapt to the axis length — every fortnight when
             // six weeks forward, backing off to monthly-ish as the horizon stretches —
             // and skip the today-adjacent slot, which the TODAY flag already dates.
-            const labelEvery = SPAN > 130 ? 28 : 14;
+            const labelEvery = SPAN > 130 || UI.compact ? 28 : 14;
             for (let d = 0; d <= SPAN; d += 7) {
                 const at = H.addDays(axisStart, d);
                 const px = x(at);
                 const labelled = d % labelEvery === 0;
                 svg += `<line x1="${px}" y1="${pad.top}" x2="${px}" y2="${pad.top + plotH}" stroke="#dcc7b6" stroke-width="1" stroke-opacity="${labelled ? 0.65 : 0.3}" />`;
-                if (labelled && Math.abs(px - x(today)) > 34) {
+                if (labelled && Math.abs(px - x(today)) > 34 * UI.k) {
                     svg += `<text x="${px}" y="${pad.top - 14}" text-anchor="middle" fill="#8a6f52" font-size="10.5" font-weight="600">${shortFmt(H.iso(at))}</text>`;
                 }
             }
@@ -1488,7 +1645,11 @@
                 svg += `<line x1="${xp}" y1="${cy - 4}" x2="${xp}" y2="${cy + 4}" stroke="${color}" stroke-width="1.6" />`;
                 svg += `<line x1="${xp}" y1="${cy}" x2="${xa}" y2="${cy}" stroke="${color}" stroke-width="1.1" stroke-dasharray="1.5,2.5" />`;
                 svg += `<line x1="${xa}" y1="${cy - 3}" x2="${xa}" y2="${cy + 3}" stroke="${color}" stroke-width="1.1" />`;
-                svg += `<text x="${Math.max((xp + xa) / 2, pad.left + 40)}" y="${cy + 13}" text-anchor="middle" fill="${color}" font-size="9" font-style="italic" opacity="0.85">called ${shortFmt(r.predicted)} &middot; ${desc}</text>`;
+                // On phones the caption would be wider than the lane allows; the tick stays,
+                // and tapping it gives the same words
+                if (!UI.compact) {
+                    svg += `<text x="${Math.max((xp + xa) / 2, pad.left + 40)}" y="${cy + 13}" text-anchor="middle" fill="${color}" font-size="9" font-style="italic" opacity="0.85">called ${shortFmt(r.predicted)} &middot; ${desc}</text>`;
+                }
                 svg += `</g>`;
             });
 
@@ -1539,13 +1700,13 @@
                 // Overdue markers sit on the today rule, so their label goes beside it instead.
                 // The trailing "?" marks an estimate; an overdue label already says so in words
                 const text = m.label + (m.shipped || m.overdue ? '' : ' ?');
-                const width = text.length * 5.4;
+                const width = text.length * 5.4 * UI.k;
                 let tx = cx, anchor = 'middle';
                 if (m.overdue) { tx = cx + 11; anchor = 'start'; }
                 else if (cx - width / 2 < pad.left + 2) { tx = pad.left + 2; anchor = 'start'; }
                 else if (cx + width / 2 > W - pad.right - 2) { tx = W - pad.right - 2; anchor = 'end'; }
                 const style = m.shipped ? '' : ' font-style="italic"';
-                svg += `<text x="${tx}" y="${cy - 12}" text-anchor="${anchor}" fill="${m.color}" font-size="10" font-weight="${m.shipped ? 700 : 600}"${style}>${text}</text>`;
+                svg += `<text x="${tx}" y="${cy - 12 * UI.k}" text-anchor="${anchor}" fill="${m.color}" font-size="10" font-weight="${m.shipped ? 700 : 600}"${style}>${text}</text>`;
                 svg += `</g>`;
             });
 
@@ -1555,12 +1716,11 @@
             svg += `<text x="${W - pad.right}" y="${footY}" text-anchor="end" fill="#8a7565" font-size="10" font-style="italic">forecast</text>`;
 
             svg += '</svg>';
-            const host = document.getElementById('release-calendar');
-            host.innerHTML = svg;
+            setSvg('release-calendar', svg);
 
-            // On narrow screens the chart scrolls inside its box rather than shrinking to
-            // illegible. Open it on today — otherwise the first thing a phone shows is the
-            // emptiest six weeks and the forecast is hidden off to the right.
+            // Where the calendar scrolls (small tablets), open it on today rather than on
+            // the emptiest six weeks with the forecast hidden off to the right
+            const host = document.getElementById('release-calendar');
             requestAnimationFrame(() => {
                 if (host.scrollWidth > host.clientWidth) {
                     host.scrollLeft = (xToday / W) * host.scrollWidth - host.clientWidth * 0.3;
@@ -1577,12 +1737,17 @@
                     : f.baselineWeight === 0
                     ? `${f.sampleSize} gaps, weighted ${f.ownEwma}d, own history only`
                     : `${f.sampleSize} gap, weighted ${f.ownEwma}d, ${f.baselineWeight}% baseline`;
+                // Once the estimate passes, the window restarts from today (see forecastFamily),
+                // so say so — otherwise the row shows a date that falls outside its own window
+                const windowText = f.overdue
+                    ? `estimate passed, window re-opened today&ndash;${windowFmt(f.windowEnd)}`
+                    : `window ${windowFmt(f.windowStart)}&ndash;${windowFmt(f.windowEnd)}`;
                 return `
                     <div class="forecast-row" style="--fam: ${FAMILY_COLORS[f.key]}">
                         <span class="forecast-fam">${f.label}</span>
                         <span class="forecast-date">${fmt(f.predictedDate)}</span>
                         ${delta}
-                        <span class="forecast-basis">${f.gapDays}d cycle &middot; window ${windowFmt(f.windowStart)}&ndash;${windowFmt(f.windowEnd)} &middot; ${basis}</span>
+                        <span class="forecast-basis">${f.gapDays}d cycle &middot; ${windowText} &middot; ${basis}</span>
                         <span class="forecast-conf conf-${f.confidence}">${f.confidence}</span>
                     </div>
                 `;
@@ -1591,11 +1756,15 @@
 
             const bt = ReleaseForecast.backtest(modelData).summary;
             const latest = bt.latest;
+            const listNames = names => names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names.join('');
+            const matureNames = listNames(fc.families.filter(f => f.sampleSize >= 2).map(f => f.name));
+            const haikuRow = fc.families.find(f => f.key === 'haiku');
             document.getElementById('forecast-method').innerHTML =
                 `Each family's next release is estimated from a decayed average of its own release gaps &mdash; the most recent gap carries full weight, the one before it a quarter, the one before that a sixteenth. A family with two or more gaps stands entirely on its own history; a single-gap family is blended toward the lineup-wide baseline of ${fc.baselineGap} days &mdash; which is where Fable and Mythos now sit: the 5.1 releases on September 1 gave each family its first gap, 84 days, so their estimates blend that one gap with the baseline instead of resting on the baseline alone, as they did before. A family whose estimated date has already passed is marked overdue and plotted on today. Confidence labels reflect depth of history, not demonstrated accuracy &mdash; Haiku's two gaps earn "low" because no Haiku forecast has ever been scored in that regime.`
-                + ` <strong>Track record</strong>, from replaying the ${bt.count} releases the model could forecast (family-firsts have nothing to forecast from): median error ${bt.medianAbsErrorDays} days overall, ~${Math.round(bt.matureMedianAbsErrorDays)} days across the ${bt.matureCount} forecasts made with two or more prior gaps &mdash; the regime every family with history is in today, though that set is all Opus and Sonnet; no Haiku call has been scored there. Scored the day before each release &mdash; a vantage from which a window can only miss early, never late &mdash; the window caught ${bt.datedHits} of ${bt.datedCount} dated calls. The harder, two-sided test replays every one of the ${bt.displayDays.toLocaleString('en-US')} days a forecast was on display: the window shown on a random historical day contained the eventual release date ${bt.dayWeightedCoverage}% of the time, and a "due now" flag was showing on ${bt.dueNowDays.toLocaleString('en-US')} of those days &mdash; the honest number, and the one to hold the chart to`
+                + ` <strong>Track record</strong>, from replaying the ${bt.count} releases the model could forecast (family-firsts have nothing to forecast from): median error ${bt.medianAbsErrorDays} days overall, ~${Math.round(bt.matureMedianAbsErrorDays)} days across the ${bt.matureCount} forecasts made with two or more prior gaps &mdash; the regime ${matureNames} are in today, though that set is all Opus and Sonnet; no Haiku call has been scored there. Scored the day before each release &mdash; a vantage from which a window can only miss early, never late &mdash; the window caught ${bt.datedHits} of ${bt.datedCount} dated calls. The harder, two-sided test replays every one of the ${bt.displayDays.toLocaleString('en-US')} days a forecast was on display: the window shown on a random historical day contained the eventual release date ${bt.dayWeightedCoverage}% of the time, and a "due now" flag was showing on ${bt.dueNowDays.toLocaleString('en-US')} of those days &mdash; the honest number, and the one to hold the chart to`
                 + (latest ? `. The most recent call, ${latest.version.replace('Claude ', '')}, was ${Math.abs(latest.errorDays)} day${Math.abs(latest.errorDays) === 1 ? '' : 's'} out` : '')
                 + `. The dotted ticks on the calendar are these retrospective calls drawn in place. The decay rate was picked by sweeping it against this backtest (so quoted accuracy is in-sample); the window width was widened August 2026 from &plusmn;35% after a review found the narrower bars caught only 4 of 7 dated calls, and the same review stopped full-history families being dragged toward the baseline, which had been manufacturing a phantom Haiku overdue call.`
+                + (haikuRow && haikuRow.overdue ? ` Haiku's overdue flag today is not that artifact: at ${haikuRow.daysSince} days against its own ${haikuRow.gapDays}-day cycle, it comes from Haiku's history alone.` : '')
                 + ` Run it yourself with <code>node scripts/predict-releases.js --backtest</code>, which lifts this code out of the page so the two can't disagree. Estimates only &mdash; Anthropic publishes no schedule.`;
         }
 
@@ -1605,7 +1774,7 @@
                 sonnet: [
                     { model: '3.5 Sonnet (Oct)', date: '2024-10-22', score: 14.9 },
                     { model: '3.7 Sonnet', date: '2025-02-24', score: 28.0 },
-                    { model: '4 Sonnet', date: '2025-05-22', score: 42.2 },
+                    { model: 'Sonnet 4', date: '2025-05-22', score: 42.2 },
                     { model: 'Sonnet 4.5', date: '2025-09-29', score: 61.4 },
                     { model: 'Sonnet 4.6', date: '2026-02-17', score: 72.5 },
                     { model: 'Sonnet 5', date: '2026-06-30', score: 81.2 }
@@ -1639,15 +1808,14 @@
             };
 
             // Chart dimensions
-            const W = 800, H = 380;
-            const pad = { top: 30, right: 25, bottom: 55, left: 55 };
+            const { W, H, pad } = frame(800, 380, { top: 30, right: 25, bottom: 55, left: 55 });
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
 
             // Date range: Sep 2024 to Aug 2026. The right-hand gap is meaningful — it's
             // where an Opus 5 OSWorld-Verified run would sit once one is published.
             const minDate = new Date('2024-09-01T00:00:00');
-            const maxDate = new Date('2026-08-15T00:00:00');
+            const maxDate = dateDomainEnd('2026-08-15', Object.values(benchmarkData).flat().map(p => p.date));
             const dateRange = maxDate - minDate;
 
             // Score range: 10 to 90
@@ -1674,14 +1842,7 @@
             }
 
             // X-axis date labels
-            const dateLabels = [
-                { label: 'Oct \'24', date: '2024-10-01' },
-                { label: 'Feb \'25', date: '2025-02-01' },
-                { label: 'Jun \'25', date: '2025-06-01' },
-                { label: 'Oct \'25', date: '2025-10-01' },
-                { label: 'Feb \'26', date: '2026-02-01' },
-                { label: 'Jun \'26', date: '2026-06-01' }
-            ];
+            const dateLabels = monthTicks('2024-10-01', maxDate, 4, minDate);
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
                 svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
@@ -1728,7 +1889,7 @@
 
             svg += '</svg>';
 
-            document.getElementById('benchmark-chart').innerHTML = svg;
+            setSvg('benchmark-chart', svg);
         }
 
         // Release Timeline Chart
@@ -1746,13 +1907,12 @@
                 });
             });
 
-            const W = 800, H = 380;
-            const pad = { top: 30, right: 30, bottom: 50, left: 80 };
+            const { W, H, pad } = frame(800, 380, { top: 30, right: 30, bottom: 50, left: 80 });
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
 
             const minDate = new Date('2024-02-01T00:00:00');
-            const maxDate = new Date('2026-10-01T00:00:00');
+            const maxDate = dateDomainEnd('2026-10-01', allReleases.filter(r => r.date !== 'TBD').map(r => r.date));
             const dateRange = maxDate - minDate;
 
             function x(dateStr) {
@@ -1776,16 +1936,7 @@
             });
 
             // X-axis date markers
-            const dateMarkers = [
-                { label: "Mar '24", date: '2024-03-01' },
-                { label: "Jul '24", date: '2024-07-01' },
-                { label: "Nov '24", date: '2024-11-01' },
-                { label: "Mar '25", date: '2025-03-01' },
-                { label: "Jul '25", date: '2025-07-01' },
-                { label: "Nov '25", date: '2025-11-01' },
-                { label: "Mar '26", date: '2026-03-01' },
-                { label: "Jul '26", date: '2026-07-01' }
-            ];
+            const dateMarkers = monthTicks('2024-03-01', maxDate, 4, minDate);
             dateMarkers.forEach(dm => {
                 const xPos = x(dm.date);
                 svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="3,3" />`;
@@ -1818,13 +1969,18 @@
                         // Preview-only or restricted-access drops (e.g. Mythos via Glasswing): diagonal white slash
                         svg += `<line x1="${cx - 3.5}" y1="${cy + 3.5}" x2="${cx + 3.5}" y2="${cy - 3.5}" stroke="white" stroke-width="1.5" stroke-linecap="round" />`;
                     }
+                    svg += `<circle cx="${cx}" cy="${cy}" r="11" fill="transparent" />`;
                     svg += `</g>`;
+
+                    // On phones only each lane's latest release is named; the rest are a tap away
+                    if (UI.compact && i !== plotted.length - 1) return;
 
                     // Short version label — same name as every other chart uses
                     const shortName = r.version.replace('Claude ', '');
                     // Alternate labels above/below to avoid overlap
-                    const labelOffset = i % 2 === 0 ? -14 : 18;
-                    svg += `<text x="${cx}" y="${cy + labelOffset}" text-anchor="middle" fill="#555" font-size="9.5" font-weight="500">${shortName}</text>`;
+                    const labelOffset = UI.compact ? -14 * UI.k : i % 2 === 0 ? -14 : 18;
+                    const anchor = UI.compact ? 'end' : 'middle';
+                    svg += `<text x="${UI.compact ? cx + 6 : cx}" y="${cy + labelOffset}" text-anchor="${anchor}" fill="#555" font-size="9.5" font-weight="500">${shortName}</text>`;
                 });
             });
 
@@ -1832,7 +1988,7 @@
             svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.5" />`;
 
             svg += '</svg>';
-            document.getElementById('timeline-chart').innerHTML = svg;
+            setSvg('timeline-chart', svg);
         }
 
         // Shipping Pace - Cumulative Staircase with Quarter Bands
@@ -1856,12 +2012,13 @@
             const parse = s => new Date(s + 'T00:00:00');
             const today = new Date();
             today.setHours(0, 0, 0, 0);
-            const MIN = parse('2024-03-01');
+            // From the start of Q1 2024, so the first quarter's band is full width and its
+            // count fits — starting at March left it a sliver too narrow to label.
+            const MIN = parse('2024-01-01');
             const MAX = today > parse('2026-04-01') ? today : parse('2026-06-30');
             const RANGE = MAX - MIN;
 
-            const W = 900, H = 360;
-            const pad = { top: 32, right: 90, bottom: 54, left: 48 };
+            const { W, H, pad } = frame(900, 360, { top: 32, right: 90, bottom: 54, left: 48 });
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
             const xRaw = d => pad.left + ((d - MIN) / RANGE) * cw;
@@ -1899,7 +2056,7 @@
                     quarterRanges.push({ qStart, qEnd, bandX, bandW });
                     // Quarter label at top of band
                     const q = Math.floor(qStart.getMonth() / 3) + 1;
-                    if (bandW > 26) {
+                    if (bandW > 26 && !UI.compact) {
                         svg += `<text x="${bandX + bandW / 2}" y="${pad.top + 13}" text-anchor="middle" fill="#8a7355" font-size="10" font-weight="600">Q${q}</text>`;
                     }
                     // Releases in this quarter
@@ -1907,8 +2064,10 @@
                         const d = parse(r.date);
                         return d >= qStart && d < qEnd;
                     });
-                    if (qReleases.length > 0 && bandW > 26) {
-                        svg += `<text x="${bandX + bandW / 2}" y="${pad.top + ch - 6}" text-anchor="middle" fill="#5b4636" font-size="12" font-weight="700">${qReleases.length}</text>`;
+                    if (qReleases.length > 0 && bandW > 14 * UI.k) {
+                        // Under the axis rather than inside the band, where the staircase's
+                        // early steps ran through them
+                        svg += `<text x="${bandX + bandW / 2}" y="${pad.top + ch + 15 * UI.k}" text-anchor="middle" fill="#5b4636" font-size="12" font-weight="700">${qReleases.length}</text>`;
                     }
                 }
                 qIdx += 1;
@@ -1932,7 +2091,7 @@
                 const endClamped = yrEnd > MAX ? MAX : yrEnd;
                 if (endClamped > startClamped) {
                     const cx = xRaw(startClamped) + (xRaw(endClamped) - xRaw(startClamped)) / 2;
-                    svg += `<text x="${cx}" y="${H - pad.bottom + 36}" text-anchor="middle" fill="#3d2e22" font-size="13" font-weight="700">${yr}</text>`;
+                    svg += `<text x="${cx}" y="${H - pad.bottom + 38 * UI.k}" text-anchor="middle" fill="#3d2e22" font-size="13" font-weight="700">${yr}</text>`;
                 }
             });
 
@@ -1989,11 +2148,15 @@
 
             // Small dots at each release
             allReleases.forEach((r, i) => {
-                svg += `<circle cx="${x(r.date)}" cy="${y(i + 1)}" r="3.5" fill="${colors[r.family]}" stroke="white" stroke-width="1.5" />`;
+                svg += `<circle cx="${x(r.date)}" cy="${y(i + 1)}" r="3.5" fill="${colors[r.family]}" stroke="white" stroke-width="1.5">`
+                     + `<title>${r.version} — ${formatDate(r.date)} (release ${i + 1})</title></circle>`;
             });
 
-            // Endpoint total label
-            svg += `<text x="${xRaw(MAX) + 8}" y="${y(total) + 4}" fill="#5b4636" font-size="13" font-weight="700">${total} total</text>`;
+            // Endpoint total label: in the right margin on desktop; phones have no margin to
+            // spare, so it sits above the end of the staircase instead
+            svg += UI.compact
+                ? `<text x="${xRaw(MAX)}" y="${y(total) - 10}" text-anchor="end" fill="#5b4636" font-size="13" font-weight="700">${total} total</text>`
+                : `<text x="${xRaw(MAX) + 8}" y="${y(total) + 4}" fill="#5b4636" font-size="13" font-weight="700">${total} total</text>`;
 
             // Axis line
             svg += `<line x1="${pad.left}" y1="${pad.top + ch}" x2="${W - pad.right}" y2="${pad.top + ch}" stroke="#d4c0b3" stroke-width="1.2" />`;
@@ -2002,7 +2165,7 @@
             svg += `<text x="${pad.left}" y="${pad.top - 10}" fill="#7a6957" font-size="11" font-style="italic">cumulative Claude releases</text>`;
 
             svg += '</svg>';
-            document.getElementById('gap-chart').innerHTML = svg;
+            setSvg('gap-chart', svg);
         }
 
         // Vending-Bench Earnings Chart (same style as OSWorld)
@@ -2043,14 +2206,13 @@
             };
 
             // Chart dimensions
-            const W = 800, H = 380;
-            const pad = { top: 30, right: 25, bottom: 55, left: 68 };
+            const { W, H, pad } = frame(800, 380, { top: 30, right: 25, bottom: 55, left: 68 });
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
 
             // Date range: Sep 2025 (Sonnet 4.5, earliest VB2 row) to mid-Aug 2026
             const minDate = new Date('2025-09-01T00:00:00');
-            const maxDate = new Date('2026-08-15T00:00:00');
+            const maxDate = dateDomainEnd('2026-08-15', Object.values(earningsData).flat().map(p => p.date));
             const dateRange = maxDate - minDate;
 
             // Earnings range: $0 to $12,000 (Opus 5 tops the board at $11,182)
@@ -2081,12 +2243,7 @@
             }
 
             // X-axis date labels
-            const dateLabels = [
-                { label: "Oct '25", date: '2025-10-01' },
-                { label: "Jan '26", date: '2026-01-01' },
-                { label: "Apr '26", date: '2026-04-01' },
-                { label: "Jul '26", date: '2026-07-01' }
-            ];
+            const dateLabels = monthTicks('2025-10-01', maxDate, 3, minDate);
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
                 svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
@@ -2124,7 +2281,7 @@
 
             svg += '</svg>';
 
-            document.getElementById('earnings-chart').innerHTML = svg;
+            setSvg('earnings-chart', svg);
         }
 
         // Vending-Bench Arena — every standard published round, one dot column per round.
@@ -2178,17 +2335,21 @@
 
             // Wider and taller than the sibling charts: nine dot columns with two-line
             // labels need the room, especially the three tightly-spaced Nov-Dec rounds.
-            const W = 900, H = 430;
-            const pad = { top: 34, right: 25, bottom: 55, left: 68 };
+            const { W, H, pad } = frame(900, 430, { top: 34, right: 25, bottom: 55, left: 68 });
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
 
             // Starts well before the first round so its labels have in-bounds room to the left
             const minDate = new Date('2025-10-14T00:00:00');
-            const maxDate = new Date('2026-08-10T00:00:00');
+            const maxDate = dateDomainEnd('2026-08-10', rounds.map(r => r.date));
             const dateRange = maxDate - minDate;
 
-            const minScore = 0, maxScore = 12000, step = 2000;
+            // Tops out just above the best round rather than matching the Earnings chart's
+            // $12k: these are separate contests on no common scale, so borrowing that axis
+            // only left the top third of the plot empty.
+            const step = 2000;
+            const minScore = 0;
+            const maxScore = Math.ceil(Math.max(...rounds.flatMap(r => r.entries.map(e => e.score))) / step + 0.25) * step;
 
             function x(dateStr) {
                 const d = new Date(dateStr + 'T00:00:00');
@@ -2208,13 +2369,7 @@
                 svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#666" font-size="12">${fmt(s)}</text>`;
             }
 
-            const dateLabels = [
-                { label: "Dec '25", date: '2025-12-01' },
-                { label: "Feb '26", date: '2026-02-01' },
-                { label: "Apr '26", date: '2026-04-01' },
-                { label: "Jun '26", date: '2026-06-01' },
-                { label: "Aug '26", date: '2026-08-01' }
-            ];
+            const dateLabels = monthTicks('2025-12-01', maxDate, 2, minDate);
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
                 svg += `<text x="${xPos}" y="${H - pad.bottom + 20}" text-anchor="middle" fill="#666" font-size="12">${dl.label}</text>`;
@@ -2225,12 +2380,14 @@
 
             const labelItems = [];
             const allDotBoxes = [];
+            const guides = [];
             rounds.forEach(round => {
                 const rx = x(round.date);
                 // A faint guide ties each round's dots into one visible contest
                 const top = Math.min(...round.entries.map(e => y(e.score)));
                 const bottom = Math.max(...round.entries.map(e => y(e.score)));
                 svg += `<line x1="${rx}" y1="${top}" x2="${rx}" y2="${bottom}" stroke="#c9b8a6" stroke-width="1" stroke-opacity="0.55" />`;
+                if (bottom > top) guides.push([[rx, top], [rx, bottom]]);
 
                 round.entries.forEach(e => {
                     const py = y(e.score);
@@ -2244,15 +2401,16 @@
 
                     // Every plotted entry is a Claude model, so every dot gets a label.
                     if (e.fam || e.win) {
-                        labelItems.push({ px: rx, py, color, name: e.model, value: kFmt(e.score) });
+                        labelItems.push({ px: rx, py, color, series: e.fam, name: e.model, value: kFmt(e.score),
+                                          tip: `${e.model} — ${fmt(e.score)}${e.win ? ', round winner' : ''}` });
                     }
                 });
             });
 
-            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch }, allDotBoxes);
+            svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch }, allDotBoxes.concat(lineObstacles(guides)));
 
             svg += '</svg>';
-            document.getElementById('arena-chart').innerHTML = svg;
+            setSvg('arena-chart', svg);
         }
 
         // GDPval-AA Chart (same style as OSWorld / Vending-Bench)
@@ -2289,13 +2447,12 @@
 
             const colors = { fable: '#c09a5b', opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
 
-            const W = 800, H = 380;
-            const pad = { top: 30, right: 25, bottom: 55, left: 68 };
+            const { W, H, pad } = frame(800, 380, { top: 30, right: 25, bottom: 55, left: 68 });
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
 
             const minDate = new Date('2025-04-15T00:00:00');
-            const maxDate = new Date('2026-11-01T00:00:00');
+            const maxDate = dateDomainEnd('2026-11-01', Object.values(gdpvalData).flat().map(p => p.date));
             const dateRange = maxDate - minDate;
 
             const minScore = 600, maxScore = 2000, step = 200;
@@ -2316,14 +2473,7 @@
                 svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#666" font-size="12">${s}</text>`;
             }
 
-            const dateLabels = [
-                { label: "Jun '25", date: '2025-06-01' },
-                { label: "Sep '25", date: '2025-09-01' },
-                { label: "Dec '25", date: '2025-12-01' },
-                { label: "Mar '26", date: '2026-03-01' },
-                { label: "Jun '26", date: '2026-06-01' },
-                { label: "Sep '26", date: '2026-09-01' }
-            ];
+            const dateLabels = monthTicks('2025-06-01', maxDate, 3, minDate);
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
                 svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
@@ -2357,7 +2507,7 @@
                 lineObstacles(lineSegPoints));
 
             svg += '</svg>';
-            document.getElementById('gdpval-chart').innerHTML = svg;
+            setSvg('gdpval-chart', svg);
         }
 
         // ARC-AGI-2 Chart (same style as OSWorld / GDPval)
@@ -2366,7 +2516,7 @@
             // (arcprize.org/media/data/leaderboard/v2.json, pulled 2026-07-29), using each
             // model's strongest listed config: Opus 4.6 is the 120K-High run (69.17) rather
             // than Max (68.75), Sonnet 4.6 the High run (60.42) rather than Max (58.33),
-            // Opus 5 Max ($2.06/task). Fable 5, Mythos 5 and Sonnet 5 are still unlisted.
+            // Opus 5 Max ($2.06/task). Mythos 5 and Sonnet 5 are still unlisted.
             const arcData = {
                 opus: [
                     { model: 'Opus 4.5', date: '2025-11-24', score: 37.6 },
@@ -2404,13 +2554,12 @@
 
             const colors = { opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882', fable: '#c09a5b' };
 
-            const W = 800, H = 380;
-            const pad = { top: 30, right: 25, bottom: 55, left: 55 };
+            const { W, H, pad } = frame(800, 380, { top: 30, right: 25, bottom: 55, left: 55 });
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
 
             const minDate = new Date('2025-08-01T00:00:00');
-            const maxDate = new Date('2026-10-01T00:00:00');
+            const maxDate = dateDomainEnd('2026-10-01', Object.values(arcData).flat().map(p => p.date));
             const dateRange = maxDate - minDate;
 
             const minScore = 0, maxScore = 100, step = 20;
@@ -2431,15 +2580,7 @@
                 svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#666" font-size="12">${s}%</text>`;
             }
 
-            const dateLabels = [
-                { label: "Sep '25", date: '2025-09-01' },
-                { label: "Nov '25", date: '2025-11-01' },
-                { label: "Jan '26", date: '2026-01-01' },
-                { label: "Mar '26", date: '2026-03-01' },
-                { label: "May '26", date: '2026-05-01' },
-                { label: "Jul '26", date: '2026-07-01' },
-                { label: "Sep '26", date: '2026-09-01' }
-            ];
+            const dateLabels = monthTicks('2025-09-01', maxDate, 2, minDate);
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
                 svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
@@ -2486,7 +2627,7 @@
                 [annotationBox(a3x, a3y, `ARC-AGI-3 - ${arc3End.score.toFixed(1)}%`, 10.5)].concat(lineObstacles(lineSegPoints)));
 
             svg += '</svg>';
-            document.getElementById('arc-chart').innerHTML = svg;
+            setSvg('arc-chart', svg);
         }
 
         // Capability Profile — radar/spider chart across ten evaluations.
@@ -2519,16 +2660,18 @@
             // Axes ordered so related categories sit next to each other going clockwise:
             // coding at the top, then knowledge, factuality, reasoning, agentic.
             const axes = [
-                { key: 'lcb',      name: 'LiveCodeBench (hard)', cat: 'Coding (contest)' },
-                { key: 'gpqa',     name: 'GPQA Diamond',       cat: 'Knowledge' },
-                { key: 'hle',      name: 'HLE (no tools)',     cat: 'Knowledge' },
-                { key: 'omni',     name: 'Omniscience',        cat: 'Factuality' },
-                { key: 'lcr',      name: 'AA-LCR',             cat: 'Long context' },
-                { key: 'critpt',   name: 'CritPt',             cat: 'Physics' },
-                { key: 'agentic',  name: 'Agentic Index',      cat: 'Agentic (general)' },
-                { key: 'terminal', name: 'Terminal-Bench 2.1', cat: 'Agentic (coding)' },
-                { key: 'scicode',  name: 'SciCode',            cat: 'Coding (science)' },
-                { key: 'swepro',   name: 'SWE-bench Pro',      cat: 'Coding (hard)' }
+                // `short` labels the axis on phones, where the full names would leave no
+                // room for the plot between them
+                { key: 'lcb',      name: 'LiveCodeBench (hard)', short: 'LiveCode',    cat: 'Coding (contest)' },
+                { key: 'gpqa',     name: 'GPQA Diamond',       short: 'GPQA',        cat: 'Knowledge' },
+                { key: 'hle',      name: 'HLE (no tools)',     short: 'HLE',         cat: 'Knowledge' },
+                { key: 'omni',     name: 'Omniscience',        short: 'Omniscience', cat: 'Factuality' },
+                { key: 'lcr',      name: 'AA-LCR',             short: 'AA-LCR',      cat: 'Long context' },
+                { key: 'critpt',   name: 'CritPt',             short: 'CritPt',      cat: 'Physics' },
+                { key: 'agentic',  name: 'Agentic Index',      short: 'Agentic',     cat: 'Agentic (general)' },
+                { key: 'terminal', name: 'Terminal-Bench 2.1', short: 'Terminal',    cat: 'Agentic (coding)' },
+                { key: 'scicode',  name: 'SciCode',            short: 'SciCode',     cat: 'Coding (science)' },
+                { key: 'swepro',   name: 'SWE-bench Pro',      short: 'SWE Pro',     cat: 'Coding (hard)' }
             ];
 
             // Every AA value is the model's headline AA variant: max effort, with AA's
@@ -2538,7 +2681,9 @@
                 {
                     // Fable 5 now recedes behind Fable 5.1 the way Opus 4.8 recedes behind
                     // Opus 5: same family hue, thinner and faded, so the two golds don't fight.
-                    key: 'fable', label: 'Fable 5', color: '#c9ab74', hero: false, recede: true,
+                    // Dotted rather than dashed, as the legend shows, so it can't be taken for
+                    // Opus 4.8's line where the two cross.
+                    key: 'fable', label: 'Fable 5', color: '#c9ab74', hero: false, recede: true, dotted: true,
                     scores: { lcb: 79.7, gpqa: 92.6, hle: 55.5, omni: 65.3, lcr: 76.7,
                               critpt: 28.6, agentic: 56.6, terminal: 84.6, scicode: 60.2, swepro: 80.0 }
                 },
@@ -2572,17 +2717,20 @@
                     // an earlier revision of this chart into plotting Haiku as two lone
                     // points. AA separately carries "Claude 4.5 Haiku (Reasoning)", fully
                     // measured (Intelligence Index 29.58), and that entry supplies eight of
-                    // these ten axes, including a measured 0.0 on CritPt. The SWE axes
-                    // follow the same sourcing as the other models: Verified is Anthropic's
-                    // launch figure via the aggregators, Pro is Scale's public-subset board.
+                    // these ten axes, including a measured 0.0 on CritPt. The other two follow
+                    // the same sourcing as every model: LiveCodeBench is Vals AI's hard split,
+                    // SWE-bench Pro is Scale's public-subset board.
                     key: 'haiku', label: 'Haiku 4.5', color: '#8fa882',
                     scores: { lcb: 11.1, gpqa: 67.2, hle: 10.4, omni: 18.0, lcr: 73.7,
                               critpt: 0.0, agentic: 16.5, terminal: 44.2, scicode: 43.3, swepro: 39.5 }
                 }
             ];
 
-            const W = 800, H = 560;
-            const cx = 400, cy = 288, R = 190;
+            // Phones get a smaller plot, short axis names and no category line — at full
+            // size the side labels alone were wider than the screen.
+            const { W, H, cx, cy, R } = UI.compact
+                ? { W: 400, H: 300, cx: 200, cy: 150, R: 105 }
+                : { W: 800, H: 560, cx: 400, cy: 288, R: 190 };
             const rings = [20, 40, 60, 80, 100];
 
             // Axis i points at -90deg + 36deg * i, i.e. axis 0 straight up, then clockwise
@@ -2609,8 +2757,9 @@
             });
 
             // Ring scale labels ride the CritPt spoke (straight down). Every model scores
-            // under 30 there, so rings 40 and above are guaranteed clear of the data.
-            rings.filter(r => r >= 40).forEach(ring => {
+            // under 30 there, but the neighbouring axes' polygon edges cross the spoke near
+            // ring 40, so labels start at 60, which is clear of everything.
+            rings.filter(r => r >= 60).forEach(ring => {
                 const [px, py] = pt(5, ring);
                 svg += `<text x="${(px + 9).toFixed(1)}" y="${(py + 3).toFixed(1)}" text-anchor="start" fill="#9a836c" font-size="9">${ring}</text>`;
             });
@@ -2618,13 +2767,19 @@
             // Axis labels: benchmark name, with its category on a second line beneath
             axes.forEach((ax, i) => {
                 const a = angle(i);
-                const lx = cx + (R + 22) * Math.cos(a);
-                const ly = cy + (R + 22) * Math.sin(a);
+                const reach = UI.compact ? R + 12 : R + 22;
+                const lx = cx + reach * Math.cos(a);
+                const ly = cy + reach * Math.sin(a);
                 const cosA = Math.cos(a);
                 const anchor = Math.abs(cosA) < 0.15 ? 'middle' : (cosA > 0 ? 'start' : 'end');
 
                 // Vertical block placement: top and bottom vertices need the whole
                 // two-line block pushed clear of the chart, sides just straddle centre
+                if (UI.compact) {
+                    const nameY = i === 0 ? ly - 4 : Math.abs(cosA) < 0.15 ? ly + 14 : ly + 4;
+                    svg += `<text x="${lx.toFixed(1)}" y="${nameY.toFixed(1)}" text-anchor="${anchor}" fill="#5b4636" font-size="10" font-weight="600"><title>${ax.name} — ${ax.cat}</title>${ax.short}</text>`;
+                    return;
+                }
                 let nameY, catY;
                 if (i === 0) { nameY = ly - 16; catY = ly - 3; }
                 else if (Math.abs(cosA) < 0.15) { nameY = ly + 14; catY = ly + 27; }
@@ -2657,7 +2812,8 @@
                 } else if (m.recede) {
                     // Opus 4.8 and Fable 5 are the "where we were" references — same family
                     // hue as their successors, so keep them thin and faded or the pairs fight
-                    svg += `<${shape} points="${poly}" fill="none" stroke="${m.color}" stroke-width="1.6" stroke-opacity="0.85" stroke-dasharray="3,3" stroke-linejoin="round" />`;
+                    const dash = m.dotted ? '0.1,3.6" stroke-linecap="round' : '3,3';
+                    svg += `<${shape} points="${poly}" fill="none" stroke="${m.color}" stroke-width="${m.dotted ? 2 : 1.6}" stroke-opacity="0.85" stroke-dasharray="${dash}" stroke-linejoin="round" />`;
                 } else {
                     svg += `<${shape} points="${poly}" fill="none" stroke="${m.color}" stroke-width="2" stroke-dasharray="7,4" stroke-linejoin="round" />`;
                 }
@@ -2686,7 +2842,7 @@
             });
 
             svg += '</svg>';
-            document.getElementById('radar-chart').innerHTML = svg;
+            setSvg('radar-chart', svg);
         }
 
         // Remote Labor Index — share of 240 real freelance projects completed to a standard
@@ -2710,15 +2866,14 @@
 
             const colors = { fable: '#c09a5b', opus: '#9d7bb0', sonnet: '#d4836a' };
 
-            const W = 800, H = 380;
-            const pad = { top: 30, right: 25, bottom: 55, left: 55 };
+            const { W, H, pad } = frame(800, 380, { top: 30, right: 25, bottom: 55, left: 55 });
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
 
             // Runs to mid-August so the empty right-hand edge is visible: that is where an
             // Opus 5 run would sit once one is published.
             const minDate = new Date('2025-09-01T00:00:00');
-            const maxDate = new Date('2026-08-15T00:00:00');
+            const maxDate = dateDomainEnd('2026-08-15', Object.values(rliData).flat().map(p => p.date));
             const dateRange = maxDate - minDate;
 
             const minScore = 0, maxScore = 18, step = 3;
@@ -2739,12 +2894,7 @@
                 svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#666" font-size="12">${s}%</text>`;
             }
 
-            const dateLabels = [
-                { label: "Oct '25", date: '2025-10-01' },
-                { label: "Jan '26", date: '2026-01-01' },
-                { label: "Apr '26", date: '2026-04-01' },
-                { label: "Jul '26", date: '2026-07-01' }
-            ];
+            const dateLabels = monthTicks('2025-10-01', maxDate, 3, minDate);
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
                 svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
@@ -2781,10 +2931,11 @@
             });
 
             svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch },
-                [annotationBox(W - pad.right - 4, launchY - 7, '2.5% - best of any model at launch, Oct 2025', 10.5)].concat(lineObstacles(lineSegPoints)));
+                [annotationBox(W - pad.right - 4, launchY - 7, '2.5% - best of any model at launch, Oct 2025', 10.5)]
+                    .concat(lineObstacles(lineSegPoints.concat([[[pad.left, launchY], [W - pad.right, launchY]]]))));
 
             svg += '</svg>';
-            document.getElementById('rli-chart').innerHTML = svg;
+            setSvg('rli-chart', svg);
         }
 
         // SWE-bench Verified Chart (same style as OSWorld / GDPval)
@@ -2823,13 +2974,12 @@
 
             const colors = { mythos: '#5b8a9a', fable: '#c09a5b', opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
 
-            const W = 800, H = 380;
-            const pad = { top: 30, right: 25, bottom: 55, left: 55 };
+            const { W, H, pad } = frame(800, 380, { top: 30, right: 25, bottom: 55, left: 55 });
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
 
             const minDate = new Date('2025-04-01T00:00:00');
-            const maxDate = new Date('2026-08-15T00:00:00');
+            const maxDate = dateDomainEnd('2026-08-15', Object.values(sweData).flat().map(p => p.date));
             const dateRange = maxDate - minDate;
 
             const minScore = 70, maxScore = 100, step = 5;
@@ -2850,12 +3000,7 @@
                 svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#666" font-size="12">${s}%</text>`;
             }
 
-            const dateLabels = [
-                { label: "Jun '25", date: '2025-06-01' },
-                { label: "Oct '25", date: '2025-10-01' },
-                { label: "Feb '26", date: '2026-02-01' },
-                { label: "Jun '26", date: '2026-06-01' }
-            ];
+            const dateLabels = monthTicks('2025-06-01', maxDate, 4, minDate);
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
                 svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
@@ -2891,17 +3036,17 @@
             svg += placeLabels(labelItems, { x: pad.left - 2, y: 4, w: cw + 4, h: pad.top + ch }, lineObstacles(lineSegPoints));
 
             svg += '</svg>';
-            document.getElementById('swebench-chart').innerHTML = svg;
+            setSvg('swebench-chart', svg);
         }
 
         // Terminal-Bench 2.1 Chart (same style as SWE-bench / OSWorld)
         function renderTerminalBenchChart() {
             // Terminal-Bench 2.1 completion rates (%) from the Vals AI harness snapshot
-            // (via BenchLM), pulled 2026-07-25. Using a single harness keeps the series
-            // internally comparable; Anthropic's own max-effort number for Opus 5 (89.1%,
-            // per Artificial Analysis) is higher and noted in the caption instead.
-            // Only models with a published 2.1 run appear — the benchmark postdates the
-            // Claude 4.5 generation, so there is no long tail here.
+            // (via BenchLM), pulled 2026-07-25 and re-verified July 29; the Fable 5.1 row
+            // was read September 2. Using a single harness keeps the series internally
+            // comparable; Artificial Analysis's harness puts Opus 5 higher (89.1%), and
+            // that figure is on the radar instead. Only models with a published 2.1 run
+            // appear, which is why the series starts at Haiku 4.5 and Sonnet 4.6.
             const tbData = {
                 opus: [
                     { model: 'Opus 4.7', date: '2026-04-16', score: 68.5 },
@@ -2926,13 +3071,12 @@
 
             const colors = { fable: '#c09a5b', opus: '#9d7bb0', sonnet: '#d4836a', haiku: '#8fa882' };
 
-            const W = 800, H = 380;
-            const pad = { top: 30, right: 25, bottom: 55, left: 55 };
+            const { W, H, pad } = frame(800, 380, { top: 30, right: 25, bottom: 55, left: 55 });
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
 
             const minDate = new Date('2025-09-01T00:00:00');
-            const maxDate = new Date('2026-10-01T00:00:00');
+            const maxDate = dateDomainEnd('2026-10-01', Object.values(tbData).flat().map(p => p.date));
             const dateRange = maxDate - minDate;
 
             const minScore = 40, maxScore = 90, step = 10;
@@ -2953,12 +3097,7 @@
                 svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#666" font-size="12">${s}%</text>`;
             }
 
-            const dateLabels = [
-                { label: "Nov '25", date: '2025-11-01' },
-                { label: "Feb '26", date: '2026-02-01' },
-                { label: "May '26", date: '2026-05-01' },
-                { label: "Aug '26", date: '2026-08-01' }
-            ];
+            const dateLabels = monthTicks('2025-11-01', maxDate, 3, minDate);
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
                 svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
@@ -2992,12 +3131,12 @@
                 lineObstacles(lineSegPoints));
 
             svg += '</svg>';
-            document.getElementById('terminalbench-chart').innerHTML = svg;
+            setSvg('terminalbench-chart', svg);
         }
 
         // API Pricing Chart — grouped input/output bars per current model
         function renderPricingChart() {
-            // Claude API list pricing (per million tokens) as of September 2, 2026,
+            // Claude API list pricing (per million tokens) as of September 22, 2026,
             // from platform.claude.com/docs/en/about-claude/pricing. Fable 5.1 holds
             // Fable 5's $10/$50 — its price cut is in cache reads ($1 → $0.25/MTok),
             // which these bars don't show. Claude Mythos 5.1 is priced identically
@@ -3015,8 +3154,7 @@
             ];
             const colors = { haiku: '#8fa882', sonnet: '#d4836a', opus: '#9d7bb0', fable: '#c09a5b' };
 
-            const W = 800, H = 380;
-            const pad = { top: 42, right: 25, bottom: 55, left: 55 };
+            const { W, H, pad } = frame(800, 380, { top: 42, right: 25, bottom: 55, left: 55 });
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
 
@@ -3033,7 +3171,7 @@
             }
 
             const groupW = cw / pricing.length;
-            const barW = 56, gap = 14;
+            const barW = UI.compact ? 30 : 56, gap = UI.compact ? 5 : 14;
 
             pricing.forEach((m, i) => {
                 const cx = pad.left + i * groupW + groupW / 2;
@@ -3041,33 +3179,20 @@
                 const xIn = cx - gap / 2 - barW;
                 const xOut = cx + gap / 2;
 
-                // Input bar (lighter) and output bar (solid). For models with an
-                // introductory rate, the solid section stops at the intro price and
-                // a lighter section spans the gap up to the list price.
-                const inBase = m.introInput != null ? m.introInput : m.input;
-                const outBase = m.introOutput != null ? m.introOutput : m.output;
-
-                svg += `<rect x="${xIn}" y="${y(inBase)}" width="${barW}" height="${y(0) - y(inBase)}" fill="${color}" fill-opacity="0.45" rx="3" />`;
-                svg += `<rect x="${xOut}" y="${y(outBase)}" width="${barW}" height="${y(0) - y(outBase)}" fill="${color}" rx="3" />`;
-
-                if (m.introInput != null) {
-                    // Lighter "list surcharge" section: intro price up to list price
-                    svg += `<rect x="${xIn}" y="${y(m.input)}" width="${barW}" height="${y(inBase) - y(m.input)}" fill="${color}" fill-opacity="0.18" rx="3" />`;
-                    svg += `<rect x="${xOut}" y="${y(m.output)}" width="${barW}" height="${y(outBase) - y(m.output)}" fill="${color}" fill-opacity="0.4" rx="3" />`;
-                }
+                // Input bar (lighter) and output bar (solid)
+                svg += `<rect x="${xIn}" y="${y(m.input)}" width="${barW}" height="${y(0) - y(m.input)}" fill="${color}" fill-opacity="0.45" rx="3"><title>${m.name} — $${m.input} per million input tokens</title></rect>`;
+                svg += `<rect x="${xOut}" y="${y(m.output)}" width="${barW}" height="${y(0) - y(m.output)}" fill="${color}" rx="3"><title>${m.name} — $${m.output} per million output tokens</title></rect>`;
 
                 // Value labels above each bar
-                svg += `<text x="${xIn + barW / 2}" y="${y(m.input) - 8}" text-anchor="middle" fill="${color}" font-size="11" font-weight="600">$${m.input} in</text>`;
-                svg += `<text x="${xOut + barW / 2}" y="${y(m.output) - 8}" text-anchor="middle" fill="${color}" font-size="11" font-weight="600">$${m.output} out</text>`;
-
-                // Intro-price annotation over the Sonnet group
-                if (m.introInput != null) {
-                    svg += `<text x="${cx}" y="${y(m.output) - 24}" text-anchor="middle" fill="#7a6957" font-size="11" font-style="italic">$${m.introInput}/$${m.introOutput} intro thru Aug 31</text>`;
-                }
+                // On phones the bars are too narrow for "in"/"out"; shade says which is which
+                const inLabel = UI.compact ? `$${m.input}` : `$${m.input} in`;
+                const outLabel = UI.compact ? `$${m.output}` : `$${m.output} out`;
+                svg += `<text x="${xIn + barW / 2}" y="${y(m.input) - 8}" text-anchor="middle" fill="${color}" font-size="11" font-weight="600">${inLabel}</text>`;
+                svg += `<text x="${xOut + barW / 2}" y="${y(m.output) - 8}" text-anchor="middle" fill="${color}" font-size="11" font-weight="600">${outLabel}</text>`;
 
                 // "2.5× Opus" annotation over the Fable group
                 if (m.family === 'fable') {
-                    svg += `<text x="${cx}" y="${y(m.output) - 24}" text-anchor="middle" fill="#7a6957" font-size="11" font-style="italic">2.5× Opus 5.5</text>`;
+                    svg += `<text x="${UI.compact ? W - pad.right : cx}" y="${y(m.output) - 24 * UI.k}" text-anchor="${UI.compact ? 'end' : 'middle'}" fill="#7a6957" font-size="11" font-style="italic">2.5× Opus 5.5</text>`;
                 }
 
                 // Model name below the axis
@@ -3078,7 +3203,7 @@
             svg += `<line x1="${pad.left}" y1="${y(0)}" x2="${W - pad.right}" y2="${y(0)}" stroke="#d4c0b3" stroke-width="1.5" />`;
 
             svg += '</svg>';
-            document.getElementById('pricing-chart').innerHTML = svg;
+            setSvg('pricing-chart', svg);
         }
 
         // Fold the prose under each chart into a disclosure. The notes earn their place —
@@ -3103,22 +3228,34 @@
         }
 
         // Initialize
+        function renderCharts() {
+            renderReleaseCalendar();
+            renderTimelineChart();
+            renderGapChart();
+            renderPricingChart();
+            renderRadarChart();
+            renderSweBenchChart();
+            renderTerminalBenchChart();
+            renderBenchmarkChart();
+            renderEarningsChart();
+            renderArenaChart();
+            renderGDPvalChart();
+            renderRliChart();
+            renderArcChart();
+        }
+
         render();
         renderFleetFreshness();
-        renderReleaseCalendar();
-        renderTimelineChart();
-        renderGapChart();
-        renderPricingChart();
-        renderRadarChart();
-        renderSweBenchChart();
-        renderTerminalBenchChart();
-        renderBenchmarkChart();
-        renderEarningsChart();
-        renderArenaChart();
-        renderGDPvalChart();
-        renderRliChart();
-        renderArcChart();
+        renderCharts();
         collapseChartNotes();
+
+        // Crossing the phone breakpoint (a rotated tablet, a resized window) redraws the
+        // charts on the other canvas
+        COMPACT_QUERY.addEventListener('change', () => {
+            setUiMode();
+            chartTip.hidden = true;
+            renderCharts();
+        });
     </script>
 </body>
 </html>
