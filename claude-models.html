@@ -120,7 +120,7 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">Capability Profile</h2>
-                <p class="benchmark-note" style="margin-bottom: 18px;">Where each model's strength actually lies. Six evaluations, all scored 0&ndash;100, that every model here has a figure for. Five come from Artificial Analysis's single harness at max effort (Haiku 4.5 via AA's Reasoning entry). SWE-bench Pro is Anthropic's own system-card figure for every model except Haiku 4.5, which Anthropic never scored on it; Haiku's point comes from Scale's public-subset leaderboard. Hover over or tap any point for the raw score.</p>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Where each family's newest model is strongest. Ten evaluations, all scored 0&ndash;100. Eight come from Artificial Analysis's single harness at max effort (Haiku 4.5 via AA's Reasoning entry). SWE-bench Pro and HealthBench Professional are Anthropic's own system-card figures; Haiku 4.5 has neither, so its SWE-bench Pro point comes from Scale's public-subset board and its HealthBench spoke is left open. Hover over or tap any point for the raw score.</p>
                 <div class="benchmark-chart-container">
                     <div id="radar-chart"></div>
                     <div class="benchmark-legend">
@@ -137,26 +137,18 @@
                             <span><strong>Fable 5.1</strong></span>
                         </div>
                         <div class="benchmark-legend-item">
-                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px dashed #b9a3c4;"></div>
-                            <span>Opus 5</span>
-                        </div>
-                        <div class="benchmark-legend-item">
-                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px dotted #e2a591;"></div>
-                            <span>Sonnet 5</span>
-                        </div>
-                        <div class="benchmark-legend-item">
                             <div class="benchmark-legend-dot" style="background: transparent; border: 2px dashed #8fa882;"></div>
                             <span>Haiku 4.5</span>
                         </div>
                     </div>
                     <p class="benchmark-note">
-                        <strong>Opus 5.5 (filled) is the outer edge on four of the six axes</strong>, and its biggest lead is on SWE-bench Pro, 8.6 points clear of Sonnet 5.5 and Fable 5.1. It also leads SciCode by 3.8, HLE by 2.3 and CritPt by 0.3. It loses two: AA-LCR, where Fable 5.1 is 0.6 ahead, and Terminal-Bench 4.0, where Sonnet 5.5 is 4.0 ahead. That second result matches Anthropic's own launch figures (70.6% against 66.4%), so it isn't a quirk of one harness.<br>
-                        <strong>Sonnet 5.5 (solid coral) is the story of this chart.</strong> Against Sonnet 5 (dotted) it gains 49.5 points on Terminal-Bench 4.0, 18.1 on SWE-bench Pro, 14.5 on CritPt, 13.7 on HLE and 6.7 on SciCode, and holds AA-LCR (+0.7). Against Fable 5.1 (solid gold), at a fifth of the per-token price, it wins Terminal-Bench 4.0 by 11.6 and CritPt by 1.7 and ties SWE-bench Pro (81.3 against 81.2). It trails by 4.1 on HLE, 2.6 on AA-LCR and 2.1 on SciCode.<br>
-                        The axes are deliberately not all the same difficulty. AA-LCR has nearly saturated: all six models sit between 74.3 and 85.3, so it separates little. Terminal-Bench 4.0 spreads the field most, from Haiku 4.5's measured 0.0 to Sonnet 5.5's 63.6, and CritPt (frontier physics) still pins every model near the centre. A benchmark where the whole field clusters tells you little about which model to pick; the dents are the informative part.<br>
-                        <strong>Why this chart has six axes, not ten.</strong> It was rebuilt on September 28, 2026 so Opus 5.5 and Sonnet 5.5 could be drawn, and Artificial Analysis had reworked its suite since the September 2 pull. It never ran GPQA Diamond on the two new models, moved them from Terminal-Bench 2.1 to 4.0, retired its Agentic Index, and no longer publishes Omniscience accuracy for the newest max-effort runs. Vals AI had no LiveCodeBench run for either model. Rather than draw half-polygons, the chart keeps only the axes every model has, re-pulled together on one day. The rulers moved as well: AA-LCR is now v1.1 (Opus 5 75.7 &rarr; 79.3), SciCode shifted slightly (Opus 5 55.7 &rarr; 56.4), and Terminal-Bench 4.0 is a much harder suite than 2.1 (Opus 5 89.1 &rarr; 49.0). Don't compare these shapes with earlier revisions of this page.<br>
-                        <strong>Also dropped in the rebuild:</strong> Opus 4.8 and Fable 5. Each has a same-family successor here (Opus 5 and Fable 5.1), and eight overlapping hexagons stopped being readable. Opus 5 and Sonnet 5 stay as the fainter "where we were" outlines behind their successors.<br>
-                        <strong>Haiku 4.5</strong> comes from AA's <em>Claude 4.5 Haiku (Reasoning)</em> entry, the fully measured one; AA's default Haiku page is the non-reasoning variant, with an estimated index. Its zeros on Terminal-Bench 4.0 and CritPt are measured results, not gaps. Its SWE-bench Pro figure (39.5) comes from Scale's public-subset leaderboard, the only point on that spoke not taken from an Anthropic system card, because Anthropic never published one for Haiku 4.5. Scale's board lists no Claude model newer than Opus 4.6, so it can't supply the others.<br>
-                        <strong>Still not plotted:</strong> Mythos 5 and Mythos 5.1. Their numbers come from Anthropic's own harness rather than AA's, so their shapes wouldn't be comparable to anything else here.
+                        <strong>Opus 5.5 (filled) and Sonnet 5.5 (solid coral) split the chart.</strong> Opus 5.5 leads on SWE-bench Pro (by 8.6 points), HLE (2.3), SciCode (3.8) and CritPt (0.3), and ties Fable 5.1 on GDP.pdf. Sonnet 5.5 leads on the agentic and applied axes: Terminal-Bench 4.0 (by 4.0 over Opus 5.5), AutomationBench (1.8), HealthBench Professional (3.6) and Harvey LAB (0.1 over Fable 5.1). That split, the flagship ahead on hard reasoning and code and the mid-tier model ahead on getting work done, is the main thing this chart shows. The Terminal-Bench result matches Anthropic's own launch figures (70.6% against 66.4%), so it isn't one harness's quirk.<br>
+                        <strong>Sonnet 5.5 against Fable 5.1 (solid gold)</strong>, at a fifth of the per-token price: Sonnet 5.5 is clearly ahead on four axes: 11.9 on AutomationBench, 11.6 on Terminal-Bench 4.0, 7.1 on HealthBench and 1.7 on CritPt. It is also 0.1 ahead on SWE-bench Pro and Harvey LAB, which is effectively a tie. Fable 5.1 keeps AA-LCR (by 2.6), HLE (4.1), SciCode (2.1) and GDP.pdf (0.4).<br>
+                        <strong>Which axes separate the models.</strong> AutomationBench and Terminal-Bench 4.0 spread the three frontier models by about 12 points each. Harvey LAB (91.2&ndash;93.1), GDP.pdf (25.8&ndash;26.2) and CritPt (29.7&ndash;31.7) barely separate them at all. On those three axes the frontier is flat, and differences smaller than a point shouldn't be read as rankings. GDP.pdf is hard for everyone: the best models meet every criterion on only about a quarter of its tasks.<br>
+                        <strong>Haiku 4.5 (dashed green)</strong> shows the tier gap in one glance. It collapses on the agentic evals (Terminal-Bench 4.0 and CritPt are measured zeros; AutomationBench 3.2, GDP.pdf 3.8) but holds up on long-context reading (AA-LCR 74.3, within 11 points of the leaders) and on Harvey LAB's legal criteria (61.1). Its data comes from AA's <em>Claude 4.5 Haiku (Reasoning)</em> entry, the fully measured one. Anthropic published no SWE-bench Pro or HealthBench figure for it, so its SWE-bench Pro point is Scale's public-subset board (39.5) and its HealthBench spoke is drawn open rather than at zero.<br>
+                        <strong>What the new axes measure.</strong> AutomationBench-AA runs agentic workflows across simulated SaaS apps (Slack, Salesforce, Zendesk, Jira, HubSpot), scoring objectives completed without guardrail violations. GDP.pdf, Surge AI's benchmark run by AA, tests reasoning over long real-world professional documents, scored as the share of tasks where every criterion is met. Harvey LAB is AA's run of Harvey's held-out legal agent set, plotted as the mean criterion-pass rate; its all-pass rate is far lower (Fable 5.1 14.2%, Sonnet 5.5 10.0%, Opus 5.5 8.3%). HealthBench Professional is a medical benchmark, plotted from Anthropic's reported scores; unlike the AA axes, it is not an independent run.<br>
+                        <strong>Why the chart was rebuilt.</strong> On September 28, 2026, Artificial Analysis had reworked its suite since the September 2 pull. It never ran GPQA Diamond on the newest models, moved them from Terminal-Bench 2.1 to 4.0, retired its Agentic Index and publishes Omniscience only as a &minus;100&ndash;100 index. Vals AI had no LiveCodeBench run for Opus 5.5 or Sonnet 5.5. The chart now keeps only axes the plotted models share, re-pulled together, and plots only each family's newest model. Opus 5, Sonnet 5, Fable 5 and Opus 4.8 are off the radar but remain on the timeline charts below. The rulers also moved (AA-LCR is now v1.1), so don't compare these shapes with earlier revisions of this page.<br>
+                        <strong>Not plotted:</strong> Mythos 5.1, whose only published capability figure is Anthropic's Terminal-Bench 4.0 run (60.9%), too little for a shape.
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
@@ -1165,7 +1157,7 @@
 
             // A maintained date, not new Date(): a live stamp would silently re-date
             // July's benchmark pulls every day forever. The forecast alone is live.
-            lastUpdated.textContent = 'September 28, 2026 (Sonnet 5.5 added and pricing updated; Capability Profile rebuilt on six axes, SWE-bench Verified replaced by SWE-bench Pro, OSWorld 2.1 points added, and GDPval, Terminal-Bench, ARC-AGI-2 and both Vending-Bench charts updated, all September 28; other benchmarks July 29; forecast computed on view)';
+            lastUpdated.textContent = 'September 28, 2026 (Sonnet 5.5 added and pricing updated; Capability Profile rebuilt on ten axes for the newest model in each family, SWE-bench Verified replaced by SWE-bench Pro, OSWorld 2.1 points added, and GDPval, Terminal-Bench, ARC-AGI-2 and both Vending-Bench charts updated, all September 28; other benchmarks July 29; forecast computed on view)';
 
             // Create cards for each model, all reading cycles from the one forecast
             const cardForecast = ReleaseForecast.forecastAll(modelData);
@@ -2702,76 +2694,77 @@
             setSvg('arc-chart', svg);
         }
 
-        // Capability Profile — radar/spider chart across six evaluations.
-        // Form borrowed from Thinking Machines' Inkling launch chart, restyled to this
-        // page's palette. Rebuilt 2026-09-28 so Opus 5.5 and Sonnet 5.5 could be drawn:
-        // Artificial Analysis had reworked its suite since the 2026-09-02 pull. It never
-        // ran GPQA Diamond on the two new models, moved them from Terminal-Bench 2.1 to
-        // 4.0, retired the Agentic Index, and publishes Omniscience accuracy for no
-        // max-effort run of the newest models (only the -100..100 Omniscience index,
-        // which doesn't fit a 0-100 chart). Vals AI had no LiveCodeBench run for either
-        // model. So the chart keeps only the axes every plotted model has:
+        // Capability Profile — radar/spider chart across ten evaluations, one polygon per
+        // family's newest model (Opus 5.5, Sonnet 5.5, Fable 5.1, Haiku 4.5). Form borrowed
+        // from Thinking Machines' Inkling launch chart, restyled to this page's palette.
+        // Rebuilt 2026-09-28: Artificial Analysis had reworked its suite (no GPQA Diamond
+        // or Terminal-Bench 2.1 runs for the newest models, Agentic Index retired,
+        // Omniscience published only as a -100..100 index) and Vals had no LiveCodeBench
+        // run for Opus 5.5 or Sonnet 5.5, so every axis here is one all four models have,
+        // except HealthBench for Haiku 4.5.
         //
-        //   Five from AA, read 2026-09-28 from the records embedded in AA's pages
+        //   Eight from AA, read 2026-09-28 from the records embedded in AA's pages
         //   (artificialanalysis.ai/evaluations/gdpval-aa and /models/claude-*-5-5), each
         //   model's max-effort entry (Haiku 4.5: AA's single "Claude 4.5 Haiku
-        //   (Reasoning)" entry): HLE, AA-LCR (now v1.1), CritPt, SciCode and
-        //   Terminal-Bench 4.0. Haiku's 0.0 on Terminal-Bench 4.0 and CritPt is a
-        //   measured zero, not a gap.
+        //   (Reasoning)" entry): Terminal-Bench 4.0, AutomationBench-AA (agentic SaaS
+        //   workflows; objectives completed without guardrail violations), GDP.pdf (Surge
+        //   AI's professional-document reasoning eval; all-pass rate), Harvey LAB (AA's run
+        //   of Harvey's held-out legal set; mean criterion-pass rate, which matches the
+        //   93.1 the Sonnet 5.5 card quotes from AA), CritPt, HLE, AA-LCR (v1.1) and
+        //   SciCode. Haiku's zeros on Terminal-Bench 4.0 and CritPt are measured results.
         //
-        //   SWE-bench Pro, Anthropic's system-card figure: Opus 5 79.2 (Opus 5 card),
-        //   Fable 5.1 81.2 and Opus 5.5 89.9 (Opus 5.5 card), Sonnet 5 63.2 and Sonnet 5.5
-        //   81.3 (Sonnet 5.5 card). Haiku 4.5 has none, so its 39.5 comes from Scale's
-        //   public-subset board, which lists no Claude model newer than Opus 4.6.
+        //   Two from Anthropic's system cards. SWE-bench Pro: Fable 5.1 81.2 and Opus 5.5
+        //   89.9 (Opus 5.5 card), Sonnet 5.5 81.3 (Sonnet 5.5 card); Haiku 4.5 has no
+        //   Anthropic figure, so its 39.5 is Scale's public-subset board. HealthBench
+        //   Professional: Opus 5.5 65.6 and Fable 5.1 62.1 (Opus 5.5 card), Sonnet 5.5
+        //   69.2 (Sonnet 5.5 card, which repeats Opus 5.5's 65.6); Haiku 4.5 has none.
         //
-        // Opus 4.8 and Fable 5 were dropped in the rebuild: each has a same-family
-        // successor here, and eight overlapping hexagons stopped being readable.
-        // Mythos 5 / 5.1 (Anthropic-harness numbers only) stay in the caption.
+        // Mythos 5.1 is not plotted: its only published capability figure is Anthropic's
+        // Terminal-Bench 4.0 run (60.9).
         //
         // A null score is a documented gap, never a zero: the series is drawn as an
-        // open polyline with no marker at that vertex. No current model has one.
+        // open polyline with no marker at that vertex (Haiku 4.5 on HealthBench).
         function renderRadarChart() {
-            // Clockwise from the top: the three coding evals together, then physics,
-            // knowledge and long context.
+            // Clockwise from the top: coding and agentic work, then professional domains
+            // (documents, law), physics straight down, medicine, knowledge, long context,
+            // and scientific coding closing the loop back to SWE-bench Pro.
             const axes = [
                 // `short` labels the axis on phones, where the full names would leave no
                 // room for the plot between them
-                { key: 'swepro',   name: 'SWE-bench Pro',      short: 'SWE Pro',  cat: 'Coding (hard)' },
-                { key: 'terminal', name: 'Terminal-Bench 4.0', short: 'Terminal', cat: 'Agentic (coding)' },
-                { key: 'scicode',  name: 'SciCode',            short: 'SciCode',  cat: 'Coding (science)' },
-                { key: 'critpt',   name: 'CritPt',             short: 'CritPt',   cat: 'Physics' },
-                { key: 'hle',      name: 'HLE (no tools)',     short: 'HLE',      cat: 'Knowledge' },
-                { key: 'lcr',      name: 'AA-LCR',             short: 'AA-LCR',   cat: 'Long context' }
+                { key: 'swepro',     name: 'SWE-bench Pro',       short: 'SWE Pro',     cat: 'Coding (hard)' },
+                { key: 'terminal',   name: 'Terminal-Bench 4.0',  short: 'Terminal',    cat: 'Agentic (coding)' },
+                { key: 'automation', name: 'AutomationBench',     short: 'Automation',  cat: 'Agentic (workflows)' },
+                { key: 'gdppdf',     name: 'GDP.pdf',             short: 'GDP.pdf',     cat: 'Document reasoning' },
+                { key: 'harvey',     name: 'Harvey LAB',          short: 'Harvey LAB',  cat: 'Legal' },
+                { key: 'critpt',     name: 'CritPt',              short: 'CritPt',      cat: 'Physics' },
+                { key: 'health',     name: 'HealthBench Pro',     short: 'HealthBench', cat: 'Medicine' },
+                { key: 'hle',        name: 'HLE (no tools)',      short: 'HLE',         cat: 'Knowledge' },
+                { key: 'lcr',        name: 'AA-LCR',              short: 'AA-LCR',      cat: 'Long context' },
+                { key: 'scicode',    name: 'SciCode',             short: 'SciCode',     cat: 'Coding (science)' }
             ];
 
             // Every AA value is the model's max-effort AA entry, with AA's default refusal
             // fallback on the Opus 5.5, Sonnet 5.5 and Fable 5.1 rows.
             const models = [
                 {
-                    // Opus 5 and Sonnet 5 recede behind their successors: same family hue,
-                    // lighter, thinner and dashed, so the pairs don't fight.
-                    key: 'opus5', label: 'Opus 5', color: '#b9a3c4', hero: false, recede: true,
-                    scores: { swepro: 79.2, terminal: 49.0, scicode: 56.4, critpt: 29.1, hle: 54.9, lcr: 79.3 }
-                },
-                {
-                    key: 'sonnet', label: 'Sonnet 5', color: '#e2a591', hero: false, recede: true, dotted: true,
-                    scores: { swepro: 63.2, terminal: 14.1, scicode: 54.3, critpt: 16.9, hle: 41.3, lcr: 82.0 }
-                },
-                {
                     key: 'haiku', label: 'Haiku 4.5', color: '#8fa882',
-                    scores: { swepro: 39.5, terminal: 0.0, scicode: 42.2, critpt: 0.0, hle: 10.4, lcr: 74.3 }
+                    scores: { swepro: 39.5, terminal: 0.0, automation: 3.2, gdppdf: 3.8, harvey: 61.1,
+                              critpt: 0.0, health: null, hle: 10.4, lcr: 74.3, scicode: 42.2 }
                 },
                 {
                     key: 'fable51', label: 'Fable 5.1', color: '#c09a5b', lead: true,
-                    scores: { swepro: 81.2, terminal: 52.0, scicode: 63.1, critpt: 29.7, hle: 59.1, lcr: 85.3 }
+                    scores: { swepro: 81.2, terminal: 52.0, automation: 59.4, gdppdf: 26.2, harvey: 93.0,
+                              critpt: 29.7, health: 62.1, hle: 59.1, lcr: 85.3, scicode: 63.1 }
                 },
                 {
                     key: 'sonnet55', label: 'Sonnet 5.5', color: '#d4836a', lead: true,
-                    scores: { swepro: 81.3, terminal: 63.6, scicode: 61.0, critpt: 31.4, hle: 55.0, lcr: 82.7 }
+                    scores: { swepro: 81.3, terminal: 63.6, automation: 71.3, gdppdf: 25.8, harvey: 93.1,
+                              critpt: 31.4, health: 69.2, hle: 55.0, lcr: 82.7, scicode: 61.0 }
                 },
                 {
                     key: 'opus55', label: 'Opus 5.5', color: '#9d7bb0', hero: true,
-                    scores: { swepro: 89.9, terminal: 59.6, scicode: 66.9, critpt: 31.7, hle: 61.4, lcr: 84.7 }
+                    scores: { swepro: 89.9, terminal: 59.6, automation: 69.5, gdppdf: 26.2, harvey: 91.2,
+                              critpt: 31.7, health: 65.6, hle: 61.4, lcr: 84.7, scicode: 66.9 }
                 }
             ];
 
@@ -2792,7 +2785,7 @@
 
             let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
 
-            // Concentric ring outlines (hexagons, matching the axis count)
+            // Concentric ring outlines (decagons, matching the axis count)
             rings.forEach(ring => {
                 const pts = axes.map((_, i) => pt(i, ring).map(v => v.toFixed(1)).join(',')).join(' ');
                 const isOuter = ring === 100;
@@ -2806,8 +2799,8 @@
             });
 
             // Ring scale labels ride the CritPt spoke (straight down). Every model scores
-            // under 32 there, and the neighbouring axes' polygon edges cross the spoke well
-            // inside ring 60, so labels start at 60, which is clear of everything.
+            // under 32 there; labels start at 60 to stay clear of the neighbouring axes'
+            // polygon edges where they cross the spoke.
             rings.filter(r => r >= 60).forEach(ring => {
                 const [px, py] = pt(axes.findIndex(ax => ax.key === 'critpt'), ring);
                 svg += `<text x="${(px + 9).toFixed(1)}" y="${(py + 3).toFixed(1)}" text-anchor="start" fill="#9a836c" font-size="9">${ring}</text>`;
@@ -2859,7 +2852,7 @@
                 } else if (m.lead) {
                     svg += `<${shape} points="${poly}" fill="none" stroke="${m.color}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" />`;
                 } else if (m.recede) {
-                    // Opus 5 and Sonnet 5 are the "where we were" references — same family
+                    // A receding "where we were" reference (none plotted today) — same family
                     // hue as their successors, so keep them thin and faded or the pairs fight
                     const dash = m.dotted ? '0.1,3.6" stroke-linecap="round' : '3,3';
                     svg += `<${shape} points="${poly}" fill="none" stroke="${m.color}" stroke-width="${m.dotted ? 2 : 1.6}" stroke-opacity="0.85" stroke-dasharray="${dash}" stroke-linejoin="round" />`;
@@ -2883,10 +2876,14 @@
                 if (gap !== -1) {
                     // Mark the open vertex on the rim, in the series colour, so the gap reads
                     // as deliberate rather than as a rendering fault.
-                    // Sits just outside the rim (5% past it), clear of the markers that
-                    // crowd the rim on a saturated axis and below the axis label block.
-                    const [gx, gy] = pt(gap, 105);
-                    svg += `<text x="${gx.toFixed(1)}" y="${(gy + 3).toFixed(1)}" text-anchor="middle" fill="${m.color}" font-size="9" font-style="italic">${m.label}: no figure</text>`;
+                    // Sits just inside the rim, running inward from it, so it clears the
+                    // axis label outside the rim and the polygons further in. Phones drop
+                    // the model name (the series colour carries it) to stay clear of the
+                    // ring labels on the smaller plot.
+                    const [gx, gy] = pt(gap, 93);
+                    const gc = Math.cos(angle(gap));
+                    const ganchor = gc < -0.15 ? 'start' : gc > 0.15 ? 'end' : 'middle';
+                    svg += `<text x="${gx.toFixed(1)}" y="${(gy + 3).toFixed(1)}" text-anchor="${ganchor}" fill="${m.color}" font-size="9" font-style="italic">${UI.compact ? 'no figure' : `${m.label}: no figure`}</text>`;
                 }
             });
 
