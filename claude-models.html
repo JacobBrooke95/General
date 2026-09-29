@@ -120,29 +120,21 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">Capability Profile</h2>
-                <p class="benchmark-note" style="margin-bottom: 18px;">Where each model's strength actually lies. Ten evaluations, all scored 0&ndash;100. Eight axes come from Artificial Analysis's single harness &mdash; Haiku 4.5 via AA's fully-measured Reasoning entry, and Omniscience as AA's accuracy reading rather than the headline index. LiveCodeBench is Vals AI's harness — its hard split, one independent run for every model plotted. SWE-bench Pro is Anthropic's own system-card figure for every model except Haiku 4.5, which Anthropic never scored on it; Haiku's point comes from Scale's public-subset leaderboard. Hover over or tap any point for the raw score.</p>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Where each family's newest model is strongest. Ten evaluations, all scored 0&ndash;100. Eight come from Artificial Analysis's single harness at max effort (Haiku 4.5 via AA's Reasoning entry). SWE-bench Pro and HealthBench Professional are Anthropic's own system-card figures; Haiku 4.5 has neither, so its SWE-bench Pro point comes from Scale's public-subset board and its HealthBench spoke is left open. Hover over or tap any point for the raw score.</p>
                 <div class="benchmark-chart-container">
                     <div id="radar-chart"></div>
                     <div class="benchmark-legend">
                         <div class="benchmark-legend-item">
                             <div class="benchmark-legend-dot" style="background: #9d7bb0;"></div>
-                            <span><strong>Opus 5</strong></span>
+                            <span><strong>Opus 5.5</strong></span>
+                        </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px solid #d4836a;"></div>
+                            <span><strong>Sonnet 5.5</strong></span>
                         </div>
                         <div class="benchmark-legend-item">
                             <div class="benchmark-legend-dot" style="background: transparent; border: 2px solid #c09a5b;"></div>
                             <span><strong>Fable 5.1</strong></span>
-                        </div>
-                        <div class="benchmark-legend-item">
-                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px dotted #c9ab74;"></div>
-                            <span>Fable 5</span>
-                        </div>
-                        <div class="benchmark-legend-item">
-                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px dashed #b9a3c4;"></div>
-                            <span>Opus 4.8</span>
-                        </div>
-                        <div class="benchmark-legend-item">
-                            <div class="benchmark-legend-dot" style="background: transparent; border: 2px dashed #d4836a;"></div>
-                            <span>Sonnet 5</span>
                         </div>
                         <div class="benchmark-legend-item">
                             <div class="benchmark-legend-dot" style="background: transparent; border: 2px dashed #8fa882;"></div>
@@ -150,21 +142,17 @@
                         </div>
                     </div>
                     <p class="benchmark-note">
-                        One harness note before the shapes: the Terminal-Bench 2.1 axis uses Artificial Analysis's figures, which run above the Vals AI numbers plotted on the Terminal-Bench chart below for the same models &mdash; by anywhere from 0.4 points (Haiku 4.5) to 12.7 (Opus 4.8) (Opus 5: 89.1 here vs 84.6 there; Fable 5.1: 91.4 here vs 85.0 there) &mdash; compare vertices within this chart, not against that one.<br>
-                        <strong>Fable 5.1 (solid gold outline) is the new outer edge.</strong> It clears Opus 5 on all ten axes: by 6.3 points on Omniscience and on SciCode, 4.3 on AA-LCR, 4.2 on Humanity's Last Exam, 3.2 on LiveCodeBench's hard split, 2.3 on Terminal-Bench 2.1, 2.1 on the Agentic Index, 2.0 on SWE-bench Pro, and by 0.5 on GPQA Diamond and 0.6 on CritPt.<br>
-                        Opus 5 (solid, filled) stays the reference polygon at half the price. Against Fable 5 it takes four of the ten axes — GPQA Diamond, CritPt, Terminal-Bench 2.1 and the Agentic Index — with its margin widest on the two agentic ones, while Fable 5 holds the other six: Humanity's Last Exam, Omniscience, SciCode, both coding boards (SWE-bench Pro and LiveCodeBench) and, after this pull, AA-LCR. The generational read survives: the cheaper Opus 5 wins where a model has to <em>act</em> rather than recall, the Fable tier wins on raw knowledge and the hardest coding set, and Fable 5.1 now wins on both. AA-LCR is no longer the odd axis where the cheap models matched the frontier — Sonnet 5's 77.0 still beats Opus 5 and Fable 5, but Fable 5.1's 80.0 is clear of everything.<br>
-                        Against Opus 4.8 the Opus 5 gap is a single eight-week generation: +12.1 points on Omniscience, +10 on SWE-bench Pro, +8.2 on CritPt.<br>
-                        <strong>Snapshot note.</strong> All eight Artificial Analysis axes were re-pulled on September 2, 2026 from AA's own model pages, and the re-pull moved four axes for every model since the July 25 read — Humanity's Last Exam, Omniscience, the Agentic Index, and AA-LCR by five to seven points across the board. That is why every polygon here was refreshed together instead of one September shape being laid over five July ones. GPQA Diamond, CritPt, Terminal-Bench 2.1 and SciCode came back unchanged to the decimal. The SWE-bench Pro vertex for Fable 5.1 (81.2) is Anthropic's launch figure, the same sourcing that gave Fable 5 its 80.0 and Opus 5 its 79.2.<br>
-                        <strong>Why LiveCodeBench replaced SWE-bench Verified on this chart.</strong> Verified came from Anthropic's own reporting, as SWE-bench Pro does, but Anthropic published no Verified figure for Fable 5.1, and its top end was saturated anyway. Vals AI has run LiveCodeBench for every model here under one harness (Haiku 4.5 as its thinking entry), so the axis now has one independent run per model. The hard split is what's plotted, because the overall board bunches the four flagships within 2.7 points — Fable 5.1 90.5, Fable 5 89.8, Opus 5 89.0, Opus 4.8 87.8, then Sonnet 5 at 82.4 and Haiku 4.5 at 41.2 — while hard-problem accuracy spreads them to 80.6, 79.7, 77.4 and 74.6, then 66.9 and 11.1. Same ordering, three times the separation; that is the informative part. The SWE-bench Verified chart further up the page is unchanged.<br>
-                        The axes are deliberately not all the same difficulty. GPQA Diamond is saturated for the frontier tier — the five flagship polygons sit within 2.6 points of each other near the rim, and only Haiku (67.2) falls away from the cluster — while CritPt (frontier physics) and Omniscience (factual accuracy without hedging) still pin every Claude model well inside the chart. A benchmark where the whole field clusters tells you nothing about which model to pick; the dents are the informative part.<br>
-                        <strong>Haiku 4.5</strong> is now a full polygon, and its history on this chart is a correction worth owning: an earlier revision plotted it as two lone points on the claim that Artificial Analysis had never run it. That claim was half-right — AA's default Haiku page (the non-reasoning variant) shows <em>no data available</em> per eval and an estimated index — but AA separately carries <em>Claude 4.5 Haiku (Reasoning)</em>, fully measured (Intelligence Index 29.58), and that entry fills eight of the ten axes, including a measured 0.0 on CritPt and an HLE score of 10.4. The shape it draws is the tier gap in one glance: long-context reasoning that stays near the pack (73.7 AA-LCR, above Opus 4.8's 73.0), respectable coding, and knowledge/agentic axes that collapse toward the centre. Its SWE-bench Pro figure (39.5) comes from Scale's public-subset leaderboard, the only point on that spoke not taken from an Anthropic system card, because Anthropic never published one for Haiku 4.5. Its LiveCodeBench figure (11.1) is Vals AI's hard split, like every other model's. Two stray details for the record: the 43.8 Terminal-Bench figure this chart previously credited to Anthropic is actually Vals AI's independent run (Anthropic's own launch number was 41.0 on Terminal-Bench <em>1.0</em>, a different version; the AA figure plotted is 44.2), and Haiku's system card contains no capability benchmarks at all — its closest item is a 45-problem hard-subset SWE run at 36.6% that is not the eval on the axis above.<br>
-                        <strong>Still not plotted:</strong> Mythos 5 and Mythos 5.1, whose numbers come from Anthropic's own harness rather than this one, so their shapes wouldn't be comparable to anything else here. Their system card carries no GPQA Diamond, SciCode, AA-LCR or Agentic Index figure at all, and its HLE, CritPt and Omniscience runs are internal variants of the evals on these axes.<br>
-                        <strong>Opus 5.5 (Sep 22, 2026) is not plotted yet.</strong> Artificial Analysis measured it on release day and ranks it first on its Intelligence Index, but AA has re-versioned part of its suite since this chart's September 2 pull (AA-LCR is now v1.1, and Terminal-Bench 4.0 has entered the index), so an Opus 5.5 shape drawn today would sit on different rulers from the six polygons above. Vals AI has no LiveCodeBench run for it, so one axis would be empty regardless. The SWE-bench Pro vertex is ready: 89.9 from the system card, the same Anthropic sourcing as every other point on that spoke except Haiku's, 8.7 points outside Fable 5.1's 81.2. It gets a polygon when the whole chart can be re-pulled together, as the September refresh was. One number worth carrying until then: AA logged 260M output tokens for Opus 5.5 across its index runs, against a 91M median &mdash; a reminder that Anthropic's "40% cheaper" claim is about typical workloads, not max-effort evals.<br>
-                        <strong>Sonnet 5.5 (Sep 28, 2026) is not plotted either, for the same reasons.</strong> Its Artificial Analysis figures would come from the re-versioned suite, and Vals AI has no LiveCodeBench run for it yet. Its SWE-bench Pro vertex would be 81.3 from the <a href="https://www.anthropic.com/claude-sonnet-5-5-system-card" target="_blank" rel="noopener">system card</a>, up from Sonnet 5's 63.2 and level with Fable 5.1's 81.2. It joins Opus 5.5 at the next full re-pull.
+                        <strong>Opus 5.5 (filled) and Sonnet 5.5 (solid coral) split the chart.</strong> Opus 5.5 leads on SWE-bench Pro (by 8.6 points), HLE (2.3), SciCode (3.8) and CritPt (0.3), and ties Fable 5.1 on GDP.pdf. Sonnet 5.5 leads on the agentic and applied axes: Terminal-Bench 4.0 (by 4.0 over Opus 5.5), AutomationBench (1.8), HealthBench Professional (3.6) and Harvey LAB (0.1 over Fable 5.1). That split, the flagship ahead on hard reasoning and code and the mid-tier model ahead on getting work done, is the main thing this chart shows. The Terminal-Bench result matches Anthropic's own launch figures (70.6% against 66.4%), so it isn't one harness's quirk.<br>
+                        <strong>Sonnet 5.5 against Fable 5.1 (solid gold)</strong>, at a fifth of the per-token price: Sonnet 5.5 is clearly ahead on four axes: 11.9 on AutomationBench, 11.6 on Terminal-Bench 4.0, 7.1 on HealthBench and 1.7 on CritPt. It is also 0.1 ahead on SWE-bench Pro and Harvey LAB, which is effectively a tie. Fable 5.1 keeps AA-LCR (by 2.6), HLE (4.1), SciCode (2.1) and GDP.pdf (0.4).<br>
+                        <strong>Which axes separate the models.</strong> AutomationBench and Terminal-Bench 4.0 spread the three frontier models by about 12 points each. Harvey LAB (91.2&ndash;93.1), GDP.pdf (25.8&ndash;26.2) and CritPt (29.7&ndash;31.7) barely separate them at all. On those three axes the frontier is flat, and differences smaller than a point shouldn't be read as rankings. GDP.pdf is hard for everyone: the best models meet every criterion on only about a quarter of its tasks.<br>
+                        <strong>Haiku 4.5 (dashed green)</strong> shows the tier gap in one glance. It collapses on the agentic evals (Terminal-Bench 4.0 and CritPt are measured zeros; AutomationBench 3.2, GDP.pdf 3.8) but holds up on long-context reading (AA-LCR 74.3, within 11 points of the leaders) and on Harvey LAB's legal criteria (61.1). Its data comes from AA's <em>Claude 4.5 Haiku (Reasoning)</em> entry, the fully measured one. Anthropic published no SWE-bench Pro or HealthBench figure for it, so its SWE-bench Pro point is Scale's public-subset board (39.5) and its HealthBench spoke is drawn open rather than at zero.<br>
+                        <strong>What the new axes measure.</strong> AutomationBench-AA runs agentic workflows across simulated SaaS apps (Slack, Salesforce, Zendesk, Jira, HubSpot), scoring objectives completed without guardrail violations. GDP.pdf, Surge AI's benchmark run by AA, tests reasoning over long real-world professional documents, scored as the share of tasks where every criterion is met. Harvey LAB is AA's run of Harvey's held-out legal agent set, plotted as the mean criterion-pass rate; its all-pass rate is far lower (Fable 5.1 14.2%, Sonnet 5.5 10.0%, Opus 5.5 8.3%). HealthBench Professional is a medical benchmark, plotted from Anthropic's reported scores; unlike the AA axes, it is not an independent run.<br>
+                        <strong>Why the chart was rebuilt.</strong> On September 28, 2026, Artificial Analysis had reworked its suite since the September 2 pull. It never ran GPQA Diamond on the newest models, moved them from Terminal-Bench 2.1 to 4.0, retired its Agentic Index and publishes Omniscience only as a &minus;100&ndash;100 index. Vals AI had no LiveCodeBench run for Opus 5.5 or Sonnet 5.5. The chart now keeps only axes the plotted models share, re-pulled together, and plots only each family's newest model. Opus 5, Sonnet 5, Fable 5 and Opus 4.8 are off the radar but remain on the timeline charts below. The rulers also moved (AA-LCR is now v1.1), so don't compare these shapes with earlier revisions of this page.<br>
+                        <strong>Not plotted:</strong> Mythos 5.1, whose only published capability figure is Anthropic's Terminal-Bench 4.0 run (60.9%), too little for a shape.
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
-                            <a href="https://artificialanalysis.ai/models/claude-opus-5" target="_blank" rel="noopener">Artificial Analysis</a>
+                            <a href="https://artificialanalysis.ai/models/claude-opus-5-5" target="_blank" rel="noopener">Artificial Analysis</a>
                             <span class="benchmark-paper-sep">&middot;</span>
                             <a href="https://assets.anthropic.com/m/99128ddd009bdcb/original/Claude-Haiku-4-5-System-Card.pdf" target="_blank" rel="noopener">Claude Haiku 4.5 System Card</a>
                             <span class="benchmark-paper-sep">&middot;</span>
@@ -175,8 +163,8 @@
             </div>
 
             <div class="benchmark-section">
-                <h2 class="section-title">SWE-bench Verified</h2>
-                <p class="benchmark-note" style="margin-bottom: 18px;">Vendor-reported pass rates on the 500-problem set. The y-axis starts at 70% &mdash; the Claude 4-era floor; Claude 3.5 Sonnet's 49% sits below the chart.</p>
+                <h2 class="section-title">SWE-bench Pro</h2>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Anthropic-reported pass rates on Scale AI's harder SWE-bench variant, each averaged over five trials. The y-axis starts at 40%. This chart replaced SWE-bench Verified, which Anthropic no longer reports (history in notes).</p>
                 <div class="benchmark-chart-container">
                     <div id="swebench-chart"></div>
                     <div class="benchmark-legend">
@@ -196,23 +184,23 @@
                             <div class="benchmark-legend-dot" style="background: #d4836a;"></div>
                             <span>Sonnet</span>
                         </div>
-                        <div class="benchmark-legend-item">
-                            <div class="benchmark-legend-dot" style="background: #8fa882;"></div>
-                            <span>Haiku</span>
-                        </div>
                     </div>
                     <p class="benchmark-note">
-                        SWE-bench Verified is the standard agentic coding eval: 500 human-validated GitHub issues from real Python repositories, scored on whether the model's patch makes the project's own tests pass. Higher is better.<br>
-                        Claude has led this benchmark for most of its history, and Opus 5 now sits at 96%. The headroom is nearly gone — Opus alone climbed 8.4 points in three releases (Opus 4.7's 87.6% to Opus 5's 96%), and the remaining 4% is widely argued to be noise and mislabeled tasks rather than capability. Chart starts at the Claude 4 generation (May 2025); for scale, Claude 3.5 Sonnet scored 49%. Claude Mythos 5 (95.5%) is omitted because it shares a release date with Fable 5.<br>
-                        <strong>Fable 5.1 (Sep 1, 2026) has no point here for a plain reason:</strong> Anthropic's launch table for it carried no SWE-bench Verified figure at all. Its coding headline moved to Terminal-Bench 4.0 — 55.8%, against 42.0% for Fable 5 and 52.3% for Opus 5 — a newer, harder suite this page doesn't chart yet. Mythos 5.1, scored on that same suite at 60.9%, is the only capability number Anthropic published for it; the 5.1-point gap to Fable 5.1 is the cost of the production safeguards, which Anthropic says it expects to narrow.<br>
-                        <strong>Opus 5.5 (Sep 22, 2026) is absent for the same reason:</strong> its <a href="https://anthropic.com/claude-opus-5-5-system-card" target="_blank" rel="noopener">system card</a> has no SWE-bench Verified figure either, which makes Opus 5's 96% likely the last point this chart gets. Anthropic now reports three harder variants instead: SWE-bench Pro 89.9% (Opus 5 79.2, Fable 5.1 81.2), Multilingual 93.9% (89.5, 89.1) and Multimodal 61.4% (59.4, 54.7). That is a 10.7-point gain over Opus 5 on Pro. On Terminal-Bench 4.0 it scores 66.4% at xhigh effort (&plusmn;2.6; 64.8% at max, within noise) &mdash; 10.6 points over Fable 5.1, 14.1 over Opus 5, and 5.5 over the restricted Mythos 5.1's 60.9. Safeguard fallbacks answered 2.5% of its requests and touched 10% of trials.<br>
-                        <strong>Sonnet 5.5 (Sep 28, 2026) has no point either</strong>, since its <a href="https://www.anthropic.com/claude-sonnet-5-5-system-card" target="_blank" rel="noopener">system card</a> reports the same three variants and no Verified figure. It scores SWE-bench Pro 81.3% (Sonnet 5 63.2, Opus 5.5 89.9), Multilingual 90.3% (78.3, 93.9) and Multimodal 54.3% (28.1, 61.4): an 18-point gain over Sonnet 5 on Pro, landing level with Fable 5.1's 81.2. On Terminal-Bench 4.0 it scores 70.6% at max effort (&plusmn;2.5), 4.2 points above Opus 5.5's 66.4% at xhigh. That is a margin comparable to the roughly 2.5-point standard error on each score, so it is not a clear win. Anthropic's launch table puts Sonnet 5 at 10.3% on the same suite. Safeguard fallbacks answered 1.2% of Sonnet 5.5's requests and touched 1.5% of trials.
+                        SWE-bench Pro is Scale AI's harder successor to SWE-bench. Its problems come from actively maintained repositories, need larger multi-file patches, and have less of their ground truth public. A task counts only if the model's patch makes the project's own tests pass. Higher is better.<br>
+                        <strong>Opus 5.5 (Sep 22, 2026) tops the chart at 89.9%</strong>, 10.7 points over Opus 5 and 8.7 over Fable 5.1. The Opus line has climbed 37.9 points in ten months, from Opus 4.5's 52.0%, and more than half of that came in the last two releases. Unlike Verified, this eval still has room at the top. <strong>Sonnet 5.5 (Sep 28) scores 81.3%</strong>, 18.1 points over Sonnet 5 and level with Fable 5.1's 81.2 at a fifth of the price. It is the largest single step any Sonnet has taken here.<br>
+                        <strong>Why this chart moved from SWE-bench Verified.</strong> Anthropic stopped reporting Verified with Fable 5.1: its launch table, and the Opus 5.5 and Sonnet 5.5 system cards, carry no Verified figure. Verified had also saturated, with Opus 5 at 96%, where the remaining tasks are widely argued to be noise and mislabelling. Every generally available Claude model since Opus 4.7 has a Pro figure in its own or a later system card. For the record, the retired Verified series was: Opus 4 72.5, Opus 4.1 74.5, Opus 4.5 80.9, Opus 4.6 80.8, Opus 4.7 87.6, Opus 4.8 88.6 and Opus 5 96.0; Sonnet 4 72.7, Sonnet 4.5 77.2, Sonnet 4.6 79.6 and Sonnet 5 85.2; Haiku 4.5 73.3; Mythos Preview 93.9; Fable 5 95.0; Mythos 5 95.5.<br>
+                        <strong>Where the points come from.</strong> Every figure is from an Anthropic system card, and a few come from a later card than the model's own. Opus 4.6's 53.4 is from the Mythos Preview and Opus 4.7 cards, since its own has none. Sonnet 4.6's 58.1 is from the Sonnet 5 card. Opus 4.5's 52.0 is its no-thinking run; with 64k thinking it scored 51.6, and the higher run is plotted, as on the other charts. Mythos 5 (80.3%) shares Fable 5's release date and is left off to avoid an exact overlap; Mythos 5.1 has no figure. <strong>Not plotted:</strong> Haiku 4.5 and Sonnet 4.5, which Anthropic never scored on Pro. Scale's public-subset board has them at 39.5 and 43.6, but that is a different harness, and it lists no Claude model newer than Opus 4.6.<br>
+                        <strong>The other variants Anthropic now reports.</strong> Multilingual: Opus 5.5 93.9, Sonnet 5.5 90.3, Opus 5 89.5, Fable 5.1 89.1, Sonnet 5 78.3. Multimodal: Opus 5.5 61.4, Opus 5 59.4, Fable 5.1 54.7, Sonnet 5.5 54.3, Sonnet 5 28.1. On Terminal-Bench 4.0, Anthropic scores Sonnet 5.5 at 70.6% at max effort (&plusmn;2.5) and Opus 5.5 at 66.4% at xhigh (&plusmn;2.6; 64.8% at max), ahead of Mythos 5.1's 60.9, Fable 5.1's 55.8 and Opus 5's 52.3. Anthropic's launch table puts Sonnet 5 at 10.3% on that suite. Safeguard fallbacks answered 2.5% of Opus 5.5's requests (10% of trials) and 1.2% of Sonnet 5.5's (1.5% of trials).
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
-                            <a href="https://www.swebench.com/" target="_blank" rel="noopener">SWE-bench</a>
+                            <a href="https://arxiv.org/abs/2509.16941" target="_blank" rel="noopener">SWE-bench Pro (arXiv 2509.16941)</a>
                             <span class="benchmark-paper-sep">&middot;</span>
-                            <a href="https://arxiv.org/abs/2310.06770" target="_blank" rel="noopener">arXiv 2310.06770</a>
+                            <a href="https://www.anthropic.com/claude-sonnet-5-5-system-card" target="_blank" rel="noopener">Sonnet 5.5 System Card</a>
+                            <span class="benchmark-paper-sep">&middot;</span>
+                            <a href="https://anthropic.com/claude-opus-5-5-system-card" target="_blank" rel="noopener">Opus 5.5 System Card</a>
+                            <span class="benchmark-paper-sep">&middot;</span>
+                            <a href="https://www.swebench.com/" target="_blank" rel="noopener">SWE-bench</a>
                         </div>
                     </div>
                 </div>
@@ -220,7 +208,7 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">Terminal-Bench 2.1</h2>
-                <p class="benchmark-note" style="margin-bottom: 18px;">Vals AI's independent harness snapshot &mdash; not the same harness as the radar's Terminal-Bench axis (see notes). The y-axis starts at 40%.</p>
+                <p class="benchmark-note" style="margin-bottom: 18px;">Vals AI's independent harness snapshot. The Capability Profile's Terminal-Bench axis is the newer 4.0 suite, so compare within this chart only. The y-axis starts at 40%.</p>
                 <div class="benchmark-chart-container">
                     <div id="terminalbench-chart"></div>
                     <div class="benchmark-legend">
@@ -242,10 +230,10 @@
                         </div>
                     </div>
                     <p class="benchmark-note">
-                        Terminal-Bench 2.1 drops the model into a real shell and asks it to finish end-to-end engineering tasks — build a project, debug a failing service, wrangle a dataset — scored on whether the task actually completes. Where SWE-bench Verified checks a single patch, this measures whether a model can drive a machine over many steps.<br>
+                        Terminal-Bench 2.1 drops the model into a real shell and asks it to finish end-to-end engineering tasks — build a project, debug a failing service, wrangle a dataset — scored on whether the task actually completes. Where SWE-bench checks a single patch, this measures whether a model can drive a machine over many steps.<br>
                         It is where the recent Claude generations separate most clearly, and unlike SWE-bench it is nowhere near saturated: Opus 5 scores 84.6% here, up nearly 13 points on Opus 4.8. Fable 5.1 (Sep 1, 2026) lands at 85.0% — a 4.5-point step over Fable 5 and 0.4 above Opus 5, which put it at the head of the Claude series on the Vals board until Opus 5.5. Scores are the Vals AI harness snapshot (re-verified to the decimal July 29, 2026; the Fable 5.1 row was read on September 2 from the board's August 31 update); one caveat from Vals's own run notes is that the Opus 5 and Fable 5 runs used Opus 4.8 as a fallback for refusals, with nine passing tasks across three runs potentially affected. Fable 5.1's run leaned harder on the same route (Opus 5, then 4.8): 23 of its 267 tasks were rescued by a fallback, and Vals puts the score at 79.0% if those count as failures — which would drop it below Opus 5, so treat the ordering above as within the harness's noise.<br>
-                        <strong>Opus 5.5 (Sep 22) and Sonnet 5.5 (Sep 28, 2026) both arrived in Vals's September 27 update.</strong> Opus 5.5 now heads the Claude series at 87.6%, 2.6 points over Fable 5.1, but it leaned hardest of all on the fallback route: Opus 5 and 4.8 answered for it on 26 of 267 tasks, and Vals puts it at 79.8% if those count as failures &mdash; below Opus 5 on the same adjustment. Sonnet 5.5 scores 83.1% (&plusmn;1.7) with no fallback noted, up 8.6 points on Sonnet 5 and within about 1.5 points of Opus 5 and 2 of Fable 5.1, at half Opus 5.5's per-token price. Two things to hold alongside that: Vals ran it at high effort where Sonnet 5 ran at max, and on the hard split it trails the flagships more clearly (76.7% against 81&ndash;84%). Anthropic's own launch figure is on the newer Terminal-Bench 4.0, noted under SWE-bench above.<br>
-                        <strong>This page carries two harnesses for this eval, and they disagree.</strong> The Capability Profile radar uses Artificial Analysis's figures, which score Opus 5 at 89.1% and Opus 4.8 at 84.6% — 4.5 and 12.7 points above the Vals numbers charted here for the same models. Both are public, independent harnesses; neither is "the" Terminal-Bench 2.1 number. Compare within a chart, never across the two.
+                        <strong>Opus 5.5 (Sep 22) and Sonnet 5.5 (Sep 28, 2026) both arrived in Vals's September 27 update.</strong> Opus 5.5 now heads the Claude series at 87.6%, 2.6 points over Fable 5.1, but it leaned hardest of all on the fallback route: Opus 5 and 4.8 answered for it on 26 of 267 tasks, and Vals puts it at 79.8% if those count as failures &mdash; below Opus 5 on the same adjustment. Sonnet 5.5 scores 83.1% (&plusmn;1.7) with no fallback noted, up 8.6 points on Sonnet 5 and within about 1.5 points of Opus 5 and 2 of Fable 5.1, at half Opus 5.5's per-token price. Two things to hold alongside that: Vals ran it at high effort where Sonnet 5 ran at max, and on the hard split it trails the flagships more clearly (76.7% against 81&ndash;84%). Anthropic's own launch figure is on the newer Terminal-Bench 4.0, noted under SWE-bench Pro above.<br>
+                        <strong>Harnesses disagree on this eval.</strong> Artificial Analysis also ran Terminal-Bench 2.1 before moving to 4.0, and its figures ran above the Vals numbers charted here for the same models: Opus 5 at 89.1% against 84.6%, Opus 4.8 at 84.6% against 71.9%. Both are public, independent harnesses; neither is "the" Terminal-Bench 2.1 number. The Capability Profile above now plots Terminal-Bench 4.0 instead, a different and much harder suite.
                     </p>
                     <div class="benchmark-paper-links">
                         <div class="benchmark-paper-link-row">
@@ -259,7 +247,7 @@
 
             <div class="benchmark-section">
                 <h2 class="section-title">OSWorld Benchmark Progress</h2>
-                <p class="benchmark-note" style="margin-bottom: 18px;">One line, two harnesses: scores switch from original OSWorld to the stricter OSWorld-Verified at Sonnet 4.5 &mdash; the 42&rarr;61 segment straddles that switch. The y-axis spans 10&ndash;90%.</p>
+                <p class="benchmark-note" style="margin-bottom: 18px;">One line per family, three versions of the eval. Scores switch from original OSWorld to the stricter OSWorld-Verified at Sonnet 4.5 (the 42&rarr;61 segment straddles that switch), and the two newest releases, drawn hollow on a dashed segment, are OSWorld 2.1 partial-credit scores, because Anthropic no longer reports Verified. The y-axis spans 10&ndash;90%.</p>
                 <div class="benchmark-chart-container">
                     <div id="benchmark-chart"></div>
                     <div class="benchmark-legend">
@@ -283,14 +271,19 @@
                             <div class="benchmark-legend-dot" style="background: #8fa882;"></div>
                             <span>Haiku</span>
                         </div>
+                        <div class="benchmark-legend-item">
+                            <div class="benchmark-legend-dot" style="background: #fffdfa; border: 2px solid #9d7bb0;"></div>
+                            <span>Hollow: OSWorld 2.1</span>
+                        </div>
                     </div>
                     <p class="benchmark-note">
-                        Scores prior to Sonnet 4.5 measured on original OSWorld; scores from Sonnet 4.5 onward use OSWorld-Verified.<br>
+                        Scores prior to Sonnet 4.5 measured on original OSWorld; scores from Sonnet 4.5 through Opus 4.8 and Sonnet 5 use OSWorld-Verified; Opus 5.5 and Sonnet 5.5 (hollow) are OSWorld 2.1 partial-credit scores.<br>
                         OSWorld measures an AI model's ability to interact with real computer interfaces. Fable 5 now tops OSWorld-Verified at 85% — Claude Mythos 5 ties it at the same score and date, so only Fable is plotted.<br>
                         These are Anthropic's current reported figures, mirrored by the aggregator boards. Two places the sources disagree, both audited July 29, 2026: Opus 4.7 is plotted at Anthropic's restated 82.3% (a harness fix announced with Opus 4.8) while the community boards still carry the original 78.0% run, and Sonnet 4.6's first-party entry on the official leaderboard reads 72.1% against the announced 72.5% plotted here. The official board's strongest Claude-driven entry is actually a third-party scaffold — Pointer Agent driving Opus 4.7 at 83.6% — which isn't plotted because the rest of the series is bare-model runs.<br>
-                        Claude Opus 5 (Jul 2026) still has no OSWorld-Verified run. Anthropic reported it at 70.6% on the newer, harder <em>OSWorld 2.0</em> long-horizon eval, where Opus 4.8 scores 55.7% — figures on OSWorld 2.0's partial-credit scale, roughly in line with the official board's Opus 4.8 at 54.8 (its strict pass/fail reading is 20.6). Mixed metrics and harnesses are why OSWorld 2.0 stays in this note rather than on the chart.<br>
+                        Claude Opus 5 (Jul 2026) still has no OSWorld-Verified run. Anthropic reported it at 70.6% on the newer, harder <em>OSWorld 2.0</em> long-horizon eval, where Opus 4.8 scores 55.7% — figures on OSWorld 2.0's partial-credit scale, roughly in line with the official board's Opus 4.8 at 54.8 (its strict pass/fail reading is 20.6). Mixed metrics and harnesses are why Opus 5's OSWorld 2.0 run stays in this note rather than on the chart.<br>
                         Fable 5.1 (Sep 1, 2026) is in the same position. Anthropic published OSWorld 2.0 only, re-run on the August 2026 task release: 77.9% partial credit / 41.7% strict, against 72.9 / 36.1 for Fable 5 and 75.4 / 39.6 for Opus 5 on that same task set — not the 70.6 quoted at Opus 5's own launch, which was an earlier release of the suite, so even the OSWorld 2.0 figures in this note don't all share a task set. The runs went out with production safeguards on, and any task where a safeguard intervened was scored zero rather than excluded.<br>
                         Opus 5.5 (Sep 22, 2026) is again OSWorld 2.0-only: 81.8% partial credit / 48.7% strict, against 80.7 / 42.8 for Fable 5.1 and 74.0 / 37.2 for Opus 5. Those comparison figures don't match the ones quoted three weeks earlier for the same two models, and the <a href="https://anthropic.com/claude-opus-5-5-system-card" target="_blank" rel="noopener">system card</a> says why: every model was re-run on the September 10, 2026 task files, with a harness that now keeps every screenshot and relies on the API's server-side compaction past 100k tokens, and Anthropic says these results supersede its Fable 5.1 figures. On partial credit Opus 5.5 edges Fable 5.1 by about a point; on the strict all-checkpoints rate the gap is 5.9 points, so the newer model's lead shows up mostly in finishing tasks outright.<br>
+                        <strong>Why the two newest points are on the line anyway.</strong> Anthropic has reported only OSWorld 2.x since Opus 5, so without a switch neither Opus 5.5 nor Sonnet 5.5 would appear here at all. Each family's newest release therefore joins its line through a dashed segment and a hollow marker. Read those final segments as a change of eval, not as progress: Sonnet 5 &rarr; 5.5 reads 81.2 &rarr; 80.1 and Opus 4.8 &rarr; 5.5 reads 83.4 &rarr; 81.8, but on the same 2.1 task files Sonnet 5.5 is 23.1 points ahead of Sonnet 5 (80.1 against 57.0). Opus 5 (74.0 on 2.1) and Fable 5.1 (80.7) aren't plotted, to keep each line to one eval switch.<br>
                         Sonnet 5.5 (Sep 28, 2026) has no OSWorld-Verified figure either. Its <a href="https://www.anthropic.com/claude-sonnet-5-5-system-card" target="_blank" rel="noopener">system card</a> reports <em>OSWorld 2.1</em>, which is Anthropic's name for those same September 10 task files, run in a configuration it says is unchanged from Opus 5.5's. That makes these three runs directly comparable: Sonnet 5.5 80.1% partial / 43.5% strict, Opus 5.5 81.8 / 48.7, Sonnet 5 57.0 / 25.6. Sonnet 5.5 comes within 1.7 points of Opus 5.5 on partial credit but trails by 5.2 on the strict rate, the same pattern as Opus 5.5 over Fable 5.1. Sonnet 5's 57.0 is not a regression from its 81.2 on the chart above; the two numbers come from different evals.
                     </p>
                 </div>
@@ -1164,7 +1157,7 @@
 
             // A maintained date, not new Date(): a live stamp would silently re-date
             // July's benchmark pulls every day forever. The forecast alone is live.
-            lastUpdated.textContent = 'September 28, 2026 (Sonnet 5.5 added and pricing updated; GDPval, Terminal-Bench, ARC-AGI-2 and both Vending-Bench charts updated September 28; Capability Profile last updated September 2; other benchmarks July 29; forecast computed on view)';
+            lastUpdated.textContent = 'September 28, 2026 (Sonnet 5.5 added and pricing updated; Capability Profile rebuilt on ten axes for the newest model in each family, SWE-bench Verified replaced by SWE-bench Pro, OSWorld 2.1 points added, and GDPval, Terminal-Bench, ARC-AGI-2 and both Vending-Bench charts updated, all September 28; other benchmarks July 29; forecast computed on view)';
 
             // Create cards for each model, all reading cycles from the one forecast
             const cardForecast = ReleaseForecast.forecastAll(modelData);
@@ -1801,7 +1794,10 @@
                     { model: 'Sonnet 4', date: '2025-05-22', score: 42.2 },
                     { model: 'Sonnet 4.5', date: '2025-09-29', score: 61.4 },
                     { model: 'Sonnet 4.6', date: '2026-02-17', score: 72.5 },
-                    { model: 'Sonnet 5', date: '2026-06-30', score: 81.2 }
+                    { model: 'Sonnet 5', date: '2026-06-30', score: 81.2 },
+                    // OSWorld 2.1, not Verified (see v21 below): partial-credit score from the
+                    // Sonnet 5.5 system card, Sep 10, 2026 task files; 43.5% strict.
+                    { model: 'Sonnet 5.5', date: '2026-09-28', score: 80.1, v21: true }
                 ],
                 opus: [
                     { model: 'Opus 4.5', date: '2025-11-24', score: 66.3 },
@@ -1810,7 +1806,11 @@
                     // harness change "to more accurately reflect the model's performance");
                     // the community boards still carry the original 78.0 run.
                     { model: 'Opus 4.7', date: '2026-04-16', score: 82.3 },
-                    { model: 'Opus 4.8', date: '2026-05-28', score: 83.4 }
+                    { model: 'Opus 4.8', date: '2026-05-28', score: 83.4 },
+                    // OSWorld 2.1 partial credit, from the Opus 5.5 system card (48.7% strict).
+                    // Opus 5's own 2.1 run (74.0) isn't plotted: this line carries Verified
+                    // runs plus the newest release's 2.1 run, not two evals interleaved.
+                    { model: 'Opus 5.5', date: '2026-09-22', score: 81.8, v21: true }
                 ],
                 haiku: [
                     { model: 'Haiku 4.5', date: '2025-10-15', score: 50.7 }
@@ -1836,8 +1836,11 @@
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
 
-            // Date range: Sep 2024 to Aug 2026. The right-hand gap is meaningful — it's
-            // where an Opus 5 OSWorld-Verified run would sit once one is published.
+            // Date range from Sep 2024; the right edge follows the newest point.
+            // Points flagged v21 are OSWorld 2.1 partial-credit runs rather than
+            // OSWorld-Verified: Anthropic stopped reporting Verified after Sonnet 5 (Jun 30),
+            // so the newest release in each family joins its line through a dashed
+            // segment and is drawn hollow, marking the switch of eval.
             const minDate = new Date('2024-09-01T00:00:00');
             const maxDate = dateDomainEnd('2026-08-15', Object.values(benchmarkData).flat().map(p => p.date));
             const dateRange = maxDate - minDate;
@@ -1883,15 +1886,19 @@
             Object.entries(benchmarkData).forEach(([series, points]) => {
                 const color = colors[series];
 
-                // Line connecting points
+                // Line connecting points: solid within an eval, dashed into an OSWorld 2.1 point
                 if (points.length > 1) {
                     lineSegPoints.push(points.map(p => [x(p.date), y(p.score)]));
-                    let pathD = points.map((p, i) => {
-                        const px = x(p.date);
-                        const py = y(p.score);
-                        return (i === 0 ? 'M' : 'L') + `${px},${py}`;
-                    }).join(' ');
-                    svg += `<path d="${pathD}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />`;
+                    const solid = points.filter(p => !p.v21);
+                    if (solid.length > 1) {
+                        const pathD = solid.map((p, i) => (i === 0 ? 'M' : 'L') + `${x(p.date)},${y(p.score)}`).join(' ');
+                        svg += `<path d="${pathD}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />`;
+                    }
+                    points.forEach((p, i) => {
+                        if (i === 0 || !p.v21) return;
+                        const q = points[i - 1];
+                        svg += `<line x1="${x(q.date)}" y1="${y(q.score)}" x2="${x(p.date)}" y2="${y(p.score)}" stroke="${color}" stroke-width="2.2" stroke-dasharray="5,4" stroke-linecap="round" />`;
+                    });
                 }
 
                 // Points and labels
@@ -1899,13 +1906,19 @@
                     const px = x(p.date);
                     const py = y(p.score);
 
-                    // Dot — preview-only drops get a diagonal white slash through the middle
-                    svg += `<circle cx="${px}" cy="${py}" r="5" fill="${color}" stroke="white" stroke-width="2" />`;
+                    // Dot — preview-only drops get a diagonal white slash through the middle;
+                    // OSWorld 2.1 runs are hollow, in the series colour
+                    if (p.v21) {
+                        svg += `<circle cx="${px}" cy="${py}" r="5" fill="#fffdfa" stroke="${color}" stroke-width="2.4"><title>${p.model} — OSWorld 2.1, partial credit: ${p.score}%</title></circle>`;
+                    } else {
+                        svg += `<circle cx="${px}" cy="${py}" r="5" fill="${color}" stroke="white" stroke-width="2" />`;
+                    }
                     if (p.preview) {
                         svg += `<line x1="${px - 3}" y1="${py + 3}" x2="${px + 3}" y2="${py - 3}" stroke="white" stroke-width="1.5" stroke-linecap="round" />`;
                     }
 
-                    labelItems.push({ px, py, color, name: p.model, value: `${p.score}%` });
+                    labelItems.push({ px, py, color, name: p.model, value: p.v21 ? `${p.score}% (2.1)` : `${p.score}%`,
+                                      tip: p.v21 ? `${p.model} — OSWorld 2.1, partial credit: ${p.score}%` : undefined });
                 });
             });
 
@@ -2681,101 +2694,77 @@
             setSvg('arc-chart', svg);
         }
 
-        // Capability Profile — radar/spider chart across ten evaluations.
-        // Form borrowed from Thinking Machines' Inkling launch chart, restyled to this
-        // page's palette. Eight axes come from the Artificial Analysis harness, read on
-        // 2026-09-02 straight from the data embedded in AA's model pages (benchlm.ai,
-        // the earlier route, carried only Anthropic's own figures for Fable 5.1). One
-        // methodology produces every AA number — mixing harnesses would make the
-        // polygon shapes meaningless. The two remaining axes keep their own single
-        // sourcing each: LiveCodeBench is Vals AI's harness (hard split, read from the
-        // data embedded in vals.ai/benchmarks/lcb on 2026-09-02, board updated
-        // 2026-09-01; Haiku 4.5 as its thinking entry), and SWE-bench Pro is Anthropic's
-        // system-card figure (Opus 4.8 69.2, Fable 5 80, Opus 5 79.2 from the Opus 5 card;
-        // Sonnet 5 63.2 from the Sonnet 5.5 card; Fable 5.1 81.2 from the Opus 5.5 card),
-        // except Haiku 4.5, which has none and uses Scale's public-subset board. Checked
-        // 2026-09-28: Scale's board lists no Claude model newer than Opus 4.6. LiveCodeBench replaced SWE-bench Verified on 2026-09-02:
-        // Verified was vendor-sourced, had no figure for Fable 5.1, and was saturated
-        // at the top; LiveCodeBench has one independent run for every model here.
+        // Capability Profile — radar/spider chart across ten evaluations, one polygon per
+        // family's newest model (Opus 5.5, Sonnet 5.5, Fable 5.1, Haiku 4.5). Form borrowed
+        // from Thinking Machines' Inkling launch chart, restyled to this page's palette.
+        // Rebuilt 2026-09-28: Artificial Analysis had reworked its suite (no GPQA Diamond
+        // or Terminal-Bench 2.1 runs for the newest models, Agentic Index retired,
+        // Omniscience published only as a -100..100 index) and Vals had no LiveCodeBench
+        // run for Opus 5.5 or Sonnet 5.5, so every axis here is one all four models have,
+        // except HealthBench for Haiku 4.5.
         //
-        // The 2026-09-02 re-pull moved four axes for every model since the 2026-07-25
-        // read — HLE, Omniscience, the Agentic Index, and AA-LCR by five to seven
-        // points across the board — so all five earlier polygons were refreshed in the
-        // same pull rather than plotting a September shape beside July ones. GPQA,
-        // CritPt, Terminal-Bench 2.1 and SciCode were unchanged to the decimal.
+        //   Eight from AA, read 2026-09-28 from the records embedded in AA's pages
+        //   (artificialanalysis.ai/evaluations/gdpval-aa and /models/claude-*-5-5), each
+        //   model's max-effort entry (Haiku 4.5: AA's single "Claude 4.5 Haiku
+        //   (Reasoning)" entry): Terminal-Bench 4.0, AutomationBench-AA (agentic SaaS
+        //   workflows; objectives completed without guardrail violations), GDP.pdf (Surge
+        //   AI's professional-document reasoning eval; all-pass rate), Harvey LAB (AA's run
+        //   of Harvey's held-out legal set; mean criterion-pass rate, which matches the
+        //   93.1 the Sonnet 5.5 card quotes from AA), CritPt, HLE, AA-LCR (v1.1) and
+        //   SciCode. Haiku's zeros on Terminal-Bench 4.0 and CritPt are measured results.
+        //
+        //   Two from Anthropic's system cards. SWE-bench Pro: Fable 5.1 81.2 and Opus 5.5
+        //   89.9 (Opus 5.5 card), Sonnet 5.5 81.3 (Sonnet 5.5 card); Haiku 4.5 has no
+        //   Anthropic figure, so its 39.5 is Scale's public-subset board. HealthBench
+        //   Professional: Opus 5.5 65.6 and Fable 5.1 62.1 (Opus 5.5 card), Sonnet 5.5
+        //   69.2 (Sonnet 5.5 card, which repeats Opus 5.5's 65.6); Haiku 4.5 has none.
+        //
+        // Mythos 5.1 is not plotted: its only published capability figure is Anthropic's
+        // Terminal-Bench 4.0 run (60.9).
         //
         // A null score is a documented gap, never a zero: the series is drawn as an
-        // open polyline with no marker at that vertex. Plotting a missing value at
-        // zero, as the original chart does, would read as "scored zero" rather than
-        // "not measured". Mythos 5 / 5.1 (Anthropic-harness numbers) stay in the
-        // caption instead.
+        // open polyline with no marker at that vertex (Haiku 4.5 on HealthBench).
         function renderRadarChart() {
-            // Axes ordered so related categories sit next to each other going clockwise:
-            // coding at the top, then knowledge, factuality, reasoning, agentic.
+            // Clockwise from the top: coding and agentic work, then professional domains
+            // (documents, law), physics straight down, medicine, knowledge, long context,
+            // and scientific coding closing the loop back to SWE-bench Pro.
             const axes = [
                 // `short` labels the axis on phones, where the full names would leave no
                 // room for the plot between them
-                { key: 'lcb',      name: 'LiveCodeBench (hard)', short: 'LiveCode',    cat: 'Coding (contest)' },
-                { key: 'gpqa',     name: 'GPQA Diamond',       short: 'GPQA',        cat: 'Knowledge' },
-                { key: 'hle',      name: 'HLE (no tools)',     short: 'HLE',         cat: 'Knowledge' },
-                { key: 'omni',     name: 'Omniscience',        short: 'Omniscience', cat: 'Factuality' },
-                { key: 'lcr',      name: 'AA-LCR',             short: 'AA-LCR',      cat: 'Long context' },
-                { key: 'critpt',   name: 'CritPt',             short: 'CritPt',      cat: 'Physics' },
-                { key: 'agentic',  name: 'Agentic Index',      short: 'Agentic',     cat: 'Agentic (general)' },
-                { key: 'terminal', name: 'Terminal-Bench 2.1', short: 'Terminal',    cat: 'Agentic (coding)' },
-                { key: 'scicode',  name: 'SciCode',            short: 'SciCode',     cat: 'Coding (science)' },
-                { key: 'swepro',   name: 'SWE-bench Pro',      short: 'SWE Pro',     cat: 'Coding (hard)' }
+                { key: 'swepro',     name: 'SWE-bench Pro',       short: 'SWE Pro',     cat: 'Coding (hard)' },
+                { key: 'terminal',   name: 'Terminal-Bench 4.0',  short: 'Terminal',    cat: 'Agentic (coding)' },
+                { key: 'automation', name: 'AutomationBench',     short: 'Automation',  cat: 'Agentic (workflows)' },
+                { key: 'gdppdf',     name: 'GDP.pdf',             short: 'GDP.pdf',     cat: 'Document reasoning' },
+                { key: 'harvey',     name: 'Harvey LAB',          short: 'Harvey LAB',  cat: 'Legal' },
+                { key: 'critpt',     name: 'CritPt',              short: 'CritPt',      cat: 'Physics' },
+                { key: 'health',     name: 'HealthBench Pro',     short: 'HealthBench', cat: 'Medicine' },
+                { key: 'hle',        name: 'HLE (no tools)',      short: 'HLE',         cat: 'Knowledge' },
+                { key: 'lcr',        name: 'AA-LCR',              short: 'AA-LCR',      cat: 'Long context' },
+                { key: 'scicode',    name: 'SciCode',             short: 'SciCode',     cat: 'Coding (science)' }
             ];
 
-            // Every AA value is the model's headline AA variant: max effort, with AA's
-            // default refusal fallback on the Fable rows (the same configuration AA uses
-            // for its Intelligence Index).
+            // Every AA value is the model's max-effort AA entry, with AA's default refusal
+            // fallback on the Opus 5.5, Sonnet 5.5 and Fable 5.1 rows.
             const models = [
                 {
-                    // Fable 5 now recedes behind Fable 5.1 the way Opus 4.8 recedes behind
-                    // Opus 5: same family hue, thinner and faded, so the two golds don't fight.
-                    // Dotted rather than dashed, as the legend shows, so it can't be taken for
-                    // Opus 4.8's line where the two cross.
-                    key: 'fable', label: 'Fable 5', color: '#c9ab74', hero: false, recede: true, dotted: true,
-                    scores: { lcb: 79.7, gpqa: 92.6, hle: 55.5, omni: 65.3, lcr: 76.7,
-                              critpt: 28.6, agentic: 56.6, terminal: 84.6, scicode: 60.2, swepro: 80.0 }
-                },
-                {
-                    key: 'opus48', label: 'Opus 4.8', color: '#b9a3c4', hero: false, recede: true,
-                    scores: { lcb: 74.6, gpqa: 92.0, hle: 48.7, omni: 48.8, lcr: 73.0,
-                              critpt: 20.9, agentic: 49.4, terminal: 84.6, scicode: 53.5, swepro: 69.2 }
-                },
-                {
-                    key: 'sonnet', label: 'Sonnet 5', color: '#d4836a', hero: false,
-                    scores: { lcb: 66.9, gpqa: 91.1, hle: 41.3, omni: 40.1, lcr: 77.0,
-                              critpt: 16.9, agentic: 49.7, terminal: 80.5, scicode: 53.6, swepro: 63.2 }
-                },
-                {
-                    key: 'opus5', label: 'Opus 5', color: '#9d7bb0', hero: true,
-                    scores: { lcb: 77.4, gpqa: 93.2, hle: 54.9, omni: 60.9, lcr: 75.7,
-                              critpt: 29.1, agentic: 59.2, terminal: 89.1, scicode: 55.7, swepro: 79.2 }
-                },
-                {
-                    // swepro 81.2 is Anthropic's launch figure — the same sourcing behind
-                    // Fable 5's 80.0 and Opus 5's 79.2. AA's CritPt page lists the xhigh run
-                    // higher (31.1); 29.7 is the max-effort run, kept for consistency with
-                    // every other vertex.
-                    key: 'fable51', label: 'Fable 5.1', color: '#c09a5b', lead: true,
-                    scores: { lcb: 80.6, gpqa: 93.7, hle: 59.1, omni: 67.2, lcr: 80.0,
-                              critpt: 29.7, agentic: 61.3, terminal: 91.4, scicode: 62.0, swepro: 81.2 }
-                },
-                {
-                    // Haiku 4.5, full polygon. AA's default Haiku page (the non-reasoning
-                    // variant) shows no per-eval data and an estimated index — which misled
-                    // an earlier revision of this chart into plotting Haiku as two lone
-                    // points. AA separately carries "Claude 4.5 Haiku (Reasoning)", fully
-                    // measured (Intelligence Index 29.58), and that entry supplies eight of
-                    // these ten axes, including a measured 0.0 on CritPt. The other two follow
-                    // the same sourcing as every model: LiveCodeBench is Vals AI's hard split,
-                    // SWE-bench Pro is Scale's public-subset board.
                     key: 'haiku', label: 'Haiku 4.5', color: '#8fa882',
-                    scores: { lcb: 11.1, gpqa: 67.2, hle: 10.4, omni: 18.0, lcr: 73.7,
-                              critpt: 0.0, agentic: 16.5, terminal: 44.2, scicode: 43.3, swepro: 39.5 }
+                    scores: { swepro: 39.5, terminal: 0.0, automation: 3.2, gdppdf: 3.8, harvey: 61.1,
+                              critpt: 0.0, health: null, hle: 10.4, lcr: 74.3, scicode: 42.2 }
+                },
+                {
+                    key: 'fable51', label: 'Fable 5.1', color: '#c09a5b', lead: true,
+                    scores: { swepro: 81.2, terminal: 52.0, automation: 59.4, gdppdf: 26.2, harvey: 93.0,
+                              critpt: 29.7, health: 62.1, hle: 59.1, lcr: 85.3, scicode: 63.1 }
+                },
+                {
+                    key: 'sonnet55', label: 'Sonnet 5.5', color: '#d4836a', lead: true,
+                    scores: { swepro: 81.3, terminal: 63.6, automation: 71.3, gdppdf: 25.8, harvey: 93.1,
+                              critpt: 31.4, health: 69.2, hle: 55.0, lcr: 82.7, scicode: 61.0 }
+                },
+                {
+                    key: 'opus55', label: 'Opus 5.5', color: '#9d7bb0', hero: true,
+                    scores: { swepro: 89.9, terminal: 59.6, automation: 69.5, gdppdf: 26.2, harvey: 91.2,
+                              critpt: 31.7, health: 65.6, hle: 61.4, lcr: 84.7, scicode: 66.9 }
                 }
             ];
 
@@ -2786,7 +2775,7 @@
                 : { W: 800, H: 560, cx: 400, cy: 288, R: 190 };
             const rings = [20, 40, 60, 80, 100];
 
-            // Axis i points at -90deg + 36deg * i, i.e. axis 0 straight up, then clockwise
+            // Axis i points at -90deg + (360 / axes.length)deg * i, axis 0 straight up, clockwise
             function angle(i) { return (-90 + (360 / axes.length) * i) * Math.PI / 180; }
             function pt(i, value, radius) {
                 const a = angle(i);
@@ -2810,10 +2799,10 @@
             });
 
             // Ring scale labels ride the CritPt spoke (straight down). Every model scores
-            // under 30 there, but the neighbouring axes' polygon edges cross the spoke near
-            // ring 40, so labels start at 60, which is clear of everything.
+            // under 32 there; labels start at 60 to stay clear of the neighbouring axes'
+            // polygon edges where they cross the spoke.
             rings.filter(r => r >= 60).forEach(ring => {
-                const [px, py] = pt(5, ring);
+                const [px, py] = pt(axes.findIndex(ax => ax.key === 'critpt'), ring);
                 svg += `<text x="${(px + 9).toFixed(1)}" y="${(py + 3).toFixed(1)}" text-anchor="start" fill="#9a836c" font-size="9">${ring}</text>`;
             });
 
@@ -2863,7 +2852,7 @@
                 } else if (m.lead) {
                     svg += `<${shape} points="${poly}" fill="none" stroke="${m.color}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" />`;
                 } else if (m.recede) {
-                    // Opus 4.8 and Fable 5 are the "where we were" references — same family
+                    // A receding "where we were" reference (none plotted today) — same family
                     // hue as their successors, so keep them thin and faded or the pairs fight
                     const dash = m.dotted ? '0.1,3.6" stroke-linecap="round' : '3,3';
                     svg += `<${shape} points="${poly}" fill="none" stroke="${m.color}" stroke-width="${m.dotted ? 2 : 1.6}" stroke-opacity="0.85" stroke-dasharray="${dash}" stroke-linejoin="round" />`;
@@ -2887,10 +2876,14 @@
                 if (gap !== -1) {
                     // Mark the open vertex on the rim, in the series colour, so the gap reads
                     // as deliberate rather than as a rendering fault.
-                    // Sits just outside the rim (5% past it), clear of the markers that
-                    // crowd the rim on a saturated axis and below the axis label block.
-                    const [gx, gy] = pt(gap, 105);
-                    svg += `<text x="${gx.toFixed(1)}" y="${(gy + 3).toFixed(1)}" text-anchor="middle" fill="${m.color}" font-size="9" font-style="italic">${m.label}: no figure</text>`;
+                    // Sits just inside the rim, running inward from it, so it clears the
+                    // axis label outside the rim and the polygons further in. Phones drop
+                    // the model name (the series colour carries it) to stay clear of the
+                    // ring labels on the smaller plot.
+                    const [gx, gy] = pt(gap, 93);
+                    const gc = Math.cos(angle(gap));
+                    const ganchor = gc < -0.15 ? 'start' : gc > 0.15 ? 'end' : 'middle';
+                    svg += `<text x="${gx.toFixed(1)}" y="${(gy + 3).toFixed(1)}" text-anchor="${ganchor}" fill="${m.color}" font-size="9" font-style="italic">${UI.compact ? 'no figure' : `${m.label}: no figure`}</text>`;
                 }
             });
 
@@ -2991,37 +2984,39 @@
             setSvg('rli-chart', svg);
         }
 
-        // SWE-bench Verified Chart (same style as OSWorld / GDPval)
+        // SWE-bench Pro Chart (same style as OSWorld / GDPval)
         function renderSweBenchChart() {
-            // SWE-bench Verified pass rates (%), pulled 2026-07-25 from the llm-stats and
-            // BenchLM aggregations of the public leaderboard — the two agree exactly on every
-            // model they both list. Chart starts at the Claude 4 generation; Claude 3.5 Sonnet
-            // (49%) predates it and would flatten the interesting range. Claude Mythos 5
-            // (95.5%) shares Fable 5's release date and is omitted to avoid an exact overlap.
+            // SWE-bench Pro pass rates (%), each Anthropic's own figure (average over five
+            // trials), read 2026-09-28 from the system cards: Opus 4.5 52.0 (Opus 4.5 card,
+            // its no-thinking run; 51.6 with 64k thinking), Opus 4.6 53.4 (Mythos Preview and
+            // Opus 4.7 cards; its own card has none), Opus 4.7 64.3 (Opus 4.7 card), Opus 4.8
+            // 69.2 (Opus 4.8 card), Mythos Preview 77.8 (its card), Fable 5 80 (Fable 5 /
+            // Mythos 5 card), Sonnet 4.6 58.1 and Sonnet 5 63.2 (Sonnet 5 card), Opus 5 79.2
+            // (Opus 5 card), Fable 5.1 81.2 and Opus 5.5 89.9 (Opus 5.5 card), Sonnet 5.5
+            // 81.3 (Sonnet 5.5 card). Mythos 5 (80.3) shares Fable 5's date and is omitted to
+            // avoid an exact overlap. Haiku 4.5 and Sonnet 4.5 have no Anthropic figure. This
+            // chart replaced SWE-bench Verified on 2026-09-28, when Anthropic had stopped
+            // reporting Verified; that history is in the note under the chart.
             const sweData = {
                 opus: [
-                    { model: 'Opus 4',   date: '2025-05-22', score: 72.5 },
-                    { model: 'Opus 4.1', date: '2025-08-05', score: 74.5 },
-                    { model: 'Opus 4.5', date: '2025-11-24', score: 80.9 },
-                    { model: 'Opus 4.6', date: '2026-02-05', score: 80.8 },
-                    { model: 'Opus 4.7', date: '2026-04-16', score: 87.6 },
-                    { model: 'Opus 4.8', date: '2026-05-28', score: 88.6 },
-                    { model: 'Opus 5',   date: '2026-07-24', score: 96.0 }
+                    { model: 'Opus 4.5', date: '2025-11-24', score: 52.0 },
+                    { model: 'Opus 4.6', date: '2026-02-05', score: 53.4 },
+                    { model: 'Opus 4.7', date: '2026-04-16', score: 64.3 },
+                    { model: 'Opus 4.8', date: '2026-05-28', score: 69.2 },
+                    { model: 'Opus 5',   date: '2026-07-24', score: 79.2 },
+                    { model: 'Opus 5.5', date: '2026-09-22', score: 89.9 }
                 ],
                 sonnet: [
-                    { model: 'Sonnet 4',   date: '2025-05-22', score: 72.7 },
-                    { model: 'Sonnet 4.5', date: '2025-09-29', score: 77.2 },
-                    { model: 'Sonnet 4.6', date: '2026-02-17', score: 79.6 },
-                    { model: 'Sonnet 5',   date: '2026-06-30', score: 85.2 }
-                ],
-                haiku: [
-                    { model: 'Haiku 4.5', date: '2025-10-15', score: 73.3 }
+                    { model: 'Sonnet 4.6', date: '2026-02-17', score: 58.1 },
+                    { model: 'Sonnet 5',   date: '2026-06-30', score: 63.2 },
+                    { model: 'Sonnet 5.5', date: '2026-09-28', score: 81.3 }
                 ],
                 fable: [
-                    { model: 'Fable 5', date: '2026-06-09', score: 95.0 }
+                    { model: 'Fable 5',   date: '2026-06-09', score: 80.0 },
+                    { model: 'Fable 5.1', date: '2026-09-01', score: 81.2 }
                 ],
                 mythos: [
-                    { model: 'Mythos Preview', date: '2026-04-07', score: 93.9, preview: true }
+                    { model: 'Mythos Preview', date: '2026-04-07', score: 77.8, preview: true }
                 ]
             };
 
@@ -3031,11 +3026,11 @@
             const cw = W - pad.left - pad.right;
             const ch = H - pad.top - pad.bottom;
 
-            const minDate = new Date('2025-04-01T00:00:00');
+            const minDate = new Date('2025-10-01T00:00:00');
             const maxDate = dateDomainEnd('2026-08-15', Object.values(sweData).flat().map(p => p.date));
             const dateRange = maxDate - minDate;
 
-            const minScore = 70, maxScore = 100, step = 5;
+            const minScore = 40, maxScore = 100, step = 10;
 
             function x(dateStr) {
                 const d = new Date(dateStr + 'T00:00:00');
@@ -3053,7 +3048,7 @@
                 svg += `<text x="${pad.left - 10}" y="${yPos + 4}" text-anchor="end" fill="#666" font-size="12">${s}%</text>`;
             }
 
-            const dateLabels = monthTicks('2025-06-01', maxDate, 4, minDate);
+            const dateLabels = monthTicks('2025-11-01', maxDate, 3, minDate);
             dateLabels.forEach(dl => {
                 const xPos = x(dl.date);
                 svg += `<line x1="${xPos}" y1="${pad.top}" x2="${xPos}" y2="${pad.top + ch}" stroke="#e8d5c8" stroke-width="1" stroke-dasharray="4,4" />`;
